@@ -1,0 +1,103 @@
+# Live library snapshot
+
+Generated 2026-11-15T06:25:26.944Z from https://site-d460edd452c14327949ad468417abf82.freebuff.page.
+
+- **Assets:** 1663
+- **Palettes / moods:** 1656
+- **Providers:** artic 641, wikimedia 398, polyhaven 624
+- **Groups:** animals 5, architecture 18, atmosphere 117, clothing 4, humans 959, injury 3, lighting 11, materials 433, nature 34, props 70, seasons 7, vehicles 2
+
+## Mood distribution
+
+- mid-key desaturated ember/red: 314
+- mid-key muted ember/red: 227
+- low-key muted ember/red: 218
+- mid-key desaturated gold/amber: 125
+- mid-key desaturated green/earth: 98
+- low-key desaturated ember/red: 90
+- mid-key muted gold/amber: 61
+- low-key muted gold/amber: 49
+- mid-key muted green/earth: 48
+- mid-key desaturated blue/violet: 47
+- mid-key desaturated teal/cyan: 46
+- low-key desaturated green/earth: 36
+- low-key desaturated gold/amber: 35
+- high-key muted gold/amber: 33
+- mid-key muted blue/violet: 33
+- high-key desaturated gold/amber: 24
+- low-key muted green/earth: 23
+- low-key saturated ember/red: 22
+- high-key muted ember/red: 20
+- mid-key muted teal/cyan: 20
+- high-key desaturated ember/red: 19
+- high-key desaturated green/earth: 9
+- low-key saturated blue/violet: 7
+- low-key desaturated blue/violet: 7
+- mid-key saturated ember/red: 6
+- low-key muted blue/violet: 5
+- low-key muted teal/cyan: 5
+- mid-key saturated blue/violet: 4
+- low-key saturated gold/amber: 4
+- low-key desaturated teal/cyan: 4
+- high-key desaturated blue/violet: 3
+- high-key muted teal/cyan: 2
+- mid-key saturated green/earth: 2
+- high-key muted green/earth: 2
+- mid-key saturated teal/cyan: 2
+- high-key saturated gold/amber: 1
+- high-key saturated ember/red: 1
+- low-key saturated green/earth: 1
+- high-key muted blue/violet: 1
+- mid-key saturated gold/amber: 1
+- low-key saturated teal/cyan: 1
+
+## Categories
+
+- human-portrait: 929
+- tex-wood: 226
+- tex-metal: 109
+- clouds: 72
+- furniture: 52
+- tex-fabric: 35
+- tex-stone: 33
+- dust: 25
+- rocks-cliffs: 21
+- tex-dirt: 21
+- tools-signs: 17
+- human-hair: 12
+- fog: 11
+- windows-doors: 11
+- human-fullbody: 9
+- light-outdoor: 7
+- fire: 6
+- tex-glass: 5
+- animals-domestic: 4
+- bark-roots: 4
+- human-face: 4
+- light-lamp: 4
+- season-autumn: 4
+- human-skin: 3
+- smoke: 3
+- trees: 3
+- wound-cut: 3
+- aircraft-boats: 2
+- desert-sand: 2
+- floors: 2
+- grass-plants: 2
+- houses: 2
+- human-hands: 2
+- tex-brick: 2
+- tex-leather: 2
+- walls: 2
+- animals-wild: 1
+- clothing-general: 1
+- helmets-armor: 1
+- interiors: 1
+- season-spring: 1
+- season-summer: 1
+- season-winter: 1
+- snow-ice: 1
+- stitching: 1
+- uniforms: 1
+- water: 1
+- weapons: 1
