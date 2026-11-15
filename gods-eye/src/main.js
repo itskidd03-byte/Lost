@@ -169,7 +169,7 @@ class Game {
       : this.auth.status === 'offline'
         ? 'Offline — this device’s world'
         : this.auth.status === 'local'
-          ? 'Local development — no account gate'
+          ? 'This device — the world is saved here'
           : '';
     return {
       hasSave: !!summary,
@@ -381,8 +381,12 @@ class Game {
     this.fp.walkable = null;
     this.fp.groundHeight = null;
     const spawn = reset || !this.cabinReturn ? this.cabin.spawn : this.cabinReturn;
-    this.fp.place(spawn.x, spawn.z, reset ? this.cabin.spawnYaw : spawn.yaw || this.cabin.spawnYaw);
-    this.camera.fov = 66;
+    // On a phone held upright the view is narrow, so face the table squarely
+    // instead of leaving the world off the right edge of the screen.
+    const portrait = window.innerWidth / window.innerHeight < 1;
+    const yaw = reset ? (portrait ? this.cabinAimYaw() : this.cabin.spawnYaw) : spawn.yaw || this.cabin.spawnYaw;
+    this.fp.place(spawn.x, spawn.z, yaw);
+    this.camera.fov = portrait ? 76 : 66;
     this.camera.updateProjectionMatrix();
     this.ui.setReticle(false);
     this.ui.closeDivine();
@@ -391,6 +395,12 @@ class Game {
     this.ui.setPrompt('');
     this.overlay = null;
     if (!this.touchEnabled) requestAnimationFrame(() => this.fp.lock());
+  }
+
+  cabinAimYaw() {
+    const target = this.cabin.mapCenter;
+    const spawn = this.cabin.spawn;
+    return Math.atan2(-(target.x - spawn.x), -(target.z - spawn.z));
   }
 
   buildTable() {
