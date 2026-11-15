@@ -5,15 +5,15 @@
  * network first, so a new build (and its graphics code) replaces the cached one.
  * Offline, the last successfully cached shell and assets are served instead.
  */
-const CACHE = 'kotfi-app-v3';
+const CACHE = 'kotfi-app-v4';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
-  './icons/icon-maskable-512.png',
-  './icons/apple-touch-icon.png'
+  './icons/icon-192.png?v=2',
+  './icons/icon-512.png?v=2',
+  './icons/icon-maskable-512.png?v=2',
+  './icons/apple-touch-icon.png?v=2'
 ];
 
 self.addEventListener('install', (event) => {
