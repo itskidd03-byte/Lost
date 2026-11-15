@@ -1,0 +1,38 @@
+name: Sync graphics bank
+
+on:
+  schedule:
+    - cron: '20 0,7,13,19 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bank-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Pull library catalogue
+        run: node tools/sync-bank.mjs
+
+      - name: Commit changes
+        run: |
+          git config user.name "gcc-bank-bot"
+          git config user.email "gcc-bank-bot@users.noreply.github.com"
+          git add memory/graphics/catalog.csv reports/library-snapshot.md
+          if git diff --staged --quiet; then
+            echo "no changes"
+          else
+            git commit -m "chore: refresh library catalogue"
+            git push
+          fi
