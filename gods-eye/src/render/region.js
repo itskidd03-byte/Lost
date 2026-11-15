@@ -46,6 +46,9 @@ export class Region {
     this.warFX = [];
     this.waterRipples = [];
     this.settlementRoads = new Map();
+    this.towns = new Map();
+    this.townMats = null;
+    this.townCheck = 0;
     this.disposables = [];
     this.time = 0;
 
@@ -67,6 +70,7 @@ export class Region {
     this.sun = sun;
 
     this.buildGround();
+    this.buildHorizon();
     this.buildFeatures();
     this.buildActors();
     this.spawn = this.findSpawn();
@@ -122,8 +126,8 @@ export class Region {
       const { tile, land, x, z } = info;
       const def = BIOMES[tile.biome] || BIOMES.blackgrass;
       if (!land) {
-        // slight overlap so neighbouring water tiles read as one sheet
-        const water = waterSurface(TS * 1.08, TS * 1.08, def.world);
+        // keep each sheet inside its own tile so it never bleeds onto land
+        const water = waterSurface(TS, TS, def.world);
         water.group.position.set(x, info.top + 0.02, z);
         this.scene.add(water.group);
         for (const ripple of water.ripples) this.waterRipples.push(ripple);
@@ -258,6 +262,7 @@ export class Region {
     const hutGeo = new THREE.BoxGeometry(1.2, 0.9, 1.1);
     const roofGeo = new THREE.ConeGeometry(1.0, 0.7, 4);
     this.disposables.push(trunkGeo, leafGeo, rockGeo, hutGeo, roofGeo);
+    this.townMats = { hutMat, roofMat, hutGeo, roofGeo };
 
     for (const info of this.tiles.values()) {
       const { tile, top, land, x, z } = info;
@@ -364,12 +369,25 @@ export class Region {
     return info && info.land ? info : null;
   }
 
+  townSignature(settlement) {
+    const businesses = this.state.businesses.filter((b) => b.alive && b.settlementId === settlement.id).length;
+    return `${settlement.buildings.length}:${settlement.population}:${businesses}:${settlement.nationId || 0}`;
+  }
+
   buildSettlement(info, settlement, hutMat, roofMat, hutGeo, roofGeo, r) {
     // A town, not a single tile: the plaza is in the middle, dirt roads run out
     // across the neighbouring ground, and the houses and shops stand at the ends
-    // of those roads with their doors facing the square.
+    // of those roads with their doors facing the square. Jolene dresses the
+    // whole thing afterwards.
+    const previous = this.towns.get(settlement.id);
+    if (previous) this.scene.remove(previous.group);
+    const group = new THREE.Group();
+    this.scene.add(group);
+
     const businesses = this.state.businesses.filter((b) => b.alive && b.settlementId === settlement.id).slice(0, 4);
-    const houses = Math.min(9, 4 + settlement.buildings.length + Math.floor(settlement.population / 10));
+    // the village grows with the settlement: every building and every few
+    // extra souls adds another house on the next visit (or while you stand here)
+    const houses = Math.min(20, 4 + settlement.buildings.length * 2 + Math.floor(settlement.population / 10));
     const slots = houses + businesses.length;
     const nation = settlement.nationId ? this.state.nations.find((n) => n.id === settlement.nationId) : null;
 
@@ -387,7 +405,7 @@ export class Region {
     plaza.rotation.x = -Math.PI / 2;
     plaza.position.set(info.x, info.top + 0.035, info.z);
     plaza.receiveShadow = true;
-    this.scene.add(plaza);
+    group.add(plaza);
 
     const routes = [];
     const roadSegment = (x1, z1, x2, z2) => {
@@ -399,7 +417,7 @@ export class Region {
       seg.position.set((x1 + x2) / 2, y, (z1 + z2) / 2);
       seg.rotation.y = Math.atan2(x2 - x1, z2 - z1);
       seg.receiveShadow = true;
-      this.scene.add(seg);
+      group.add(seg);
     };
 
     for (let i = 0; i < slots; i++) {
@@ -472,7 +490,7 @@ export class Region {
 
       house.position.set(px, foot.top, pz);
       house.rotation.y = Math.atan2(info.x - px, info.z - pz);
-      this.scene.add(house);
+      group.add(house);
     }
 
     this.settlementRoads.set(settlement.id, routes);
@@ -480,25 +498,253 @@ export class Region {
     // fire
     const fire = new THREE.Mesh(new THREE.SphereGeometry(0.22, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffb45c }));
     fire.position.set(info.x, info.top + 0.3, info.z);
-    this.scene.add(fire);
+    group.add(fire);
     const fireLight = new THREE.PointLight(0xff9a45, 6, 9, 2);
     fireLight.position.copy(fire.position).setY(info.top + 0.8);
-    this.scene.add(fireLight);
+    group.add(fireLight);
 
     // banner
     const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 4, 6), new THREE.MeshStandardMaterial({ color: 0x2c2118 }));
     pole.position.set(info.x - 1.8, info.top + 2, info.z - 1.8);
-    this.scene.add(pole);
+    group.add(pole);
     const flag = new THREE.Mesh(
       new THREE.PlaneGeometry(1.4, 0.8),
       new THREE.MeshStandardMaterial({ color: new THREE.Color(nation?.color || '#c9a227'), side: THREE.DoubleSide, roughness: 0.9 }),
     );
     flag.position.set(info.x - 1.1, info.top + 3.15, info.z - 1.8);
-    this.scene.add(flag);
+    group.add(flag);
 
     const label = labelSprite(`${settlement.name}`, nation ? nation.color : '#f0dfb4');
     label.position.set(info.x, info.top + 9.4, info.z);
-    this.scene.add(label);
+    group.add(label);
+
+    this.dressTown(group, info, settlement, nation, routes, houses);
+    this.towns.set(settlement.id, { group, signature: this.townSignature(settlement) });
+  }
+
+  // Jolene's pass over the world: the same town Johan raised, but painted,
+  // planted, fenced and furnished instead of left as bare boxes.
+  dressTown(group, info, settlement, nation, routes, houses) {
+    const rand = (n) => hash(settlement.id * 97 + n, settlement.id * 41 - n * 3);
+    const plankMat = new THREE.MeshStandardMaterial({ color: 0x8a6a44, roughness: 0.95 });
+    const clothMat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(nation?.color || '#a8532f'),
+      roughness: 0.88,
+      side: THREE.DoubleSide,
+    });
+    const barrelMat = new THREE.MeshStandardMaterial({ color: 0x6b4a2a, roughness: 0.95 });
+    const stoneMat = new THREE.MeshStandardMaterial({ color: 0x8a8880, roughness: 0.95 });
+    const soilMat = new THREE.MeshStandardMaterial({ color: 0x4a3521, roughness: 1 });
+    const cropMat = new THREE.MeshStandardMaterial({ color: 0x5f7a3a, roughness: 1 });
+    const flowerMats = ['#d8b23c', '#c46a5a', '#b08ad0', '#e0d7a8'].map(
+      (c) => new THREE.MeshStandardMaterial({ color: new THREE.Color(c), roughness: 0.8 }),
+    );
+    const lampMat = new THREE.MeshStandardMaterial({ color: 0xffd79a, emissive: 0xffb45c, emissiveIntensity: 0.9 });
+
+    const flowerGeo = new THREE.SphereGeometry(0.12, 6, 5);
+    const stemGeo = new THREE.CylinderGeometry(0.03, 0.03, 0.32, 4);
+    const postGeo = new THREE.BoxGeometry(0.1, 0.8, 0.1);
+    const railGeo = new THREE.BoxGeometry(1, 0.07, 0.06);
+    const barrelGeo = new THREE.CylinderGeometry(0.26, 0.3, 0.7, 8);
+    const cropGeo = new THREE.ConeGeometry(0.16, 0.5, 5);
+    this.disposables.push(flowerGeo, stemGeo, postGeo, railGeo, barrelGeo, cropGeo);
+
+    const place = (mesh, x, z, lift = 0) => {
+      if (!this.landAt(x, z)) return null;
+      mesh.position.set(x, this.groundAt(x, z) + lift, z);
+      group.add(mesh);
+      return mesh;
+    };
+
+    // cobbled apron ringing the square
+    const apron = new THREE.Mesh(new THREE.RingGeometry(3.4, 4.15, 26), stoneMat);
+    apron.rotation.x = -Math.PI / 2;
+    apron.position.set(info.x, info.top + 0.045, info.z);
+    group.add(apron);
+
+    // market stalls around the square
+    for (let i = 0; i < 3; i++) {
+      const a = (i / 3) * Math.PI * 2 + 0.55;
+      const sx = info.x + Math.cos(a) * 5.3;
+      const sz = info.z + Math.sin(a) * 5.3;
+      if (!this.landAt(sx, sz)) continue;
+      const stall = new THREE.Group();
+      const table = new THREE.Mesh(new THREE.BoxGeometry(2.1, 0.12, 1.1), plankMat);
+      table.position.y = 0.76;
+      stall.add(table);
+      for (const [lx, lz] of [[-0.9, -0.45], [0.9, -0.45], [-0.9, 0.45], [0.9, 0.45]]) {
+        const leg = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.76, 0.1), plankMat);
+        leg.position.set(lx, 0.38, lz);
+        stall.add(leg);
+      }
+      const canopy = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.7), clothMat);
+      canopy.rotation.x = -Math.PI / 2 + 0.22;
+      canopy.position.set(0, 2.15, -0.12);
+      stall.add(canopy);
+      for (const lx of [-1.05, 1.05]) {
+        const post = new THREE.Mesh(new THREE.BoxGeometry(0.08, 2.2, 0.08), plankMat);
+        post.position.set(lx, 1.1, -0.55);
+        stall.add(post);
+      }
+      stall.position.set(sx, this.groundAt(sx, sz), sz);
+      stall.rotation.y = a + Math.PI / 2;
+      group.add(stall);
+    }
+
+    // the town well
+    const wellX = info.x + 2.5;
+    const wellZ = info.z + 1.1;
+    if (this.landAt(wellX, wellZ)) {
+      const well = new THREE.Group();
+      const ring = new THREE.Mesh(new THREE.CylinderGeometry(0.72, 0.78, 0.62, 12), stoneMat);
+      ring.position.y = 0.31;
+      well.add(ring);
+      const postA = new THREE.Mesh(new THREE.BoxGeometry(0.1, 1.7, 0.1), plankMat);
+      postA.position.set(-0.6, 0.95, 0);
+      const postB = postA.clone();
+      postB.position.x = 0.6;
+      well.add(postA, postB);
+      const roof = new THREE.Mesh(new THREE.ConeGeometry(1.0, 0.6, 4), new THREE.MeshStandardMaterial({ color: 0x53331f, roughness: 0.95 }));
+      roof.position.y = 2.0;
+      roof.rotation.y = Math.PI / 4;
+      well.add(roof);
+      well.position.set(wellX, this.groundAt(wellX, wellZ), wellZ);
+      group.add(well);
+    }
+
+    // lamps at the road mouths
+    for (const route of routes.slice(0, 4)) {
+      const ang = Math.atan2(route.az - info.z, route.ax - info.x);
+      const lx = info.x + Math.cos(ang + 0.28) * 4.6;
+      const lz = info.z + Math.sin(ang + 0.28) * 4.6;
+      if (!this.landAt(lx, lz)) continue;
+      const lamp = new THREE.Group();
+      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 2.5, 6), plankMat);
+      post.position.y = 1.25;
+      lamp.add(post);
+      const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.16, 8, 6), lampMat);
+      bulb.position.y = 2.55;
+      lamp.add(bulb);
+      lamp.position.set(lx, this.groundAt(lx, lz), lz);
+      group.add(lamp);
+    }
+
+    // fences along the first few roads
+    for (const route of routes.slice(0, 4)) {
+      const dx = route.bx - route.ax;
+      const dz = route.bz - route.az;
+      const len = Math.hypot(dx, dz) || 1;
+      const nx = -dz / len;
+      const nz = dx / len;
+      const steps = Math.max(2, Math.min(6, Math.floor(len / 2.1)));
+      for (const side of [-1, 1]) {
+        let prev = null;
+        for (let sIdx = 1; sIdx <= steps; sIdx++) {
+          const t = sIdx / (steps + 1);
+          const fx = route.ax + dx * t + nx * side * 1.35;
+          const fz = route.az + dz * t + nz * side * 1.35;
+          if (!this.landAt(fx, fz)) {
+            prev = null;
+            continue;
+          }
+          const post = new THREE.Mesh(postGeo, plankMat);
+          place(post, fx, fz, 0.4);
+          if (prev) {
+            const rail = new THREE.Mesh(railGeo, plankMat);
+            const mx = (prev.x + fx) / 2;
+            const mz = (prev.z + fz) / 2;
+            const seg = place(rail, mx, mz, 0.62);
+            if (seg) {
+              seg.scale.x = Math.hypot(fx - prev.x, fz - prev.z);
+              seg.rotation.y = Math.atan2(fx - prev.x, fz - prev.z) + Math.PI / 2;
+            }
+          }
+          prev = { x: fx, z: fz };
+        }
+      }
+    }
+
+    // gardens and flowers by the doors
+    for (let i = 0; i < houses; i++) {
+      const route = routes[i % Math.max(1, routes.length)];
+      if (!route) break;
+      const gx = route.bx + (rand(i) - 0.5) * 4.4;
+      const gz = route.bz + (rand(i + 30) - 0.5) * 4.4;
+      if (!this.landAt(gx, gz)) continue;
+      if (rand(i + 60) > 0.45) {
+        const plot = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.08, 1.6), soilMat);
+        place(plot, gx, gz, 0.02);
+        for (let c = 0; c < 6; c++) {
+          const crop = new THREE.Mesh(cropGeo, cropMat);
+          place(crop, gx + (c % 3 - 1) * 0.7, gz + (Math.floor(c / 3) - 0.5) * 0.7, 0.28);
+        }
+      }
+      if (rand(i + 90) > 0.35) {
+        const mat = flowerMats[Math.floor(rand(i + 120) * flowerMats.length)];
+        for (let f = 0; f < 4; f++) {
+          const fx = gx + (rand(i * 7 + f) - 0.5) * 1.8;
+          const fz = gz + (rand(i * 11 + f) - 0.5) * 1.8;
+          place(new THREE.Mesh(stemGeo, cropMat), fx, fz, 0.16);
+          place(new THREE.Mesh(flowerGeo, mat), fx, fz, 0.34);
+        }
+      }
+      if (rand(i + 150) > 0.6) {
+        const barrel = new THREE.Mesh(barrelGeo, barrelMat);
+        place(barrel, gx + 1.3, gz - 1.0, 0.35);
+      }
+    }
+
+    // a few ornamental trees and grass tufts so the town sits in greenery
+    for (let i = 0; i < 4; i++) {
+      const a = rand(i + 200) * Math.PI * 2;
+      const rr = 5.6 + rand(i + 210) * 6;
+      const tx = info.x + Math.cos(a) * rr;
+      const tz = info.z + Math.sin(a) * rr;
+      if (!this.landAt(tx, tz)) continue;
+      const treeGroup = detailTree({ scale: 1.5 + rand(i + 220) * 0.7, seed: settlement.id * 13 + i });
+      treeGroup.position.set(tx, this.groundAt(tx, tz), tz);
+      treeGroup.rotation.y = rand(i + 230) * Math.PI * 2;
+      group.add(treeGroup);
+    }
+    for (let i = 0; i < 8; i++) {
+      const route = routes[i % Math.max(1, routes.length)];
+      if (!route) break;
+      const tx = route.ax + (route.bx - route.ax) * rand(i + 260);
+      const tz = route.az + (route.bz - route.az) * rand(i + 270);
+      if (!this.landAt(tx, tz)) continue;
+      const tufts = grassStrands(8, 0.9, { color: '#3a5733', height: 0.45 });
+      tufts.position.set(tx, this.groundAt(tx, tz), tz);
+      group.add(tufts);
+    }
+  }
+
+  reassignRoutes(settlementId) {
+    const routes = this.settlementRoads.get(settlementId) || [];
+    if (!routes.length) return;
+    let i = 0;
+    for (const actor of this.npcActors) {
+      if (actor.settlementId !== settlementId) continue;
+      actor.route = routes[i % routes.length];
+      actor.lane = (hash(i * 7, settlementId) - 0.5) * 0.8;
+      i += 1;
+    }
+  }
+
+  // Distant ridgelines so the walkable world has a painted background too.
+  buildHorizon() {
+    const ridgeMat = new THREE.MeshStandardMaterial({ color: 0x2f4257, roughness: 1 });
+    const geo = new THREE.ConeGeometry(1, 1, 5);
+    this.disposables.push(geo);
+    for (let i = 0; i < 26; i++) {
+      const a = (i / 26) * Math.PI * 2 + hash(i, 3) * 0.14;
+      const r = 58 + hash(i, 7) * 28;
+      const h = 8 + hash(i, 11) * 15;
+      const w = 15 + hash(i, 13) * 16;
+      const ridge = new THREE.Mesh(geo, ridgeMat);
+      ridge.scale.set(w, h, w);
+      ridge.position.set(Math.cos(a) * r, h / 2 - 4, Math.sin(a) * r);
+      this.scene.add(ridge);
+    }
   }
 
   buildActors() {
@@ -542,6 +788,7 @@ export class Region {
       this.npcActors.push({
         npc,
         group,
+        settlementId: npc.settlementId || null,
         baseX: gx,
         baseZ: gz,
         top: info.top,
@@ -717,6 +964,30 @@ export class Region {
       const t = (elapsed * 0.3 + ripple.phase) % 1;
       ripple.mesh.scale.setScalar(ripple.base * (0.45 + t * 2.4));
       ripple.mesh.material.opacity = 0.26 * (1 - t);
+    }
+
+    // the village keeps growing while you stand in it: a new house or shop
+    // appears as the settlement builds, so the world matches the table
+    this.townCheck += dt;
+    if (this.townCheck > 4) {
+      this.townCheck = 0;
+      for (const [id, town] of [...this.towns]) {
+        const settlement = this.state.settlements.find((s) => s.id === id && s.alive);
+        if (!settlement) continue;
+        if (town.signature === this.townSignature(settlement)) continue;
+        const info = this.tiles.get(key(settlement.x, settlement.y));
+        if (!info || !this.townMats) continue;
+        this.buildSettlement(
+          info,
+          settlement,
+          this.townMats.hutMat,
+          this.townMats.roofMat,
+          this.townMats.hutGeo,
+          this.townMats.roofGeo,
+          0,
+        );
+        this.reassignRoutes(id);
+      }
     }
   }
 
