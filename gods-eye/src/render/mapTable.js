@@ -3,7 +3,9 @@
 
 import * as THREE from 'three';
 import { BIOMES, bounds, isLand, key } from '../world.js';
-import { terrainPiece, tree, grassStrands, waterSurface, villageCluster, mountain, animal, hash2 } from './detail.js';
+import {
+  terrainPiece, tree, grassStrands, waterSurface, villageCluster, mountain, animal, hash2, nameSprite,
+} from './detail.js';
 
 const TILE_MAX = 0.062;
 
@@ -323,6 +325,12 @@ export class MapTable {
     const shortScreen = typeof window !== 'undefined' && window.innerHeight < 620;
     this.workerHeight = Math.max(0.07, Math.min(0.15, this.scale * 1.1)) * (shortScreen ? 1.75 : 1);
     this.worker.root.scale.setScalar(this.workerHeight / 1.55);
+
+    // Names over every AI standing on the table, so you know who is who.
+    const crew = state.sectors || [];
+    this.setNameplate(this.worker.root, state.johan?.name || 'Johan', '#f0cf6a');
+    this.setNameplate(this.jolene.root, crew[0]?.dresser || 'Jolene', '#d9c9f2');
+    for (const d of this.extraDressers) this.setNameplate(d.root, d.sector.dresser, '#d9c9f2');
     if (!sameWorld) {
       const cradle = state.cradle;
       const startTile = cradle ? state.world.tiles.get(key(cradle.x, cradle.y)) : null;
@@ -754,6 +762,21 @@ export class MapTable {
         this.spawnPuff(this.joleneGoal.x, this.joleneGoal.z, this.joleneGoal.y, 0xd8cff0);
       }
     }
+  }
+
+  setNameplate(root, name, color) {
+    const existing = root.getObjectByName('nameplate');
+    if (existing) {
+      root.remove(existing);
+      existing.material?.dispose?.();
+    }
+    const sprite = nameSprite(name, color);
+    sprite.name = 'nameplate';
+    sprite.position.set(0, 2.35, 0);
+    sprite.scale.set(2.8, 0.7, 1);
+    sprite.center.set(0.5, 0);
+    sprite.renderOrder = 20;
+    root.add(sprite);
   }
 
   updateDressers(elapsed, dt) {

@@ -648,10 +648,29 @@ class Game {
     else this.closeLaptop();
   }
 
+  laptopAgents() {
+    const agents = [{ id: 'johan', label: this.state?.johan?.name || 'Johan' }];
+    for (const sector of this.state?.sectors || []) agents.push({ id: sector.dresser, label: sector.dresser });
+    return agents;
+  }
+
+  selectAgent(id) {
+    if (!this.state) return;
+    this.laptopAgent = id;
+    this.ui.renderLaptopAgents(this.laptopAgents(), id);
+    if (this.ui.els.laptopInput) {
+      this.ui.els.laptopInput.placeholder = `tell ${id} what to do…`;
+      this.ui.els.laptopInput.focus();
+    }
+  }
+
   openLaptop() {
     if (!this.state) return;
     this.fp.enabled = false;
     this.fp.unlock();
+    const agents = this.laptopAgents();
+    if (!agents.some((a) => a.id === this.laptopAgent)) this.laptopAgent = agents[0].id;
+    this.ui.renderLaptopAgents(agents, this.laptopAgent);
     this.ui.openLaptop();
     this.overlay = 'laptop';
   }
@@ -667,17 +686,42 @@ class Game {
 
   submitOrder(text) {
     if (!this.state) return;
-    const parsed = parseOrder(text);
-    if (!parsed) {
-      this.ui.laptopSay('johan', 'Start with "johan" or "jolene", then what you want.');
+    const raw = String(text || '').trim();
+    if (!raw) return;
+
+    // Typing a name in front still works; otherwise the selected tab decides who
+    // is being spoken to.
+    const agents = this.laptopAgents();
+    const firstWord = raw.split(/[\s:,]+/)[0];
+    const match = agents.find((a) => a.label.toLowerCase() === firstWord.toLowerCase())
+      || (firstWord.toLowerCase() === 'jolene' ? { id: 'jolene', label: 'Jolene' } : null);
+
+    let who = this.laptopAgent || agents[0].id;
+    let instruction = raw;
+    if (match) {
+      who = match.id;
+      instruction = raw.slice(firstWord.length).replace(/^[\s:,.-]+/, '');
+      if (!instruction) {
+        this.ui.laptopSay('you', raw);
+        this.ui.laptopSay(who, `${who} is listening. Say what to do.`);
+        return;
+      }
+      this.selectAgent(match.id);
+    }
+
+    if (/^(crew|sectors)$/i.test(raw)) {
+      this.ui.laptopSay('you', raw);
+      const crew = runOrder(this.state, 'crew', '', null);
+      this.ui.laptopSay('crew', crew.detail || crew.title);
       return;
     }
-    this.ui.laptopSay('you', text.trim());
+
+    this.ui.laptopSay('you', raw);
     const tile = this.mode === 'world' && this.region
       ? tileAt(this.state.world, this.region.center.x, this.region.center.y)
       : null;
-    const result = runOrder(this.state, parsed.who, parsed.instruction, tile);
-    this.ui.laptopSay(result.ok ? parsed.who : 'johan', result.detail ? `${result.title} ${result.detail}` : result.title);
+    const result = runOrder(this.state, who, instruction, tile);
+    this.ui.laptopSay(result.category || who, result.detail ? `${result.title} ${result.detail}` : result.title);
     if (!result.ok) return;
     this.buildTable(true);
     this.ui.renderSelection();

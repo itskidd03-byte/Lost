@@ -254,6 +254,51 @@ function buildGround(state, sector, rand, tiles) {
   return true;
 }
 
+/* ------------------------------ direct orders ----------------------------- */
+
+export function sectorByDresser(state, name) {
+  const wanted = String(name || '').toLowerCase();
+  return (state.sectors || []).find((s) => s.dresser.toLowerCase() === wanted) || null;
+}
+
+// A named dresser takes an order by hand: she works only her own ground.
+export function dressSector(state, sector, instruction, rand = Math.random) {
+  const tiles = sectorTiles(state, sector);
+  const land = tiles.filter(isLand);
+  const text = String(instruction || '').toLowerCase();
+  if (!tiles.length) {
+    return { ok: false, category: 'jolene', title: `${sector.dresser} has no ground in sector ${sector.sx},${sector.sy} yet.` };
+  }
+  sector.lastDay = state.world.day;
+  const done = (title, detail) => ({ ok: true, category: sector.dresser.toLowerCase(), title, detail });
+
+  if (/(flat|level|meadow|field|plain)/.test(text)) {
+    if (moldMeadow(state, sector, rand, land)) {
+      return done(`${sector.dresser} levelled a meadow in ${sector.id}`, 'The ground there now sits at one height, with the grass combed out.');
+    }
+    return { ok: false, category: 'jolene', title: `${sector.dresser} found no meadow to flatten in ${sector.id}.` };
+  }
+
+  if (/(river|water|stream|creek)/.test(text)) {
+    if (runRiver(state, sector, rand, land)) {
+      return done(`${sector.dresser} ran water through ${sector.id}`, 'A channel now crosses her sector; only ground that already existed went under.');
+    }
+    return { ok: false, category: 'jolene', title: `${sector.dresser} cannot run water there yet — too little dry ground, or water already crosses it.` };
+  }
+
+  if (/(mountain|peak|ridge|range|hill)/.test(text)) {
+    if (stackRange(state, sector, rand, land)) {
+      return done(`${sector.dresser} stacked a range in ${sector.id}`, 'Shoulders, then peaks — the same blocks, raised another pass higher.');
+    }
+    return { ok: false, category: 'jolene', title: `${sector.dresser} found no rock to lift in ${sector.id}.` };
+  }
+
+  if (repaint(state, sector, rand, land)) {
+    return done(`${sector.dresser} repainted ${sector.id}`, 'Detail sharpened on ground that was already there. She placed nothing.');
+  }
+  return { ok: false, category: 'jolene', title: `${sector.dresser} has nothing left to sharpen in ${sector.id}.` };
+}
+
 export function stepSectors(state, rand = Math.random) {
   ensureCrew(state);
   if (!state.sectors?.length) return;

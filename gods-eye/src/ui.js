@@ -79,6 +79,7 @@ export class UI {
       journal: $('#journal'),
       journalBody: $('#journal-body'),
       laptop: $('#laptop'),
+      laptopTabs: $('#laptop-tabs'),
       laptopLog: $('#laptop-log'),
       laptopInput: $('#laptop-input'),
       laptopForm: $('#laptop-form'),
@@ -475,12 +476,24 @@ export class UI {
     this.els.laptopInput?.blur();
   }
 
+  renderLaptopAgents(agents, active) {
+    const el = this.els.laptopTabs;
+    if (!el) return;
+    el.innerHTML = agents
+      .map((a) => `<button class="laptop-tab${a.id === active ? ' on' : ''}" data-agent="${a.id}">${a.label}</button>`)
+      .join('');
+    el.querySelectorAll('[data-agent]').forEach((btn) => {
+      btn.addEventListener('click', () => this.game.selectAgent(btn.dataset.agent));
+    });
+  }
+
   laptopSay(who, text) {
     const log = this.els.laptopLog;
     if (!log || !text) return;
     const line = document.createElement('div');
-    line.className = `laptop-line ${who}`;
-    const name = who === 'you' ? 'You' : who === 'jolene' ? 'Jolene' : 'Johan';
+    const tone = who === 'you' ? 'you' : who === 'johan' ? 'johan' : 'jolene';
+    line.className = `laptop-line ${tone}`;
+    const name = who === 'you' ? 'You' : who.charAt(0).toUpperCase() + who.slice(1);
     const label = document.createElement('b');
     label.textContent = name;
     const body = document.createElement('span');

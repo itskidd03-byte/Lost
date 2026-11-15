@@ -39,6 +39,53 @@ export function surfaceMaterial(colorHex, { water = false, flat = false } = {}) 
   );
 }
 
+/* ---------------------------------- names --------------------------------- */
+
+const labelCache = new Map();
+
+// A small floating name plate. Sprites always face the camera, so the names stay
+// readable while the board is turned.
+export function nameSprite(text, color = '#f0dfb4') {
+  const key = `${text}|${color}`;
+  if (labelCache.has(key)) return new THREE.Sprite(labelCache.get(key).clone());
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 384;
+  canvas.height = 96;
+  const ctx = canvas.getContext('2d');
+  const r = 22;
+  ctx.fillStyle = 'rgba(8, 10, 12, 0.78)';
+  ctx.beginPath();
+  ctx.moveTo(r, 8);
+  ctx.lineTo(canvas.width - r, 8);
+  ctx.quadraticCurveTo(canvas.width - 8, 8, canvas.width - 8, 8 + r);
+  ctx.lineTo(canvas.width - 8, canvas.height - 8 - r);
+  ctx.quadraticCurveTo(canvas.width - 8, canvas.height - 8, canvas.width - 8 - r, canvas.height - 8);
+  ctx.lineTo(r, canvas.height - 8);
+  ctx.quadraticCurveTo(8, canvas.height - 8, 8, canvas.height - 8 - r);
+  ctx.lineTo(8, 8 + r);
+  ctx.quadraticCurveTo(8, 8, r, 8);
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 2;
+  ctx.globalAlpha = 0.45;
+  ctx.stroke();
+  ctx.globalAlpha = 1;
+
+  ctx.font = '600 40px Georgia, serif';
+  ctx.fillStyle = color;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, canvas.width / 2, canvas.height / 2 + 2);
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.anisotropy = 4;
+  const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false, depthTest: false });
+  labelCache.set(key, material);
+  return new THREE.Sprite(material.clone());
+}
+
 /* ---------------------------------- ground -------------------------------- */
 
 // A tile is a small mound of ground, not a cube: a rounded crown sitting on a

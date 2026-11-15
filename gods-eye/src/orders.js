@@ -6,7 +6,7 @@ import { BIOMES, isLand, tileAt } from './world.js';
 import { godAction } from './life.js';
 import { advanceDays } from './state.js';
 import { addEvent } from './journal.js';
-import { crewSummary } from './sectors.js';
+import { crewSummary, dressSector, sectorByDresser } from './sectors.js';
 
 const JOHAN_ACTS = [
   [/(new land|more land|raise land|grow land|expand)/, 'newland'],
@@ -189,10 +189,16 @@ export function runOrder(state, who, instruction, hint) {
     return { ok: false, category: 'johan', title: 'Sector crews', detail: crewSummary(state) };
   }
   const text = String(instruction || '').toLowerCase().trim();
+  const whoKey = String(who || '').toLowerCase();
+  if (whoKey !== 'johan' && whoKey !== 'jolene') {
+    const sector = sectorByDresser(state, whoKey);
+    if (sector) return dressSector(state, sector, text, Math.random);
+    return { ok: false, category: 'johan', title: `No one named ${who} works the table.` };
+  }
   if (!text) return { ok: false, category: who, title: 'Type what you want after the name.' };
   const tile = targetTile(state, hint);
   if (!tile) return { ok: false, category: who, title: 'There is no ground to work yet.' };
-  if (who === 'johan') return johanOrder(state, text, tile);
-  if (who === 'jolene') return joleneOrder(state, text, tile);
+  if (whoKey === 'johan') return johanOrder(state, text, tile);
+  if (whoKey === 'jolene') return joleneOrder(state, text, tile);
   return { ok: false, category: 'johan', title: 'Only Johan and Jolene answer.' };
 }
