@@ -420,15 +420,17 @@ export class Region {
     if (!point) return new THREE.Vector3(0, 0.5, 0);
 
     // Villagers step aside so the player does not open their eyes inside a crowd.
-    for (const actor of this.actors || []) {
-      const ax = (actor.position?.x ?? 0) - point.x;
-      const az = (actor.position?.z ?? 0) - point.z;
-      if (Math.hypot(ax, az) >= 2.3) continue;
-      const len = Math.hypot(ax, az) || 1;
-      const dx = ax / len || 0.7;
-      const dz = az / len || 0.7;
-      actor.position.x = point.x + dx * 2.6;
-      actor.position.z = point.z + dz * 2.6;
+    for (const actor of this.npcActors || []) {
+      const ax = actor.baseX - point.x;
+      const az = actor.baseZ - point.z;
+      if (Math.hypot(ax, az) >= 2.6) continue;
+      const len = Math.hypot(ax, az);
+      const dx = len > 0.001 ? ax / len : 0.7;
+      const dz = len > 0.001 ? az / len : 0.7;
+      actor.baseX = point.x + dx * 3.4;
+      actor.baseZ = point.z + dz * 3.4;
+      actor.group.position.x = actor.baseX;
+      actor.group.position.z = actor.baseZ;
     }
     return point;
   }
