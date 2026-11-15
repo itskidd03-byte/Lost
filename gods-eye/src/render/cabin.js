@@ -130,6 +130,7 @@ export class Cabin {
 
     this.buildRoom();
     this.buildTable();
+    this.buildLaptop();
     this.buildBed();
     this.buildJournal();
     this.buildLight();
@@ -282,6 +283,85 @@ export class Cabin {
     }
     this.root.add(stool);
     this.blockers.push({ minX: this.tablePos.x + 1.6, maxX: this.tablePos.x + 2.2, minZ: this.tablePos.z + 0.1, maxZ: this.tablePos.z + 0.7 });
+  }
+
+  buildLaptop() {
+    // A small desk against the right wall, turned toward the room, with an open
+    // laptop on it: walk to it and the orders menu comes up.
+    const deskTex = woodTexture('#4a3520', 'rgba(0,0,0,0.32)');
+    deskTex.repeat.set(1, 1);
+    const deskMat = new THREE.MeshStandardMaterial({ map: deskTex, roughness: 0.82, color: 0xb69a72 });
+    const shell = new THREE.MeshStandardMaterial({ color: 0x2b2f36, metalness: 0.5, roughness: 0.45 });
+    const keys = new THREE.MeshStandardMaterial({ color: 0x14181d, roughness: 0.7 });
+    const screenMat = new THREE.MeshStandardMaterial({
+      color: 0x0b1a22,
+      emissive: 0x2f6d86,
+      emissiveIntensity: 1.15,
+      roughness: 0.35,
+    });
+
+    const desk = new THREE.Group();
+    desk.position.set(2.15, 0, 1.45);
+    desk.rotation.y = -0.36;
+    this.root.add(desk);
+
+    const top = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.06, 0.64), deskMat);
+    top.position.y = 0.72;
+    top.receiveShadow = true;
+    desk.add(top);
+    for (const [lx, lz] of [[-0.5, -0.24], [0.5, -0.24], [-0.5, 0.24], [0.5, 0.24]]) {
+      const leg = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.72, 0.07), deskMat);
+      leg.position.set(lx, 0.36, lz);
+      desk.add(leg);
+    }
+
+    const laptop = new THREE.Group();
+    laptop.position.set(0, 0.75, 0.02);
+    laptop.rotation.y = -0.18;
+    desk.add(laptop);
+
+    const base = new THREE.Mesh(new THREE.BoxGeometry(0.44, 0.026, 0.3), shell);
+    base.position.y = 0.015;
+    laptop.add(base);
+    const keyBed = new THREE.Mesh(new THREE.BoxGeometry(0.37, 0.008, 0.17), keys);
+    keyBed.position.set(0, 0.03, 0.03);
+    laptop.add(keyBed);
+    const trackpad = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.006, 0.08), shell);
+    trackpad.position.set(0, 0.031, 0.12);
+    laptop.add(trackpad);
+
+    const lid = new THREE.Group();
+    lid.position.set(0, 0.028, -0.15);
+    lid.rotation.x = -1.85;
+    const lidShell = new THREE.Mesh(new THREE.BoxGeometry(0.44, 0.3, 0.018), shell);
+    lidShell.position.y = 0.15;
+    const display = new THREE.Mesh(new THREE.PlaneGeometry(0.39, 0.25), screenMat);
+    display.position.set(0, 0.15, 0.012);
+    lid.add(lidShell, display);
+    laptop.add(lid);
+
+    // The desk sits away from the lantern, so it carries its own small lamp.
+    const lampStand = new THREE.Mesh(new THREE.CylinderGeometry(0.022, 0.03, 0.42, 6), shell);
+    lampStand.position.set(-0.44, 0.95, -0.12);
+    desk.add(lampStand);
+    const shade = new THREE.Mesh(
+      new THREE.ConeGeometry(0.15, 0.17, 10, 1, true),
+      new THREE.MeshStandardMaterial({ color: 0x2f2a22, emissive: 0xffb765, emissiveIntensity: 0.55, side: THREE.DoubleSide, roughness: 0.8 }),
+    );
+    shade.position.set(-0.44, 1.2, -0.12);
+    desk.add(shade);
+    const lamp = new THREE.PointLight(0xffc98a, 0.85, 3.4, 2);
+    lamp.position.set(-0.4, 1.12, -0.06);
+    desk.add(lamp);
+
+    const glow = new THREE.PointLight(0x7fd4ff, 0.55, 1.9, 2);
+    glow.position.set(0, 0.2, 0.16);
+    laptop.add(glow);
+
+    this.laptopPos = new THREE.Vector3(2.15, 0, 1.45);
+    this.laptopScreen = display;
+    this.laptopGlow = glow;
+    this.blockers.push({ minX: 2.15 - 0.66, maxX: 2.15 + 0.66, minZ: 1.45 - 0.38, maxZ: 1.45 + 0.38 });
   }
 
   buildBed() {

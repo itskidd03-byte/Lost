@@ -43,6 +43,7 @@
             <button data-speed="3">3×</button>
             <button data-speed="8">8×</button>
           </div>
+          <button class="hud-btn" id="btn-laptop" title="Laptop (L)">Laptop</button>
           <button class="hud-btn" id="btn-journal" title="Journal (J)">Journal</button>
           <button class="hud-btn" id="btn-divine" title="God's Eye (G)">God's Eye</button>
           <button class="hud-btn ghost" id="btn-help" title="Controls (H)">?</button>
@@ -108,6 +109,29 @@
           <div class="book-body" id="whatsnew-body"></div>
           <footer class="book-foot">
             <button class="primary" id="btn-ack2">Acknowledge and close</button>
+          </footer>
+        </div>
+      </section>
+
+      <section id="laptop" class="overlay" hidden>
+        <div class="laptop">
+          <header class="laptop-head">
+            <div>
+              <p class="eyebrow">Johan's laptop</p>
+              <h2>Give an order</h2>
+            </div>
+            <button class="x" data-close="laptop">×</button>
+          </header>
+          <div class="laptop-log" id="laptop-log"></div>
+          <form class="laptop-form" id="laptop-form" autocomplete="off">
+            <span class="caret">&gt;</span>
+            <input id="laptop-input" type="text" spellcheck="false" autocapitalize="off"
+              placeholder="johan raise mountains · jolene sharpen this ground" />
+            <button class="primary" type="submit">Send</button>
+          </form>
+          <footer class="laptop-foot">
+            Name a god, then what you want. Select a tile on the table first to aim the order there.
+            Jolene only dresses what is already standing — she never builds.
           </footer>
         </div>
       </section>

@@ -195,8 +195,12 @@ export class MapOrbit {
     this.theta = -0.62;
     this.phi = 0.92;
     this.radius = 2.1;
-    this.minRadius = 0.85;
-    this.maxRadius = 3.4;
+    // No practical cap on the way in: you can drop the camera onto a single
+    // block. The far limit only keeps the cabin walls from being left behind.
+    this.minRadius = 0.085;
+    this.maxRadius = 6;
+    this._pointers = new Map();
+    this._pinch = 0;
     this.target = new THREE.Vector3();
     this.dragging = false;
     this.moved = 0;
@@ -204,13 +208,26 @@ export class MapOrbit {
 
     this._down = (e) => {
       if (!this.enabled || e.button !== 0) return;
+      this._pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       this.dragging = true;
       this.moved = 0;
       this._last = { x: e.clientX, y: e.clientY };
       this.dom.setPointerCapture?.(e.pointerId);
     };
     this._move = (e) => {
-      if (!this.enabled || !this.dragging) return;
+      if (!this.enabled) return;
+      if (this._pointers.has(e.pointerId)) this._pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (this._pointers.size >= 2) {
+        const [a, b] = [...this._pointers.values()];
+        const dist = Math.hypot(a.x - b.x, a.y - b.y);
+        if (this._pinch > 0 && dist > 4) {
+          this.radius = Math.max(this.minRadius, Math.min(this.maxRadius, this.radius * (this._pinch / dist)));
+        }
+        this._pinch = dist;
+        this.moved += 100;
+        return;
+      }
+      if (!this.dragging) return;
       const dx = e.clientX - this._last.x;
       const dy = e.clientY - this._last.y;
       this.moved += Math.abs(dx) + Math.abs(dy);
@@ -220,12 +237,16 @@ export class MapOrbit {
     };
     this._up = (e) => {
       this.dragging = false;
+      this._pointers.delete(e.pointerId);
+      if (this._pointers.size < 2) this._pinch = 0;
       this.dom.releasePointerCapture?.(e.pointerId);
     };
     this._wheel = (e) => {
       if (!this.enabled) return;
       e.preventDefault();
-      this.radius = Math.max(this.minRadius, Math.min(this.maxRadius, this.radius + e.deltaY * 0.0016));
+      // Proportional zoom: one notch is one notch whether you are above the
+      // whole board or down between two trees.
+      this.radius = Math.max(this.minRadius, Math.min(this.maxRadius, this.radius * Math.exp(e.deltaY * 0.0012)));
     };
 
     dom.addEventListener('pointerdown', this._down);
@@ -240,7 +261,8 @@ export class MapOrbit {
   }
 
   zoomBy(delta) {
-    this.radius = Math.max(this.minRadius, Math.min(this.maxRadius, this.radius + delta));
+    const factor = delta < 0 ? 0.72 : 1.38;
+    this.radius = Math.max(this.minRadius, Math.min(this.maxRadius, this.radius * factor));
   }
 
   update() {

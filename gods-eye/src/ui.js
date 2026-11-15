@@ -78,6 +78,10 @@ export class UI {
       divineTarget: $('#divine-target'),
       journal: $('#journal'),
       journalBody: $('#journal-body'),
+      laptop: $('#laptop'),
+      laptopLog: $('#laptop-log'),
+      laptopInput: $('#laptop-input'),
+      laptopForm: $('#laptop-form'),
       whatsnew: $('#whatsnew'),
       whatsnewBody: $('#whatsnew-body'),
       dialogue: $('#dialogue'),
@@ -105,6 +109,14 @@ export class UI {
     $('#btn-install')?.addEventListener('click', () => this.game.install());
     $('#btn-touch')?.addEventListener('click', () => this.game.toggleTouch());
     $('#btn-journal')?.addEventListener('click', () => this.game.toggleJournal());
+    $('#btn-laptop')?.addEventListener('click', () => this.game.toggleLaptop());
+    this.els.laptopForm?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = (this.els.laptopInput?.value || '').trim();
+      if (!text) return;
+      this.els.laptopInput.value = '';
+      this.game.submitOrder(text);
+    });
     $('#btn-divine')?.addEventListener('click', () => this.game.toggleDivine());
     $('#btn-help')?.addEventListener('click', () => this.showIntro(true));
     $('#btn-ack')?.addEventListener('click', () => this.game.acknowledge());
@@ -447,6 +459,36 @@ export class UI {
 
   closeDivine() {
     this.els.divine.hidden = true;
+  }
+
+  openLaptop() {
+    this.els.laptop.hidden = false;
+    if (!this.els.laptopLog.dataset.ready) {
+      this.els.laptopLog.dataset.ready = '1';
+      this.laptopSay('johan', 'Johan is at his table. Tell him what to raise, carve or break — or ask Jolene to dress it finer.');
+    }
+    setTimeout(() => this.els.laptopInput?.focus(), 60);
+  }
+
+  closeLaptop() {
+    this.els.laptop.hidden = true;
+    this.els.laptopInput?.blur();
+  }
+
+  laptopSay(who, text) {
+    const log = this.els.laptopLog;
+    if (!log || !text) return;
+    const line = document.createElement('div');
+    line.className = `laptop-line ${who}`;
+    const name = who === 'you' ? 'You' : who === 'jolene' ? 'Jolene' : 'Johan';
+    const label = document.createElement('b');
+    label.textContent = name;
+    const body = document.createElement('span');
+    body.textContent = text;
+    line.append(label, body);
+    log.appendChild(line);
+    log.scrollTop = log.scrollHeight;
+    while (log.children.length > 60) log.removeChild(log.firstChild);
   }
 
   openJournal() {

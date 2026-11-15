@@ -9,6 +9,7 @@ import { Region } from './render/region.js';
 import { FirstPerson, MapOrbit, keyCode } from './controls.js';
 import { UI } from './ui.js';
 import { godAction, talk } from './life.js';
+import { parseOrder, runOrder } from './orders.js';
 import { isLand, tileAt } from './world.js';
 import { dateLabel } from './journal.js';
 import { TouchControls, isTouchDevice } from './mobile.js';
@@ -46,7 +47,7 @@ class Game {
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.stage.appendChild(this.renderer.domElement);
 
-    this.camera = new THREE.PerspectiveCamera(66, window.innerWidth / window.innerHeight, 0.04, 600);
+    this.camera = new THREE.PerspectiveCamera(66, window.innerWidth / window.innerHeight, 0.008, 600);
     this.camera.rotation.order = 'YXZ';
 
     this.cabin = new Cabin();
@@ -392,11 +393,13 @@ class Game {
       if (!this.ui.els.whatsnew.hidden) return this.ui.closeWhatsNew();
       if (!this.ui.els.journal.hidden) return this.closeJournal();
       if (!this.ui.els.divine.hidden) return this.closeDivine();
+      if (!this.ui.els.laptop.hidden) return this.closeLaptop();
       if (this.mode === 'table') return this.exitTable();
       return;
     }
     if (key === 'KeyE') return this.interact();
     if (key === 'KeyJ') return this.toggleJournal();
+    if (key === 'KeyL') return this.toggleLaptop();
     if (key === 'KeyG') return this.toggleDivine();
     if (key === 'KeyH') return this.ui.showIntro(true);
     if (key === 'KeyR' && this.mode === 'world') return this.ascend();
@@ -501,6 +504,8 @@ class Game {
     this.orbit.theta = -0.62;
     this.orbit.phi = 0.9;
     this.orbit.radius = 2.05;
+    // The floor is one block of the board, whatever size the board currently is.
+    this.orbit.minRadius = Math.max(0.05, this.cabin.map.scale * 1.7);
     this.orbit.enabled = true;
     this.orbit.update();
     this.buildTable(true);
@@ -635,6 +640,54 @@ class Game {
     }
   }
 
+  /* --------------------------------- laptop -------------------------------- */
+
+  toggleLaptop() {
+    if (!this.state) return;
+    if (this.ui.els.laptop.hidden) this.openLaptop();
+    else this.closeLaptop();
+  }
+
+  openLaptop() {
+    if (!this.state) return;
+    this.fp.enabled = false;
+    this.fp.unlock();
+    this.ui.openLaptop();
+    this.overlay = 'laptop';
+  }
+
+  closeLaptop() {
+    this.ui.closeLaptop();
+    if (this.overlay === 'laptop') this.overlay = null;
+    if (this.mode === 'cabin') {
+      this.fp.enabled = true;
+      if (!this.touchEnabled) this.fp.lock();
+    }
+  }
+
+  submitOrder(text) {
+    if (!this.state) return;
+    const parsed = parseOrder(text);
+    if (!parsed) {
+      this.ui.laptopSay('johan', 'Start with "johan" or "jolene", then what you want.');
+      return;
+    }
+    this.ui.laptopSay('you', text.trim());
+    const tile = this.mode === 'world' && this.region
+      ? tileAt(this.state.world, this.region.center.x, this.region.center.y)
+      : null;
+    const result = runOrder(this.state, parsed.who, parsed.instruction, tile);
+    this.ui.laptopSay(result.ok ? parsed.who : 'johan', result.detail ? `${result.title} ${result.detail}` : result.title);
+    if (!result.ok) return;
+    this.buildTable(true);
+    this.ui.renderSelection();
+    if (this.mode === 'world' && this.region) {
+      const center = tileAt(this.state.world, this.region.center.x, this.region.center.y);
+      if (center) this.buildRegion(center);
+    }
+    saveState(this.state);
+  }
+
   toggleDivine() {
     if (this.ui.els.divine.hidden) {
       this.ui.openDivine();
@@ -664,6 +717,8 @@ class Game {
       this.cabin.map.applySelection(null);
     } else if (name === 'divine') {
       this.closeDivine();
+    } else if (name === 'laptop') {
+      this.closeLaptop();
     } else if (name === 'journal') {
       this.closeJournal();
     } else if (name === 'whatsnew') {
@@ -792,10 +847,14 @@ class Game {
     }
     if (this.mode !== 'cabin') return;
     const pos = this.fp.position;
+    const dLaptop = this.cabin.laptopPos
+      ? Math.hypot(pos.x - this.cabin.laptopPos.x, pos.z - this.cabin.laptopPos.z)
+      : Infinity;
     const dTable = Math.hypot(pos.x - this.cabin.tablePos.x, pos.z - this.cabin.tablePos.z);
     const dJournal = Math.hypot(pos.x - 2.35, pos.z - -3.52);
     const dBed = Math.hypot(pos.x - -3.15, pos.z - -2.1);
-    if (dTable < 2.35) this.enterTable();
+    if (dLaptop < 1.75) this.openLaptop();
+    else if (dTable < 2.35) this.enterTable();
     else if (dJournal < 2.4) this.openJournal();
     else if (dBed < 2.4) this.rest();
   }
@@ -853,7 +912,9 @@ class Game {
       this.ui.setPrompt('');
       return;
     }
-    const blocked = this.overlay === 'journal' || this.overlay === 'whatsnew' || this.overlay === 'divine' || this.ui.dialogueNpc;
+    const blocked =
+      this.overlay === 'journal' || this.overlay === 'whatsnew' || this.overlay === 'divine' ||
+      this.overlay === 'laptop' || this.ui.dialogueNpc;
     if (blocked || !this.ui.els.whatsnew.hidden || !this.ui.els.journal.hidden) {
       this.ui.setPrompt('');
       return;
@@ -872,7 +933,11 @@ class Game {
       const dTable = Math.hypot(pos.x - this.cabin.tablePos.x, pos.z - this.cabin.tablePos.z);
       const dJournal = Math.hypot(pos.x - 2.35, pos.z - -3.52);
       const dBed = Math.hypot(pos.x - -3.15, pos.z - -2.1);
-      if (dTable < 2.35) this.ui.setPrompt('Look into the living world table');
+      const dLaptop = this.cabin.laptopPos
+        ? Math.hypot(pos.x - this.cabin.laptopPos.x, pos.z - this.cabin.laptopPos.z)
+        : Infinity;
+      if (dLaptop < 1.75) this.ui.setPrompt('Open the laptop and give an order');
+      else if (dTable < 2.35) this.ui.setPrompt('Look into the living world table');
       else if (dJournal < 2.4) this.ui.setPrompt('Read the journal of the world');
       else if (dBed < 2.4) this.ui.setPrompt('Sleep — let 30 days turn');
       else this.ui.setPrompt('');
