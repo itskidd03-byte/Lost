@@ -37,6 +37,7 @@ export class FirstPerson {
     this.keys = new Set();
     this.touch = { x: 0, y: 0 };
     this.bob = 0;
+    this.vel = new THREE.Vector2();
     this.smoothY = this.position.y;
     this.onInteract = null;
 
@@ -88,6 +89,7 @@ export class FirstPerson {
     this.yaw = lookYaw;
     this.pitch = 0;
     this.smoothY = 0;
+    this.vel.set(0, 0);
   }
 
   blockerBlocks(x, z, b) {
@@ -120,25 +122,37 @@ export class FirstPerson {
     const sprint = this.keys.has('ShiftLeft') || this.keys.has('ShiftRight');
     const speed = sprint ? this.runSpeed : this.speed;
 
-    if (forward || strafe) {
-      const sin = Math.sin(this.yaw);
-      const cos = Math.cos(this.yaw);
-      let dx = (-sin * forward + cos * strafe) * speed * dt;
-      let dz = (-cos * forward - sin * strafe) * speed * dt;
-      const len = Math.hypot(dx, dz);
-      if (len > 0) {
-        const maxStep = speed * dt;
-        if (len > maxStep) {
-          dx = (dx / len) * maxStep;
-          dz = (dz / len) * maxStep;
-        }
-      }
-      if (this.allowed(this.position.x + dx, this.position.z)) this.position.x += dx;
-      if (this.allowed(this.position.x, this.position.z + dz)) this.position.z += dz;
-      this.bob += dt * (sprint ? 11 : 7.5);
-    } else {
-      this.bob += dt * 1.6;
+    // Movement is taken straight from the way the eyes are pointing, and the
+    // velocity eases in and out so steps start and stop smoothly.
+    const sin = Math.sin(this.yaw);
+    const cos = Math.cos(this.yaw);
+    const wantX = (-sin * forward + cos * strafe) * speed;
+    const wantZ = (-cos * forward - sin * strafe) * speed;
+    const moving = forward !== 0 || strafe !== 0;
+    const ease = Math.min(1, dt * (moving ? 11 : 14));
+    this.vel.x += (wantX - this.vel.x) * ease;
+    this.vel.y += (wantZ - this.vel.y) * ease;
+    if (!moving && Math.hypot(this.vel.x, this.vel.y) < 0.02) {
+      this.vel.set(0, 0);
     }
+
+    let dx = this.vel.x * dt;
+    let dz = this.vel.y * dt;
+    const len = Math.hypot(dx, dz);
+    if (len > 0) {
+      const maxStep = (sprint ? this.runSpeed : this.speed) * 1.08 * dt;
+      if (len > maxStep) {
+        dx = (dx / len) * maxStep;
+        dz = (dz / len) * maxStep;
+      }
+    }
+    if (this.allowed(this.position.x + dx, this.position.z)) this.position.x += dx;
+    else this.vel.x = 0;
+    if (this.allowed(this.position.x, this.position.z + dz)) this.position.z += dz;
+    else this.vel.y = 0;
+
+    const pace = Math.hypot(this.vel.x, this.vel.y) / Math.max(0.001, this.speed);
+    this.bob += dt * (pace > 0.15 ? (sprint ? 11 : 7.5) * Math.min(1, pace) : 1.6);
 
     const groundY = this.groundHeight ? this.groundHeight(this.position.x, this.position.z) : 0;
     const targetY = groundY + this.eye;

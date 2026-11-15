@@ -352,6 +352,28 @@ body.touch-mode #toasts { top: 56px; }
   body.touch-mode.playing #rotate { display: flex; }
 }
 
+/* A phone in landscape is short: keep the middle of the screen clear. */
+@media (max-height: 500px) {
+  body.touch-mode #hud { padding: 6px 10px; gap: 6px; }
+  body.touch-mode .brand { font-size: 10px; letter-spacing: 0.24em; }
+  body.touch-mode .clock { font-size: 10px; }
+  body.touch-mode .hud-stats { gap: 8px; font-size: 10px; }
+  body.touch-mode .hud-btn { padding: 4px 7px; font-size: 9.5px; }
+  body.touch-mode .speed button { padding: 4px 6px; font-size: 9.5px; }
+  body.touch-mode #toasts {
+    top: 40px; left: auto; right: 10px; transform: none;
+    align-items: flex-end; max-width: 270px; gap: 4px;
+  }
+  body.touch-mode #toasts .toast { font-size: 10.5px; padding: 5px 9px; max-width: 270px; line-height: 1.35; }
+  body.touch-mode #toasts .toast:not(:last-child) { display: none; }
+  body.touch-mode #prompt {
+    top: 42px; left: 10px; bottom: auto; transform: none;
+    font-size: 10px; padding: 4px 8px; max-width: 40%; opacity: 0.7;
+  }
+  body.touch-mode #dialogue { bottom: 74px; }
+  body.touch-mode .panel { top: 44px; max-height: calc(100% - 96px); }
+}
+
 @media (max-width: 760px) {
   #hud { padding: 10px 12px; }
   .hud-right { gap: 5px; }
