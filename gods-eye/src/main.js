@@ -1,0 +1,826 @@
+import * as THREE from 'three';
+import './style.css';
+import {
+  createState, loadState, saveState, clearSave, advanceDays, awayDays, worldStats,
+  setSaveNamespace, hasSave, DAYS_PER_SECOND,
+} from './state.js';
+import { Cabin } from './render/cabin.js';
+import { Region } from './render/region.js';
+import { FirstPerson, MapOrbit, keyCode } from './controls.js';
+import { UI } from './ui.js';
+import { godAction, talk } from './life.js';
+import { isLand, tileAt } from './world.js';
+import { dateLabel } from './journal.js';
+import { TouchControls, isTouchDevice } from './mobile.js';
+
+const PROFILE_KEY = 'gods-eye-profile-v1';
+const TOUCH_KEY = 'gods-eye-touch';
+
+function readProfile() {
+  try {
+    return JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null');
+  } catch {
+    return null;
+  }
+}
+
+function cacheProfile(user) {
+  try {
+    if (!user) return;
+    localStorage.setItem(PROFILE_KEY, JSON.stringify({ sub: user.sub, name: user.name || '', email: user.email || '', picture: user.picture || '' }));
+  } catch {
+    /* ignore */
+  }
+}
+
+class Game {
+  constructor() {
+    this.stage = document.getElementById('stage');
+    this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMappingExposure = 1.06;
+    this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.stage.appendChild(this.renderer.domElement);
+
+    this.camera = new THREE.PerspectiveCamera(66, window.innerWidth / window.innerHeight, 0.04, 600);
+    this.camera.rotation.order = 'YXZ';
+
+    this.cabin = new Cabin();
+    this.fp = new FirstPerson(this.camera, this.renderer.domElement);
+    this.orbit = new MapOrbit(this.camera, this.renderer.domElement);
+    this.ui = new UI(this);
+    this.touchControls = new TouchControls(this);
+
+    this.state = null;
+    this.savedState = null;
+    this.mode = 'title';
+    this.scene = this.cabin.scene;
+    this.clock = new THREE.Clock();
+    this.elapsed = 0;
+    this.simAccumulator = 0;
+    this.mapTimer = 0;
+    this.uiTimer = 0;
+    this.saveTimer = 0;
+    this.region = null;
+    this.nearestNpc = null;
+    this.overlay = null;
+    this.auth = { status: 'checking', user: null };
+    this.away = 0;
+    this.resumeSpeed = 1;
+    this.cabinReturn = null;
+    this.hiddenAt = 0;
+    this.installEvent = null;
+    this.touchEnabled = false;
+
+    this.raycaster = new THREE.Raycaster();
+    this.pointer = new THREE.Vector2();
+
+    this.bindEvents();
+    this.registerServiceWorker();
+    this.boot().catch((err) => {
+      console.error('[gods-eye] boot failed', err);
+      setSaveNamespace('local');
+      this.loadSavedWorld();
+      this.ui.showTitle(this.titleInfo());
+    });
+    this.loop = this.loop.bind(this);
+    requestAnimationFrame(this.loop);
+  }
+
+  /* -------------------------------- auth --------------------------------- */
+
+  async resolveSession() {
+    try {
+      const res = await fetch('/auth/freebuff/session', {
+        headers: { accept: 'application/json' },
+        cache: 'no-store',
+        credentials: 'same-origin',
+      });
+      const type = res.headers.get('content-type') || '';
+      if (type.includes('application/json')) {
+        const data = await res.json().catch(() => ({}));
+        return { status: data.user ? 'in' : 'out', user: data.user || null };
+      }
+      // no auth mounted (plain dev server or static copy)
+      return { status: 'local', user: null };
+    } catch {
+      // offline: keep playing with the world cached for this profile
+      const cached = readProfile();
+      return { status: 'offline', user: cached || null };
+    }
+  }
+
+  async boot() {
+    this.ui.showTitleLoading();
+    const session = await this.resolveSession();
+    this.auth = session;
+
+    if (session.user) {
+      setSaveNamespace(session.user.sub);
+      cacheProfile(session.user);
+    } else if (session.status === 'offline') {
+      const cached = readProfile();
+      setSaveNamespace(cached?.sub || 'local');
+    } else if (session.status === 'local') {
+      setSaveNamespace('local');
+    } else {
+      this.ui.showAuthGate();
+      return;
+    }
+
+    this.loadSavedWorld();
+    this.touchEnabled = localStorage.getItem(TOUCH_KEY) === '1' || (localStorage.getItem(TOUCH_KEY) === null && isTouchDevice());
+    this.touchControls.setEnabled(this.touchEnabled);
+    this.ui.showTitle(this.titleInfo());
+  }
+
+  loadSavedWorld() {
+    const loaded = loadState();
+    if (!loaded) {
+      this.savedState = null;
+      return;
+    }
+    this.savedState = loaded;
+    if (loaded.started) {
+      const away = awayDays(loaded);
+      if (away > 0) {
+        this.away = away;
+        loaded.onEvent = null;
+        advanceDays(loaded, away, { quiet: true });
+      }
+      loaded.lastVisit = Date.now();
+    }
+  }
+
+  titleInfo() {
+    const state = this.savedState;
+    const user = this.auth.user || readProfile();
+    const signedIn = this.auth.status === 'in';
+    let summary = '';
+    if (state && state.started) {
+      const stats = worldStats(state);
+      summary = `${dateLabel(state.world.day)} — ${stats.population} inhabitant${stats.population === 1 ? '' : 's'}, ${stats.settlements} settlement${stats.settlements === 1 ? '' : 's'}, ${stats.nations} nation${stats.nations === 1 ? '' : 's'}. ${state.world.tiles.size} tiles.`;
+    }
+    const who = signedIn
+      ? user?.name || user?.email || 'Signed in with Freebuff'
+      : this.auth.status === 'offline'
+        ? 'Offline — this device’s world'
+        : this.auth.status === 'local'
+          ? 'Local development — no account gate'
+          : '';
+    return {
+      hasSave: !!summary,
+      summary,
+      account: who,
+      signedIn,
+      offline: this.auth.status === 'offline',
+    };
+  }
+
+  /* -------------------------------- title -------------------------------- */
+
+  attachState() {
+    this.state.onEvent = (event) => this.ui.toast(event, event.category === 'civilization' ? 'civ' : 'johan');
+    this.ui.setState(this.state);
+  }
+
+  newGame() {
+    if (hasSave() && !this.confirmReplace()) return;
+    clearSave();
+    if (this.region) {
+      this.region.dispose();
+      this.region = null;
+    }
+    this.state = createState();
+    this.state.started = true;
+    this.attachState();
+    this.ui.closeIntro();
+    this.ui.closeWhatsNew();
+    this.away = 0;
+    this.enterCabin(true);
+    if (!this.touchEnabled) this.fp.lock();
+    this.ui.toast({
+      category: 'johan',
+      day: 0,
+      title: 'Johan wakes. 25 tiles of black grass and a cabin on an island.',
+      important: true,
+    });
+    saveState(this.state);
+  }
+
+  confirmReplace() {
+    return window.confirm('Begin a new world? The world saved on this device will be replaced.');
+  }
+
+  continueGame() {
+    if (!this.savedState) {
+      this.newGame();
+      return;
+    }
+    this.state = this.savedState;
+    this.state.started = true;
+    this.attachState();
+    this.ui.closeIntro();
+    this.enterCabin(true);
+    if (!this.touchEnabled) this.fp.lock();
+    if (this.state.events.some((e) => e.day > this.state.lastSeenDay)) this.ui.openWhatsNew();
+    this.ui.toast({
+      category: 'johan',
+      day: this.state.world.day,
+      title: `Johan kept working for ${this.away > 0 ? `${this.away} days` : 'a while'}. ${worldStats(this.state).population} inhabitants now.`,
+      important: true,
+    });
+    saveState(this.state);
+  }
+
+  /* ------------------------------- lifecycle ------------------------------ */
+
+  registerServiceWorker() {
+    if (!('serviceWorker' in navigator) || location.protocol !== 'https:') return;
+    navigator.serviceWorker.register('./sw.js', { scope: './' }).catch((err) => {
+      console.warn('[gods-eye] service worker failed', err);
+    });
+  }
+
+  bindEvents() {
+    window.addEventListener('resize', () => this.onResize());
+    this.renderer.domElement.addEventListener('click', () => {
+      if (this.mode === 'cabin' || this.mode === 'world') {
+        if (this.ui.dialogueNpc || this.touchEnabled) return;
+        this.fp.lock();
+      }
+    });
+    this.renderer.domElement.addEventListener('pointerup', (e) => this.onCanvasPointerUp(e));
+
+    document.addEventListener('keydown', (e) => this.onKey(e));
+    document.addEventListener('pointerlockchange', () => {
+      if (this.mode === 'cabin' || this.mode === 'world') {
+        this.ui.setReticle(!!document.pointerLockElement);
+      }
+    });
+
+    window.addEventListener('beforeunload', () => this.persist());
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        this.hiddenAt = Date.now();
+        this.persist();
+      } else {
+        this.resumeFromAway();
+      }
+    });
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      this.installEvent = e;
+      this.ui.showInstall(true);
+    });
+    window.addEventListener('appinstalled', () => {
+      this.installEvent = null;
+      this.ui.showInstall(false);
+    });
+
+    setInterval(() => {
+      if (this.state) this.persist();
+    }, 25000);
+  }
+
+  resumeFromAway() {
+    if (!this.state || !this.state.started || !this.hiddenAt) return;
+    const elapsed = Date.now() - this.hiddenAt;
+    this.hiddenAt = 0;
+    if (elapsed < 120000) return;
+    const days = Math.min(600, Math.floor(elapsed / 60000) * 2);
+    if (days <= 0) return;
+    advanceDays(this.state, days, { quiet: true });
+    this.buildTable();
+    saveState(this.state);
+    this.ui.toast({
+      category: 'johan',
+      day: this.state.world.day,
+      title: `While you were away, ${days} days passed.`,
+      important: true,
+    });
+  }
+
+  async install() {
+    if (!this.installEvent) {
+      this.ui.toast({ category: 'johan', day: this.state?.world.day || 0, title: 'Use your browser menu → “Add to Home Screen” to install.' });
+      return;
+    }
+    this.installEvent.prompt();
+    try {
+      await this.installEvent.userChoice;
+    } catch {
+      /* ignore */
+    }
+    this.installEvent = null;
+    this.ui.showInstall(false);
+  }
+
+  toggleTouch() {
+    this.touchEnabled = !this.touchEnabled;
+    localStorage.setItem(TOUCH_KEY, this.touchEnabled ? '1' : '0');
+    this.touchControls.setEnabled(this.touchEnabled);
+    this.touchControls.setMode(this.mode);
+    this.ui.updateTouchButton(this.touchEnabled);
+    if (!this.touchEnabled && (this.mode === 'cabin' || this.mode === 'world')) this.fp.lock();
+  }
+
+  onResize() {
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  onKey(e) {
+    if (!this.state) return;
+    if (e.target && ['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
+    const key = keyCode(e);
+    if (key === 'Escape') {
+      if (this.ui.dialogueNpc) return this.closeDialogue();
+      if (!this.ui.els.whatsnew.hidden) return this.ui.closeWhatsNew();
+      if (!this.ui.els.journal.hidden) return this.closeJournal();
+      if (!this.ui.els.divine.hidden) return this.closeDivine();
+      if (this.mode === 'table') return this.exitTable();
+      return;
+    }
+    if (key === 'KeyE') return this.interact();
+    if (key === 'KeyJ') return this.toggleJournal();
+    if (key === 'KeyG') return this.toggleDivine();
+    if (key === 'KeyH') return this.ui.showIntro(true);
+    if (key === 'KeyR' && this.mode === 'world') return this.ascend();
+    if (key === 'Enter' && this.mode === 'table') return this.descend();
+    if (key === 'Space') {
+      e.preventDefault();
+      this.setSpeed(this.state.speed === 0 ? this.resumeSpeed : 0);
+      return;
+    }
+    if (key === 'Digit1') this.setSpeed(1);
+    if (key === 'Digit2') this.setSpeed(3);
+    if (key === 'Digit3') this.setSpeed(8);
+  }
+
+  setMode(mode) {
+    this.mode = mode;
+    this.touchControls.setMode(mode);
+  }
+
+  /* -------------------------------- cabin -------------------------------- */
+
+  enterCabin(reset = false) {
+    this.setMode('cabin');
+    this.scene = this.cabin.scene;
+    this.orbit.enabled = false;
+    this.orbit.dragging = false;
+    this.fp.enabled = true;
+    this.fp.bounds = { minX: -3.95, maxX: 3.95, minZ: -3.35, maxZ: 3.3 };
+    this.fp.blockers = this.cabin.blockers;
+    this.fp.walkable = null;
+    this.fp.groundHeight = null;
+    const spawn = reset || !this.cabinReturn ? this.cabin.spawn : this.cabinReturn;
+    this.fp.place(spawn.x, spawn.z, reset ? this.cabin.spawnYaw : spawn.yaw || this.cabin.spawnYaw);
+    this.camera.fov = 66;
+    this.camera.updateProjectionMatrix();
+    this.ui.setReticle(false);
+    this.ui.closeDivine();
+    this.ui.els.selection.hidden = true;
+    this.buildTable();
+    this.ui.setPrompt('');
+    this.overlay = null;
+    if (!this.touchEnabled) requestAnimationFrame(() => this.fp.lock());
+  }
+
+  buildTable() {
+    if (!this.state) return;
+    this.cabin.map.build(this.state);
+    this.mapTimer = 0;
+  }
+
+  /* -------------------------------- table -------------------------------- */
+
+  enterTable() {
+    if (this.mode === 'world') return;
+    this.cabinReturn = { x: this.fp.position.x, z: this.fp.position.z, yaw: this.fp.yaw };
+    this.setMode('table');
+    this.fp.enabled = false;
+    this.fp.unlock();
+    this.ui.setReticle(false);
+    this.camera.fov = 52;
+    this.camera.updateProjectionMatrix();
+    this.orbit.setTarget(this.cabin.focusTarget);
+    this.orbit.theta = -0.62;
+    this.orbit.phi = 0.9;
+    this.orbit.radius = 2.05;
+    this.orbit.enabled = true;
+    this.orbit.update();
+    this.buildTable();
+    this.ui.setPrompt('Drag to rotate · wheel or pinch to zoom · tap a tile · Enter walks it · Esc steps back');
+    this.overlay = 'table';
+    if (this.state.selected) {
+      const tile = tileAt(this.state.world, this.state.selected.x, this.state.selected.y);
+      if (tile) this.ui.openSelection(tile);
+    }
+  }
+
+  exitTable() {
+    this.orbit.enabled = false;
+    this.ui.els.selection.hidden = true;
+    this.enterCabin(false);
+  }
+
+  onCanvasPointerUp(e) {
+    if (this.mode !== 'table') return;
+    if (this.orbit.moved > 8) return;
+    const x = e.clientX ?? e.changedTouches?.[0]?.clientX;
+    const y = e.clientY ?? e.changedTouches?.[0]?.clientY;
+    if (x === undefined) return;
+    const rect = this.renderer.domElement.getBoundingClientRect();
+    this.pointer.x = ((x - rect.left) / rect.width) * 2 - 1;
+    this.pointer.y = -((y - rect.top) / rect.height) * 2 + 1;
+    this.raycaster.setFromCamera(this.pointer, this.camera);
+    const hits = this.raycaster.intersectObject(this.cabin.map.pickPlane, false);
+    if (!hits.length) return;
+    const local = this.cabin.map.group.worldToLocal(hits[0].point.clone());
+    const tile = this.cabin.map.tileFromLocal(local);
+    if (!tile) return;
+    this.select(tile);
+  }
+
+  select(tile) {
+    if (!tile || !this.state) return;
+    this.state.selected = { x: tile.x, y: tile.y };
+    this.cabin.map.applySelection(this.state.selected);
+    this.ui.openSelection(tile);
+  }
+
+  clearSelection() {
+    if (!this.state) return;
+    this.state.selected = null;
+    this.cabin.map.applySelection(null);
+    this.ui.els.selection.hidden = true;
+  }
+
+  descend() {
+    if (!this.state || !this.state.selected) {
+      this.ui.toast({ category: 'johan', day: this.state?.world.day || 0, title: 'Select a land tile on the table first.' });
+      return;
+    }
+    const tile = tileAt(this.state.world, this.state.selected.x, this.state.selected.y);
+    if (!tile || !isLand(tile) || tile.biome === 'island') {
+      this.ui.toast({ category: 'johan', day: this.state.world.day, title: 'There is no walkable ground there.' });
+      return;
+    }
+    this.transition(() => this.buildRegion(tile));
+  }
+
+  buildRegion(tile) {
+    if (this.region) {
+      this.region.dispose();
+      this.region = null;
+    }
+    this.region = new Region(this.state, tile);
+    this.scene = this.region.scene;
+    this.setMode('world');
+    this.orbit.enabled = false;
+    this.fp.enabled = true;
+    this.fp.bounds = this.region.tilesBounds();
+    this.fp.blockers = [];
+    this.fp.walkable = (x, z) => this.region.walkable(x, z);
+    this.fp.groundHeight = (x, z) => this.region.groundAt(x, z);
+    this.fp.place(this.region.spawn.x, this.region.spawn.z, 0);
+    this.camera.fov = 72;
+    this.camera.updateProjectionMatrix();
+    this.ui.els.selection.hidden = true;
+    this.ui.closeDivine();
+    this.ui.setPrompt('');
+    this.ui.setReticle(false);
+    this.overlay = null;
+    this.ui.toast({
+      category: 'johan',
+      day: this.state.world.day,
+      title: `Johan stands at ${tile.x},${tile.y} — ${tile.biome}.`,
+    });
+    if (!this.touchEnabled) requestAnimationFrame(() => this.fp.lock());
+  }
+
+  ascend() {
+    if (this.mode !== 'world') return;
+    this.transition(() => {
+      const leaving = this.region;
+      this.region = null;
+      this.enterCabin(false);
+      if (leaving) leaving.dispose();
+      this.ui.toast({ category: 'johan', day: this.state.world.day, title: 'Back in the cabin. The table is already different.' });
+    });
+  }
+
+  transition(fn) {
+    this.ui.fade(true);
+    setTimeout(() => {
+      fn();
+      this.ui.fade(false);
+    }, 300);
+  }
+
+  /* ------------------------------- overlays ------------------------------- */
+
+  toggleJournal() {
+    if (this.ui.els.journal.hidden) this.openJournal();
+    else this.closeJournal();
+  }
+
+  openJournal() {
+    this.ui.openJournal();
+    this.fp.enabled = false;
+    this.fp.unlock();
+    this.overlay = 'journal';
+  }
+
+  closeJournal() {
+    this.ui.closeJournal();
+    this.overlay = null;
+    if (this.mode === 'cabin' || this.mode === 'world') {
+      this.fp.enabled = true;
+      if (!this.touchEnabled) requestAnimationFrame(() => this.fp.lock());
+    }
+  }
+
+  toggleDivine() {
+    if (this.ui.els.divine.hidden) {
+      this.ui.openDivine();
+      this.overlay = 'divine';
+    } else {
+      this.closeDivine();
+    }
+  }
+
+  openDivine(tile) {
+    if (tile && this.state) {
+      this.state.selected = { x: tile.x, y: tile.y };
+      this.ui.updateDivineTarget();
+    }
+    this.ui.openDivine();
+  }
+
+  closeDivine() {
+    this.ui.closeDivine();
+    if (this.overlay === 'divine') this.overlay = null;
+  }
+
+  closePanel(name) {
+    if (name === 'selection') {
+      this.ui.els.selection.hidden = true;
+      if (this.state) this.state.selected = null;
+      this.cabin.map.applySelection(null);
+    } else if (name === 'divine') {
+      this.closeDivine();
+    } else if (name === 'journal') {
+      this.closeJournal();
+    } else if (name === 'whatsnew') {
+      this.ui.closeWhatsNew();
+    } else if (name === 'dialogue') {
+      this.closeDialogue();
+    }
+  }
+
+  closeDialogue() {
+    this.ui.closeDialogue();
+    if (this.mode === 'world') {
+      this.fp.enabled = true;
+      if (!this.touchEnabled) requestAnimationFrame(() => this.fp.lock());
+    }
+    this.touchControls.setMode(this.mode);
+  }
+
+  acknowledge() {
+    if (!this.state) return;
+    this.state.lastSeenDay = this.state.world.day;
+    this.ui.closeWhatsNew();
+    this.ui.closeJournal();
+    if (this.mode === 'table') this.buildTable();
+    saveState(this.state);
+    this.ui.toast({ category: 'johan', day: this.state.world.day, title: 'The record is acknowledged. Nothing is forgotten.' });
+  }
+
+  setSpeed(speed) {
+    if (!this.state) return;
+    if (speed > 0) this.resumeSpeed = speed;
+    this.state.speed = speed;
+    this.ui.update(this.state);
+  }
+
+  /* -------------------------------- touch -------------------------------- */
+
+  lookBy(dx, dy) {
+    if (this.mode !== 'cabin' && this.mode !== 'world') return;
+    this.fp.yaw -= dx * 0.0055;
+    this.fp.pitch = Math.max(-1.1, Math.min(1.1, this.fp.pitch - dy * 0.0055));
+  }
+
+  touchAction(kind) {
+    if (!this.state) return;
+    if (kind === 'interact') return this.interact();
+    if (kind === 'back') {
+      if (this.ui.dialogueNpc) return this.closeDialogue();
+      if (this.mode === 'table') return this.exitTable();
+      if (this.mode === 'world') return this.ascend();
+      return;
+    }
+    if (kind === 'journal') return this.toggleJournal();
+    if (kind === 'divine') return this.toggleDivine();
+    if (kind === 'walk') return this.descend();
+    if (kind === 'zoomin') {
+      this.orbit.zoomBy(-0.35);
+      this.orbit.update();
+      return;
+    }
+    if (kind === 'zoomout') {
+      this.orbit.zoomBy(0.35);
+      this.orbit.update();
+    }
+  }
+
+  /* ------------------------------ simulation ----------------------------- */
+
+  tick(dt) {
+    if (!this.state || !this.state.started) return;
+    const state = this.state;
+    const paused = state.speed === 0 || this.overlay === 'journal' || this.overlay === 'whatsnew' || this.mode === 'title';
+    if (!paused) {
+      this.simAccumulator += dt * DAYS_PER_SECOND * state.speed;
+      let steps = 0;
+      while (this.simAccumulator >= 1 && steps < 40) {
+        advanceDays(state, 1);
+        this.simAccumulator -= 1;
+        steps++;
+      }
+      if (this.simAccumulator > 30) this.simAccumulator = 0;
+    }
+    this.mapTimer += dt;
+    const interval = this.mode === 'table' ? 0.9 : 2.2;
+    if (this.mapTimer > interval && (this.mode === 'cabin' || this.mode === 'table')) {
+      this.buildTable();
+      if (this.state.selected && this.cabin.map) this.cabin.map.applySelection(this.state.selected);
+      if (this.state.selected && !this.ui.els.selection.hidden) this.ui.renderSelection();
+    }
+    this.uiTimer += dt;
+    if (this.uiTimer > 0.4) {
+      this.uiTimer = 0;
+      this.ui.update(state);
+    }
+    this.saveTimer += dt;
+    if (this.saveTimer > 20) {
+      this.saveTimer = 0;
+      saveState(state);
+    }
+    if (this.region && this.mode === 'world') {
+      this.nearestNpc = this.region.nearestNpc(this.fp.position, 3.4);
+    }
+  }
+
+  persist() {
+    if (this.state) saveState(this.state);
+  }
+
+  /* ------------------------------ interaction ----------------------------- */
+
+  interact() {
+    if (!this.state) return;
+    if (this.mode === 'table') return this.descend();
+    if (this.mode === 'world') {
+      if (this.ui.dialogueNpc) return;
+      const actor = this.region?.nearestNpc(this.fp.position, 3.4);
+      if (actor) {
+        this.fp.enabled = false;
+        this.fp.unlock();
+        this.ui.openDialogue(actor.npc);
+        this.touchControls.setMode('dialogue');
+      } else {
+        this.ui.toast({ category: 'johan', day: this.state.world.day, title: 'No inhabitant within reach.' });
+      }
+      return;
+    }
+    if (this.mode !== 'cabin') return;
+    const pos = this.fp.position;
+    const dTable = Math.hypot(pos.x - this.cabin.tablePos.x, pos.z - this.cabin.tablePos.z);
+    const dJournal = Math.hypot(pos.x - 2.35, pos.z - -3.52);
+    const dBed = Math.hypot(pos.x - -3.15, pos.z - -2.1);
+    if (dTable < 2.35) this.enterTable();
+    else if (dJournal < 2.4) this.openJournal();
+    else if (dBed < 2.4) this.rest();
+  }
+
+  rest() {
+    if (!this.state) return;
+    const before = worldStats(this.state);
+    advanceDays(this.state, 30, { quiet: true });
+    const after = worldStats(this.state);
+    this.buildTable();
+    saveState(this.state);
+    const born = after.population - before.population;
+    this.ui.toast({
+      category: 'johan',
+      day: this.state.world.day,
+      title: `Johan slept. 30 days passed. ${after.population} inhabitants now, ${born >= 0 ? '+' : ''}${born} since he lay down.`,
+    });
+  }
+
+  talkTo(topic) {
+    if (!this.state || !this.ui.dialogueNpc) return null;
+    return talk(this.state, this.ui.dialogueNpc, topic, Math.random);
+  }
+
+  /* --------------------------------- god --------------------------------- */
+
+  godAct(kind) {
+    if (!this.state) return;
+    let tile = null;
+    if (this.state.selected) tile = tileAt(this.state.world, this.state.selected.x, this.state.selected.y);
+    if (!tile && this.mode === 'world') tile = tileAt(this.state.world, this.region.center.x, this.region.center.y);
+    if (!tile) {
+      this.ui.toast({ category: 'johan', day: this.state.world.day, title: 'Aim first: select a tile on the table or stand in the world.' });
+      return;
+    }
+    const event = godAction(this.state, kind, tile, Math.random);
+    if (!event) {
+      this.ui.toast({ category: 'johan', day: this.state.world.day, title: 'Johan cannot do that here.' });
+      return;
+    }
+    this.ui.toast(event, event.type === 'disaster' ? 'war' : 'johan');
+    this.buildTable();
+    this.ui.renderSelection();
+    if (this.mode === 'world' && this.region) {
+      this.buildRegion(tileAt(this.state.world, this.region.center.x, this.region.center.y) || tile);
+    }
+    saveState(this.state);
+  }
+
+  /* --------------------------------- loop -------------------------------- */
+
+  updatePrompts() {
+    if (!this.state) return;
+    if (this.touchEnabled) {
+      this.ui.setPrompt('');
+      return;
+    }
+    const blocked = this.overlay === 'journal' || this.overlay === 'whatsnew' || this.overlay === 'divine' || this.ui.dialogueNpc;
+    if (blocked || !this.ui.els.whatsnew.hidden || !this.ui.els.journal.hidden) {
+      this.ui.setPrompt('');
+      return;
+    }
+    if (this.mode === 'table') {
+      this.ui.setPrompt('Drag to rotate · wheel to zoom · click a tile · Enter walks it · Esc steps back');
+      return;
+    }
+    if (this.mode === 'world') {
+      const actor = this.region?.nearestNpc(this.fp.position, 3.4);
+      this.ui.setPrompt(actor ? `Speak with ${actor.npc.name}` : 'R returns to the cabin');
+      return;
+    }
+    if (this.mode === 'cabin') {
+      const pos = this.fp.position;
+      const dTable = Math.hypot(pos.x - this.cabin.tablePos.x, pos.z - this.cabin.tablePos.z);
+      const dJournal = Math.hypot(pos.x - 2.35, pos.z - -3.52);
+      const dBed = Math.hypot(pos.x - -3.15, pos.z - -2.1);
+      if (dTable < 2.35) this.ui.setPrompt('Look into the living world table');
+      else if (dJournal < 2.4) this.ui.setPrompt('Read the journal of the world');
+      else if (dBed < 2.4) this.ui.setPrompt('Sleep — let 30 days turn');
+      else this.ui.setPrompt('');
+    }
+  }
+
+  loop() {
+    requestAnimationFrame(this.loop);
+    const dt = Math.min(0.05, this.clock.getDelta());
+    this.elapsed += dt;
+
+    this.tick(dt);
+
+    if (this.mode === 'table') {
+      this.orbit.update();
+      this.cabin.update(dt, this.elapsed);
+      this.scene = this.cabin.scene;
+    } else if (this.mode === 'cabin') {
+      this.fp.update(dt);
+      this.cabin.update(dt, this.elapsed);
+      this.scene = this.cabin.scene;
+    } else if (this.mode === 'world' && this.region) {
+      this.fp.update(dt);
+      this.region.update(dt, this.elapsed);
+      this.scene = this.region.scene;
+    }
+
+    this.updatePrompts();
+    this.ui.setReticle(
+      (this.mode === 'cabin' || this.mode === 'world') && !this.ui.dialogueNpc && !!document.pointerLockElement,
+    );
+
+    this.renderer.render(this.scene, this.camera);
+  }
+}
+
+const game = new Game();
+window.__godsEye = game;

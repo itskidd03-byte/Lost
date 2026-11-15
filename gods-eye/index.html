@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#07090b" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="God's Eye" />
+    <title>God's Eye — The Living World of Johan</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.png" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2307090b'/%3E%3Cpath d='M8 32c8-11 16-16 24-16s16 5 24 16c-8 11-16 16-24 16S16 43 8 32z' fill='none' stroke='%23c9a227' stroke-width='2.5'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23c9a227'/%3E%3C/svg%3E"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <div id="stage"></div>
+      <div id="vignette"></div>
+      <div id="reticle" hidden></div>
+
+      <div id="hud">
+        <div class="hud-left">
+          <div class="brand">GOD'S EYE</div>
+          <div class="clock" id="clock">Year 1 · Day 1</div>
+        </div>
+        <div class="hud-stats" id="stats">
+          <span><b id="stat-pop">0</b> inhabitants</span>
+          <span><b id="stat-tiles">25</b> tiles</span>
+          <span><b id="stat-nations">0</b> nations</span>
+          <span id="stat-wars" class="war-stat" hidden><b>0</b> at war</span>
+        </div>
+        <div class="hud-right">
+          <div class="speed" id="speed">
+            <button data-speed="0" title="Pause (Space)">❙❙</button>
+            <button data-speed="1" class="on">1×</button>
+            <button data-speed="3">3×</button>
+            <button data-speed="8">8×</button>
+          </div>
+          <button class="hud-btn" id="btn-journal" title="Journal (J)">Journal</button>
+          <button class="hud-btn" id="btn-divine" title="God's Eye (G)">God's Eye</button>
+          <button class="hud-btn ghost" id="btn-help" title="Controls (H)">?</button>
+        </div>
+      </div>
+
+      <div id="prompt" hidden><span class="key">E</span><span id="prompt-text"></span></div>
+
+      <aside id="selection" class="panel" hidden>
+        <header>
+          <div>
+            <h3 id="sel-title">Unnamed Reach</h3>
+            <p id="sel-sub">Co-ordinates</p>
+          </div>
+          <button class="x" data-close="selection">×</button>
+        </header>
+        <div id="sel-body"></div>
+        <div class="panel-actions" id="sel-actions"></div>
+      </aside>
+
+      <aside id="divine" class="panel wide" hidden>
+        <header>
+          <div>
+            <h3>God's Eye</h3>
+            <p>Unlimited power. Unlimited money. No ownership.</p>
+          </div>
+          <button class="x" data-close="divine">×</button>
+        </header>
+        <div class="divine-hint" id="divine-target">Select a tile on the world table to aim an act.</div>
+        <div id="divine-body"></div>
+        <footer class="panel-foot">Johan can never buy land, buildings or businesses. Donations only.</footer>
+      </aside>
+
+      <section id="journal" class="overlay" hidden>
+        <div class="book">
+          <header class="book-head">
+            <div>
+              <p class="eyebrow">The wall journal</p>
+              <h2>Record of the World</h2>
+            </div>
+            <button class="x" data-close="journal">×</button>
+          </header>
+          <div class="book-tabs">
+            <button data-tab="all" class="on">All</button>
+            <button data-tab="johan">Johan's Works</button>
+            <button data-tab="civilization">Civilization</button>
+            <span class="spacer"></span>
+            <button class="ghost" id="btn-ack">Acknowledge new</button>
+          </div>
+          <div class="book-body" id="journal-body"></div>
+        </div>
+      </section>
+
+      <section id="whatsnew" class="overlay" hidden>
+        <div class="book narrow">
+          <header class="book-head">
+            <div>
+              <p class="eyebrow">While Johan kept working</p>
+              <h2>Since you last looked</h2>
+            </div>
+            <button class="x" data-close="whatsnew">×</button>
+          </header>
+          <div class="book-body" id="whatsnew-body"></div>
+          <footer class="book-foot">
+            <button class="primary" id="btn-ack2">Acknowledge and close</button>
+          </footer>
+        </div>
+      </section>
+
+      <section id="dialogue" hidden>
+        <div class="dlg">
+          <header>
+            <div>
+              <h3 id="dlg-name">Inhabitant</h3>
+              <p id="dlg-meta"></p>
+            </div>
+            <button class="x" data-close="dialogue">×</button>
+          </header>
+          <div id="dlg-text" class="dlg-text"></div>
+          <div id="dlg-topics" class="dlg-topics"></div>
+          <footer class="dlg-foot"><span id="dlg-opinion"></span><span class="esc">Esc to step away</span></footer>
+        </div>
+      </section>
+
+      <div id="toasts"></div>
+      <div id="fade"></div>
+
+      <div id="touch" hidden>
+        <div id="stick" aria-hidden="true"><div id="stick-knob"></div></div>
+        <div id="touch-actions">
+          <button class="tbtn" data-touch="interact" id="touch-interact">E</button>
+          <button class="tbtn small" data-touch="journal">Journal</button>
+          <button class="tbtn small" data-touch="divine">God's Eye</button>
+          <button class="tbtn small" data-touch="back">Back</button>
+        </div>
+        <div id="touch-table" hidden>
+          <button class="tbtn" data-touch="zoomout">−</button>
+          <button class="tbtn" data-touch="zoomin">+</button>
+          <button class="tbtn wide" data-touch="walk">Walk this ground</button>
+        </div>
+      </div>
+
+      <section id="auth" class="overlay" hidden>
+        <div class="intro-card narrow">
+          <p class="eyebrow">Project Johan</p>
+          <h1 class="auth-title">Sign in</h1>
+          <p class="lede">
+            God's Eye keeps your world on this device. Sign in with Freebuff so the world belongs to you,
+            and stays yours when you come back.
+          </p>
+          <a class="btn primary big" id="auth-link" href="/auth/freebuff/signin?returnTo=/">Sign in with Freebuff</a>
+          <p class="fine">A Freebuff account, through Google, GitHub or Apple. No password is shared with this world.</p>
+        </div>
+      </section>
+
+      <section id="intro" class="overlay">
+        <div class="intro-card">
+          <p class="eyebrow">Project Johan</p>
+          <h1>GOD'S EYE</h1>
+          <p class="lede">
+            One immortal mind builds an infinite world, and you wear his body. The table in his cabin is not a
+            map — it is the world itself, and every change to it becomes real, walkable ground.
+          </p>
+
+          <div id="title-save" class="save-card" hidden>
+            <p class="eyebrow">A world already waits</p>
+            <p id="save-summary" class="save-summary"></p>
+            <button class="primary big" id="btn-continue">Continue that world</button>
+          </div>
+
+          <button class="primary big" id="btn-new">Begin a new world</button>
+          <p class="fine" id="title-note">Johan sleeps until a world is begun. After that he never stops.</p>
+
+          <div class="intro-grid">
+            <div>
+              <h4>In the cabin</h4>
+              <ul>
+                <li><b>WASD</b> walk · <b>Mouse</b> look</li>
+                <li><b>E</b> the table, the journal, the bed</li>
+                <li>On the table: drag to rotate, wheel to zoom, click a tile</li>
+                <li><b>Enter</b> or the button to descend into the land</li>
+              </ul>
+            </div>
+            <div>
+              <h4>In the world</h4>
+              <ul>
+                <li><b>WASD</b> walk · <b>Shift</b> run</li>
+                <li><b>E</b> speak to an inhabitant</li>
+                <li><b>R</b> return to the cabin</li>
+                <li><b>J</b> journal · <b>G</b> God's Eye · <b>Space</b> pause</li>
+              </ul>
+            </div>
+          </div>
+
+          <p class="fine">Johan's mind keeps working while you walk. The world keeps growing while you are gone.</p>
+
+          <div class="title-foot">
+            <span id="account" class="account"></span>
+            <form method="post" action="/auth/freebuff/signout" id="signout-form" hidden>
+              <button class="ghost" type="submit">Sign out</button>
+            </form>
+            <button class="ghost" id="btn-install" hidden>Install app</button>
+            <button class="ghost" id="btn-touch">Touch controls: off</button>
+          </div>
+        </div>
+      </section>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
