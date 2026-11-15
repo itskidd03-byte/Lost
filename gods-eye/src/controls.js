@@ -27,8 +27,8 @@ export class FirstPerson {
     this.pitch = 0;
     this.position = new THREE.Vector3(0, 1.66, 2.6);
     this.eye = 1.66;
-    this.speed = 3.05;
-    this.runSpeed = 5.0;
+    this.speed = 3.3;
+    this.runSpeed = 5.6;
     this.radius = 0.3;
     this.bounds = null;
     this.blockers = [];
@@ -38,6 +38,10 @@ export class FirstPerson {
     this.touch = { x: 0, y: 0 };
     this.bob = 0;
     this.vel = new THREE.Vector2();
+    this.renderYaw = 0;
+    this.renderPitch = 0;
+    // Touch look is smoother when the camera eases toward the aim point.
+    this.smoothLook = false;
     this.smoothY = this.position.y;
     this.onInteract = null;
 
@@ -90,6 +94,8 @@ export class FirstPerson {
     this.pitch = 0;
     this.smoothY = 0;
     this.vel.set(0, 0);
+    this.renderYaw = this.yaw;
+    this.renderPitch = this.pitch;
   }
 
   blockerBlocks(x, z, b) {
@@ -122,14 +128,25 @@ export class FirstPerson {
     const sprint = this.keys.has('ShiftLeft') || this.keys.has('ShiftRight');
     const speed = sprint ? this.runSpeed : this.speed;
 
-    // Movement is taken straight from the way the eyes are pointing, and the
-    // velocity eases in and out so steps start and stop smoothly.
-    const sin = Math.sin(this.yaw);
-    const cos = Math.cos(this.yaw);
+    // The camera eases toward the aim on touch, and movement follows the way
+    // the eyes actually point, so a step always goes where you look.
+    if (this.smoothLook) {
+      const t = Math.min(1, dt * 20);
+      let dy = this.yaw - this.renderYaw;
+      dy = (((dy + Math.PI) % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2) - Math.PI;
+      this.renderYaw += dy * t;
+      this.renderPitch += (this.pitch - this.renderPitch) * t;
+    } else {
+      this.renderYaw = this.yaw;
+      this.renderPitch = this.pitch;
+    }
+
+    const sin = Math.sin(this.renderYaw);
+    const cos = Math.cos(this.renderYaw);
     const wantX = (-sin * forward + cos * strafe) * speed;
     const wantZ = (-cos * forward - sin * strafe) * speed;
     const moving = forward !== 0 || strafe !== 0;
-    const ease = Math.min(1, dt * (moving ? 11 : 14));
+    const ease = Math.min(1, dt * (moving ? 14 : 18));
     this.vel.x += (wantX - this.vel.x) * ease;
     this.vel.y += (wantZ - this.vel.y) * ease;
     if (!moving && Math.hypot(this.vel.x, this.vel.y) < 0.02) {
@@ -157,9 +174,9 @@ export class FirstPerson {
     const groundY = this.groundHeight ? this.groundHeight(this.position.x, this.position.z) : 0;
     const targetY = groundY + this.eye;
     this.smoothY += (targetY - this.smoothY) * Math.min(1, dt * 9);
-    const bobY = Math.sin(this.bob) * 0.022;
+    const bobY = Math.sin(this.bob) * 0.013;
     this.camera.position.set(this.position.x, this.smoothY + bobY, this.position.z);
-    this.camera.rotation.set(this.pitch, this.yaw, 0, 'YXZ');
+    this.camera.rotation.set(this.renderPitch, this.renderYaw, 0, 'YXZ');
   }
 
   dispose() {

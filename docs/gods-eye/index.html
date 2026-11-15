@@ -18,8 +18,8 @@
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2307090b'/%3E%3Cpath d='M8 32c8-11 16-16 24-16s16 5 24 16c-8 11-16 16-24 16S16 43 8 32z' fill='none' stroke='%23c9a227' stroke-width='2.5'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23c9a227'/%3E%3C/svg%3E"
     />
-    <script type="module" crossorigin src="./assets/index-CAuFIk1V.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-BjEXHQju.css">
+    <script type="module" crossorigin src="./assets/index-BsWedxez.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-DPUG7phS.css">
   </head>
   <body>
     <div id="app">
@@ -158,13 +158,18 @@
       <section id="auth" class="overlay" hidden>
         <div class="intro-card narrow">
           <p class="eyebrow">Project Johan</p>
-          <h1 class="auth-title">Sign in</h1>
-          <p class="lede">
-            God's Eye keeps your world on this device. Sign in with Freebuff so the world belongs to you,
-            and stays yours when you come back.
-          </p>
-          <a class="btn primary big" id="auth-link" href="/auth/freebuff/signin?returnTo=/">Sign in with Freebuff</a>
-          <p class="fine">A Freebuff account, through Google, GitHub or Apple. No password is shared with this world.</p>
+          <h1 class="auth-title" id="auth-title">Sign in</h1>
+          <p class="lede" id="auth-lede">Your world is kept on this device. Sign in so it carries your name and is
+            still yours when you come back.</p>
+          <form id="auth-form" class="auth-form">
+            <input id="auth-email" type="email" name="email" placeholder="Email" autocomplete="email" required>
+            <input id="auth-password" type="password" name="password" placeholder="Password" autocomplete="current-password" minlength="6" required>
+            <button class="btn primary big" id="auth-submit" type="submit">Sign in</button>
+          </form>
+          <p class="auth-message" id="auth-message" role="status"></p>
+          <button class="ghost" id="auth-switch" type="button">New here? Create an account</button>
+          <button class="ghost" id="auth-skip" type="button">Play on this device only</button>
+          <p class="fine">The world never leaves this device. The account only decides whose it is.</p>
         </div>
       </section>
 
@@ -211,9 +216,7 @@
 
           <div class="title-foot">
             <span id="account" class="account"></span>
-            <form method="post" action="/auth/freebuff/signout" id="signout-form" hidden>
-              <button class="ghost" type="submit">Sign out</button>
-            </form>
+            <button class="ghost" id="btn-signout" hidden>Sign out</button>
             <button class="ghost" id="btn-install" hidden>Install app</button>
             <button class="ghost" id="btn-touch">Touch controls: off</button>
           </div>

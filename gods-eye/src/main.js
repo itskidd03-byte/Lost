@@ -12,6 +12,7 @@ import { godAction, talk } from './life.js';
 import { isLand, tileAt } from './world.js';
 import { dateLabel } from './journal.js';
 import { TouchControls, isTouchDevice } from './mobile.js';
+import * as account from './account.js';
 
 const PROFILE_KEY = 'gods-eye-profile-v1';
 const TOUCH_KEY = 'gods-eye-touch';
@@ -104,7 +105,23 @@ class Game {
         const data = await res.json().catch(() => ({}));
         return { status: data.user ? 'in' : 'out', user: data.user || null };
       }
-      // no auth mounted (plain dev server or static copy)
+      // No auth server here (the site is static). If an account provider is
+      // configured, the browser talks to it directly instead.
+      if (account.authConfigured()) {
+        const stored = account.readSession();
+        if (stored?.user?.sub) {
+          if (stored.expires_at && stored.expires_at < Date.now() + 30000) {
+            try {
+              const fresh = await account.refresh(stored);
+              if (fresh?.user) return { status: 'in', user: fresh.user };
+            } catch {
+              /* keep the stored session and let the player try again later */
+            }
+          }
+          return { status: 'in', user: stored.user };
+        }
+        return { status: 'out', user: null };
+      }
       return { status: 'local', user: null };
     } catch {
       // offline: keep playing with the world cached for this profile
@@ -115,7 +132,10 @@ class Game {
 
   async boot() {
     this.ui.showTitleLoading();
-    const session = await this.resolveSession();
+    await this.beginSession(await this.resolveSession());
+  }
+
+  async beginSession(session) {
     this.auth = session;
 
     if (session.user) {
@@ -135,6 +155,31 @@ class Game {
     this.touchEnabled = localStorage.getItem(TOUCH_KEY) === '1' || (localStorage.getItem(TOUCH_KEY) === null && isTouchDevice());
     this.touchControls.setEnabled(this.touchEnabled);
     this.ui.showTitle(this.titleInfo());
+  }
+
+  async signIn(email, password, create = false) {
+    this.ui.authBusy(true, create ? 'Creating…' : 'Signing in…');
+    try {
+      const session = create ? await account.signUp(email, password) : await account.signIn(email, password);
+      this.ui.authMessage('');
+      await this.beginSession({ status: 'in', user: session.user });
+    } catch (err) {
+      this.ui.authMessage(err?.message || 'Could not sign in.');
+    } finally {
+      this.ui.authBusy(false);
+    }
+  }
+
+  async playLocally() {
+    this.ui.authMessage('');
+    await this.beginSession({ status: 'local', user: null });
+  }
+
+  async signOut() {
+    await account.signOut();
+    setSaveNamespace('local');
+    this.persist();
+    window.location.reload();
   }
 
   loadSavedWorld() {

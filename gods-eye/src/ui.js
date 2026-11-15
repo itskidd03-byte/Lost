@@ -59,6 +59,7 @@ export class UI {
     this.lastSelectionRender = 0;
     this.dialogueNpc = null;
     this.introHelp = false;
+    this.authMode = 'signin';
     this.els = {
       clock: $('#clock'),
       statPop: $('#stat-pop'),
@@ -108,6 +109,22 @@ export class UI {
     $('#btn-help')?.addEventListener('click', () => this.showIntro(true));
     $('#btn-ack')?.addEventListener('click', () => this.game.acknowledge());
     $('#btn-ack2')?.addEventListener('click', () => this.game.acknowledge());
+
+    $('#auth-form')?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = $('#auth-email')?.value.trim() || '';
+      const password = $('#auth-password')?.value || '';
+      if (!email || password.length < 6) {
+        this.authMessage('Enter an email and a password of at least six characters.');
+        return;
+      }
+      this.game.signIn(email, password, this.authMode === 'signup');
+    });
+    $('#auth-switch')?.addEventListener('click', () =>
+      this.setAuthMode(this.authMode === 'signup' ? 'signin' : 'signup'),
+    );
+    $('#auth-skip')?.addEventListener('click', () => this.game.playLocally());
+    $('#btn-signout')?.addEventListener('click', () => this.game.signOut());
 
     document.querySelectorAll('[data-close]').forEach((btn) => {
       btn.addEventListener('click', () => this.game.closePanel(btn.dataset.close));
@@ -159,7 +176,7 @@ export class UI {
     if (save) save.hidden = help ? true : !this.game.savedState;
     const account = $('#account');
     if (account) account.hidden = !!help;
-    const signout = $('#signout-form');
+    const signout = $('#btn-signout');
     if (signout) signout.hidden = !!help || this.game.auth.status !== 'in';
   }
 
@@ -181,15 +198,54 @@ export class UI {
     if (save) save.hidden = true;
     const account = $('#account');
     if (account) account.textContent = '';
-    const signout = $('#signout-form');
+    const signout = $('#btn-signout');
     if (signout) signout.hidden = true;
   }
 
   showAuthGate() {
     this.els.intro.hidden = true;
     this.els.auth.hidden = false;
-    const link = $('#auth-link');
-    if (link) link.href = '/auth/freebuff/signin?returnTo=/';
+    this.setAuthMode('signin');
+  }
+
+  setAuthMode(mode) {
+    this.authMode = mode === 'signup' ? 'signup' : 'signin';
+    const signup = this.authMode === 'signup';
+    const title = $('#auth-title');
+    if (title) title.textContent = signup ? 'Create an account' : 'Sign in';
+    const lede = $('#auth-lede');
+    if (lede) {
+      lede.textContent = signup
+        ? 'An email and a password. The account names this world and keeps it yours.'
+        : 'Your world is kept on this device. Sign in so it carries your name and is still yours when you come back.';
+    }
+    const submit = $('#auth-submit');
+    if (submit) submit.textContent = signup ? 'Create account' : 'Sign in';
+    const swap = $('#auth-switch');
+    if (swap) swap.textContent = signup ? 'Already have an account? Sign in' : 'New here? Create an account';
+    const password = $('#auth-password');
+    if (password) password.autocomplete = signup ? 'new-password' : 'current-password';
+    this.authMessage('');
+  }
+
+  authMessage(text) {
+    const el = $('#auth-message');
+    if (!el) return;
+    el.textContent = text || '';
+    el.classList.toggle('on', !!text);
+  }
+
+  authBusy(on, label) {
+    const submit = $('#auth-submit');
+    if (!submit) return;
+    if (on) {
+      submit.dataset.label = submit.dataset.label || submit.textContent;
+      submit.textContent = label || 'Working…';
+      submit.disabled = true;
+    } else {
+      submit.textContent = submit.dataset.label || (this.authMode === 'signup' ? 'Create account' : 'Sign in');
+      submit.disabled = false;
+    }
   }
 
   showTitle(info = {}) {
@@ -217,7 +273,7 @@ export class UI {
           : escapeHtml(info.account)
         : '';
     }
-    const signout = $('#signout-form');
+    const signout = $('#btn-signout');
     if (signout) signout.hidden = !info.signedIn;
     const note = $('#title-note');
     if (note) {
