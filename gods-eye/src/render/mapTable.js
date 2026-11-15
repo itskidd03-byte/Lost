@@ -33,6 +33,20 @@ export class MapTable {
     this.hovered = null;
     this.tilePick = [];
 
+    // Johan himself, working the table. He walks to ground that has just
+    // changed and raises it while you watch.
+    this.worker = this.buildWorker();
+    this.group.add(this.worker.root);
+    this.workerHeight = 0.14;
+    this.workerJob = null;
+    this.workerTimer = 0;
+    this.jobs = [];
+    this.knownTiles = new Map();
+    this.growth = new Map();
+    this.meshByKey = new Map();
+    this.puffs = [];
+    this.puffGeometry = new THREE.RingGeometry(0.24, 0.4, 14);
+
     this.pickPlane = new THREE.Mesh(
       new THREE.PlaneGeometry(1, 1),
       new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }),
@@ -62,6 +76,64 @@ export class MapTable {
     this.group.add(this.frame);
   }
 
+  buildWorker() {
+    const root = new THREE.Group();
+    const robe = new THREE.MeshStandardMaterial({ color: 0x24251f, roughness: 0.85, emissive: 0x2b2516, emissiveIntensity: 0.6 });
+    const trim = new THREE.MeshStandardMaterial({ color: 0xe0bb55, roughness: 0.45, metalness: 0.3, emissive: 0xc9a227, emissiveIntensity: 0.55 });
+    const skin = new THREE.MeshStandardMaterial({ color: 0xefdcb4, roughness: 0.75, emissive: 0x6a5330, emissiveIntensity: 0.45 });
+
+    const cloak = new THREE.Mesh(new THREE.ConeGeometry(0.5, 1.15, 10), robe);
+    cloak.position.y = 0.58;
+    const shoulders = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.24, 0.3, 10), robe);
+    shoulders.position.y = 1.06;
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.23, 14, 12), skin);
+    head.position.y = 1.34;
+    const collar = new THREE.Mesh(new THREE.TorusGeometry(0.22, 0.028, 6, 16), trim);
+    collar.position.y = 1.17;
+    collar.rotation.x = Math.PI / 2;
+
+    const armPivot = new THREE.Group();
+    armPivot.position.set(0.3, 1.06, 0);
+    const arm = new THREE.Mesh(new THREE.BoxGeometry(0.11, 0.44, 0.11), robe);
+    arm.position.y = -0.2;
+    const handle = new THREE.Mesh(
+      new THREE.BoxGeometry(0.045, 0.3, 0.045),
+      new THREE.MeshStandardMaterial({ color: 0x7a5a34, roughness: 0.85 }),
+    );
+    handle.position.y = -0.46;
+    const hammerHead = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.1, 0.12), trim);
+    hammerHead.position.y = -0.62;
+    const hammer = new THREE.Group();
+    hammer.add(handle, hammerHead);
+    hammer.position.z = 0.05;
+    armPivot.add(arm, hammer);
+
+    const otherArm = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.42, 0.1), robe);
+    otherArm.position.set(-0.3, 0.86, 0);
+
+    root.add(cloak, shoulders, head, collar, armPivot, otherArm);
+    root.rotation.y = Math.PI * 0.15;
+    return { root, armPivot, head, cloak };
+  }
+
+  queueJob(tile, kind) {
+    const k = key(tile.x, tile.y);
+    const job = { x: tile.x, y: tile.y, kind };
+    if (kind === 'grow') {
+      if (!this.growth.has(k)) this.growth.set(k, 0);
+      // new ground comes first: an unbuilt tile is a hole in the world
+      if (this.jobs.length >= 8) {
+        this.growth.set(k, 1);
+        return;
+      }
+      this.jobs.unshift(job);
+      return;
+    }
+    // refinements are only worth a swing or two; a busy table drops the rest
+    if (this.jobs.length >= 2) return;
+    this.jobs.push(job);
+  }
+
   material(colorHex, opts = {}) {
     const cacheKey = `${colorHex}|${opts.emissive || 0}|${opts.water ? 'w' : 's'}`;
     if (this.materials.has(cacheKey)) return this.materials.get(cacheKey);
@@ -86,12 +158,22 @@ export class MapTable {
   }
 
   build(state) {
+    const sameWorld = this.state === state;
+    if (!sameWorld) {
+      // a different world: nothing on it has been seen yet
+      this.knownTiles.clear();
+      this.growth.clear();
+      this.jobs.length = 0;
+      this.workerJob = null;
+      this.workerTimer = 0;
+    }
     this.state = state;
     this.clearGroup(this.tileGroup);
     this.clearGroup(this.markGroup);
     this.warMarks = [];
     this.markerData = [];
     this.tilePick = [];
+    this.meshByKey.clear();
 
     const b = bounds(state.world);
     this.cols = b.cols;
@@ -114,6 +196,17 @@ export class MapTable {
 
     const lastSeen = state.lastSeenDay ?? 0;
     const changed = [];
+    const firstBuild = this.knownTiles.size === 0;
+    this.workerHeight = Math.max(0.07, Math.min(0.15, this.scale * 1.1));
+    this.worker.root.scale.setScalar(this.workerHeight / 1.55);
+    if (!sameWorld) {
+      const cradle = state.cradle;
+      const startTile = cradle ? state.world.tiles.get(key(cradle.x, cradle.y)) : null;
+      const sx = startTile ? (startTile.x - this.centerX) * this.scale : 0;
+      const sz = startTile ? (startTile.y - this.centerY) * this.scale : 0;
+      const sy = startTile ? Math.max(0.006, this.heightOf(startTile)) : 0.02;
+      this.worker.root.position.set(sx, sy, sz);
+    }
 
     for (const tile of state.world.tiles.values()) {
       const t = isLand(tile);
@@ -126,6 +219,29 @@ export class MapTable {
       this.tilePick.push({ tile, mesh });
 
       const top = Math.max(0.006, h);
+
+      // Remember every tile so that new or changed ground can be built in
+      // front of the player instead of silently appearing.
+      const tileKey = key(tile.x, tile.y);
+      this.meshByKey.set(tileKey, { mesh, top });
+      if (firstBuild) {
+        this.knownTiles.set(tileKey, tile.changedDay);
+      } else {
+        const seenDay = this.knownTiles.get(tileKey);
+        if (seenDay === undefined) {
+          this.knownTiles.set(tileKey, tile.changedDay);
+          this.queueJob(tile, 'grow');
+        } else if (tile.changedDay > seenDay) {
+          this.knownTiles.set(tileKey, tile.changedDay);
+          this.queueJob(tile, 'shape');
+        }
+      }
+      const growth = this.growth.get(tileKey);
+      if (growth !== undefined && growth < 1) {
+        const raised = Math.max(0.0004, top * growth);
+        mesh.scale.y = raised;
+        mesh.position.y = raised / 2;
+      }
 
       // forests and settlements
       const def = BIOMES[tile.biome] || BIOMES.blackgrass;
@@ -238,6 +354,16 @@ export class MapTable {
         this.warMarks.push({ mesh: ring, kind: 'new', tile, base: 0.38 });
       });
 
+    // Nothing should stay half-built forever: ground whose job was dropped or
+    // lost finishes itself.
+    for (const [k, growth] of this.growth) {
+      if (growth >= 1) continue;
+      const busy =
+        this.jobs.some((job) => key(job.x, job.y) === k) ||
+        (this.workerJob && key(this.workerJob.x, this.workerJob.y) === k);
+      if (!busy) this.growth.set(k, 1);
+    }
+
     this.applySelection(state.selected);
   }
 
@@ -280,7 +406,7 @@ export class MapTable {
     this.selectionBox.position.set(c.x, Math.max(0.02, h) * 0.85, c.z);
   }
 
-  update(elapsed) {
+  update(elapsed, dt = 0) {
     const pulse = 0.55 + Math.sin(elapsed * 3.4) * 0.3;
     for (const m of this.warMarks) {
       if (!m.mesh.material) continue;
@@ -290,6 +416,117 @@ export class MapTable {
     }
     if (this.selectionBox.visible) {
       this.selectionBox.material.opacity = 0.6 + Math.sin(elapsed * 4) * 0.3;
+    }
+    this.updateWorker(elapsed, dt);
+    this.updatePuffs(dt);
+  }
+
+  /* ------------------------------ Johan at work ----------------------------- */
+
+  updateWorker(elapsed, dt) {
+    const w = this.worker;
+    const step = Math.min(dt, 0.06);
+
+    if (!this.workerJob) {
+      while (this.jobs.length) {
+        const job = this.jobs.shift();
+        const tile = this.state?.world.tiles.get(key(job.x, job.y));
+        if (!tile) continue;
+        this.workerJob = { ...job, tile };
+        this.workerTimer = 0;
+        break;
+      }
+    }
+
+    const job = this.workerJob;
+    if (!job) {
+      // idle: he stands over the work and looks across it, hammer resting
+      w.armPivot.rotation.x *= Math.max(0, 1 - step * 5);
+      w.head.position.y = 1.34 + Math.sin(elapsed * 1.7) * 0.012;
+      w.head.rotation.y = Math.sin(elapsed * 0.55) * 0.4;
+      return;
+    }
+
+    const tx = (job.tile.x - this.centerX) * this.scale;
+    const tz = (job.tile.y - this.centerY) * this.scale;
+    const ty = Math.max(0.006, this.heightOf(job.tile));
+    const dx = tx - w.root.position.x;
+    const dz = tz - w.root.position.z;
+    const dist = Math.hypot(dx, dz);
+    const walkSpeed = Math.max(0.16, this.scale * 3.6);
+
+    if (dist > 0.012) {
+      const move = Math.min(dist, walkSpeed * step);
+      w.root.position.x += (dx / dist) * move;
+      w.root.position.z += (dz / dist) * move;
+      w.root.position.y = ty + Math.abs(Math.sin(elapsed * 12)) * this.scale * 0.22;
+      const heading = Math.atan2(dx, dz);
+      const turn = ((heading - w.root.rotation.y + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
+      w.root.rotation.y += turn * Math.min(1, step * 9);
+      w.armPivot.rotation.x = Math.sin(elapsed * 12) * 0.4;
+      this.workerTimer = 0;
+      return;
+    }
+
+    // at the tile: raise it out of the ground with the hammer
+    w.root.position.set(tx, ty, tz);
+    w.root.rotation.y += Math.sin(elapsed * 1.2) * step * 0.4;
+    this.workerTimer += step;
+    const swing = Math.sin(this.workerTimer * 24);
+    w.armPivot.rotation.x = -0.85 + swing * 0.95;
+    w.root.position.y = ty + Math.abs(swing) * this.scale * 0.18;
+    if (swing < -0.9) this.spawnPuff(tx, tz, ty);
+
+    if (job.kind === 'grow') {
+      const k = key(job.x, job.y);
+      const growth = Math.min(1, (this.growth.get(k) ?? 0) + step * 1.7);
+      this.growth.set(k, growth);
+      const entry = this.meshByKey.get(k);
+      if (entry) {
+        const raised = Math.max(0.0004, entry.top * growth);
+        entry.mesh.scale.y = raised;
+        entry.mesh.position.y = raised / 2;
+      }
+    }
+
+    if (this.workerTimer > 1.25) {
+      this.growth.set(key(job.x, job.y), 1);
+      this.workerJob = null;
+      this.workerTimer = 0;
+    }
+  }
+
+  spawnPuff(x, z, y) {
+    if (this.puffs.length > 7) return;
+    const mesh = new THREE.Mesh(
+      this.puffGeometry,
+      new THREE.MeshBasicMaterial({
+        color: 0xf0cf6a,
+        transparent: true,
+        opacity: 0.5,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+      }),
+    );
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.position.set(x, y + 0.004, z);
+    mesh.scale.setScalar(this.scale * 0.4);
+    this.group.add(mesh);
+    this.puffs.push({ mesh, life: 0 });
+  }
+
+  updatePuffs(dt) {
+    for (let i = this.puffs.length - 1; i >= 0; i--) {
+      const puff = this.puffs[i];
+      puff.life += dt * 2.4;
+      puff.mesh.scale.setScalar(this.scale * (0.4 + puff.life * 1.5));
+      puff.mesh.material.opacity = Math.max(0, 0.5 * (1 - puff.life));
+      if (puff.life >= 1) {
+        this.group.remove(puff.mesh);
+        puff.mesh.material.dispose();
+        this.puffs.splice(i, 1);
+      }
     }
   }
 }

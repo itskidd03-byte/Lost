@@ -417,6 +417,6 @@ export class Cabin {
       }
       pos.needsUpdate = true;
     }
-    this.map.update(elapsed);
+    this.map.update(elapsed, dt);
   }
 }
