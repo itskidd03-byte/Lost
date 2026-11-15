@@ -197,7 +197,10 @@ export class MapTable {
     const lastSeen = state.lastSeenDay ?? 0;
     const changed = [];
     const firstBuild = this.knownTiles.size === 0;
-    this.workerHeight = Math.max(0.07, Math.min(0.15, this.scale * 1.1));
+    // A phone in landscape has little height to spare, so the figure is drawn
+    // larger there or he would be a few pixels of noise on the board.
+    const shortScreen = typeof window !== 'undefined' && window.innerHeight < 620;
+    this.workerHeight = Math.max(0.07, Math.min(0.15, this.scale * 1.1)) * (shortScreen ? 1.75 : 1);
     this.worker.root.scale.setScalar(this.workerHeight / 1.55);
     if (!sameWorld) {
       const cradle = state.cradle;
