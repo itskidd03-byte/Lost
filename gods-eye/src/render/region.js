@@ -6,7 +6,7 @@ import { BIOMES, isLand, key, tileAt } from '../world.js';
 import { tree as detailTree, grassStrands, waterSurface, mountain, animal as detailAnimal } from './detail.js';
 
 const TS = 4;
-const RADIUS = 3;
+const RADIUS = 6;
 
 function hash(x, y) {
   let h = x * 374761393 + y * 668265263;
@@ -122,7 +122,8 @@ export class Region {
       const { tile, land, x, z } = info;
       const def = BIOMES[tile.biome] || BIOMES.blackgrass;
       if (!land) {
-        const water = waterSurface(TS * 0.96, TS * 0.96, def.world);
+        // slight overlap so neighbouring water tiles read as one sheet
+        const water = waterSurface(TS * 1.08, TS * 1.08, def.world);
         water.group.position.set(x, info.top + 0.02, z);
         this.scene.add(water.group);
         for (const ripple of water.ripples) this.waterRipples.push(ripple);
