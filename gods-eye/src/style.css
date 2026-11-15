@@ -337,7 +337,14 @@ body.touch-mode #toasts { top: 56px; }
   text-align: center; color: #efe3c8; font-family: var(--serif);
   background: radial-gradient(circle at 50% 38%, #121820 0%, #05070a 72%);
 }
-#rotate .rotate-icon { display: block; font-size: 44px; line-height: 1; color: #c9a227; margin-bottom: 16px; }
+#rotate .rotate-icon {
+  display: block; width: 64px; height: 40px; margin: 0 auto 18px;
+  border: 2px solid #c9a227; border-radius: 7px; position: relative;
+}
+#rotate .rotate-icon::after {
+  content: ''; position: absolute; left: 50%; bottom: -13px; transform: translateX(-50%);
+  width: 22px; height: 2px; background: rgba(239, 227, 200, 0.35);
+}
 #rotate p { margin: 0 0 8px; font-size: 19px; letter-spacing: 0.06em; }
 #rotate .fine { opacity: 0.6; font-size: 12px; }
 
