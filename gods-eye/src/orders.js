@@ -6,6 +6,7 @@ import { BIOMES, isLand, tileAt } from './world.js';
 import { godAction } from './life.js';
 import { advanceDays } from './state.js';
 import { addEvent } from './journal.js';
+import { crewSummary } from './sectors.js';
 
 const JOHAN_ACTS = [
   [/(new land|more land|raise land|grow land|expand)/, 'newland'],
@@ -86,6 +87,8 @@ function targetTile(state, hint) {
 
 export function parseOrder(text) {
   const raw = String(text || '').trim();
+  const crew = raw.match(/^(crew|sectors|who\s+works\s+where)\b/i);
+  if (crew) return { who: 'crew', instruction: '' };
   const match = raw.match(/^(johan|jolene)\b[\s:,.-]*(.*)$/i);
   if (!match) return null;
   return { who: match[1].toLowerCase(), instruction: match[2].trim() };
@@ -182,6 +185,9 @@ function joleneOrder(state, text, tile) {
 }
 
 export function runOrder(state, who, instruction, hint) {
+  if (who === 'crew') {
+    return { ok: false, category: 'johan', title: 'Sector crews', detail: crewSummary(state) };
+  }
   const text = String(instruction || '').toLowerCase().trim();
   if (!text) return { ok: false, category: who, title: 'Type what you want after the name.' };
   const tile = targetTile(state, hint);

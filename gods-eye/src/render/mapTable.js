@@ -62,6 +62,10 @@ export class MapTable {
     this.joleneGoal = null;
     this.joleneTimer = 0;
 
+    // Every 20×20 sector has its own dresser, so more than one of them stands
+    // over the board once the table has grown.
+    this.extraDressers = [];
+
     this.pickPlane = new THREE.Mesh(
       new THREE.PlaneGeometry(1, 1),
       new THREE.MeshBasicMaterial({ transparent: true, opacity: 0, depthWrite: false }),
@@ -169,10 +173,10 @@ export class MapTable {
     }
   }
 
-  buildJolene() {
+  buildJolene(clothColor = 0xcfc6e6) {
     const root = new THREE.Group();
     const cloth = new THREE.MeshStandardMaterial({
-      color: 0xcfc6e6,
+      color: clothColor,
       roughness: 0.55,
       emissive: 0x5f5680,
       emissiveIntensity: 0.55,
@@ -263,6 +267,23 @@ export class MapTable {
     this.ripples.length = 0;
     this.villagers.length = 0;
     this.animals.length = 0;
+
+    // Sector dressers are rebuilt with the board: one figure per sector.
+    for (const fig of this.extraDressers) this.group.remove(fig.root);
+    this.extraDressers = [];
+    const tints = [0xbfe0d8, 0xe0c8b4, 0xc8d4e8, 0xd8c8b0, 0xc8e0c0, 0xe0d0e8];
+    const sectors = (state.sectors || []).slice(1, 7);
+    sectors.forEach((sector, i) => {
+      const fig = this.buildJolene(tints[i % tints.length]);
+      this.group.add(fig.root);
+      this.extraDressers.push({
+        root: fig.root,
+        glow: fig.glow,
+        sector,
+        goal: null,
+        timer: i * 0.6,
+      });
+    });
 
     const b = bounds(state.world);
     this.cols = b.cols;
@@ -611,6 +632,7 @@ export class MapTable {
 
     this.updateWorker(elapsed, dt);
     this.updateJolene(elapsed, dt);
+    this.updateDressers(elapsed, dt);
     this.updatePuffs(dt);
   }
 
@@ -730,6 +752,67 @@ export class MapTable {
       if (this.joleneWork > 0.55) {
         this.joleneWork = 0;
         this.spawnPuff(this.joleneGoal.x, this.joleneGoal.z, this.joleneGoal.y, 0xd8cff0);
+      }
+    }
+  }
+
+  updateDressers(elapsed, dt) {
+    if (!this.state || !this.extraDressers.length) return;
+    const step = Math.min(dt, 0.06);
+    const figScale = Math.max(0.05, this.workerHeight * 0.9) / 1.55;
+
+    for (const d of this.extraDressers) {
+      const s = d.sector;
+      const cx = (s.sx * 20 + 10 - this.centerX) * this.scale;
+      const cz = (s.sy * 20 + 10 - this.centerY) * this.scale;
+      if (!d.placed) {
+        // Start her on ground that exists: a sector's geometric centre may be
+        // empty space if the world has only grown into one corner of it.
+        d.placed = true;
+        let homeX = cx;
+        let homeZ = cz;
+        let homeY = 0.02;
+        for (const tile of this.state.world.tiles.values()) {
+          if (Math.floor(tile.x / 20) !== s.sx || Math.floor(tile.y / 20) !== s.sy) continue;
+          homeX = (tile.x - this.centerX) * this.scale;
+          homeZ = (tile.y - this.centerY) * this.scale;
+          homeY = Math.max(0.006, this.heightOf(tile));
+          break;
+        }
+        d.root.position.set(homeX, homeY, homeZ);
+      }
+      d.root.scale.setScalar(figScale);
+      d.timer -= step;
+
+      if (!d.goal || d.timer <= 0) {
+        const tiles = [];
+        for (const tile of this.state.world.tiles.values()) {
+          if (Math.floor(tile.x / 20) === s.sx && Math.floor(tile.y / 20) === s.sy && isLand(tile)) tiles.push(tile);
+        }
+        if (!tiles.length) continue;
+        const tile = tiles[Math.floor(Math.random() * tiles.length)];
+        d.goal = {
+          x: (tile.x - this.centerX) * this.scale,
+          z: (tile.y - this.centerY) * this.scale,
+          y: Math.max(0.006, this.heightOf(tile)),
+        };
+        d.timer = 2.4 + Math.random() * 3;
+      }
+
+      const dx = d.goal.x - d.root.position.x;
+      const dz = d.goal.z - d.root.position.z;
+      const dist = Math.hypot(dx, dz);
+      if (dist > 0.01) {
+        const move = Math.min(dist, Math.max(0.1, this.scale * 2.2) * step);
+        d.root.position.x += (dx / dist) * move;
+        d.root.position.z += (dz / dist) * move;
+        d.root.position.y = d.goal.y + Math.abs(Math.sin(elapsed * 5)) * this.scale * 0.05;
+        d.root.rotation.y = Math.atan2(dx, dz);
+        d.glow.material.opacity = 0.1;
+      } else {
+        d.root.position.y = d.goal.y + Math.sin(elapsed * 1.6) * this.scale * 0.02;
+        d.root.rotation.y += step * 1.5;
+        d.glow.material.opacity = 0.09 + Math.abs(Math.sin(elapsed * 1.8)) * 0.09;
       }
     }
   }

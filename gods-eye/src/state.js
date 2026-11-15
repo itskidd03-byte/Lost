@@ -4,6 +4,7 @@ import { createWorld, BIOMES } from './world.js';
 import { addEvent, resetEventBudget } from './journal.js';
 import { createJohan, johanStep } from './johan.js';
 import { tickDay, population } from './life.js';
+import { stepSectors } from './sectors.js';
 
 const SAVE_BASE = 'gods-eye-save-v1';
 export const DAYS_PER_SECOND = 2;
@@ -53,6 +54,9 @@ export function createState() {
     speed: 1,
     selected: null,
     cradle: null,
+    jolene: { polished: 0, lastDay: 0, lastTile: null },
+    sectors: [],
+    crewBand: 0,
   };
   addEvent(state, {
     category: 'johan',
@@ -77,7 +81,8 @@ export function advanceDays(state, days, { quiet = false } = {}) {
   for (let i = 0; i < steps; i++) {
     tickDay(state, rand);
     if (state.world.day % 3 === 0) johanStep(state, rand);
-    if (state.world.day % 2 === 0) joleneStep(state, rand);
+    // The table is worked one 20×20 sector at a time, by the crew that owns it.
+    if (state.world.day % 3 === 0) stepSectors(state, rand);
     resetEventBudget(state);
   }
   state.onEvent = previousHook;
@@ -143,6 +148,8 @@ export function serialize(state) {
     },
     johan: state.johan,
     jolene: state.jolene || { polished: 0, lastDay: 0, lastTile: null },
+    sectors: state.sectors || [],
+    crewBand: state.crewBand || 0,
     started: !!state.started,
     npcs: state.npcs,
     settlements: state.settlements,
@@ -208,6 +215,8 @@ export function restoreState(raw) {
   state.world.protected = new Set(raw.world.protected ?? []);
   state.johan = raw.johan || createJohan();
   state.jolene = raw.jolene || { polished: 0, lastDay: 0, lastTile: null };
+  state.sectors = Array.isArray(raw.sectors) ? raw.sectors : [];
+  state.crewBand = raw.crewBand || 0;
   state.started = !!raw.started;
   state.npcs = raw.npcs || [];
   state.settlements = raw.settlements || [];
