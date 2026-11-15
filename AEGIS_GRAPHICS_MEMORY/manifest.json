@@ -1,0 +1,103 @@
+{
+  "bank": "AEGIS_GRAPHICS_MEMORY",
+  "version": "1.0.0",
+  "generated_at": "2026-11-15T20:31:39.104Z",
+  "started_at": "2026-11-15T20:06:21.803Z",
+  "partial": false,
+  "total_assets": 1800,
+  "total_required": 1800,
+  "categories_per_collection": [
+    {
+      "category": "characters",
+      "label": "Characters and NPCs",
+      "count": 75
+    },
+    {
+      "category": "architecture",
+      "label": "Buildings and architecture",
+      "count": 75
+    },
+    {
+      "category": "environments",
+      "label": "Environments and landscapes",
+      "count": 100
+    },
+    {
+      "category": "objects",
+      "label": "Objects and props",
+      "count": 75
+    },
+    {
+      "category": "textures",
+      "label": "Textures and materials",
+      "count": 75
+    },
+    {
+      "category": "ui",
+      "label": "UI elements and icons",
+      "count": 75
+    },
+    {
+      "category": "effects",
+      "label": "Effects and animations",
+      "count": 50
+    },
+    {
+      "category": "concepts",
+      "label": "Concept art and references",
+      "count": 75
+    }
+  ],
+  "collections": [
+    {
+      "collection": "DARK_FUTURISTIC_INDUSTRIAL",
+      "display_name": "Dark Futuristic / Industrial",
+      "style": "dark_futuristic_industrial",
+      "id_prefix": "DFI",
+      "id_range": "DFI-0001 - DFI-0600",
+      "total": 600,
+      "path": "AEGIS_GRAPHICS_MEMORY/DARK_FUTURISTIC_INDUSTRIAL/",
+      "manifest": "AEGIS_GRAPHICS_MEMORY/DARK_FUTURISTIC_INDUSTRIAL/manifest.json"
+    },
+    {
+      "collection": "PHOTOREALISTIC",
+      "display_name": "Photorealistic",
+      "style": "photorealistic",
+      "id_prefix": "PHR",
+      "id_range": "PHR-0001 - PHR-0600",
+      "total": 600,
+      "path": "AEGIS_GRAPHICS_MEMORY/PHOTOREALISTIC/",
+      "manifest": "AEGIS_GRAPHICS_MEMORY/PHOTOREALISTIC/manifest.json"
+    },
+    {
+      "collection": "FANTASY_CINEMATIC",
+      "display_name": "Fantasy / Cinematic",
+      "style": "fantasy_cinematic",
+      "id_prefix": "FCN",
+      "id_range": "FCN-0001 - FCN-0600",
+      "total": 600,
+      "path": "AEGIS_GRAPHICS_MEMORY/FANTASY_CINEMATIC/",
+      "manifest": "AEGIS_GRAPHICS_MEMORY/FANTASY_CINEMATIC/manifest.json"
+    }
+  ],
+  "formats": {
+    "jpg": 1353,
+    "webp": 12,
+    "png": 59,
+    "svg": 375,
+    "gif": 1
+  },
+  "licensing": {
+    "external": "CC0 / public domain / CC BY only — attribution recorded per asset in MEMORY_INDEX/generation_provenance.json",
+    "original": "original_generated — produced by tools/aegis/gen-ui.mjs and gen-fx.mjs"
+  },
+  "indexes": [
+    "MEMORY_INDEX/master_asset_index.json",
+    "MEMORY_INDEX/category_index.json",
+    "MEMORY_INDEX/style_index.json",
+    "MEMORY_INDEX/asset_tags.json",
+    "MEMORY_INDEX/retrieval_metadata.json",
+    "MEMORY_INDEX/generation_provenance.json"
+  ],
+  "shortfalls": []
+}

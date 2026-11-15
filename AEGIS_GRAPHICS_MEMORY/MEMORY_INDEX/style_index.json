@@ -1,0 +1,147 @@
+{
+  "dark_futuristic_industrial": {
+    "display_name": "Dark Futuristic / Industrial",
+    "id_prefix": "DFI",
+    "total": 600,
+    "palette": [
+      "#0d0f12",
+      "#1b2026",
+      "#3a444f",
+      "#6f7d8c",
+      "#8b1a1a",
+      "#d94a1f",
+      "#e8a33d",
+      "#7fb3d5"
+    ],
+    "visual_keywords": [
+      "dark steel",
+      "black metal",
+      "graphite",
+      "industrial lighting",
+      "crimson",
+      "amber",
+      "cyan"
+    ],
+    "palette_tags": [
+      "black",
+      "steel",
+      "graphite",
+      "crimson",
+      "amber",
+      "cyan"
+    ],
+    "categories": {
+      "characters": 75,
+      "architecture": 75,
+      "environments": 100,
+      "objects": 75,
+      "textures": 75,
+      "ui": 75,
+      "effects": 50,
+      "concepts": 75
+    },
+    "search_hints": [
+      "dark steel",
+      "black metal",
+      "graphite",
+      "industrial lighting",
+      "crimson",
+      "amber",
+      "cyan"
+    ]
+  },
+  "photorealistic": {
+    "display_name": "Photorealistic",
+    "id_prefix": "PHR",
+    "total": 600,
+    "palette": [
+      "#f2efe9",
+      "#c9c2b6",
+      "#8e8578",
+      "#5b554c",
+      "#3d4a52",
+      "#6b7f6a",
+      "#a8763e",
+      "#2f3a44"
+    ],
+    "visual_keywords": [
+      "believable materials",
+      "natural light",
+      "real proportions",
+      "detailed texture",
+      "cinematic photography"
+    ],
+    "palette_tags": [
+      "natural",
+      "earth",
+      "neutral",
+      "warm",
+      "cool"
+    ],
+    "categories": {
+      "characters": 75,
+      "architecture": 75,
+      "environments": 100,
+      "objects": 75,
+      "textures": 75,
+      "ui": 75,
+      "effects": 50,
+      "concepts": 75
+    },
+    "search_hints": [
+      "believable materials",
+      "natural light",
+      "real proportions",
+      "detailed texture",
+      "cinematic photography"
+    ]
+  },
+  "fantasy_cinematic": {
+    "display_name": "Fantasy / Cinematic",
+    "id_prefix": "FCN",
+    "total": 600,
+    "palette": [
+      "#1a1410",
+      "#3b2b1c",
+      "#6e4f2a",
+      "#a8792f",
+      "#c9a227",
+      "#4a5b46",
+      "#7a2b25",
+      "#d8c9a3"
+    ],
+    "visual_keywords": [
+      "epic fantasy",
+      "cinematic lighting",
+      "worldbuilding",
+      "atmospheric depth",
+      "gold",
+      "ember"
+    ],
+    "palette_tags": [
+      "gold",
+      "ember",
+      "moss",
+      "parchment",
+      "bronze"
+    ],
+    "categories": {
+      "characters": 75,
+      "architecture": 75,
+      "environments": 100,
+      "objects": 75,
+      "textures": 75,
+      "ui": 75,
+      "effects": 50,
+      "concepts": 75
+    },
+    "search_hints": [
+      "epic fantasy",
+      "cinematic lighting",
+      "worldbuilding",
+      "atmospheric depth",
+      "gold",
+      "ember"
+    ]
+  }
+}

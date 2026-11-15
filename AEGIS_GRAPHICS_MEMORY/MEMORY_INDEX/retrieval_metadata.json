@@ -1,0 +1,55 @@
+{
+  "generated_at": "2026-11-15T20:31:39.125Z",
+  "bank": "AEGIS_GRAPHICS_MEMORY",
+  "asset_count": 1800,
+  "id_scheme": {
+    "DARK_FUTURISTIC_INDUSTRIAL": "DFI-0001 .. DFI-0600",
+    "PHOTOREALISTIC": "PHR-0001 .. PHR-0600",
+    "FANTASY_CINEMATIC": "FCN-0001 .. FCN-0600"
+  },
+  "searchable_fields": {
+    "style": [
+      "dark_futuristic_industrial",
+      "photorealistic",
+      "fantasy_cinematic"
+    ],
+    "category": [
+      "characters",
+      "architecture",
+      "environments",
+      "objects",
+      "textures",
+      "ui",
+      "effects",
+      "concepts"
+    ],
+    "object_type": "asset_tags.json (tag -> asset ids)",
+    "environment": "asset_tags.json",
+    "colour_palette": "style_index.json palette + palette_tags",
+    "material": "asset_tags.json (textures carry material names)",
+    "character_type": "category \"characters\" + tags",
+    "intended_application": "tags: ui, hud, vfx, overlay, texture, photograph",
+    "descriptive_keywords": "tags"
+  },
+  "record_shape": {
+    "asset_id": "stable unique id",
+    "name": "human readable",
+    "style": "collection style key",
+    "category": "category key",
+    "description": "one sentence",
+    "tags": "searchable keywords",
+    "format": "file extension",
+    "dimensions": "{ width, height }",
+    "repository_path": "path inside this repository",
+    "license": "licence string or original_generated",
+    "source_url": "provenance page for externally acquired assets",
+    "verified": "true once the file was decoded and measured"
+  },
+  "join_keys": [
+    "asset_id",
+    "repository_path"
+  ],
+  "tag_index": "MEMORY_INDEX/asset_tags.json",
+  "no_vector_store_assumed": true,
+  "notes": "Indexes are plain JSON for transport. If a vector memory is later attached, embed \"name + description + tags\" per asset using asset_id as the stable key; do not rewrite existing collections — add a new namespace instead."
+}
