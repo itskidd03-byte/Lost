@@ -1,0 +1,42 @@
+name: AEGIS graphics memory bank
+
+# Builds the graphics memory bank from open-access sources and commits it in
+# batches. Runs on demand, and whenever the pipeline itself changes.
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'tools/aegis/**'
+      - '.github/workflows/aegis-graphics.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aegis-graphics
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    env:
+      AEGIS_BRANCH: main
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Acquire, generate and index assets
+        run: node tools/aegis/build-assets.mjs
+
+      - name: Verify the bank
+        run: node tools/aegis/validate-bank.mjs
+
+      - name: Commit in batches of 25
+        run: node tools/aegis/commit-batches.mjs --batch=25
