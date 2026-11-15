@@ -201,6 +201,7 @@ class Game {
     this.ui.closeWhatsNew();
     this.away = 0;
     this.enterCabin(true);
+    this.lockLandscape();
     if (!this.touchEnabled) this.fp.lock();
     this.ui.toast({
       category: 'johan',
@@ -225,6 +226,7 @@ class Game {
     this.attachState();
     this.ui.closeIntro();
     this.enterCabin(true);
+    this.lockLandscape();
     if (!this.touchEnabled) this.fp.lock();
     if (this.state.events.some((e) => e.day > this.state.lastSeenDay)) this.ui.openWhatsNew();
     this.ui.toast({
@@ -366,6 +368,20 @@ class Game {
   setMode(mode) {
     this.mode = mode;
     this.touchControls.setMode(mode);
+    document.body.classList.toggle('playing', mode === 'cabin' || mode === 'table' || mode === 'world');
+  }
+
+  // Installed Android apps honour a real orientation lock; elsewhere the CSS
+  // overlay asks politely, and the manifest declares landscape.
+  lockLandscape() {
+    if (!this.touchEnabled) return;
+    const orientation = screen.orientation;
+    if (!orientation || typeof orientation.lock !== 'function') return;
+    try {
+      Promise.resolve(orientation.lock('landscape')).catch(() => {});
+    } catch {
+      /* not installed / not fullscreen */
+    }
   }
 
   /* -------------------------------- cabin -------------------------------- */

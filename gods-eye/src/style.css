@@ -330,6 +330,21 @@ body.touch-mode #dialogue { bottom: 96px; width: calc(100% - 24px); }
 body.touch-mode .panel { top: 58px; max-height: calc(100% - 160px); }
 body.touch-mode #toasts { top: 56px; }
 
+/* ---------- landscape only ---------- */
+#rotate {
+  position: fixed; inset: 0; z-index: 70; display: none;
+  align-items: center; justify-content: center; padding: 24px;
+  text-align: center; color: #efe3c8; font-family: var(--serif);
+  background: radial-gradient(circle at 50% 38%, #121820 0%, #05070a 72%);
+}
+#rotate .rotate-icon { display: block; font-size: 44px; line-height: 1; color: #c9a227; margin-bottom: 16px; }
+#rotate p { margin: 0 0 8px; font-size: 19px; letter-spacing: 0.06em; }
+#rotate .fine { opacity: 0.6; font-size: 12px; }
+
+@media (orientation: portrait) {
+  body.touch-mode.playing #rotate { display: flex; }
+}
+
 @media (max-width: 760px) {
   #hud { padding: 10px 12px; }
   .hud-right { gap: 5px; }
