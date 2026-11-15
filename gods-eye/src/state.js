@@ -1,6 +1,6 @@
 // State assembly, simulation advance, persistence and offline catch-up.
 
-import { createWorld } from './world.js';
+import { createWorld, BIOMES } from './world.js';
 import { addEvent, resetEventBudget } from './journal.js';
 import { createJohan, johanStep } from './johan.js';
 import { tickDay, population } from './life.js';
@@ -77,10 +77,52 @@ export function advanceDays(state, days, { quiet = false } = {}) {
   for (let i = 0; i < steps; i++) {
     tickDay(state, rand);
     if (state.world.day % 3 === 0) johanStep(state, rand);
+    if (state.world.day % 2 === 0) joleneStep(state, rand);
     resetEventBudget(state);
   }
   state.onEvent = previousHook;
   return steps;
+}
+
+/* ---------------------------------- Jolene --------------------------------- */
+
+// Jolene never builds. She follows Johan's work and dresses it: cleaner lines,
+// finer detail, the same ground made to look like a real place.
+const JOLENE_LINES = [
+  'thinned the canopy so every branch showed',
+  'combed the grass until the blades stood apart',
+  'smoothed the water until it held the lamplight',
+  'gave each roof its own tilt and shadow',
+  'moulded the bare blocks into rolling ground',
+  'laid the paths so the village spills over its blocks',
+];
+
+export function joleneStep(state, rand = Math.random) {
+  const land = [...state.world.tiles.values()].filter((t) => t.biome !== 'ocean' && t.biome !== 'island');
+  if (!land.length) return null;
+  const stale = land.filter((t) => (t.polishedDay ?? -1) < (t.changedDay ?? 0));
+  const pool = stale.length ? stale : land;
+  const tile = pool[Math.floor(rand() * pool.length)];
+  if (!tile) return null;
+
+  tile.polishedDay = state.world.day;
+  tile.detail = Math.min(1, (tile.detail ?? 0.4) + 0.16);
+  state.jolene = state.jolene || { polished: 0, lastDay: 0, lastTile: null };
+  state.jolene.polished += 1;
+  state.jolene.lastDay = state.world.day;
+  state.jolene.lastTile = { x: tile.x, y: tile.y };
+
+  // Most passes are quiet; now and then she says what she did.
+  if (rand() > 0.4) return null;
+  const line = JOLENE_LINES[Math.floor(rand() * JOLENE_LINES.length)];
+  return addEvent(state, {
+    category: 'jolene',
+    type: 'polish',
+    title: `Jolene refined ${tile.x},${tile.y}`,
+    detail: `She built nothing there. She ${line}, and the ${(BIOMES[tile.biome] || BIOMES.blackgrass).name.toLowerCase()} looks more like a place than it did.`,
+    where: `${tile.x},${tile.y}`,
+    consequence: 'The same ground, only finer.',
+  });
 }
 
 /* ------------------------------- persistence ------------------------------ */
@@ -96,6 +138,7 @@ export function serialize(state) {
       tiles: [...state.world.tiles.values()],
     },
     johan: state.johan,
+    jolene: state.jolene || { polished: 0, lastDay: 0, lastTile: null },
     started: !!state.started,
     npcs: state.npcs,
     settlements: state.settlements,
@@ -160,6 +203,7 @@ export function restoreState(raw) {
   state.world.expansion = raw.world.expansion ?? 0;
   state.world.protected = new Set(raw.world.protected ?? []);
   state.johan = raw.johan || createJohan();
+  state.jolene = raw.jolene || { polished: 0, lastDay: 0, lastTile: null };
   state.started = !!raw.started;
   state.npcs = raw.npcs || [];
   state.settlements = raw.settlements || [];

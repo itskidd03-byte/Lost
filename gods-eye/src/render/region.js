@@ -3,6 +3,7 @@
 
 import * as THREE from 'three';
 import { BIOMES, isLand, key, tileAt } from '../world.js';
+import { tree as detailTree, grassStrands, waterSurface } from './detail.js';
 
 const TS = 4;
 const RADIUS = 3;
@@ -43,6 +44,7 @@ export class Region {
     this.animalActors = [];
     this.disasterFX = [];
     this.warFX = [];
+    this.waterRipples = [];
     this.disposables = [];
     this.time = 0;
 
@@ -131,6 +133,17 @@ export class Region {
 
         this.tiles.set(key(tx, ty), { tile, top, land, x: dx * TS, z: dy * TS, mesh });
 
+        if (!land) {
+          const water = waterSurface(TS * 0.96, TS * 0.96, def.world);
+          water.group.position.set(dx * TS, top + 0.02, dy * TS);
+          this.scene.add(water.group);
+          for (const ripple of water.ripples) this.waterRipples.push(ripple);
+        } else if (tile.detail > 0.2) {
+          const tufts = grassStrands(26, TS * 0.42, { color: '#33502c', height: 0.55 });
+          tufts.position.set(dx * TS, top, dy * TS);
+          this.scene.add(tufts);
+        }
+
         // cultivated fields around settlements
         if (tile.settlementId && land) {
           const plot = new THREE.Mesh(
@@ -178,16 +191,9 @@ export class Region {
           const hz = hash(tile.x * 13 - i, tile.y * 29 + i * 3);
           const px = x + (hx - 0.5) * (TS - 1.2);
           const pz = z + (hz - 0.5) * (TS - 1.2);
-          const group = new THREE.Group();
-          const trunk = new THREE.Mesh(trunkGeo, trunkMat);
-          trunk.position.y = 0.55;
-          group.add(trunk);
-          const leaf = new THREE.Mesh(leafGeo, leafMats[Math.floor(hx * leafMats.length)]);
-          leaf.position.y = 2.2;
-          leaf.scale.setScalar(0.8 + hz * 0.5);
-          group.add(leaf);
+          const group = detailTree({ scale: 2.6 + hz * 1.3, seed: tile.x * 31 + tile.y * 17 + i });
           group.position.set(px, top, pz);
-          group.castShadow = true;
+          group.rotation.y = hx * Math.PI * 2;
           this.scene.add(group);
         }
       }
@@ -268,22 +274,51 @@ export class Region {
   }
 
   buildSettlement(info, settlement, hutMat, roofMat, hutGeo, roofGeo, r) {
-    const count = Math.min(9, 2 + settlement.buildings.length + Math.floor(settlement.population / 5));
+    // Houses stand about four times the height of a person — before this they
+    // were shorter than the people walking between them.
+    const count = Math.min(11, 3 + settlement.buildings.length + Math.floor(settlement.population / 6));
     const nation = settlement.nationId ? this.state.nations.find((n) => n.id === settlement.nationId) : null;
+    const wallGeo = new THREE.BoxGeometry(1, 1, 1);
+    const gableGeo = new THREE.ConeGeometry(0.72, 1, 4);
+    const doorGeo = new THREE.BoxGeometry(0.42, 0.62, 0.06);
+    const doorMat = new THREE.MeshStandardMaterial({ color: 0x3a2817, roughness: 0.92 });
+    this.disposables.push(wallGeo, gableGeo, doorGeo);
+
     for (let i = 0; i < count; i++) {
       const hx = hash(settlement.id * 13 + i, 7);
       const hz = hash(settlement.id * 29, 11 + i);
-      const px = info.x + (hx - 0.5) * 4.4;
-      const pz = info.z + (hz - 0.5) * 4.4;
-      const hut = new THREE.Mesh(hutGeo, hutMat);
-      hut.position.set(px, info.top + 0.45, pz);
-      hut.rotation.y = hx * Math.PI;
-      hut.castShadow = true;
-      this.scene.add(hut);
-      const roof = new THREE.Mesh(roofGeo, roofMat);
-      roof.position.set(px, info.top + 1.15, pz);
-      roof.rotation.y = Math.PI / 4 + hx;
-      this.scene.add(roof);
+      // Houses ring the square rather than sitting on it, so the middle of the
+      // village stays open and the player never spawns inside a wall.
+      const angle = (i / count) * Math.PI * 2 + hx * 0.5;
+      const radius = 5.2 + hz * 2.8;
+      const px = info.x + Math.cos(angle) * radius;
+      const pz = info.z + Math.sin(angle) * radius;
+      const w = 1.5 + hash(i, settlement.id) * 1.1;
+      const d = 1.4 + hash(i + 3, settlement.id) * 1.0;
+      const h = 3.4 + hash(i + 7, settlement.id) * 1.8;
+      const house = new THREE.Group();
+      const walls = new THREE.Mesh(wallGeo, hutMat);
+      walls.scale.set(w, h, d);
+      walls.position.y = h / 2;
+      walls.castShadow = true;
+      walls.receiveShadow = true;
+      house.add(walls);
+
+      const roof = new THREE.Mesh(gableGeo, roofMat);
+      roof.scale.set(w * 1.34, h * 0.3, d * 1.34);
+      roof.position.y = h + h * 0.15;
+      roof.rotation.y = Math.PI / 4;
+      roof.castShadow = true;
+      house.add(roof);
+
+      const door = new THREE.Mesh(doorGeo, doorMat);
+      door.scale.set(w * 0.24, h * 0.3, 0.3);
+      door.position.set(0, h * 0.15, d / 2 + 0.02);
+      house.add(door);
+
+      house.position.set(px, info.top, pz);
+      house.rotation.y = angle;
+      this.scene.add(house);
     }
 
     // fire
@@ -306,7 +341,7 @@ export class Region {
     this.scene.add(flag);
 
     const label = labelSprite(`${settlement.name}`, nation ? nation.color : '#f0dfb4');
-    label.position.set(info.x, info.top + 5.2, info.z);
+    label.position.set(info.x, info.top + 9.4, info.z);
     this.scene.add(label);
   }
 
@@ -371,11 +406,31 @@ export class Region {
 
   findSpawn() {
     const centerInfo = this.tiles.get(key(this.center.x, this.center.y));
-    if (centerInfo && centerInfo.land) return new THREE.Vector3(centerInfo.x, centerInfo.top, centerInfo.z + 1.2);
-    for (const info of this.tiles.values()) {
-      if (info.land) return new THREE.Vector3(info.x, info.top, info.z + 1.2);
+    let point = null;
+    if (centerInfo && centerInfo.land) {
+      point = new THREE.Vector3(centerInfo.x, centerInfo.top, centerInfo.z + 1.8);
+    } else {
+      for (const info of this.tiles.values()) {
+        if (info.land) {
+          point = new THREE.Vector3(info.x, info.top, info.z + 1.8);
+          break;
+        }
+      }
     }
-    return new THREE.Vector3(0, 0.5, 0);
+    if (!point) return new THREE.Vector3(0, 0.5, 0);
+
+    // Villagers step aside so the player does not open their eyes inside a crowd.
+    for (const actor of this.actors || []) {
+      const ax = (actor.position?.x ?? 0) - point.x;
+      const az = (actor.position?.z ?? 0) - point.z;
+      if (Math.hypot(ax, az) >= 2.3) continue;
+      const len = Math.hypot(ax, az) || 1;
+      const dx = ax / len || 0.7;
+      const dz = az / len || 0.7;
+      actor.position.x = point.x + dx * 2.6;
+      actor.position.z = point.z + dz * 2.6;
+    }
+    return point;
   }
 
   groundAt(x, z) {
@@ -440,6 +495,11 @@ export class Region {
     }
     const pulse = 0.35 + Math.sin(elapsed * 3) * 0.25;
     for (const fx of this.warFX) fx.material.opacity = pulse;
+    for (const ripple of this.waterRipples) {
+      const t = (elapsed * 0.3 + ripple.phase) % 1;
+      ripple.mesh.scale.setScalar(ripple.base * (0.45 + t * 2.4));
+      ripple.mesh.material.opacity = 0.26 * (1 - t);
+    }
   }
 
   dispose() {

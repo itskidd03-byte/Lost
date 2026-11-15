@@ -3,6 +3,7 @@
 
 import * as THREE from 'three';
 import { BIOMES, bounds, isLand, key } from '../world.js';
+import { terrainPiece, tree, grassStrands, waterSurface, villageCluster } from './detail.js';
 
 const TILE_MAX = 0.062;
 
@@ -46,6 +47,14 @@ export class MapTable {
     this.meshByKey = new Map();
     this.puffs = [];
     this.puffGeometry = new THREE.RingGeometry(0.24, 0.4, 14);
+    this.ripples = [];
+    this.villagers = [];
+
+    // Jolene walks the board too, but she only dresses what is already there.
+    this.jolene = this.buildJolene();
+    this.group.add(this.jolene.root);
+    this.joleneGoal = null;
+    this.joleneTimer = 0;
 
     this.pickPlane = new THREE.Mesh(
       new THREE.PlaneGeometry(1, 1),
@@ -116,6 +125,39 @@ export class MapTable {
     return { root, armPivot, head, cloak };
   }
 
+  buildJolene() {
+    const root = new THREE.Group();
+    const cloth = new THREE.MeshStandardMaterial({
+      color: 0xcfc6e6,
+      roughness: 0.55,
+      emissive: 0x5f5680,
+      emissiveIntensity: 0.55,
+      transparent: true,
+      opacity: 0.94,
+    });
+    const hairMat = new THREE.MeshStandardMaterial({ color: 0x2a2430, roughness: 0.7, emissive: 0x3a2f44, emissiveIntensity: 0.45 });
+    const skin = new THREE.MeshStandardMaterial({ color: 0xf2e4cf, roughness: 0.8, emissive: 0x6a5330, emissiveIntensity: 0.3 });
+
+    const gown = new THREE.Mesh(new THREE.ConeGeometry(0.46, 1.35, 12, 1, true), cloth);
+    gown.position.y = 0.67;
+    const torso = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.3, 0.5, 10), cloth);
+    torso.position.y = 1.36;
+    const head = new THREE.Mesh(new THREE.SphereGeometry(0.2, 12, 10), skin);
+    head.position.y = 1.74;
+    const hair = new THREE.Mesh(new THREE.SphereGeometry(0.225, 10, 8, 0, Math.PI * 2, 0, Math.PI * 0.62), hairMat);
+    hair.position.y = 1.78;
+    const glow = new THREE.Mesh(
+      new THREE.CircleGeometry(0.55, 18),
+      new THREE.MeshBasicMaterial({ color: 0xd8cff0, transparent: true, opacity: 0.14, depthWrite: false, blending: THREE.AdditiveBlending }),
+    );
+    glow.rotation.x = -Math.PI / 2;
+    glow.position.y = 0.002;
+
+    root.add(gown, torso, head, hair, glow);
+    root.scale.setScalar(0.08);
+    return { root, gown, head, hair, glow };
+  }
+
   queueJob(tile, kind) {
     const k = key(tile.x, tile.y);
     const job = { x: tile.x, y: tile.y, kind };
@@ -174,6 +216,8 @@ export class MapTable {
     this.markerData = [];
     this.tilePick = [];
     this.meshByKey.clear();
+    this.ripples.length = 0;
+    this.villagers.length = 0;
 
     const b = bounds(state.world);
     this.cols = b.cols;
@@ -215,11 +259,27 @@ export class MapTable {
       const t = isLand(tile);
       const h = this.heightOf(tile);
       const color = (BIOMES[tile.biome] || BIOMES.blackgrass).table;
-      const mesh = new THREE.Mesh(this.box, this.material(color, { water: !t }));
-      mesh.scale.set(this.scale * 0.95, Math.max(0.006, h), this.scale * 0.95);
-      mesh.position.set((tile.x - this.centerX) * this.scale, Math.max(0.006, h) / 2, (tile.y - this.centerY) * this.scale);
+      const surfaceTop = Math.max(0.006, h);
+      const mesh = terrainPiece(this.scale * 0.95, this.scale * 0.95, surfaceTop, color, { water: !t });
+      mesh.position.set((tile.x - this.centerX) * this.scale, surfaceTop, (tile.y - this.centerY) * this.scale);
       this.tileGroup.add(mesh);
       this.tilePick.push({ tile, mesh });
+
+      if (!t) {
+        const water = waterSurface(this.scale * 0.92, this.scale * 0.92, color);
+        water.group.position.set((tile.x - this.centerX) * this.scale, surfaceTop + 0.002, (tile.y - this.centerY) * this.scale);
+        this.tileGroup.add(water.group);
+        for (const ripple of water.ripples) this.ripples.push(ripple);
+      } else if (tile.detail > 0.15) {
+        const grassColor = tile.biome === 'blackgrass' ? '#1d2a20' : '#3c5a30';
+        const strands = grassStrands(
+          Math.min(12, 4 + Math.round(tile.detail * 8)),
+          this.scale * 0.36,
+          { color: grassColor, height: this.scale * 0.42 },
+        );
+        strands.position.set((tile.x - this.centerX) * this.scale, surfaceTop, (tile.y - this.centerY) * this.scale);
+        this.markGroup.add(strands);
+      }
 
       const top = Math.max(0.006, h);
 
@@ -241,9 +301,7 @@ export class MapTable {
       }
       const growth = this.growth.get(tileKey);
       if (growth !== undefined && growth < 1) {
-        const raised = Math.max(0.0004, top * growth);
-        mesh.scale.y = raised;
-        mesh.position.y = raised / 2;
+        mesh.scale.y = Math.max(0.02, growth);
       }
 
       // forests and settlements
@@ -251,16 +309,19 @@ export class MapTable {
       if (t && (def.trees || tile.trees > 0.45) && tile.detail > 0.25) {
         const count = Math.min(3, Math.max(1, Math.round(tile.trees * 3)));
         for (let i = 0; i < count; i++) {
-          const tree = new THREE.Mesh(this.cone, this.material('#16301f', { emissive: '#0b1d12', emissiveIntensity: 0.35 }));
-          const s = this.scale * (0.34 + (i === 0 ? 0.06 : 0));
-          tree.scale.set(s, s * 2.4, s);
+          const sapling = tree({
+            scale: this.scale * (0.52 + (i === 0 ? 0.08 : 0) + tile.detail * 0.16),
+            seed: tile.x * 97 + tile.y * 13 + i,
+            pale: tile.biome === 'deepforest',
+          });
           const ang = (i / count) * Math.PI * 2 + tile.x;
-          tree.position.set(
-            (tile.x - this.centerX) * this.scale + Math.cos(ang) * this.scale * (count > 1 ? 0.2 : 0),
-            top + s * 1.2,
-            (tile.y - this.centerY) * this.scale + Math.sin(ang) * this.scale * (count > 1 ? 0.2 : 0),
+          sapling.position.set(
+            (tile.x - this.centerX) * this.scale + Math.cos(ang) * this.scale * (count > 1 ? 0.22 : 0),
+            top,
+            (tile.y - this.centerY) * this.scale + Math.sin(ang) * this.scale * (count > 1 ? 0.22 : 0),
           );
-          this.markGroup.add(tree);
+          sapling.rotation.y = ang * 1.7;
+          this.markGroup.add(sapling);
         }
       }
 
@@ -268,18 +329,19 @@ export class MapTable {
         const settlement = state.settlements.find((s) => s.id === tile.settlementId && s.alive);
         const nation = settlement?.nationId ? state.nations.find((n) => n.id === settlement.nationId) : null;
         const colorHex = nation?.color || '#e6c977';
-        const s = this.scale * 0.36;
         const px = (tile.x - this.centerX) * this.scale;
         const pz = (tile.y - this.centerY) * this.scale;
-        const walls = new THREE.Mesh(this.box, this.material(colorHex, { emissive: colorHex, emissiveIntensity: 0.22 }));
-        walls.scale.set(s, s * 1.15, s);
-        walls.position.set(px, top + s * 0.58, pz);
-        this.markGroup.add(walls);
-        const roof = new THREE.Mesh(this.cone, this.material('#3b2a1a'));
-        roof.scale.set(s * 1.15, s * 0.9, s * 1.15);
-        roof.position.set(px, top + s * 1.6, pz);
-        roof.rotation.y = Math.PI / 4;
-        this.markGroup.add(roof);
+        // The village spills over the neighbouring ground rather than sitting
+        // on one block, and its people are a tenth of a house tall.
+        const village = villageCluster({
+          seed: (settlement?.id ?? tile.x * 31 + tile.y) + 7,
+          scale: this.scale * 0.95,
+          nationColor: colorHex,
+          houses: Math.min(7, 3 + (settlement?.buildings?.length ?? 1)),
+        });
+        village.group.position.set(px, top, pz);
+        this.markGroup.add(village.group);
+        for (const person of village.people) this.villagers.push(person);
         this.markerData.push({ type: 'settlement', tile, settlement, nation });
       }
 
@@ -420,7 +482,18 @@ export class MapTable {
     if (this.selectionBox.visible) {
       this.selectionBox.material.opacity = 0.6 + Math.sin(elapsed * 4) * 0.3;
     }
+    for (const ripple of this.ripples) {
+      const t = (elapsed * 0.32 + ripple.phase) % 1;
+                ripple.mesh.scale.setScalar(ripple.base * (0.45 + t * 1.8));
+      ripple.mesh.material.opacity = 0.17 * (1 - t);
+    }
+    for (const person of this.villagers) {
+      person.group.position.x = person.base.x + Math.sin(elapsed * 0.5 + person.phase) * this.scale * 0.14;
+      person.group.position.z = person.base.z + Math.cos(elapsed * 0.42 + person.phase) * this.scale * 0.14;
+    }
+
     this.updateWorker(elapsed, dt);
+    this.updateJolene(elapsed, dt);
     this.updatePuffs(dt);
   }
 
@@ -496,6 +569,42 @@ export class MapTable {
       this.growth.set(key(job.x, job.y), 1);
       this.workerJob = null;
       this.workerTimer = 0;
+    }
+  }
+
+  updateJolene(elapsed, dt) {
+    if (!this.state || !this.jolene) return;
+    const j = this.jolene;
+    const step = Math.min(dt, 0.06);
+    j.root.scale.setScalar(Math.max(0.05, this.workerHeight * 0.62) / 1.55);
+
+    this.joleneTimer -= step;
+    if (!this.joleneGoal || this.joleneTimer <= 0) {
+      const land = [];
+      for (const tile of this.state.world.tiles.values()) if (isLand(tile)) land.push(tile);
+      if (!land.length) return;
+      const tile = land[Math.floor(Math.random() * land.length)];
+      this.joleneGoal = {
+        x: (tile.x - this.centerX) * this.scale,
+        z: (tile.y - this.centerY) * this.scale,
+        y: Math.max(0.006, this.heightOf(tile)),
+      };
+      this.joleneTimer = 2.6 + Math.random() * 3.2;
+    }
+
+    const dx = this.joleneGoal.x - j.root.position.x;
+    const dz = this.joleneGoal.z - j.root.position.z;
+    const dist = Math.hypot(dx, dz);
+    if (dist > 0.01) {
+      const move = Math.min(dist, Math.max(0.12, this.scale * 2.4) * step);
+      j.root.position.x += (dx / dist) * move;
+      j.root.position.z += (dz / dist) * move;
+      j.root.position.y = this.joleneGoal.y + Math.abs(Math.sin(elapsed * 5)) * this.scale * 0.06;
+      j.root.rotation.y = Math.atan2(dx, dz);
+      j.glow.material.opacity = 0.12;
+    } else {
+      j.root.position.y = this.joleneGoal.y + Math.sin(elapsed * 1.7) * this.scale * 0.02;
+      j.glow.material.opacity = 0.1 + Math.abs(Math.sin(elapsed * 1.9)) * 0.1;
     }
   }
 

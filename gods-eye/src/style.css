@@ -220,6 +220,8 @@ html, body {
 .toast.civ b { color: #9fc7e4; }
 .toast.war { border-left-color: #c0473b; }
 .toast.war b { color: #e58274; }
+.toast.jolene { border-left-color: #b9a7dc; }
+.toast.jolene b { color: #d9c9f2; }
 .toast.out { opacity: 0; transition: opacity 0.5s; }
 @keyframes toastin { from { opacity: 0; transform: translateY(8px); } }
 

@@ -228,7 +228,8 @@ class Game {
   /* -------------------------------- title -------------------------------- */
 
   attachState() {
-    this.state.onEvent = (event) => this.ui.toast(event, event.category === 'civilization' ? 'civ' : 'johan');
+    this.state.onEvent = (event) =>
+      this.ui.toast(event, event.category === 'civilization' ? 'civ' : event.category === 'jolene' ? 'jolene' : 'johan');
     this.ui.setState(this.state);
   }
 
@@ -452,7 +453,7 @@ class Game {
     this.ui.setReticle(false);
     this.ui.closeDivine();
     this.ui.els.selection.hidden = true;
-    this.buildTable();
+    this.buildTable(true);
     this.ui.setPrompt('');
     this.overlay = null;
     if (!this.touchEnabled) requestAnimationFrame(() => this.fp.lock());
@@ -464,8 +465,23 @@ class Game {
     return Math.atan2(-(target.x - spawn.x), -(target.z - spawn.z));
   }
 
-  buildTable() {
+  buildTable(force = false) {
     if (!this.state) return;
+    const world = this.state.world;
+    // Rebuilding every tile mesh is expensive, so only do it when the board
+    // actually changed: new ground, a new day band, a new village or a polish.
+    const signature = [
+      world.tiles.size,
+      Math.floor(world.day / 4),
+      this.state.settlements.length,
+      this.state.jolene?.polished ?? 0,
+      this.state.lastSeenDay ?? 0,
+    ].join(':');
+    if (!force && signature === this.tableSignature) {
+      this.mapTimer = 0;
+      return;
+    }
+    this.tableSignature = signature;
     this.cabin.map.build(this.state);
     this.mapTimer = 0;
   }
@@ -487,7 +503,7 @@ class Game {
     this.orbit.radius = 2.05;
     this.orbit.enabled = true;
     this.orbit.update();
-    this.buildTable();
+    this.buildTable(true);
     this.ui.setPrompt('Drag to rotate · wheel or pinch to zoom · tap a tile · Enter walks it · Esc steps back');
     this.overlay = 'table';
     if (this.state.selected) {
