@@ -14,7 +14,9 @@ permissions:
 
 concurrency:
   group: aegis-graphics
-  cancel-in-progress: false
+  # A newer pipeline supersedes an older in-flight build: the stale run would
+  # otherwise finish late and commit a bank built by outdated code.
+  cancel-in-progress: true
 
 jobs:
   build:
