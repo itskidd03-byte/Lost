@@ -5,13 +5,14 @@
  * network first, so a new build (and its graphics code) replaces the cached one.
  * Offline, the last successfully cached shell and assets are served instead.
  */
-const CACHE = 'kotfi-app-v2';
+const CACHE = 'kotfi-app-v3';
 const CORE = [
   './',
   './index.html',
   './manifest.webmanifest',
   './icons/icon-192.png',
   './icons/icon-512.png',
+  './icons/icon-maskable-512.png',
   './icons/apple-touch-icon.png'
 ];
 
