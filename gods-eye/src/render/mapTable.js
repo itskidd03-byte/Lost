@@ -3,7 +3,7 @@
 
 import * as THREE from 'three';
 import { BIOMES, bounds, isLand, key } from '../world.js';
-import { terrainPiece, tree, grassStrands, waterSurface, villageCluster } from './detail.js';
+import { terrainPiece, tree, grassStrands, waterSurface, villageCluster, mountain, animal, hash2 } from './detail.js';
 
 const TILE_MAX = 0.062;
 
@@ -49,6 +49,12 @@ export class MapTable {
     this.puffGeometry = new THREE.RingGeometry(0.24, 0.4, 14);
     this.ripples = [];
     this.villagers = [];
+    this.animals = [];
+    this.sky = new THREE.Group();
+    this.group.add(this.sky);
+    this.clouds = [];
+    this.birds = [];
+    this.buildSky();
 
     // Jolene walks the board too, but she only dresses what is already there.
     this.jolene = this.buildJolene();
@@ -123,6 +129,44 @@ export class MapTable {
     root.add(cloak, shoulders, head, collar, armPivot, otherArm);
     root.rotation.y = Math.PI * 0.15;
     return { root, armPivot, head, cloak };
+  }
+
+  buildSky() {
+    // Clouds and birds above the board, so the table has weather and life over
+    // it rather than being a slab of ground in the dark.
+    const puffGeo = new THREE.IcosahedronGeometry(1, 0);
+    const cloudMat = new THREE.MeshStandardMaterial({
+      color: 0xe6ecf4,
+      roughness: 1,
+      flatShading: true,
+      transparent: true,
+      opacity: 0.28,
+      depthWrite: false,
+    });
+    const birdMat = new THREE.MeshBasicMaterial({ color: 0x2b2b26, transparent: true, opacity: 0.75 });
+    const birdGeo = new THREE.ConeGeometry(0.5, 1, 3);
+
+    for (let i = 0; i < 7; i++) {
+      const cloud = new THREE.Group();
+      for (let k = 0; k < 3; k++) {
+        const puff = new THREE.Mesh(puffGeo, cloudMat);
+        puff.scale.set(0.5 + hash2(i, k) * 0.45, 0.16 + hash2(k, i) * 0.1, 0.42 + hash2(i + k, 9) * 0.28);
+        puff.position.set((k - 1) * 0.5, hash2(i * 3, k) * 0.08, (hash2(i, k * 5) - 0.5) * 0.35);
+        cloud.add(puff);
+      }
+      cloud.userData = { phase: hash2(i, 5) * Math.PI * 2, speed: 0.03 + hash2(i, 13) * 0.05, lane: hash2(i, 17) };
+      this.sky.add(cloud);
+      this.clouds.push(cloud);
+    }
+
+    for (let i = 0; i < 4; i++) {
+      const bird = new THREE.Mesh(birdGeo, birdMat);
+      bird.rotation.x = Math.PI / 2;
+      bird.scale.setScalar(1);
+      bird.userData = { phase: hash2(i, 21) * Math.PI * 2, speed: 0.12 + hash2(i, 31) * 0.1 };
+      this.sky.add(bird);
+      this.birds.push(bird);
+    }
   }
 
   buildJolene() {
@@ -218,6 +262,7 @@ export class MapTable {
     this.meshByKey.clear();
     this.ripples.length = 0;
     this.villagers.length = 0;
+    this.animals.length = 0;
 
     const b = bounds(state.world);
     this.cols = b.cols;
@@ -237,6 +282,17 @@ export class MapTable {
     this.frame.scale.set(width + 0.08, 1, depth + 0.08);
     this.frame.position.y = 0.004;
     this.pickPlane.scale.set(width + 0.05, depth + 0.05, 1);
+
+    // Sky over the board: clouds high enough to miss the figures, birds below.
+    for (const cloud of this.clouds) {
+      const lane = cloud.userData.lane;
+      cloud.scale.setScalar(this.scale * (0.55 + lane * 0.3));
+      cloud.position.set((lane - 0.5) * width * 1.1, this.scale * (3.6 + lane * 1.4), (hash2(lane * 100, 3) - 0.5) * depth * 0.9);
+    }
+    for (const bird of this.birds) {
+      bird.scale.setScalar(this.scale * 0.3);
+      bird.position.y = this.scale * (2.8 + bird.userData.phase * 0.06);
+    }
 
     const lastSeen = state.lastSeenDay ?? 0;
     const changed = [];
@@ -322,6 +378,43 @@ export class MapTable {
           );
           sapling.rotation.y = ang * 1.7;
           this.markGroup.add(sapling);
+        }
+      }
+
+      // Peaks and slopes get real mountains, not a smoother mound.
+      if (t && (tile.biome === 'mountain' || tile.biome === 'peak') && tile.detail > 0.2) {
+        const peak = mountain({
+          scale: this.scale * (tile.biome === 'peak' ? 1.35 : 1.0),
+          seed: tile.x * 53 + tile.y * 29,
+          snow: tile.biome === 'peak' || tile.elevation > 0.62,
+          ridges: tile.biome === 'peak' ? 3 : 2,
+        });
+        peak.position.set((tile.x - this.centerX) * this.scale, top, (tile.y - this.centerY) * this.scale);
+        this.markGroup.add(peak);
+      }
+
+      // Wild ground has animals on it.
+      const wild = t && !tile.settlementId && tile.detail > 0.3 &&
+        ['grass', 'meadow', 'forest', 'deepforest', 'hills', 'tundra', 'swamp', 'desert', 'island'].includes(tile.biome);
+      if (wild) {
+        const roll = hash2(tile.x * 71, tile.y * 37);
+        if (roll > 0.5 && this.animals.length < 24) {
+          const kind = roll > 0.86 ? 'bird' : roll > 0.7 ? 'fox' : 'deer';
+          const critter = animal({
+            kind,
+            scale: this.scale * (kind === 'bird' ? 0.6 : 0.44),
+            seed: tile.x * 13 + tile.y * 7,
+          });
+          critter.group.position.set((tile.x - this.centerX) * this.scale, top, (tile.y - this.centerY) * this.scale);
+          critter.group.rotation.y = roll * Math.PI * 2;
+          this.markGroup.add(critter.group);
+          this.animals.push({
+            ...critter,
+            base: critter.group.position.clone(),
+            phase: roll * 9,
+            drift: 0.6 + roll * 0.8,
+            home: critter.group.rotation.y,
+          });
         }
       }
 
@@ -492,6 +585,30 @@ export class MapTable {
       person.group.position.z = person.base.z + Math.cos(elapsed * 0.42 + person.phase) * this.scale * 0.14;
     }
 
+    for (const critter of this.animals) {
+      critter.group.position.x = critter.base.x + Math.sin(elapsed * 0.35 * critter.drift + critter.phase) * this.scale * 0.45;
+      critter.group.position.z = critter.base.z + Math.cos(elapsed * 0.29 * critter.drift + critter.phase) * this.scale * 0.45;
+      critter.group.rotation.y = critter.home + Math.sin(elapsed * 0.4 + critter.phase) * 1.2;
+      const gait = Math.sin(elapsed * (critter.kind === 'bird' ? 10 : 6.5) + critter.phase);
+      for (const leg of critter.legs) {
+        leg.mesh.rotation.x = leg.base + gait * (leg.wing ? 0.75 : 0.5);
+      }
+      if (critter.kind === 'bird') critter.group.position.y += Math.abs(gait) * this.scale * 0.03;
+    }
+
+    const halfWidth = (this.base.scale.x || 1) * 0.5;
+    for (const cloud of this.clouds) {
+      cloud.position.x += cloud.userData.speed * Math.min(dt, 0.05) * this.scale * 8;
+      if (cloud.position.x > halfWidth) cloud.position.x = -halfWidth;
+      cloud.position.y = this.scale * (3.6 + cloud.userData.lane * 1.4) + Math.sin(elapsed * 0.35 + cloud.userData.phase) * this.scale * 0.25;
+    }
+    for (const bird of this.birds) {
+      const orbit = elapsed * bird.userData.speed + bird.userData.phase;
+      bird.position.x = Math.cos(orbit) * this.scale * 7.5;
+      bird.position.z = Math.sin(orbit) * this.scale * 6;
+      bird.rotation.y = -orbit;
+    }
+
     this.updateWorker(elapsed, dt);
     this.updateJolene(elapsed, dt);
     this.updatePuffs(dt);
@@ -576,14 +693,17 @@ export class MapTable {
     if (!this.state || !this.jolene) return;
     const j = this.jolene;
     const step = Math.min(dt, 0.06);
-    j.root.scale.setScalar(Math.max(0.05, this.workerHeight * 0.62) / 1.55);
+    j.root.scale.setScalar(Math.max(0.05, this.workerHeight * 0.92) / 1.55);
 
     this.joleneTimer -= step;
     if (!this.joleneGoal || this.joleneTimer <= 0) {
       const land = [];
       for (const tile of this.state.world.tiles.values()) if (isLand(tile)) land.push(tile);
       if (!land.length) return;
-      const tile = land[Math.floor(Math.random() * land.length)];
+      // She goes where Johan has just worked, and dresses that first.
+      const fresh = land.filter((tile) => tile.polishedDay === this.state.world.day);
+      const pool = fresh.length ? fresh : land;
+      const tile = pool[Math.floor(Math.random() * pool.length)];
       this.joleneGoal = {
         x: (tile.x - this.centerX) * this.scale,
         z: (tile.y - this.centerY) * this.scale,
@@ -605,15 +725,21 @@ export class MapTable {
     } else {
       j.root.position.y = this.joleneGoal.y + Math.sin(elapsed * 1.7) * this.scale * 0.02;
       j.glow.material.opacity = 0.1 + Math.abs(Math.sin(elapsed * 1.9)) * 0.1;
+      j.root.rotation.y += step * 1.6;
+      this.joleneWork = (this.joleneWork || 0) + step;
+      if (this.joleneWork > 0.55) {
+        this.joleneWork = 0;
+        this.spawnPuff(this.joleneGoal.x, this.joleneGoal.z, this.joleneGoal.y, 0xd8cff0);
+      }
     }
   }
 
-  spawnPuff(x, z, y) {
+  spawnPuff(x, z, y, color = 0xf0cf6a) {
     if (this.puffs.length > 7) return;
     const mesh = new THREE.Mesh(
       this.puffGeometry,
       new THREE.MeshBasicMaterial({
-        color: 0xf0cf6a,
+        color,
         transparent: true,
         opacity: 0.5,
         side: THREE.DoubleSide,

@@ -177,6 +177,118 @@ export function waterSurface(width, depth, colorHex) {
   return { group, ripples };
 }
 
+/* --------------------------------- mountain ------------------------------- */
+
+// Peaks are stacked cones with a snow line rather than one grey cone, so a
+// mountain tile reads as a ridge instead of a pyramid.
+export function mountain({ scale = 1, seed = 1, snow = true, ridges = 3 } = {}) {
+  const group = new THREE.Group();
+  const rand = (n) => hash2(seed * 347 + n, seed * 91 + n * 5);
+  const rock = surfaceMaterial('#6d6a63');
+  const rockDark = surfaceMaterial('#565350');
+  const snowMat = surfaceMaterial('#e7edf0');
+
+  let width = 0.82 * scale;
+  let y = 0;
+  for (let i = 0; i < ridges; i++) {
+    const h = (0.62 + rand(i) * 0.18) * scale * (1 - i * 0.12);
+    const cone = new THREE.Mesh(geom('peak', () => new THREE.ConeGeometry(1, 1, 7, 1)), i % 2 ? rockDark : rock);
+    cone.scale.set(width, h, width * (0.85 + rand(i + 4) * 0.3));
+    cone.position.set((rand(i + 10) - 0.5) * width * 0.35, y + h / 2, (rand(i + 20) - 0.5) * width * 0.35);
+    cone.rotation.y = rand(i + 30) * Math.PI;
+    cone.castShadow = true;
+    cone.receiveShadow = true;
+    group.add(cone);
+    y += h * 0.72;
+    width *= 0.6;
+  }
+
+  if (snow) {
+    const capH = width * 1.4;
+    const cap = new THREE.Mesh(geom('peak', () => new THREE.ConeGeometry(1, 1, 7, 1)), snowMat);
+    cap.scale.set(width * 0.75, capH, width * 0.75);
+    cap.position.y = y - capH * 0.2;
+    group.add(cap);
+  }
+
+  const shoulder = new THREE.Mesh(geom('peak', () => new THREE.ConeGeometry(1, 1, 6, 1)), rockDark);
+  shoulder.scale.set(width * 1.6, scale * 0.34, width * 1.5);
+  shoulder.position.set(width * 1.1, scale * 0.16, -width * 0.7);
+  shoulder.rotation.y = rand(44) * Math.PI;
+  group.add(shoulder);
+
+  return group;
+}
+
+/* --------------------------------- animals -------------------------------- */
+
+// Small life for the board: deer, foxes and birds, with legs the caller can
+// swing so they look like they are walking rather than sliding.
+export function animal({ kind = 'deer', scale = 1, seed = 1 } = {}) {
+  const group = new THREE.Group();
+  const rand = (n) => hash2(seed * 149 + n, seed * 53 + n * 11);
+  const furColor = kind === 'fox' ? '#a2593a' : kind === 'bird' ? '#cfc6ab' : '#7a6042';
+  const fur = surfaceMaterial(furColor);
+  const dark = surfaceMaterial('#463122');
+  const legs = [];
+
+  if (kind === 'bird') {
+    const body = new THREE.Mesh(geom('bird-body', () => new THREE.SphereGeometry(1, 8, 6)), fur);
+    body.scale.set(0.22 * scale, 0.16 * scale, 0.3 * scale);
+    body.position.y = 0.3 * scale;
+    const head = new THREE.Mesh(geom('bird-head', () => new THREE.SphereGeometry(1, 6, 5)), fur);
+    head.scale.setScalar(0.1 * scale);
+    head.position.set(0, 0.42 * scale, 0.22 * scale);
+    group.add(body, head);
+    for (const side of [-1, 1]) {
+      const wing = new THREE.Mesh(geom('bird-wing', () => new THREE.BoxGeometry(1, 0.05, 0.5)), fur);
+      wing.scale.set(0.3 * scale, 0.05 * scale, 0.26 * scale);
+      wing.position.set(side * 0.2 * scale, 0.32 * scale, 0);
+      group.add(wing);
+      legs.push({ mesh: wing, base: 0, phase: side > 0 ? 0 : Math.PI, wing: true, side });
+    }
+    return { group, legs, kind };
+  }
+
+  const body = new THREE.Mesh(geom('animal-body', () => new THREE.BoxGeometry(1, 1, 1)), fur);
+  body.scale.set(0.26 * scale, 0.28 * scale, 0.62 * scale);
+  body.position.y = 0.46 * scale;
+  const head = new THREE.Mesh(geom('animal-head', () => new THREE.BoxGeometry(1, 1, 1)), fur);
+  head.scale.set(0.2 * scale, 0.2 * scale, 0.26 * scale);
+  head.position.set(0, 0.72 * scale, 0.34 * scale);
+  const snout = new THREE.Mesh(geom('animal-snout', () => new THREE.BoxGeometry(1, 1, 1)), dark);
+  snout.scale.set(0.1 * scale, 0.1 * scale, 0.12 * scale);
+  snout.position.set(0, 0.68 * scale, 0.48 * scale);
+  group.add(body, head, snout);
+
+  if (kind === 'deer') {
+    for (const side of [-1, 1]) {
+      const antler = new THREE.Mesh(geom('antler', () => new THREE.CylinderGeometry(0.04, 0.05, 1, 4)), dark);
+      antler.scale.set(1, 0.26 * scale, 1);
+      antler.position.set(side * 0.06 * scale, 0.9 * scale, 0.3 * scale);
+      antler.rotation.z = side * 0.35;
+      group.add(antler);
+    }
+  }
+
+  for (let i = 0; i < 4; i++) {
+    const leg = new THREE.Mesh(geom('animal-leg', () => new THREE.BoxGeometry(1, 1, 1)), dark);
+    leg.scale.set(0.07 * scale, 0.36 * scale, 0.07 * scale);
+    leg.position.set((i % 2 ? 1 : -1) * 0.1 * scale, 0.18 * scale, (i < 2 ? 1 : -1) * 0.22 * scale);
+    group.add(leg);
+    legs.push({ mesh: leg, base: 0, phase: (i % 2 ? Math.PI : 0) + (i < 2 ? 0 : Math.PI * 0.5) });
+  }
+
+  const tail = new THREE.Mesh(geom('animal-tail', () => new THREE.ConeGeometry(0.06, 0.24, 5)), fur);
+  tail.scale.setScalar(scale);
+  tail.position.set(0, 0.5 * scale, -0.34 * scale);
+  tail.rotation.x = 1.2;
+  group.add(tail);
+  tail.userData.flick = rand(3);
+
+  return { group, legs, kind };
+}
+
 /* --------------------------------- village -------------------------------- */
 
 // A village is more than one block: houses spread over the settlement tile and

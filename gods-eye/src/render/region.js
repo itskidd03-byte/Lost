@@ -3,7 +3,7 @@
 
 import * as THREE from 'three';
 import { BIOMES, isLand, key, tileAt } from '../world.js';
-import { tree as detailTree, grassStrands, waterSurface } from './detail.js';
+import { tree as detailTree, grassStrands, waterSurface, mountain, animal as detailAnimal } from './detail.js';
 
 const TS = 4;
 const RADIUS = 3;
@@ -199,16 +199,15 @@ export class Region {
       }
 
       if (tile.biome === 'mountain' || tile.biome === 'peak') {
-        for (let i = 0; i < 3; i++) {
-          const hx = hash(tile.x * 7 + i, tile.y * 11 - i);
-          const hz = hash(tile.x * 3 - i, tile.y * 5 + i);
-          const rock = new THREE.Mesh(rockGeo, tile.biome === 'peak' ? snowMat : rockMat);
-          const s = 0.8 + hx * 1.6;
-          rock.scale.set(s, s * 1.5, s);
-          rock.position.set(x + (hx - 0.5) * 2.6, top + s * 0.7, z + (hz - 0.5) * 2.6);
-          rock.rotation.set(hx * 3, hz * 4, 0);
-          this.scene.add(rock);
-        }
+        const peak = mountain({
+          scale: TS * (tile.biome === 'peak' ? 1.1 : 0.8),
+          seed: tile.x * 53 + tile.y * 29,
+          snow: tile.biome === 'peak' || tile.elevation > 0.62,
+          ridges: tile.biome === 'peak' ? 3 : 2,
+        });
+        peak.position.set(x, top, z);
+        peak.rotation.y = r * Math.PI * 2;
+        this.scene.add(peak);
       }
 
       if (tile.biome === 'blackgrass') {
@@ -391,15 +390,24 @@ export class Region {
       const info = this.tiles.get(key(sp.x, sp.y));
       if (!info) continue;
       for (let i = 0; i < 2; i++) {
-        const animal = new THREE.Mesh(
-          speciesGeo,
-          new THREE.MeshStandardMaterial({ color: sp.kind === 'bird' ? 0xd8d0b0 : 0x7a6448, roughness: 0.95 }),
-        );
+        const critter = detailAnimal({
+          kind: sp.kind === 'bird' ? 'bird' : 'deer',
+          scale: 1.05,
+          seed: sp.id * 7 + i,
+        });
         const ax = info.x + (hash(sp.id + i, 5) - 0.5) * 3;
         const az = info.z + (hash(sp.id - i, 9) - 0.5) * 3;
-        animal.position.set(ax, info.top + 0.3, az);
-        this.scene.add(animal);
-        this.animalActors.push({ mesh: animal, baseX: ax, baseZ: az, phase: hash(i, sp.id) * 9 });
+        critter.group.position.set(ax, info.top, az);
+        this.scene.add(critter.group);
+        this.animalActors.push({
+          group: critter.group,
+          legs: critter.legs,
+          kind: critter.kind,
+          baseX: ax,
+          baseZ: az,
+          top: info.top,
+          phase: hash(i, sp.id) * 9,
+        });
       }
     }
   }
@@ -423,12 +431,12 @@ export class Region {
     for (const actor of this.npcActors || []) {
       const ax = actor.baseX - point.x;
       const az = actor.baseZ - point.z;
-      if (Math.hypot(ax, az) >= 2.6) continue;
+      if (Math.hypot(ax, az) >= 4.2) continue;
       const len = Math.hypot(ax, az);
       const dx = len > 0.001 ? ax / len : 0.7;
       const dz = len > 0.001 ? az / len : 0.7;
-      actor.baseX = point.x + dx * 3.4;
-      actor.baseZ = point.z + dz * 3.4;
+      actor.baseX = point.x + dx * 5.2;
+      actor.baseZ = point.z + dz * 5.2;
       actor.group.position.x = actor.baseX;
       actor.group.position.z = actor.baseZ;
     }
@@ -483,9 +491,11 @@ export class Region {
       actor.group.position.z = actor.baseZ + Math.cos(elapsed * 0.21 + actor.phase) * 0.35;
     }
     for (const a of this.animalActors) {
-      a.mesh.position.x = a.baseX + Math.sin(elapsed * 0.5 + a.phase) * 1.1;
-      a.mesh.position.z = a.baseZ + Math.cos(elapsed * 0.42 + a.phase) * 1.1;
-      a.mesh.rotation.y = Math.sin(elapsed * 0.5 + a.phase) * 1.4;
+      a.group.position.x = a.baseX + Math.sin(elapsed * 0.5 + a.phase) * 1.1;
+      a.group.position.z = a.baseZ + Math.cos(elapsed * 0.42 + a.phase) * 1.1;
+      a.group.rotation.y = Math.sin(elapsed * 0.5 + a.phase) * 1.4;
+      const gait = Math.sin(elapsed * (a.kind === 'bird' ? 9 : 6) + a.phase);
+      for (const leg of a.legs) leg.mesh.rotation.x = leg.base + gait * (leg.wing ? 0.7 : 0.45);
     }
     for (const fx of this.disasterFX) {
       const pos = fx.points.geometry.attributes.position;

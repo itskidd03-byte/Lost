@@ -100,8 +100,11 @@ const JOLENE_LINES = [
 export function joleneStep(state, rand = Math.random) {
   const land = [...state.world.tiles.values()].filter((t) => t.biome !== 'ocean' && t.biome !== 'island');
   if (!land.length) return null;
+  // Ground Johan has just placed comes first: she is there to dress his work,
+  // not to wander off and tidy something he made a season ago.
+  const fresh = land.filter((t) => (t.changedDay ?? 0) >= state.world.day - 1 && (t.polishedDay ?? -1) < (t.changedDay ?? 0));
   const stale = land.filter((t) => (t.polishedDay ?? -1) < (t.changedDay ?? 0));
-  const pool = stale.length ? stale : land;
+  const pool = fresh.length ? fresh : stale.length ? stale : land;
   const tile = pool[Math.floor(rand() * pool.length)];
   if (!tile) return null;
 
@@ -109,6 +112,7 @@ export function joleneStep(state, rand = Math.random) {
   tile.detail = Math.min(1, (tile.detail ?? 0.4) + 0.16);
   state.jolene = state.jolene || { polished: 0, lastDay: 0, lastTile: null };
   state.jolene.polished += 1;
+  state.jolene.reskinned = (state.jolene.reskinned || 0) + 1;
   state.jolene.lastDay = state.world.day;
   state.jolene.lastTile = { x: tile.x, y: tile.y };
 
