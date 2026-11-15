@@ -45,6 +45,7 @@ export class Region {
     this.disasterFX = [];
     this.warFX = [];
     this.waterRipples = [];
+    this.settlementRoads = new Map();
     this.disposables = [];
     this.time = 0;
 
@@ -81,9 +82,7 @@ export class Region {
     ocean.position.y = -0.42;
     this.scene.add(ocean);
 
-    const landMats = new Map();
-    const waterMats = new Map();
-
+    // Pass 1: every tile becomes a sample of ground, not a cube.
     for (let dx = -RADIUS; dx <= RADIUS; dx++) {
       for (let dy = -RADIUS; dy <= RADIUS; dy++) {
         const tx = this.center.x + dx;
@@ -91,72 +90,153 @@ export class Region {
         const tile = tileAt(this.state.world, tx, ty);
         if (!tile) continue;
         const land = isLand(tile);
-        const def = BIOMES[tile.biome] || BIOMES.blackgrass;
         const top = land ? 0.5 + Math.max(-0.3, Math.min(1.2, tile.elevation)) * 1.7 : -0.1;
-        const height = top + 2.2;
+        this.tiles.set(key(tx, ty), { tile, top, land, x: dx * TS, z: dy * TS });
+      }
+    }
 
-        let mat;
-        if (land) {
-          if (!landMats.has(tile.biome)) {
-            landMats.set(
-              tile.biome,
-              new THREE.MeshStandardMaterial({
-                color: new THREE.Color(def.world),
-                roughness: 0.94,
-                metalness: 0.02,
-              }),
-            );
-          }
-          mat = landMats.get(tile.biome);
+    // Pass 2: smooth the heights so the land rolls between tiles instead of
+    // stepping like a staircase. Water keeps its own level.
+    const smoothed = new Map();
+    for (const [k, info] of this.tiles) {
+      if (!info.land) {
+        smoothed.set(k, -0.1);
+        continue;
+      }
+      let sum = info.top * 2;
+      let n = 2;
+      for (const [ox, oy] of [[1, 0], [-1, 0], [0, 1], [0, -1], [1, 1], [-1, -1], [1, -1], [-1, 1]]) {
+        const nb = this.tiles.get(key(info.tile.x + ox, info.tile.y + oy));
+        if (!nb || !nb.land) continue;
+        sum += nb.top;
+        n += 1;
+      }
+      smoothed.set(k, sum / n);
+    }
+    for (const [k, info] of this.tiles) info.top = smoothed.get(k);
+
+    this.buildTerrain();
+
+    // Pass 3: water, grass and fields sit on the smoothed ground.
+    for (const info of this.tiles.values()) {
+      const { tile, land, x, z } = info;
+      const def = BIOMES[tile.biome] || BIOMES.blackgrass;
+      if (!land) {
+        const water = waterSurface(TS * 0.96, TS * 0.96, def.world);
+        water.group.position.set(x, info.top + 0.02, z);
+        this.scene.add(water.group);
+        for (const ripple of water.ripples) this.waterRipples.push(ripple);
+      } else if (tile.detail > 0.2) {
+        const tufts = grassStrands(26, TS * 0.42, { color: '#33502c', height: 0.55 });
+        tufts.position.set(x, info.top, z);
+        this.scene.add(tufts);
+      }
+
+      // cultivated fields around settlements
+      if (tile.settlementId && land) {
+        const plot = new THREE.Mesh(
+          new THREE.PlaneGeometry(TS * 0.7, TS * 0.35),
+          new THREE.MeshStandardMaterial({ color: 0x6d7a3d, roughness: 1 }),
+        );
+        plot.rotation.x = -Math.PI / 2;
+        plot.rotation.z = hash(tile.x, tile.y) * 3;
+        plot.position.set(x + 1.0, info.top + 0.02, z + 1.1);
+        this.scene.add(plot);
+      }
+    }
+  }
+
+  cornerH(tx, ty) {
+    let sum = 0;
+    let n = 0;
+    for (const [dx, dy] of [[-1, -1], [0, -1], [-1, 0], [0, 0]]) {
+      const info = this.tiles.get(key(tx + dx, ty + dy));
+      if (!info) continue;
+      sum += info.top;
+      n += 1;
+    }
+    return n ? sum / n : -0.1;
+  }
+
+  // One continuous, vertex-coloured ground mesh over the whole patch.
+  buildTerrain() {
+    const infos = [...this.tiles.values()];
+    if (!infos.length) return;
+    let minTx = Infinity;
+    let maxTx = -Infinity;
+    let minTy = Infinity;
+    let maxTy = -Infinity;
+    for (const info of infos) {
+      minTx = Math.min(minTx, info.tile.x);
+      maxTx = Math.max(maxTx, info.tile.x);
+      minTy = Math.min(minTy, info.tile.y);
+      maxTy = Math.max(maxTy, info.tile.y);
+    }
+    const cols = maxTx - minTx + 1;
+    const rows = maxTy - minTy + 1;
+    const colsV = cols + 1;
+    const rowsV = rows + 1;
+    const positions = [];
+    const colors = [];
+    const indices = [];
+    const color = new THREE.Color();
+
+    for (let j = 0; j < rowsV; j++) {
+      for (let i = 0; i < colsV; i++) {
+        const ctx = minTx + i;
+        const cty = minTy + j;
+        const x = (ctx - this.center.x - 0.5) * TS;
+        const z = (cty - this.center.y - 0.5) * TS;
+        let r = 0;
+        let g = 0;
+        let b = 0;
+        let n = 0;
+        for (const [dx, dy] of [[-1, -1], [0, -1], [-1, 0], [0, 0]]) {
+          const info = this.tiles.get(key(ctx + dx, cty + dy));
+          if (!info) continue;
+          const def = BIOMES[info.tile.biome] || BIOMES.blackgrass;
+          color.set(def.world);
+          r += color.r;
+          g += color.g;
+          b += color.b;
+          n += 1;
+        }
+        positions.push(x, this.cornerH(ctx, cty), z);
+        if (n) {
+          color.setRGB(r / n, g / n, b / n);
+          colors.push(color.r, color.g, color.b);
         } else {
-          if (!waterMats.has(tile.biome)) {
-            waterMats.set(
-              tile.biome,
-              new THREE.MeshStandardMaterial({
-                color: new THREE.Color(def.world),
-                roughness: 0.16,
-                metalness: 0.5,
-                transparent: true,
-                opacity: 0.82,
-              }),
-            );
-          }
-          mat = waterMats.get(tile.biome);
-        }
-
-        const geo = new THREE.BoxGeometry(TS, height, TS);
-        const mesh = new THREE.Mesh(geo, mat);
-        mesh.position.set(dx * TS, top - height / 2, dy * TS);
-        mesh.receiveShadow = true;
-        this.scene.add(mesh);
-        this.disposables.push(geo);
-
-        this.tiles.set(key(tx, ty), { tile, top, land, x: dx * TS, z: dy * TS, mesh });
-
-        if (!land) {
-          const water = waterSurface(TS * 0.96, TS * 0.96, def.world);
-          water.group.position.set(dx * TS, top + 0.02, dy * TS);
-          this.scene.add(water.group);
-          for (const ripple of water.ripples) this.waterRipples.push(ripple);
-        } else if (tile.detail > 0.2) {
-          const tufts = grassStrands(26, TS * 0.42, { color: '#33502c', height: 0.55 });
-          tufts.position.set(dx * TS, top, dy * TS);
-          this.scene.add(tufts);
-        }
-
-        // cultivated fields around settlements
-        if (tile.settlementId && land) {
-          const plot = new THREE.Mesh(
-            new THREE.PlaneGeometry(TS * 0.7, TS * 0.35),
-            new THREE.MeshStandardMaterial({ color: 0x6d7a3d, roughness: 1 }),
-          );
-          plot.rotation.x = -Math.PI / 2;
-          plot.rotation.z = hash(tx, ty) * 3;
-          plot.position.set(dx * TS + 1.0, top + 0.02, dy * TS + 1.1);
-          this.scene.add(plot);
+          colors.push(0.04, 0.16, 0.26);
         }
       }
     }
+
+    for (let j = 0; j < rows; j++) {
+      for (let i = 0; i < cols; i++) {
+        const a = j * colsV + i;
+        const b2 = a + 1;
+        const c = a + colsV;
+        const d = c + 1;
+        indices.push(a, b2, c, b2, d, c);
+      }
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    geo.setIndex(indices);
+    geo.computeVertexNormals();
+    const material = new THREE.MeshStandardMaterial({
+      vertexColors: true,
+      roughness: 0.95,
+      metalness: 0.02,
+      side: THREE.DoubleSide,
+    });
+    const mesh = new THREE.Mesh(geo, material);
+    mesh.receiveShadow = true;
+    this.scene.add(mesh);
+    this.disposables.push(geo);
+    this.terrain = mesh;
   }
 
   buildFeatures() {
@@ -226,7 +306,11 @@ export class Region {
       if (tile.settlementId) {
         const settlement = this.state.settlements.find((s) => s.id === tile.settlementId && s.alive);
         if (settlement) {
-          this.buildSettlement(info, settlement, hutMat, roofMat, hutGeo, roofGeo, r);
+          // One town per settlement, laid out from its centre tile and spread
+          // over the ground around it, not rebuilt on every tile it covers.
+          if (settlement.x === tile.x && settlement.y === tile.y) {
+            this.buildSettlement(info, settlement, hutMat, roofMat, hutGeo, roofGeo, r);
+          }
         }
       }
 
@@ -272,30 +356,83 @@ export class Region {
     }
   }
 
+  landAt(x, z) {
+    const tx = this.center.x + Math.round(x / TS);
+    const ty = this.center.y + Math.round(z / TS);
+    const info = this.tiles.get(key(tx, ty));
+    return info && info.land ? info : null;
+  }
+
   buildSettlement(info, settlement, hutMat, roofMat, hutGeo, roofGeo, r) {
-    // Houses stand about four times the height of a person — before this they
-    // were shorter than the people walking between them.
-    const count = Math.min(11, 3 + settlement.buildings.length + Math.floor(settlement.population / 6));
+    // A town, not a single tile: the plaza is in the middle, dirt roads run out
+    // across the neighbouring ground, and the houses and shops stand at the ends
+    // of those roads with their doors facing the square.
+    const businesses = this.state.businesses.filter((b) => b.alive && b.settlementId === settlement.id).slice(0, 4);
+    const houses = Math.min(9, 4 + settlement.buildings.length + Math.floor(settlement.population / 10));
+    const slots = houses + businesses.length;
     const nation = settlement.nationId ? this.state.nations.find((n) => n.id === settlement.nationId) : null;
+
+    const dirt = new THREE.MeshStandardMaterial({ color: 0x9a7b4f, roughness: 1 });
+    const roadMat = new THREE.MeshStandardMaterial({ color: 0x8a6a42, roughness: 1 });
     const wallGeo = new THREE.BoxGeometry(1, 1, 1);
     const gableGeo = new THREE.ConeGeometry(0.72, 1, 4);
     const doorGeo = new THREE.BoxGeometry(0.42, 0.62, 0.06);
     const doorMat = new THREE.MeshStandardMaterial({ color: 0x3a2817, roughness: 0.92 });
+    const awningMat = new THREE.MeshStandardMaterial({ color: 0x8c3f2f, roughness: 0.85 });
+    const windowMat = new THREE.MeshStandardMaterial({ color: 0xcfa968, emissive: 0x6b4a1c, emissiveIntensity: 0.5, roughness: 0.6 });
     this.disposables.push(wallGeo, gableGeo, doorGeo);
 
-    for (let i = 0; i < count; i++) {
-      const hx = hash(settlement.id * 13 + i, 7);
-      const hz = hash(settlement.id * 29, 11 + i);
-      // Houses ring the square rather than sitting on it, so the middle of the
-      // village stays open and the player never spawns inside a wall.
-      const angle = (i / count) * Math.PI * 2 + hx * 0.5;
-      const radius = 5.2 + hz * 2.8;
+    const plaza = new THREE.Mesh(new THREE.CircleGeometry(3.4, 22), dirt);
+    plaza.rotation.x = -Math.PI / 2;
+    plaza.position.set(info.x, info.top + 0.035, info.z);
+    plaza.receiveShadow = true;
+    this.scene.add(plaza);
+
+    const routes = [];
+    const roadSegment = (x1, z1, x2, z2) => {
+      const len = Math.hypot(x2 - x1, z2 - z1);
+      if (len < 0.02) return;
+      // sit the strip on the higher of the two tiles so it is never swallowed
+      const y = Math.max(this.groundAt(x1, z1), this.groundAt(x2, z2)) + 0.06;
+      const seg = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.06, len), roadMat);
+      seg.position.set((x1 + x2) / 2, y, (z1 + z2) / 2);
+      seg.rotation.y = Math.atan2(x2 - x1, z2 - z1);
+      seg.receiveShadow = true;
+      this.scene.add(seg);
+    };
+
+    for (let i = 0; i < slots; i++) {
+      const angle = (i / slots) * Math.PI * 2 + hash(settlement.id * 7, i) * 0.35;
+      const radius = 8.5 + hash(settlement.id + 11, i) * 5.5;
       const px = info.x + Math.cos(angle) * radius;
       const pz = info.z + Math.sin(angle) * radius;
-      const w = 1.5 + hash(i, settlement.id) * 1.1;
-      const d = 1.4 + hash(i + 3, settlement.id) * 1.0;
-      const h = 3.4 + hash(i + 7, settlement.id) * 1.8;
+      const foot = this.landAt(px, pz);
+      if (!foot) continue;
+
+      // dirt road from the plaza out to this door
+      let prevX = info.x + Math.cos(angle) * 3.2;
+      let prevZ = info.z + Math.sin(angle) * 3.2;
+      for (let sIdx = 1; sIdx <= 7; sIdx++) {
+        const rr = 3.2 + (radius - 3.6) * (sIdx / 7);
+        const nx = info.x + Math.cos(angle) * rr;
+        const nz = info.z + Math.sin(angle) * rr;
+        roadSegment(prevX, prevZ, nx, nz);
+        prevX = nx;
+        prevZ = nz;
+      }
+      routes.push({
+        ax: info.x + Math.cos(angle) * 3.6,
+        az: info.z + Math.sin(angle) * 3.6,
+        bx: px,
+        bz: pz,
+      });
+
+      const biz = i < businesses.length ? businesses[i] : null;
+      const w = biz ? 4.6 : 1.6 + hash(i, settlement.id) * 1.2;
+      const d = biz ? 3.8 : 1.5 + hash(i + 3, settlement.id) * 1.1;
+      const h = biz ? 4.4 + hash(i + 9, settlement.id) * 0.9 : 3.2 + hash(i + 7, settlement.id) * 1.8;
       const house = new THREE.Group();
+
       const walls = new THREE.Mesh(wallGeo, hutMat);
       walls.scale.set(w, h, d);
       walls.position.y = h / 2;
@@ -315,10 +452,29 @@ export class Region {
       door.position.set(0, h * 0.15, d / 2 + 0.02);
       house.add(door);
 
-      house.position.set(px, info.top, pz);
-      house.rotation.y = angle;
+      if (biz) {
+        // a shopfront: awning, lit windows and its name over the door
+        const awning = new THREE.Mesh(new THREE.BoxGeometry(w * 1.08, 0.14, 1.6), awningMat);
+        awning.position.set(0, h * 0.62, d / 2 + 0.6);
+        awning.castShadow = true;
+        house.add(awning);
+        for (const side of [-1, 1]) {
+          const win = new THREE.Mesh(new THREE.BoxGeometry(w * 0.24, h * 0.2, 0.08), windowMat);
+          win.position.set(side * w * 0.28, h * 0.4, d / 2 + 0.03);
+          house.add(win);
+        }
+        const sign = labelSprite(biz.name, '#f0dfb4');
+        sign.scale.set(3.4, 0.85, 1);
+        sign.position.set(0, h + 1.15, 0);
+        house.add(sign);
+      }
+
+      house.position.set(px, foot.top, pz);
+      house.rotation.y = Math.atan2(info.x - px, info.z - pz);
       this.scene.add(house);
     }
+
+    this.settlementRoads.set(settlement.id, routes);
 
     // fire
     const fire = new THREE.Mesh(new THREE.SphereGeometry(0.22, 8, 8), new THREE.MeshBasicMaterial({ color: 0xffb45c }));
@@ -380,7 +536,21 @@ export class Region {
       group.add(hat);
       group.position.set(gx, info.top, gz);
       this.scene.add(group);
-      this.npcActors.push({ npc, group, baseX: gx, baseZ: gz, top: info.top, phase: h * 10 });
+      const roads = npc.settlementId ? this.settlementRoads.get(npc.settlementId) : null;
+      const route = roads && roads.length ? roads[npc.id % roads.length] : null;
+      this.npcActors.push({
+        npc,
+        group,
+        baseX: gx,
+        baseZ: gz,
+        top: info.top,
+        phase: h * 10,
+        route,
+        // people in town walk their road back and forth at their own pace
+        speed: route ? 0.16 + h2 * 0.14 : 0,
+        walkPhase: route ? h * Math.PI * 2 : 0,
+        lane: (hash(npc.id * 5, 13) - 0.5) * 0.8,
+      });
     }
 
     const speciesGeo = new THREE.BoxGeometry(0.5, 0.4, 0.9);
@@ -444,11 +614,18 @@ export class Region {
   }
 
   groundAt(x, z) {
-    const tx = this.center.x + Math.round(x / TS);
-    const ty = this.center.y + Math.round(z / TS);
-    const info = this.tiles.get(key(tx, ty));
-    if (!info) return 0;
-    return info.top;
+    // Same surface the mesh draws: bilinear over the tile corners.
+    const fx = x / TS + this.center.x;
+    const fz = z / TS + this.center.y;
+    const i0 = Math.floor(fx + 0.5);
+    const j0 = Math.floor(fz + 0.5);
+    const tx = fx + 0.5 - i0;
+    const tz = fz + 0.5 - j0;
+    const h00 = this.cornerH(i0, j0);
+    const h10 = this.cornerH(i0 + 1, j0);
+    const h01 = this.cornerH(i0, j0 + 1);
+    const h11 = this.cornerH(i0 + 1, j0 + 1);
+    return (h00 * (1 - tx) + h10 * tx) * (1 - tz) + (h01 * (1 - tx) + h11 * tx) * tz;
   }
 
   walkable(x, z) {
@@ -481,9 +658,37 @@ export class Region {
     return best;
   }
 
-  update(dt, elapsed) {
+  update(dt, elapsed, playerPos = null) {
     this.time = elapsed;
+    this.playerPos = playerPos;
     for (const actor of this.npcActors) {
+      if (actor.route) {
+        // Walking the road: plaza to door and back again.
+        const swing = Math.sin(elapsed * actor.speed + actor.walkPhase);
+        const k = (swing + 1) / 2;
+        const dx = actor.route.bx - actor.route.ax;
+        const dz = actor.route.bz - actor.route.az;
+        const len = Math.hypot(dx, dz) || 1;
+        const x = actor.route.ax + dx * k - (dz / len) * actor.lane;
+        const z = actor.route.az + dz * k + (dx / len) * actor.lane;
+        actor.group.position.x = x;
+        actor.group.position.z = z;
+        // step around the player instead of walking through them
+        const pp = this.playerPos;
+        if (pp) {
+          const ox = x - pp.x;
+          const oz = z - pp.z;
+          const od = Math.hypot(ox, oz);
+          if (od < 1.2 && od > 0.001) {
+            actor.group.position.x = x + (ox / od) * (1.2 - od);
+            actor.group.position.z = z + (oz / od) * (1.2 - od);
+          }
+        }
+        actor.group.position.y = this.groundAt(x, z) + Math.abs(Math.sin(elapsed * 6.5 + actor.walkPhase)) * 0.055;
+        const heading = Math.cos(elapsed * actor.speed + actor.walkPhase) >= 0 ? 1 : -1;
+        actor.group.rotation.y = Math.atan2(dx * heading, dz * heading);
+        continue;
+      }
       const bob = Math.sin(elapsed * 1.6 + actor.phase) * 0.05;
       actor.group.position.y = actor.top + Math.abs(bob);
       actor.group.rotation.y = Math.sin(elapsed * 0.4 + actor.phase) * 0.9;

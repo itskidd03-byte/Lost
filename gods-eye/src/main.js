@@ -1005,7 +1005,7 @@ class Game {
       this.scene = this.cabin.scene;
     } else if (this.mode === 'world' && this.region) {
       this.fp.update(dt);
-      this.region.update(dt, this.elapsed);
+      this.region.update(dt, this.elapsed, this.fp.position);
       this.scene = this.region.scene;
     }
 
