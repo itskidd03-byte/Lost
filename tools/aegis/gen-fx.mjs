@@ -95,14 +95,15 @@ const KINDS = {
 
   rune_circle: (p, v, r, S) => {
     const acc = [p[4], p[6], p[7], p[5]][v % 4];
-    const cx = S / 2, cy = S / 2, R = 190;
+    const cx = S / 2, cy = S / 2, R = 168 + v * 10;
+    const rot = v * 0.13;
     let g = `<circle cx="${cx}" cy="${cy}" r="${R}" stroke="${acc}" stroke-width="3"/>`;
     g += `<circle cx="${cx}" cy="${cy}" r="${R - 34}" stroke="${acc}" stroke-width="2" stroke-opacity=".7"/>`;
     g += `<circle cx="${cx}" cy="${cy}" r="${R - 96}" stroke="${acc}" stroke-width="2" stroke-opacity=".6" stroke-dasharray="6 10"/>`;
     for (let i = 0; i < 12; i++) {
-      const a = (Math.PI * 2 * i) / 12;
+      const a = (Math.PI * 2 * i) / 12 + rot;
       g += `<path d="M${cx + (R - 34) * Math.cos(a)} ${cy + (R - 34) * Math.sin(a)} L${cx + R * Math.cos(a)} ${cy + R * Math.sin(a)}" stroke="${acc}" stroke-width="3"/>`;
-      const a2 = (Math.PI * 2 * (i + 5)) / 12;
+      const a2 = (Math.PI * 2 * (i + 5)) / 12 + rot;
       g += `<path d="M${cx + (R - 60) * Math.cos(a)} ${cy + (R - 60) * Math.sin(a)} L${cx + (R - 60) * Math.cos(a2)} ${cy + (R - 60) * Math.sin(a2)}" stroke="${acc}" stroke-opacity=".45" stroke-width="1.5"/>`;
     }
     return svg(S, S, rad('rc', acc, acc),

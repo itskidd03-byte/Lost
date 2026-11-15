@@ -36,15 +36,11 @@ const KINDS = {
     for (let i = 0; i < 7; i++) {
       g += `<rect x="${m + 26}" y="${m + 46 + i * 15}" width="${(S - 2 * m - 52) * (0.4 + r() * 0.55)}" height="4" fill="${p[3]}" fill-opacity="${0.25 + r() * 0.5}"/>`;
     }
-    return svg(
-      S, S,
-      lin('g1', p[1], p[0]) + rad('gl', acc, acc),
+    return svg(S, S, lin('g1', p[1], p[0]) + rad('gl', acc, acc),
       `<rect x="${m}" y="${m}" width="${S - 2 * m}" height="${S - 2 * m}" rx="46" fill="url(#g1)" stroke="${p[3]}" stroke-opacity=".55" stroke-width="2"/>` +
         `<circle cx="${m + 28}" cy="${m + 26}" r="5" fill="url(#gl)"/>` +
         `<rect x="${m + 18}" y="${m + 18}" width="${S - 2 * m - 36}" height="2" fill="${acc}" fill-opacity=".55"/>` +
-        corner(m, m, 1, 1) + corner(S - m, m, -1, 1) + corner(m, S - m, 1, -1) + corner(S - m, S - m, -1, -1) +
-        g,
-    );
+        corner(m, m, 1, 1) + corner(S - m, m, -1, 1) + corner(m, S - m, 1, -1) + corner(S - m, S - m, -1, -1) + g);
   },
 
   button: (p, v, r, S) => {
@@ -103,8 +99,8 @@ const KINDS = {
     const acc = [p[5], p[6], p[4], p[7], p[3]][v % 5];
     const cx = S / 2, cy = S / 2 + 40, R = 168;
     const a0 = Math.PI * 1.12, a1 = Math.PI * 1.88;
-    const pt = (a) => [cx + R * Math.cos(a), cy + R * Math.sin(a)];
-    const [sx, sy] = pt(a0), [ex, ey] = pt(a1);
+    const [sx, sy] = [cx + R * Math.cos(a0), cy + R * Math.sin(a0)];
+    const [ex, ey] = [cx + R * Math.cos(a1), cy + R * Math.sin(a1)];
     let ticks = '';
     for (let i = 0; i <= 12; i++) {
       const a = a0 + ((a1 - a0) * i) / 12;
@@ -217,14 +213,48 @@ const KINDS = {
       `<rect width="${S}" height="${S}" fill="${p[0]}"/>` +
         `<rect x="44" y="44" width="${S - 88}" height="${S - 88}" rx="${24 + v * 10}" fill="url(#fr)" stroke="${acc}" stroke-width="${3 + v}"/>` + dots);
   },
+
+  tooltip: (p, v, r, S) => {
+    const acc = [p[5], p[6], p[4], p[7], p[3]][v % 5];
+    const w = S - 120, h = 170 + v * 14, x = (S - w) / 2, y = (S - h) / 2 - 20;
+    let lines = '';
+    for (let i = 0; i < 3; i++) {
+      lines += `<rect x="${x + 30}" y="${y + 52 + i * 26}" width="${(w - 60) * (0.45 + r() * 0.5)}" height="8" rx="4" fill="${p[3]}" fill-opacity="${0.3 + r() * 0.4}"/>`;
+    }
+    return svg(S, S, lin('tt', p[2], p[1], 0, 1),
+      `<rect width="${S}" height="${S}" fill="${p[0]}"/>` +
+        `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="14" fill="url(#tt)" stroke="${acc}" stroke-width="2.5"/>` +
+        `<rect x="${x + 18}" y="${y + 22}" width="${w * 0.3}" height="10" rx="5" fill="${acc}" fill-opacity=".9"/>` +
+        lines +
+        `<path d="M${S / 2 - 18} ${y + h} L${S / 2} ${y + h + 26} L${S / 2 + 18} ${y + h} z" fill="url(#tt)" stroke="${acc}" stroke-width="2.5"/>`);
+  },
+
+  divider: (p, v, r, S) => {
+    const acc = [p[5], p[6], p[4], p[7], p[3]][v % 5];
+    const cy = S / 2, half = S / 2 - 60 - v * 6;
+    let ticks = '';
+    for (let i = 0; i < 5 + v; i++) {
+      const x = S / 2 + (i + 1) * 14;
+      ticks += `<path d="M${x} ${cy - 6} v12 M${S - x} ${cy - 6} v12" stroke="${acc}" stroke-opacity="${0.8 - i * 0.1}" stroke-width="2"/>`;
+    }
+    return svg(S, S, rad('dv', acc, acc),
+      `<rect width="${S}" height="${S}" fill="${p[0]}"/>` +
+        `<path d="M${S / 2 - half} ${cy} H${S / 2 - 30} M${S / 2 + 30} ${cy} H${S / 2 + half}" stroke="${acc}" stroke-width="2.5"/>` +
+        `<circle cx="${S / 2}" cy="${cy}" r="${14 + v * 2}" fill="url(#dv)" fill-opacity=".8"/>` +
+        `<path d="M${S / 2} ${cy - 22} L${S / 2 + 16} ${cy} L${S / 2} ${cy + 22} L${S / 2 - 16} ${cy} z" stroke="${acc}" stroke-width="2.5"/>` +
+        ticks);
+  },
 };
 
+// Exactly 15 distinct kinds x 5 variants = 75 unique designs per collection.
+// Every (kind, variant) pair must be unique: a repeated pair emits a byte
+// identical file, which duplicate validation would reject.
 const NAMES = [
   ['HUD Panel', 'hud_panel'], ['Control Button', 'button'], ['Toggle Switch', 'toggle'],
   ['Value Slider', 'slider'], ['Power Meter', 'meter'], ['Arc Gauge', 'gauge'],
   ['Target Reticle', 'reticle'], ['Status Bar', 'status_bar'], ['Minimap Frame', 'minimap'],
   ['Inventory Slot', 'slot'], ['Achievement Badge', 'badge'], ['System Glyph', 'glyph'],
-  ['Interface Frame', 'frame'], ['HUD Panel', 'hud_panel'], ['Control Button', 'button'],
+  ['Interface Frame', 'frame'], ['Tooltip Panel', 'tooltip'], ['Ornamental Divider', 'divider'],
 ];
 
 export function generateUiAsset({ palette, index, seed }) {
