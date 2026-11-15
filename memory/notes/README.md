@@ -25,3 +25,13 @@ Run `node tools/sync-bank.mjs` (or dispatch the **Sync graphics bank** workflow)
 `reports/library-snapshot.md` are rewritten from whatever the live library currently holds. Images stay on
 the provider CDNs, so the repository stores references, palettes and notes rather than gigabytes of
 duplicated files.
+
+## AEGIS graphics memory bank
+
+`AEGIS_GRAPHICS_MEMORY/` holds 1,800 image files committed here rather than linked: DFI-0001…0600
+dark futuristic/industrial, PHR-0001…0600 photorealistic, FCN-0001…0600 fantasy/cinematic. The sync
+merges every collection manifest into the catalogue as `aegis:<asset id>` rows (categories `dfi-*`,
+`phr-*`, `fcn-*`), and each row's `page_url` is the file's path in this repository. Provenance and
+attribution per file: `AEGIS_GRAPHICS_MEMORY/MEMORY_INDEX/generation_provenance.json`. The hosted
+library's `/api/search` only serves what its stockpile passes ingested, so these files are listed in
+this catalogue and in the manifests rather than yet in the live search results.
