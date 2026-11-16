@@ -532,7 +532,7 @@ export class Society {
     if (willing.length < 2 && share < 5) return;
     const leavers = willing.slice(0, Math.min(10, willing.length));
     const moved = Math.max(leavers.length, Math.min(18, share));
-    const spot = this.freeTileNear(camp, world, 3, 16);
+    const spot = this.freeTileNear(camp, world, 2, 40);
     if (!spot) return;
     camp.lastMigration = this.time;
     this.foundCamp(camp, leavers, spot, moved);
