@@ -262,10 +262,30 @@ export function buildGround({ world, scale, centerX, centerY, segmentsPerTile = 
   // seen sinking into the landscape instead of popping into place.
   const position = geometry.attributes.position;
   let refreshAt = 0;
+  // Only the ground around a mold moves, so only that patch is re-sampled: a
+  // whole-board rebuild twenty times a second would cost more than the board.
   const refresh = (molds) => {
     moldsNow = molds;
-    for (let j = 0; j <= segY; j++) {
-      for (let i = 0; i <= segX; i++) {
+    let minTx = Infinity;
+    let maxTx = -Infinity;
+    let minTy = Infinity;
+    let maxTy = -Infinity;
+    for (const mold of molds.values()) {
+      minTx = Math.min(minTx, mold.x);
+      maxTx = Math.max(maxTx, mold.x);
+      minTy = Math.min(minTy, mold.y);
+      maxTy = Math.max(maxTy, mold.y);
+    }
+    if (!Number.isFinite(minTx)) return;
+    const pad = 1.8;
+    const spanX = cols;
+    const spanY = rows;
+    const i0 = Math.max(0, Math.floor(((minTx - pad) - (b.minX - 0.5)) / spanX * segX));
+    const i1 = Math.min(segX, Math.ceil(((maxTx + pad) - (b.minX - 0.5)) / spanX * segX));
+    const j0 = Math.max(0, Math.floor(((minTy - pad) - (b.minY - 0.5)) / spanY * segY));
+    const j1 = Math.min(segY, Math.ceil(((maxTy + pad) - (b.minY - 0.5)) / spanY * segY));
+    for (let j = j0; j <= j1; j++) {
+      for (let i = i0; i <= i1; i++) {
         const tx = b.minX - 0.5 + (i / segX) * cols;
         const ty = b.minY - 0.5 + (j / segY) * rows;
         position.setY(j * (segX + 1) + i, heightAt(tx, ty));

@@ -425,6 +425,7 @@ export class MapTable {
     // rebuilt every second or so while you are watching it, and clearing them
     // here would cut the molding short every time.
     if (!this.molds) this.molds = new Map();
+    if (!this.moldSettled) this.moldSettled = new Map();
     this.moldClock = 0;
     const groundY = (tile) => ground.heightAt(tile.x, tile.y);
     this.groundY = groundY;
@@ -735,15 +736,19 @@ export class MapTable {
       }
       if (Math.abs(mold.raise - before) > 1e-7) moved = true;
       if (mold.t > 3.05) {
-        mold.raise = 0;
         this.molds.delete(k);
+        // the last frame of the mold still has to be drawn flat
+        this.moldSettled.set(k, { x: mold.x, y: mold.y, raise: 0 });
         moved = true;
       }
     }
     // twenty-odd rebuilds a second is enough to look like the ground is flowing
-    if (moved && this.moldClock > 0.05) {
+    if (moved && this.moldClock > 0.075) {
+      const view = new Map(this.molds);
+      for (const [k, v] of this.moldSettled) view.set(k, v);
+      this.moldSettled.clear();
       this.moldClock = 0;
-      this.ground.refresh(this.molds);
+      this.ground.refresh(view);
     }
   }
 
