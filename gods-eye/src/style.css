@@ -55,7 +55,7 @@ html, body {
 .hud-stats b { color: var(--ink); font-weight: 600; }
 .war-stat b { color: #e56a5a; }
 
-.hud-right { display: flex; align-items: center; gap: 8px; }
+.hud-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: flex-end; max-width: 70vw; }
 
 .speed { display: flex; border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
 .speed button {
