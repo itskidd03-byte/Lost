@@ -94,17 +94,37 @@ export function personModel({ seed = 1, height = 0.03 } = {}) {
   const inverse = new THREE.Quaternion();
   const axisX = new THREE.Vector3();
   const axisZ = new THREE.Vector3();
+  const here = new THREE.Vector3();
+  const limb = new THREE.Vector3();
   root.traverse((obj) => {
     if (!obj.isBone || !DRIVEN.includes(obj.name)) return;
     obj.getWorldQuaternion(world);
     inverse.copy(world).invert();
     axisX.set(1, 0, 0).applyQuaternion(inverse).normalize();
     axisZ.set(0, 0, 1).applyQuaternion(inverse).normalize();
+
+    // The arm has to fall to the side whatever direction the villager faces, so
+    // the turn is built about the axis square to the limb and the ground rather
+    // than a fixed world axis.
+    let droopAxis = null;
+    if (obj.name.startsWith('Upperarm') && obj.children.length) {
+      obj.getWorldPosition(here);
+      obj.children[0].getWorldPosition(limb);
+      limb.sub(here);
+      if (limb.lengthSq() > 1e-8) {
+        limb.normalize();
+        droopAxis = new THREE.Vector3().crossVectors(limb, DOWN).normalize();
+        if (droopAxis.lengthSq() < 0.5) droopAxis = null;
+        else droopAxis.applyQuaternion(inverse).normalize();
+      }
+    }
+
     bones.set(obj.name, {
       bone: obj,
       base: obj.quaternion.clone(),
       axisX: axisX.clone(),
       axisZ: axisZ.clone(),
+      droopAxis,
     });
   });
   return { root, bones, name, height };
@@ -112,6 +132,7 @@ export function personModel({ seed = 1, height = 0.03 } = {}) {
 
 const swing = new THREE.Quaternion();
 const rest = new THREE.Quaternion();
+const DOWN = new THREE.Vector3(0, -1, 0);
 
 // A walk made of bone swings: thighs and arms counter each other, knees bend on
 // the back half of the stride. speed 0 leaves them standing with a small breath.
@@ -131,7 +152,7 @@ export function walkPerson(model, time, speed = 1) {
     else if (name.startsWith('Calf')) angle = Math.max(0, -Math.sin(stride + phase)) * 0.6 * moving;
     else if (name.startsWith('Upperarm')) {
       angle = Math.sin(stride + phase + Math.PI) * 0.42 * moving;
-      droop = left ? 1.18 : -1.18;
+      droop = entry.droopAxis ? 1.3 : 0;
     } else if (name.startsWith('Lowerarm')) angle = 0.2 + Math.sin(stride + phase) * 0.12;
     else if (name === 'Spine_02') angle = Math.sin(stride * 2) * 0.03;
     if (!angle && !droop) {
@@ -139,8 +160,8 @@ export function walkPerson(model, time, speed = 1) {
       continue;
     }
     entry.bone.quaternion.copy(entry.base);
-    if (droop) {
-      rest.setFromAxisAngle(entry.axisZ, droop);
+    if (droop && entry.droopAxis) {
+      rest.setFromAxisAngle(entry.droopAxis, droop);
       entry.bone.quaternion.multiply(rest);
     }
     if (angle) {
