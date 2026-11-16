@@ -1,16 +1,34 @@
 # Live library snapshot
 
-Fetched 2026-11-15T20:52:21.442Z from https://site-d460edd452c14327949ad468417abf82.freebuff.page.
+Fetched 2026-11-16T01:49:08.823Z from https://site-d460edd452c14327949ad468417abf82.freebuff.page.
 
-- Assets: 3463
-- Providers: artic 641, polyhaven 624, wikimedia 398
-- Categories: 48
+- Assets: 3465
+- Providers: wikimedia 1599, polyhaven 850, artic 641
+- Categories: 66
 
 | Category | Assets |
 | --- | --- |
-| human-portrait | 929 |
+| human-portrait | 930 |
 | tex-wood | 226 |
-| tex-metal | 109 |
+| tex-metal | 110 |
+| dfi-environments | 100 |
+| fcn-environments | 100 |
+| phr-environments | 100 |
+| dfi-architecture | 75 |
+| dfi-characters | 75 |
+| dfi-concepts | 75 |
+| dfi-objects | 75 |
+| dfi-textures | 75 |
+| fcn-architecture | 75 |
+| fcn-characters | 75 |
+| fcn-concepts | 75 |
+| fcn-objects | 75 |
+| fcn-textures | 75 |
+| phr-architecture | 75 |
+| phr-characters | 75 |
+| phr-concepts | 75 |
+| phr-objects | 75 |
+| phr-textures | 75 |
 | clouds | 72 |
 | furniture | 52 |
 | tex-fabric | 35 |
