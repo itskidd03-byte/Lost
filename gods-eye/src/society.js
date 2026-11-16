@@ -669,8 +669,9 @@ export class Society {
     view.legs = legs;
     view.dummy = new THREE.Object3D();
     view.people = people.map((person, i) => {
-      const a = hash(person.id * 3.7) * Math.PI * 2;
-      const rad = 1.2 + hash(person.id * 7.3) * 3.2;
+      // spread the crowd around the fire instead of stacking them in one line
+      const a = (i / n) * Math.PI * 2 + hash(person.id * 3.7) * 0.6;
+      const rad = 2.2 + hash(person.id * 7.3) * 4.6;
       return {
         person,
         x: view.local.x + Math.cos(a) * rad,
@@ -694,17 +695,17 @@ export class Society {
         const p = view.people[i];
         const person = p.person;
         // children stay close to the fire, elders sit near it, workers roam
-        const reach = person.job === 'child' ? 1.6 : person.job === 'elder' ? 2.2 : 4.2;
+        const reach = person.job === 'child' ? 2.0 : person.job === 'elder' ? 2.6 : 4.6;
         const dx = p.targetX - p.x;
         const dz = p.targetZ - p.z;
         const dist = Math.hypot(dx, dz);
         if (dist < 0.3) {
           const a = hash(person.id * 13.1 + Math.floor(this.time * 0.25)) * Math.PI * 2;
-          const rad = 0.8 + hash(person.id * 5.9 + Math.floor(this.time * 0.3)) * reach;
+          const rad = 1.8 + hash(person.id * 5.9 + Math.floor(this.time * 0.3)) * reach;
           p.targetX = view.local.x + Math.cos(a) * rad;
           p.targetZ = view.local.z + Math.sin(a) * rad;
         } else {
-          const speed = person.job === 'child' ? 0.7 : 0.55;
+          const speed = (person.job === 'child' ? 0.7 : 0.55) + hash(person.id * 2.9) * 0.35;
           p.x += (dx / dist) * Math.min(dist, speed * dt);
           p.z += (dz / dist) * Math.min(dist, speed * dt);
           p.yaw = Math.atan2(dx, dz);
