@@ -841,8 +841,8 @@ export class Region {
     const near = this.state.npcs.filter(
       (n) => n.alive && Math.abs(n.x - this.center.x) <= RADIUS && Math.abs(n.y - this.center.y) <= RADIUS,
     );
-    // Rigged bodies are the priciest thing in a region, so a very large town
-    // keeps the painted figure for its outermost villagers.
+    // A town can hold more rigged bodies than a phone wants to draw, so the ones
+    // nearest the tile you walked into fill the streets.
     const modelled = new Set(
       [...near]
         .sort((a, b) => (Math.abs(a.x - this.center.x) + Math.abs(a.y - this.center.y))
@@ -860,6 +860,9 @@ export class Region {
       // the medieval person pack, when it is here; the painted villager only
       // while the models are still on the wire
       const person = peopleReady() && modelled.has(npc) ? personModel({ seed: npc.id * 31 + 7, height: 1.75 }) : null;
+      // Once the pack is in, extra villagers are simply not on the street — a
+      // painted cut-out standing beside a real one would look like a mistake.
+      if (peopleReady() && !person) continue;
       // rigged bodies are the most expensive thing in the region: no shadow pass
       if (person) person.root.traverse((o) => { if (o.isMesh) o.castShadow = false; });
       if (person) {
