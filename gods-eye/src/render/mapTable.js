@@ -812,12 +812,12 @@ export class MapTable {
     const colors = [];
     const color = new THREE.Color();
     camps.forEach((camp, index) => {
-      color.setHSL((camp.id * 0.137) % 1, 0.55, 0.55);
+      color.setHSL((camp.id * 0.137) % 1, 0.7, 0.6);
       for (const k of camp.territory || []) {
         const [x, y] = k.split(',').map(Number);
         const tile = this.state?.world?.tiles?.get(k);
         if (!tile) continue;
-        const top = this.groundY(tile) + 0.006;
+        const top = this.groundY(tile) + 0.02;
         const a = project(x - 0.5, y - 0.5);
         const b = project(x + 0.5, y - 0.5);
         const c = project(x + 0.5, y + 0.5);
@@ -830,7 +830,7 @@ export class MapTable {
     if (!this.societyMesh) {
       const geometry = new THREE.BufferGeometry();
       const material = new THREE.MeshBasicMaterial({
-        vertexColors: true, transparent: true, opacity: 0.34, depthWrite: false, side: THREE.DoubleSide,
+        vertexColors: true, transparent: true, opacity: 0.5, depthWrite: false, side: THREE.DoubleSide,
       });
       this.societyMesh = new THREE.Mesh(geometry, material);
       this.societyMesh.renderOrder = 2;

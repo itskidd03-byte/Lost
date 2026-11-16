@@ -470,13 +470,13 @@ export class Society {
   growTerritory(camp, world) {
     if (!this.claimed) this.rebuildClaims();
     const rank = this.governmentRank(camp);
-    const per = rank >= 3 ? 6 : 10;
+    const per = rank >= 3 ? 4 : 6;
     const target = 1 + Math.floor((this.headcount(camp) || 0) / per);
     const have = (camp.territory || []).length;
     if (have >= target) return;
     // a great kingdom reaches further than a village does
-    const reach = 4 + Math.min(26, Math.floor(have / 3));
-    for (let i = 0; i < 4 && (camp.territory || []).length < target; i++) {
+    const reach = 5 + Math.min(35, Math.floor(have / 2));
+    for (let i = 0; i < 6 && (camp.territory || []).length < target; i++) {
       const spot = this.freeTileNear(camp, world, 2, reach);
       if (!spot || !this.claim(camp, spot.x, spot.y)) break;
     }
