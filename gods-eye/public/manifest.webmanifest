@@ -1,0 +1,19 @@
+{
+  "name": "God's Eye — The Living World of Johan",
+  "short_name": "God's Eye",
+  "description": "One immortal mind builds an infinite world. The table in his cabin is the world itself.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "landscape",
+  "background_color": "#05070a",
+  "theme_color": "#07090b",
+  "categories": ["games", "simulation"],
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

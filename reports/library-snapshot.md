@@ -1,16 +1,34 @@
 # Live library snapshot
 
-Fetched 2026-11-15T14:08:58.593Z from https://site-d460edd452c14327949ad468417abf82.freebuff.page.
+Fetched 2026-11-16T01:49:08.823Z from https://site-d460edd452c14327949ad468417abf82.freebuff.page.
 
-- Assets: 1663
-- Providers: artic 641, polyhaven 624, wikimedia 398
-- Categories: 48
+- Assets: 3465
+- Providers: wikimedia 1599, polyhaven 850, artic 641
+- Categories: 66
 
 | Category | Assets |
 | --- | --- |
-| human-portrait | 929 |
+| human-portrait | 930 |
 | tex-wood | 226 |
-| tex-metal | 109 |
+| tex-metal | 110 |
+| dfi-environments | 100 |
+| fcn-environments | 100 |
+| phr-environments | 100 |
+| dfi-architecture | 75 |
+| dfi-characters | 75 |
+| dfi-concepts | 75 |
+| dfi-objects | 75 |
+| dfi-textures | 75 |
+| fcn-architecture | 75 |
+| fcn-characters | 75 |
+| fcn-concepts | 75 |
+| fcn-objects | 75 |
+| fcn-textures | 75 |
+| phr-architecture | 75 |
+| phr-characters | 75 |
+| phr-concepts | 75 |
+| phr-objects | 75 |
+| phr-textures | 75 |
 | clouds | 72 |
 | furniture | 52 |
 | tex-fabric | 35 |
@@ -56,3 +74,41 @@ Fetched 2026-11-15T14:08:58.593Z from https://site-d460edd452c14327949ad468417ab
 | uniforms | 1 |
 | water | 1 |
 | weapons | 1 |
+
+## AEGIS graphics memory bank
+
+Real image files committed in this repository; listed from each collection manifest in
+`AEGIS_GRAPHICS_MEMORY/`. Catalogue ids are `aegis:<asset id>`.
+
+- Files: 1800
+- DARK_FUTURISTIC_INDUSTRIAL: 600
+- FANTASY_CINEMATIC: 600
+- PHOTOREALISTIC: 600
+- Categories: 24 (dfi-architecture … phr-ui)
+
+| Category | Assets |
+| --- | --- |
+| dfi-architecture | 75 |
+| dfi-characters | 75 |
+| dfi-concepts | 75 |
+| dfi-effects | 50 |
+| dfi-environments | 100 |
+| dfi-objects | 75 |
+| dfi-textures | 75 |
+| dfi-ui | 75 |
+| fcn-architecture | 75 |
+| fcn-characters | 75 |
+| fcn-concepts | 75 |
+| fcn-effects | 50 |
+| fcn-environments | 100 |
+| fcn-objects | 75 |
+| fcn-textures | 75 |
+| fcn-ui | 75 |
+| phr-architecture | 75 |
+| phr-characters | 75 |
+| phr-concepts | 75 |
+| phr-effects | 50 |
+| phr-environments | 100 |
+| phr-objects | 75 |
+| phr-textures | 75 |
+| phr-ui | 75 |
