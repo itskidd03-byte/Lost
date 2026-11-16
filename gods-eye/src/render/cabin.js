@@ -129,6 +129,18 @@ function windowTexture() {
   });
 }
 
+// A texture from a shared furniture pack: they arrive as 4K atlases, so the
+// useful surface is cropped and made seamless into these files first.
+function furnitureTexture(file, repeat = [1, 1]) {
+  const tex = new THREE.TextureLoader().load(`${import.meta.env.BASE_URL}textures/furniture/${file}`);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(repeat[0], repeat[1]);
+  tex.anisotropy = 8;
+  return tex;
+}
+
 export class Cabin {
   constructor() {
     this.scene = new THREE.Scene();
@@ -482,12 +494,15 @@ export class Cabin {
     const topBump = top.bump.clone();
     topBump.needsUpdate = true;
     topBump.repeat.set(2, 1.4);
+    // the table wears the skin taken from the shared furniture pack: dark oak
+    // boards, tiled across the top, with the painted grain kept as relief
+    const skin = furnitureTexture('table-top.jpg', [2, 1.4]);
     const mat = new THREE.MeshStandardMaterial({
-      map: topMap,
+      map: skin,
       bumpMap: topBump,
-      bumpScale: 0.012,
-      roughness: 0.68,
-      color: 0xd3b48e,
+      bumpScale: 0.006,
+      roughness: 0.66,
+      color: 0xf2e2ca,
     });
     const group = new THREE.Group();
     group.position.copy(this.tablePos);
@@ -803,7 +818,12 @@ export class Cabin {
   // footrest and a gold crown along the headrest, set where Johan can sit and
   // watch the world he is working on.
   buildThrone() {
-    const leather = new THREE.MeshStandardMaterial({ color: 0x40241f, roughness: 0.62, metalness: 0.04 });
+    const leather = new THREE.MeshStandardMaterial({
+      map: furnitureTexture('tufted-leather.jpg', [2, 1.4]),
+      color: 0xe9dfd6,
+      roughness: 0.6,
+      metalness: 0.05,
+    });
     const leatherDark = new THREE.MeshStandardMaterial({ color: 0x2c1915, roughness: 0.72 });
     const chrome = new THREE.MeshStandardMaterial({ color: 0xc9cdd4, roughness: 0.24, metalness: 0.94 });
     const gold = new THREE.MeshStandardMaterial({
