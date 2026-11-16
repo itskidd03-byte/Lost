@@ -207,10 +207,36 @@ export function grassStrands(count, radius, { color = '#2b4a2b', height = 1 } = 
 
 /* ---------------------------------- water --------------------------------- */
 
-export function waterSurface(width, depth, colorHex, { river = false, dir = 'both', seed = 0 } = {}) {
-  const material = makeWaterMaterial({ tint: colorHex, opacity: river ? 0.94 : 0.9, river, dir });
+// Shallows at the rim, deeper water in the middle: the colour of each corner of
+// the sheet is pulled apart, so a channel has a wadeable edge and a dark bed.
+function rimGeometry() {
+  return geom('water-rim', () => {
+    const g = new THREE.PlaneGeometry(1, 1, 4, 4);
+    const pos = g.attributes.position;
+    const colors = new Float32Array(pos.count * 3);
+    for (let i = 0; i < pos.count; i++) {
+      const fromEdge = Math.max(Math.abs(pos.getX(i)), Math.abs(pos.getY(i))) * 2;
+      const shade = 0.62 + Math.min(1, fromEdge) * 0.55;
+      colors[i * 3] = shade * 0.94;
+      colors[i * 3 + 1] = shade * 0.99;
+      colors[i * 3 + 2] = shade;
+    }
+    g.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    return g;
+  });
+}
+
+export function waterSurface(width, depth, colorHex, { river = false, dir = 'both', seed = 0, opacity = null, speed = null } = {}) {
+  const material = makeWaterMaterial({
+    tint: colorHex,
+    opacity: opacity ?? (river ? 0.94 : 0.9),
+    river,
+    dir,
+    speed,
+  });
   if (material.map) material.map.offset.set(hash2(seed, 3) % 1, hash2(seed, 7) % 1);
-  const surface = new THREE.Mesh(geom('water', () => new THREE.PlaneGeometry(1, 1, 1, 1)), material);
+  material.vertexColors = true;
+  const surface = new THREE.Mesh(rimGeometry(), material);
   surface.rotation.x = -Math.PI / 2;
   surface.scale.set(width, depth, 1);
   surface.position.y = 0.001;

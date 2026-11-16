@@ -55,6 +55,7 @@ export class Region {
     this.warFX = [];
     this.waterRipples = [];
     this.waterMats = [];
+    this.rapidsFX = [];
     this.settlementRoads = new Map();
     this.towns = new Map();
     this.townMats = null;
@@ -180,20 +181,32 @@ export class Region {
       if (!land) {
         // keep each sheet inside its own tile so it never bleeds onto land
         const river = tile.biome === 'river';
-        const water = waterSurface(TS, TS, river ? '#e8f7fd' : '#e2f3fa', {
+        // shallows near a bank are pale and clear; the middle of a channel is
+        // deep and holds its colour
+        const shallow = this.shoreDepth(info) <= 1;
+        // white water where the bed drops, and now and then along a run of river
+        const rapids = river && (this.rapidsAt(info) || (tile.x * 7 + tile.y * 5) % 13 === 0);
+        const water = waterSurface(TS, TS, shallow ? '#f2fcff' : river ? '#dff2fb' : '#b6d7e6', {
           river,
           dir: this.flowDir(tile),
           seed: tile.x * 31 + tile.y * 17,
+          opacity: shallow ? 0.78 : 0.96,
+          speed: rapids ? 1.15 : null,
         });
-        water.group.position.set(x, info.top + 0.02, z);
+        water.group.position.set(x, info.top + (shallow ? 0.012 : 0.02), z);
         this.scene.add(water.group);
         if (water.material) this.waterMats.push(water.material);
         for (const ripple of water.ripples) this.waterRipples.push(ripple);
+        if (rapids) this.buildRapids(info);
       } else if (tile.detail > 0.2) {
         const tufts = grassStrands(26, TS * 0.42, { color: '#33502c', height: 0.55 });
         tufts.position.set(x, info.top, z);
         this.scene.add(tufts);
       }
+
+      // the bank you walk: stones and reeds along every shore, so the edge of
+      // the water is ground you can follow instead of a cliff
+      if (land && this.touchesWater(tile)) this.buildBank(info);
 
       // cultivated fields around settlements
       if (tile.settlementId && land) {
@@ -207,6 +220,83 @@ export class Region {
         this.scene.add(plot);
       }
     }
+  }
+
+  // How far this water sits from dry ground: 1 on the shoreline, 2 a tile out,
+  // 3 in the open water. The first ring is the shallow shelf you can wade.
+  shoreDepth(info) {
+    const { tile } = info;
+    let best = 2;
+    for (let dx = -2; dx <= 2; dx++) {
+      for (let dy = -2; dy <= 2; dy++) {
+        const nb = this.tiles.get(key(tile.x + dx, tile.y + dy));
+        if (nb && nb.land) best = Math.min(best, Math.max(Math.abs(dx), Math.abs(dy)));
+      }
+    }
+    return best;
+  }
+
+  touchesWater(tile) {
+    return [[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => {
+      const nb = this.tiles.get(key(tile.x + dx, tile.y + dy));
+      return !!(nb && !nb.land);
+    });
+  }
+
+  // A river dropping away under itself is a rapid: white water over the stones.
+  rapidsAt(info) {
+    const { tile, top } = info;
+    for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+      const nb = this.tiles.get(key(tile.x + dx, tile.y + dy));
+      if (!nb || nb.land) continue;
+      if (Math.abs(nb.top - top) > 0.12) return true;
+    }
+    return false;
+  }
+
+  buildRapids(info) {
+    const foamMat = new THREE.MeshBasicMaterial({
+      color: 0xf4fbff,
+      transparent: true,
+      opacity: 0.55,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+      side: THREE.DoubleSide,
+    });
+    const group = new THREE.Group();
+    group.position.set(info.x, info.top + 0.03, info.z);
+    for (let i = 0; i < 5; i++) {
+      const streak = new THREE.Mesh(new THREE.PlaneGeometry(TS * (0.18 + hash(i, 3) * 0.22), TS * 0.06), foamMat.clone());
+      streak.rotation.x = -Math.PI / 2;
+      streak.rotation.z = hash(i, 7) * Math.PI;
+      streak.position.set((hash(i, 11) - 0.5) * TS * 0.7, 0.002, (hash(i, 13) - 0.5) * TS * 0.7);
+      group.add(streak);
+    }
+    this.scene.add(group);
+    this.rapidsFX.push({ group, mats: group.children.map((m) => m.material), phase: hash(info.tile.x, info.tile.y) * 6 });
+  }
+
+  buildBank(info) {
+    const stoneMat = new THREE.MeshStandardMaterial({ color: 0x8a8578, roughness: 0.95 });
+    const reedMat = new THREE.MeshStandardMaterial({ color: 0x4c6b3a, roughness: 0.95 });
+    const group = new THREE.Group();
+    group.position.set(info.x, info.top, info.z);
+    for (let i = 0; i < 4; i++) {
+      const stone = new THREE.Mesh(new THREE.IcosahedronGeometry(0.16 + hash(i, 5) * 0.14, 0), stoneMat);
+      stone.scale.y = 0.55;
+      stone.rotation.y = hash(i, 9) * Math.PI;
+      stone.position.set((hash(info.tile.x + i, 3) - 0.5) * TS * 0.85, 0.05, (hash(info.tile.y + i, 7) - 0.5) * TS * 0.85);
+      stone.castShadow = true;
+      stone.receiveShadow = true;
+      group.add(stone);
+    }
+    for (let i = 0; i < 5; i++) {
+      const blade = new THREE.Mesh(new THREE.ConeGeometry(0.035, 0.55 + hash(i, 13) * 0.4, 3), reedMat);
+      blade.position.set((hash(info.tile.x + i, 17) - 0.5) * TS * 0.8, 0.3, (hash(info.tile.y + i, 19) - 0.5) * TS * 0.8);
+      blade.rotation.z = (hash(i, 23) - 0.5) * 0.3;
+      group.add(blade);
+    }
+    this.scene.add(group);
   }
 
   // Which way the water runs here: along the axis where this tile has more wet
@@ -1104,8 +1194,10 @@ export class Region {
     const tx = this.center.x + Math.round(x / TS);
     const ty = this.center.y + Math.round(z / TS);
     const info = this.tiles.get(key(tx, ty));
-    if (!info || !info.land) return false;
-    return true;
+    if (!info) return false;
+    if (info.land) return true;
+    // the shallows of a bank are yours to wade: ankle-deep water along the shore
+    return this.shoreDepth(info) <= 1;
   }
 
   tilesBounds() {
@@ -1192,6 +1284,11 @@ export class Region {
     for (const fx of this.warFX) fx.material.opacity = pulse;
     // every river runs and every lake breathes, in the world as on the table
     for (const material of this.waterMats) advanceWater(material, dt);
+    const wave = (elapsed ?? 0) * 2.6;
+    for (const rapid of this.rapidsFX) {
+      const pulse = 0.35 + Math.sin(wave + rapid.phase) * 0.25;
+      for (const mat of rapid.mats) mat.opacity = pulse;
+    }
     for (const ripple of this.waterRipples) {
       const t = (elapsed * 0.3 + ripple.phase) % 1;
       ripple.mesh.scale.setScalar(ripple.base * (0.45 + t * 2.4));

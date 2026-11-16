@@ -145,6 +145,8 @@ export class Cabin {
     this.spawnYaw = 0.06;
 
     this.blockers = [];
+    this.wallLamps = [];
+    this.throne = null;
     this.lantern = null;
     this.journal = null;
     this.dust = null;
@@ -155,6 +157,8 @@ export class Cabin {
     this.buildLaptop();
     this.buildBed();
     this.buildJournal();
+    this.buildThrone();
+    this.buildWallLamps();
     this.buildLight();
 
     this.map = new MapTable(this.mapGroup);
@@ -793,6 +797,145 @@ export class Cabin {
     group.add(glow);
 
     this.journal = group;
+  }
+
+  // A barber's chair, promoted to a throne: chrome pedestal, tufted leather, a
+  // footrest and a gold crown along the headrest, set where Johan can sit and
+  // watch the world he is working on.
+  buildThrone() {
+    const leather = new THREE.MeshStandardMaterial({ color: 0x40241f, roughness: 0.62, metalness: 0.04 });
+    const leatherDark = new THREE.MeshStandardMaterial({ color: 0x2c1915, roughness: 0.72 });
+    const chrome = new THREE.MeshStandardMaterial({ color: 0xc9cdd4, roughness: 0.24, metalness: 0.94 });
+    const gold = new THREE.MeshStandardMaterial({
+      color: 0xc9a227, roughness: 0.38, metalness: 0.75, emissive: 0x2a1f05, emissiveIntensity: 0.6,
+    });
+    const group = new THREE.Group();
+    const at = new THREE.Vector3(-3.05, 0, 1.65);
+    group.position.copy(at);
+    // face the table it is set beside
+    group.rotation.y = Math.atan2(this.tablePos.x - at.x, this.tablePos.z - at.z);
+    this.root.add(group);
+
+    // pedestal: a weighted plate, a chrome column and a ring the foot rests on
+    const plate = new THREE.Mesh(new THREE.CylinderGeometry(0.42, 0.46, 0.07, 18), chrome);
+    plate.position.y = 0.035;
+    const column = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.11, 0.52, 12), chrome);
+    column.position.y = 0.33;
+    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.022, 6, 20), chrome);
+    ring.rotation.x = Math.PI / 2;
+    ring.position.y = 0.24;
+    group.add(plate, column, ring);
+
+    // seat, with a rolled front edge
+    const seat = new THREE.Mesh(new THREE.BoxGeometry(0.78, 0.16, 0.7), leather);
+    seat.position.y = 0.65;
+    const roll = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 0.78, 12), leather);
+    roll.rotation.z = Math.PI / 2;
+    roll.position.set(0, 0.67, 0.34);
+    group.add(seat, roll);
+
+    // tall tufted back, leaning away from the sitter
+    const back = new THREE.Group();
+    back.position.set(0, 0.7, -0.32);
+    back.rotation.x = -0.12;
+    const panel = new THREE.Mesh(new THREE.BoxGeometry(0.78, 1.05, 0.16), leather);
+    panel.position.y = 0.52;
+    back.add(panel);
+    for (let row = 0; row < 3; row++) {
+      for (let col = -1; col <= 1; col++) {
+        const button = new THREE.Mesh(new THREE.SphereGeometry(0.03, 6, 5), leatherDark);
+        button.position.set(col * 0.22, 0.28 + row * 0.3, 0.085);
+        back.add(button);
+      }
+    }
+    // headrest with the gold crown
+    const head = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.2, 0.16), leather);
+    head.position.set(0, 1.16, -0.04);
+    back.add(head);
+    for (const [w, h, y] of [[0.62, 0.05, 1.3], [0.44, 0.04, 1.36]]) {
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.11), gold);
+      bar.position.set(0, y, -0.02);
+      back.add(bar);
+    }
+    for (const gx of [-0.26, 0, 0.26]) {
+      const finial = new THREE.Mesh(new THREE.ConeGeometry(0.035, 0.1, 6), gold);
+      finial.position.set(gx, 1.44, -0.02);
+      back.add(finial);
+    }
+    group.add(back);
+
+    // armrests on chrome posts
+    for (const side of [-1, 1]) {
+      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 0.32, 8), chrome);
+      post.position.set(side * 0.36, 0.82, 0.05);
+      const pad = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.09, 0.46), leather);
+      pad.position.set(side * 0.36, 1.0, 0.06);
+      group.add(post, pad);
+    }
+
+    // footrest: a chrome frame with a ribbed plate
+    const rest = new THREE.Group();
+    rest.position.set(0, 0, 0.42);
+    for (const side of [-1, 1]) {
+      const bar = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.36, 6), chrome);
+      bar.position.set(side * 0.22, 0.3, 0.12);
+      bar.rotation.x = 0.8;
+      rest.add(bar);
+    }
+    const plateRest = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.05, 0.24), leatherDark);
+    plateRest.position.set(0, 0.45, 0.29);
+    plateRest.rotation.x = -0.25;
+    rest.add(plateRest);
+    group.add(rest);
+
+    this.throne = group;
+    this.blockers.push({ minX: at.x - 0.55, maxX: at.x + 0.55, minZ: at.z - 0.55, maxZ: at.z + 0.6 });
+  }
+
+  // Lamps on the walls, so the room is lit from more than the one lantern: a
+  // brass bracket, a warm shade and a small pool of light on the plaster.
+  buildWallLamps() {
+    const brass = new THREE.MeshStandardMaterial({ color: 0x8b6a3a, metalness: 0.65, roughness: 0.42 });
+    const shadeMat = new THREE.MeshStandardMaterial({
+      color: 0x3a2b1c, emissive: 0xffaf5f, emissiveIntensity: 0.85, roughness: 0.72, side: THREE.DoubleSide,
+    });
+    const bulbMat = new THREE.MeshStandardMaterial({ color: 0xfff0cf, emissive: 0xffc078, emissiveIntensity: 2.2, roughness: 0.3 });
+    const spots = [
+      [-4.14, 2.0, -1.5, Math.PI / 2],
+      [-4.14, 2.0, 2.35, Math.PI / 2],
+      [4.14, 2.0, -2.7, -Math.PI / 2],
+    ];
+    for (const [x, y, z, yaw] of spots) {
+      const lamp = new THREE.Group();
+      lamp.position.set(x, y, z);
+      lamp.rotation.y = yaw;
+      const plate = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.22, 0.12), brass);
+      const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.016, 0.26, 6), brass);
+      arm.rotation.z = Math.PI / 2.4;
+      arm.position.set(0.12, 0.04, 0);
+      const cup = new THREE.Mesh(new THREE.ConeGeometry(0.15, 0.16, 12, 1, true), shadeMat);
+      cup.position.set(0.24, -0.02, 0);
+      cup.rotation.z = Math.PI;
+      const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.045, 8, 6), bulbMat);
+      bulb.position.set(0.24, -0.1, 0);
+      const glow = new THREE.Sprite(
+        new THREE.SpriteMaterial({
+          map: glowTexture(),
+          color: 0xffb977,
+          transparent: true,
+          opacity: 0.42,
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+        }),
+      );
+      glow.position.set(0.24, -0.06, 0);
+      glow.scale.setScalar(0.62);
+      const light = new THREE.PointLight(0xffb266, 3.4, 4.8, 2);
+      light.position.set(0.3, -0.08, 0);
+      lamp.add(plate, arm, cup, bulb, glow, light);
+      this.root.add(lamp);
+      this.wallLamps.push({ light, glow, phase: Math.random() * 6 });
+    }
   }
 
   buildLight() {
