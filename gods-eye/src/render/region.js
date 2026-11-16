@@ -52,14 +52,16 @@ export class Region {
     this.disposables = [];
     this.time = 0;
 
-    const sky = new THREE.Color('#2b3f52');
+    // Day, not dusk: pale blue sky, warm sun, and enough haze to keep distance
+    // readable without washing the ground out.
+    const sky = new THREE.Color('#a8cce4');
     this.scene.background = sky;
-    this.scene.fog = new THREE.FogExp2('#2b3f52', 0.019);
+    this.scene.fog = new THREE.FogExp2('#bcd8ea', 0.008);
 
-    this.scene.add(new THREE.HemisphereLight(0x9fc0dd, 0x2b2a20, 1.35));
-    this.scene.add(new THREE.AmbientLight(0x4a5768, 0.55));
-    const sun = new THREE.DirectionalLight(0xffe3b0, 2.1);
-    sun.position.set(-26, 34, 18);
+    this.scene.add(new THREE.HemisphereLight(0xd6e9f7, 0x6d6047, 1.5));
+    this.scene.add(new THREE.AmbientLight(0x9fb3c6, 0.5));
+    const sun = new THREE.DirectionalLight(0xfff1d6, 2.7);
+    sun.position.set(-30, 46, 22);
     sun.castShadow = true;
     sun.shadow.mapSize.set(1024, 1024);
     sun.shadow.camera.left = -18;
@@ -80,7 +82,7 @@ export class Region {
     // deep ocean plane so the patch never floats in the void
     const ocean = new THREE.Mesh(
       new THREE.PlaneGeometry(260, 260),
-      new THREE.MeshStandardMaterial({ color: 0x10344a, roughness: 0.25, metalness: 0.4 }),
+      new THREE.MeshStandardMaterial({ color: 0x3f86a8, roughness: 0.35, metalness: 0.25 }),
     );
     ocean.rotation.x = -Math.PI / 2;
     ocean.position.y = -0.42;
@@ -732,7 +734,7 @@ export class Region {
 
   // Distant ridgelines so the walkable world has a painted background too.
   buildHorizon() {
-    const ridgeMat = new THREE.MeshStandardMaterial({ color: 0x2f4257, roughness: 1 });
+    const ridgeMat = new THREE.MeshStandardMaterial({ color: 0x8199ad, roughness: 1 });
     const geo = new THREE.ConeGeometry(1, 1, 5);
     this.disposables.push(geo);
     for (let i = 0; i < 26; i++) {

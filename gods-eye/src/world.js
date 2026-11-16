@@ -2,22 +2,22 @@
 // regions render it. There is no second copy and no generated map image.
 
 export const BIOMES = {
-  ocean:      { name: 'Ocean',        table: '#12324a', world: '#1d5470', water: true,  fert: 0,    elev: -0.6 },
-  coast:      { name: 'Coast',        table: '#27566b', world: '#3a7d93', water: true,  fert: 0.1,  elev: -0.2 },
-  blackgrass: { name: 'Black Grass',  table: '#161c16', world: '#2a332b', fert: 0.12,   elev: 0.24 },
-  grass:      { name: 'Grassland',    table: '#3d5739', world: '#7c9c5e', fert: 0.56,   elev: 0.3 },
-  meadow:     { name: 'Meadow',       table: '#4b6b40', world: '#8fae6c', fert: 0.72,   elev: 0.32 },
-  forest:     { name: 'Forest',       table: '#2c4b33', world: '#416d47', fert: 0.6,    elev: 0.36, trees: 2 },
-  deepforest: { name: 'Deep Forest',  table: '#1e3628', world: '#2d513b', fert: 0.5,    elev: 0.42, trees: 4 },
-  hills:      { name: 'Hills',        table: '#5b5842', world: '#7e7b5d', fert: 0.34,   elev: 0.55 },
-  mountain:   { name: 'Mountain',     table: '#6c685f', world: '#8b877d', fert: 0.1,    elev: 0.85 },
-  peak:       { name: 'Snow Peak',    table: '#bbb9af', world: '#e2e6e9', fert: 0.02,   elev: 1.15 },
-  desert:     { name: 'Desert',       table: '#8d7c50', world: '#c9b183', fert: 0.1,    elev: 0.28 },
-  tundra:     { name: 'Tundra',       table: '#8d9aa3', world: '#b9c4c9', fert: 0.08,   elev: 0.26 },
-  swamp:      { name: 'Swamp',        table: '#34432f', world: '#4b5b3d', fert: 0.46,   elev: 0.2 },
-  lake:       { name: 'Lake',         table: '#1c4659', world: '#2d7389', water: true,  fert: 0.4,  elev: -0.18 },
-  river:      { name: 'River',        table: '#21576c', world: '#34849b', water: true,  fert: 0.8,  elev: -0.05 },
-  island:     { name: "Johan's Island", table: '#55603f', world: '#94a373', fert: 0.2,  elev: 0.32 },
+  ocean:      { name: 'Ocean',        table: '#12324a', world: '#2a6f95', water: true,  fert: 0,    elev: -0.6 },
+  coast:      { name: 'Coast',        table: '#27566b', world: '#5aa0bd', water: true,  fert: 0.1,  elev: -0.2 },
+  blackgrass: { name: 'Black Grass',  table: '#161c16', world: '#3c4736', fert: 0.12,   elev: 0.24 },
+  grass:      { name: 'Grassland',    table: '#3d5739', world: '#8fae63', fert: 0.56,   elev: 0.3 },
+  meadow:     { name: 'Meadow',       table: '#4b6b40', world: '#a6c477', fert: 0.72,   elev: 0.32 },
+  forest:     { name: 'Forest',       table: '#2c4b33', world: '#4f7f4f', fert: 0.6,    elev: 0.36, trees: 2 },
+  deepforest: { name: 'Deep Forest',  table: '#1e3628', world: '#3a6442', fert: 0.5,    elev: 0.42, trees: 4 },
+  hills:      { name: 'Hills',        table: '#5b5842', world: '#938d68', fert: 0.34,   elev: 0.55 },
+  mountain:   { name: 'Mountain',     table: '#6c685f', world: '#9a958a', fert: 0.1,    elev: 0.85 },
+  peak:       { name: 'Snow Peak',    table: '#bbb9af', world: '#eef2f4', fert: 0.02,   elev: 1.15 },
+  desert:     { name: 'Desert',       table: '#8d7c50', world: '#dcc794', fert: 0.1,    elev: 0.28 },
+  tundra:     { name: 'Tundra',       table: '#8d9aa3', world: '#c9d3d7', fert: 0.08,   elev: 0.26 },
+  swamp:      { name: 'Swamp',        table: '#34432f', world: '#5c6f46', fert: 0.46,   elev: 0.2 },
+  lake:       { name: 'Lake',         table: '#1c4659', world: '#4398b1', water: true,  fert: 0.4,  elev: -0.18 },
+  river:      { name: 'River',        table: '#21576c', world: '#4fa9c2', water: true,  fert: 0.8,  elev: -0.05 },
+  island:     { name: "Johan's Island", table: '#55603f', world: '#a5b580', fert: 0.2,  elev: 0.32 },
 };
 
 export const WATER_BIOMES = new Set(['ocean', 'coast', 'lake', 'river']);
