@@ -841,6 +841,14 @@ export class Region {
     const near = this.state.npcs.filter(
       (n) => n.alive && Math.abs(n.x - this.center.x) <= RADIUS && Math.abs(n.y - this.center.y) <= RADIUS,
     );
+    // A crowd of rigged characters is expensive on a phone, so only the ones
+    // around the tile you walked into are modelled; the rest keep the painted
+    // villager until you walk closer to their ground.
+    const ranked = [...near].sort(
+      (a, b) => (Math.abs(a.x - this.center.x) + Math.abs(a.y - this.center.y))
+        - (Math.abs(b.x - this.center.x) + Math.abs(b.y - this.center.y)),
+    );
+    const modelled = new Set(ranked.slice(0, 14));
     for (const npc of near) {
       const info = this.tiles.get(key(npc.x, npc.y));
       if (!info) continue;
@@ -851,7 +859,9 @@ export class Region {
       const group = new THREE.Group();
       // the medieval person pack, when it is here; the painted villager only
       // while the models are still on the wire
-      const person = peopleReady() ? personModel({ seed: npc.id * 31 + 7, height: 1.75 }) : null;
+      const person = peopleReady() && modelled.has(npc) ? personModel({ seed: npc.id * 31 + 7, height: 1.75 }) : null;
+      // rigged bodies are the most expensive thing in the region: no shadow pass
+      if (person) person.root.traverse((o) => { if (o.isMesh) o.castShadow = false; });
       if (person) {
         group.add(person.root);
       } else {

@@ -84,17 +84,34 @@ export function personModel({ seed = 1, height = 0.03 } = {}) {
   const root = skeletonClone(source.scene);
   root.scale.setScalar(height / source.height);
   root.rotation.y = hash(seed * 3.1) * Math.PI * 2;
+  root.updateMatrixWorld(true);
+
+  // Bones are not aligned to the world: an FBX rig points a bone's own Y down
+  // the limb. Convert the two axes we animate (forward swing and sideways) into
+  // each bone's local frame once, instead of guessing at rotation order.
   const bones = new Map();
+  const world = new THREE.Quaternion();
+  const inverse = new THREE.Quaternion();
+  const axisX = new THREE.Vector3();
+  const axisZ = new THREE.Vector3();
   root.traverse((obj) => {
-    if (obj.isBone && DRIVEN.includes(obj.name)) bones.set(obj.name, { bone: obj, base: obj.quaternion.clone() });
+    if (!obj.isBone || !DRIVEN.includes(obj.name)) return;
+    obj.getWorldQuaternion(world);
+    inverse.copy(world).invert();
+    axisX.set(1, 0, 0).applyQuaternion(inverse).normalize();
+    axisZ.set(0, 0, 1).applyQuaternion(inverse).normalize();
+    bones.set(obj.name, {
+      bone: obj,
+      base: obj.quaternion.clone(),
+      axisX: axisX.clone(),
+      axisZ: axisZ.clone(),
+    });
   });
   return { root, bones, name, height };
 }
 
 const swing = new THREE.Quaternion();
 const rest = new THREE.Quaternion();
-const AXIS_X = new THREE.Vector3(1, 0, 0);
-const AXIS_Z = new THREE.Vector3(0, 0, 1);
 
 // A walk made of bone swings: thighs and arms counter each other, knees bend on
 // the back half of the stride. speed 0 leaves them standing with a small breath.
@@ -123,11 +140,11 @@ export function walkPerson(model, time, speed = 1) {
     }
     entry.bone.quaternion.copy(entry.base);
     if (droop) {
-      rest.setFromAxisAngle(AXIS_Z, droop);
+      rest.setFromAxisAngle(entry.axisZ, droop);
       entry.bone.quaternion.multiply(rest);
     }
     if (angle) {
-      swing.setFromAxisAngle(AXIS_X, angle);
+      swing.setFromAxisAngle(entry.axisX, angle);
       entry.bone.quaternion.multiply(swing);
     }
   }
