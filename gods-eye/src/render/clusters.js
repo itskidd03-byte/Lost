@@ -13,6 +13,8 @@
 import * as THREE from 'three';
 import { WATER_BIOMES, isLand, key } from '../world.js';
 import { tree, surfaceMaterial } from './detail.js';
+import { makeWaterMaterial } from './water.js';
+import { peak as sharedPeak } from './mountains.js';
 
 const ROCK = new Set(['mountain', 'peak']);
 const WOOD = new Set(['forest', 'deepforest']);
@@ -105,38 +107,6 @@ function shape(kind, tiles) {
 
 /* ------------------------------- water sheet ------------------------------ */
 
-let waterMap = null;
-
-// A small painted ripple field, tiled in world space so the sheet moves as one
-// body of water rather than as a mosaic of squares.
-function waterTexture() {
-  if (waterMap) return waterMap;
-  const size = 96;
-  const canvas = document.createElement('canvas');
-  canvas.width = size;
-  canvas.height = size;
-  const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#245f78';
-  ctx.fillRect(0, 0, size, size);
-  for (let i = 0; i < 32; i++) {
-    const y = (i / 32) * size + Math.sin(i * 2.3) * 3;
-    ctx.strokeStyle = i % 3 ? 'rgba(120, 200, 214, 0.20)' : 'rgba(180, 230, 240, 0.30)';
-    ctx.lineWidth = 1 + (i % 3) * 0.4;
-    ctx.beginPath();
-    ctx.moveTo(0, y);
-    for (let x = 0; x <= size; x += 8) {
-      ctx.lineTo(x, y + Math.sin((x / size) * Math.PI * 4 + i) * 1.8);
-    }
-    ctx.stroke();
-  }
-  waterMap = new THREE.CanvasTexture(canvas);
-  waterMap.wrapS = THREE.RepeatWrapping;
-  waterMap.wrapT = THREE.RepeatWrapping;
-  waterMap.colorSpace = THREE.SRGBColorSpace;
-  waterMap.repeat.set(1, 1);
-  return waterMap;
-}
-
 // One flat sheet over every tile of the cluster, with coordinates that line up
 // across tiles so a texture can flow over the whole body.
 // One sheet over the whole body of water. Each tile contributes a rounded square
@@ -145,7 +115,7 @@ function waterTexture() {
 // squares.
 const SHEET_STEPS = 4;
 
-function sheetGeometry(cluster, project, y, isWater) {
+function sheetGeometry(cluster, project, y, isWater, { square = false, diagonal = false } = {}) {
   const positions = [];
   const uvs = [];
   const indices = [];
@@ -157,8 +127,14 @@ function sheetGeometry(cluster, project, y, isWater) {
     // edge should wander, not trace the tile grid
     // any water beside this tile counts, even water found as a separate body: two
     // lakes that touch should read as one shore, not two insets meeting in a seam
-    const wet = (dx, dy) => !!(isWater && isWater(t.x + dx, t.y + dy));
-    const bank = 0.26;
+    // where water touches only at a corner — a river stepped diagonally — the
+    // tile still reaches for it, so the channel joins instead of beading
+    const wet = (dx, dy) =>
+      !!(isWater && (isWater(t.x + dx, t.y + dy) ||
+        (diagonal && (isWater(t.x + dx, t.y) || isWater(t.x, t.y + dy)))));
+    // a channel stays a channel: a river is drawn square so its tiles join into
+    // one current instead of a string of rounded puddles
+    const bank = square ? 0.14 : 0.26;
     const halfL = 0.5 * (wet(-1, 0) ? 1 : 1 - bank);
     const halfR = 0.5 * (wet(1, 0) ? 1 : 1 - bank);
     const halfU = 0.5 * (wet(0, -1) ? 1 : 1 - bank);
@@ -168,7 +144,9 @@ function sheetGeometry(cluster, project, y, isWater) {
         const u = (i / N) * 2 - 1;
         const v = (j / N) * 2 - 1;
         // a squircle: full width along the axes, corners pulled in
-        const reach = Math.pow(Math.pow(Math.abs(u), 4) + Math.pow(Math.abs(v), 4), 0.25);
+        const reach = square
+          ? Math.max(Math.abs(u), Math.abs(v))
+          : Math.pow(Math.pow(Math.abs(u), 4) + Math.pow(Math.abs(v), 4), 0.25);
         const k = reach > 1 ? 1 / reach : 1;
         const px = t.x + u * (u < 0 ? halfL : halfR) * k;
         const py = t.y + v * (v < 0 ? halfU : halfD) * k;
@@ -240,25 +218,28 @@ function waterCluster(cluster, { project, scale, heightOf, isWater }) {
   // bodies that touch overlap by a hair, so each sits a little above its neighbour
   // and no two sheets fight for the same pixel
   const level = Math.max(0.006, heightOf(cluster.tiles[0])) + 0.0035 + (cluster.cx + cluster.cy) * 0.00002;
-  const map = waterTexture();
-  const material = new THREE.MeshStandardMaterial({
-    color: new THREE.Color(river ? '#3f9cb4' : '#37899f'),
-    map,
-    roughness: 0.24,
-    metalness: 0.22,
-    transparent: true,
-    opacity: river ? 0.93 : 0.89,
+  // dark water with pale current bands, running along the channel it fills
+  const dir = river ? (cluster.alongX ? 'x' : 'y') : 'both';
+  const material = makeWaterMaterial({
+    tint: river ? '#e8f7fd' : '#e2f3fa',
+    opacity: river ? 0.94 : 0.9,
+    river,
+    dir,
   });
+  if (material.map) material.map.offset.set(hash(cluster.cx, cluster.cy), hash(cluster.cy, cluster.cx));
   // The ground under the water is one dark basin, so no tile edge shows through
   // the surface as a square of its own.
   const basin = new THREE.Mesh(
-    sheetGeometry(cluster, project, level - scale * 0.16, isWater),
+    sheetGeometry(cluster, project, level - scale * 0.16, isWater, { square: true, diagonal: true }),
     new THREE.MeshStandardMaterial({ color: 0x0d2b3a, roughness: 0.9, metalness: 0.05 }),
   );
   basin.receiveShadow = true;
   group.add(basin);
 
-  const sheet = new THREE.Mesh(sheetGeometry(cluster, project, level, isWater), material);
+  const sheet = new THREE.Mesh(
+    sheetGeometry(cluster, project, level, isWater, { square: true, diagonal: true }),
+    material,
+  );
   sheet.receiveShadow = true;
   group.add(sheet);
 
@@ -326,7 +307,7 @@ function waterCluster(cluster, { project, scale, heightOf, isWater }) {
     }
   }
 
-  return { group, waters: [{ material, river, speed: river ? 0.14 : 0.02 }], ripples };
+  return { group, waters: [{ material, river }], ripples };
 }
 
 // The ground itself is one continuous surface built by ground.js, so a meadow
@@ -453,7 +434,18 @@ function rockCluster(cluster, { project, scale, heightOf }) {
     const ty = cluster.alongX ? across + offset : along + 0.5;
     const at = project(tx, ty);
     const h = (0.34 + hash(i, 11) * 0.22) * (snow ? 1.2 : 1);
-    const peak = massif(i + cluster.size, scale * 0.4, scale * h, snow || hash(i, 3) > 0.6);
+    const seed = i + cluster.size;
+    const snowy = snow || hash(i, 3) > 0.6;
+    // the shared mountain design, textured; the sculpted lump only while the
+    // models are still loading
+    const peakHeight = scale * (0.9 + h * 1.5) * (snowy ? 1.2 : 1);
+    const modelled = sharedPeak({
+      height: peakHeight,
+      width: peakHeight * (0.95 + hash(i, 23) * 0.3),
+      seed,
+      snow: snowy,
+    });
+    const peak = modelled || massif(seed, scale * 0.4, scale * h, snowy);
     peak.position.set(at.x, height(tx, ty) - scale * 0.02, at.z);
     peak.rotation.y = hash(i, 17) * Math.PI;
     group.add(peak);
@@ -505,10 +497,14 @@ export function buildCluster(cluster, opts) {
 export function loneMassif({ project, scale, heightOf, tile }) {
   const group = new THREE.Group();
   const at = project(tile.x, tile.y);
-  const peak = massif(tile.x * 31 + tile.y * 7 + 3, scale * 0.4, scale * 0.55, tile.biome === 'peak');
-  peak.position.set(at.x, Math.max(0.006, heightOf(tile)) - scale * 0.02, at.z);
-  peak.rotation.y = hash(tile.x, tile.y) * Math.PI;
-  group.add(peak);
+  const seed = tile.x * 31 + tile.y * 7 + 3;
+  const snowy = tile.biome === 'peak';
+  const peakHeight = scale * (snowy ? 1.7 : 1.35);
+  const shape = sharedPeak({ height: peakHeight, width: peakHeight * 1.0, seed, snow: snowy }) ||
+    massif(seed, scale * 0.4, scale * 0.55, snowy);
+  shape.position.set(at.x, Math.max(0.006, heightOf(tile)) - scale * 0.02, at.z);
+  shape.rotation.y = hash(tile.x, tile.y) * Math.PI;
+  group.add(shape);
   return group;
 }
 

@@ -6,6 +6,7 @@
 
 import * as THREE from 'three';
 import { natureTree } from './nature.js';
+import { makeWaterMaterial } from './water.js';
 
 const geoCache = new Map();
 const matCache = new Map();
@@ -206,8 +207,9 @@ export function grassStrands(count, radius, { color = '#2b4a2b', height = 1 } = 
 
 /* ---------------------------------- water --------------------------------- */
 
-export function waterSurface(width, depth, colorHex) {
-  const material = surfaceMaterial(colorHex, { water: true });
+export function waterSurface(width, depth, colorHex, { river = false, dir = 'both', seed = 0 } = {}) {
+  const material = makeWaterMaterial({ tint: colorHex, opacity: river ? 0.94 : 0.9, river, dir });
+  if (material.map) material.map.offset.set(hash2(seed, 3) % 1, hash2(seed, 7) % 1);
   const surface = new THREE.Mesh(geom('water', () => new THREE.PlaneGeometry(1, 1, 1, 1)), material);
   surface.rotation.x = -Math.PI / 2;
   surface.scale.set(width, depth, 1);
@@ -233,7 +235,7 @@ export function waterSurface(width, depth, colorHex) {
     group.add(ring);
     ripples.push({ mesh: ring, phase: i * 1.7 + hash2(i, 2) * 2, base: width * 0.35 });
   }
-  return { group, ripples };
+  return { group, ripples, material };
 }
 
 /* --------------------------------- mountain ------------------------------- */

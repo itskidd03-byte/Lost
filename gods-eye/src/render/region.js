@@ -2,7 +2,7 @@
 // the table and descending puts you on that exact tile, in the same world.
 
 import * as THREE from 'three';
-import { BIOMES, isLand, key, tileAt } from '../world.js';
+import { BIOMES, WATER_BIOMES, isLand, key, tileAt } from '../world.js';
 import { tree as detailTree, grassStrands, waterSurface, mountain, animal as detailAnimal } from './detail.js';
 import { buildingModel, loadTownModels, townModels } from './models.js';
 import { loadNatureModels, onNatureReady, swapNatureTrees } from './nature.js';
@@ -11,6 +11,8 @@ import {
 } from './people.js';
 import { loadCreatureModels, creaturesReady, creatureModel, onCreaturesReady } from './creatures.js';
 import { groundCover } from './surfaces.js';
+import { loadMountainModels, peak as sharedPeak } from './mountains.js';
+import { advanceWater } from './water.js';
 
 const TS = 4;
 const RADIUS = 6;
@@ -52,6 +54,7 @@ export class Region {
     this.disasterFX = [];
     this.warFX = [];
     this.waterRipples = [];
+    this.waterMats = [];
     this.settlementRoads = new Map();
     this.towns = new Map();
     this.townMats = null;
@@ -169,9 +172,15 @@ export class Region {
       const def = BIOMES[tile.biome] || BIOMES.blackgrass;
       if (!land) {
         // keep each sheet inside its own tile so it never bleeds onto land
-        const water = waterSurface(TS, TS, def.world);
+        const river = tile.biome === 'river';
+        const water = waterSurface(TS, TS, river ? '#e8f7fd' : '#e2f3fa', {
+          river,
+          dir: this.flowDir(tile),
+          seed: tile.x * 31 + tile.y * 17,
+        });
         water.group.position.set(x, info.top + 0.02, z);
         this.scene.add(water.group);
+        if (water.material) this.waterMats.push(water.material);
         for (const ripple of water.ripples) this.waterRipples.push(ripple);
       } else if (tile.detail > 0.2) {
         const tufts = grassStrands(26, TS * 0.42, { color: '#33502c', height: 0.55 });
@@ -191,6 +200,23 @@ export class Region {
         this.scene.add(plot);
       }
     }
+  }
+
+  // Which way the water runs here: along the axis where this tile has more wet
+  // neighbours, so the current follows the channel instead of the tile grid.
+  flowDir(tile) {
+    const wet = (x, y) => {
+      const t = this.state.world.tiles.get(key(x, y));
+      return !!(t && WATER_BIOMES.has(t.biome));
+    };
+    let ew = 0;
+    let ns = 0;
+    if (wet(tile.x - 1, tile.y)) ew += 1;
+    if (wet(tile.x + 1, tile.y)) ew += 1;
+    if (wet(tile.x, tile.y - 1)) ns += 1;
+    if (wet(tile.x, tile.y + 1)) ns += 1;
+    if (!ew && !ns) return 'both';
+    return ew >= ns ? 'x' : 'y';
   }
 
   cornerH(tx, ty) {
@@ -356,15 +382,22 @@ export class Region {
       }
 
       if (tile.biome === 'mountain' || tile.biome === 'peak') {
-        const peak = mountain({
+        const snowy = tile.biome === 'peak' || tile.elevation > 0.62;
+        // the same peak design and texture as the board, only life-size
+        const shape = sharedPeak({
+          height: TS * (tile.biome === 'peak' ? 2.4 : 1.7),
+          width: TS * 1.1,
+          seed: tile.x * 53 + tile.y * 29,
+          snow: snowy,
+        }) || mountain({
           scale: TS * (tile.biome === 'peak' ? 1.1 : 0.8),
           seed: tile.x * 53 + tile.y * 29,
-          snow: tile.biome === 'peak' || tile.elevation > 0.62,
+          snow: snowy,
           ridges: tile.biome === 'peak' ? 3 : 2,
         });
-        peak.position.set(x, top, z);
-        peak.rotation.y = r * Math.PI * 2;
-        this.scene.add(peak);
+        shape.position.set(x, top, z);
+        shape.rotation.y = r * Math.PI * 2;
+        this.scene.add(shape);
       }
 
       if (tile.biome === 'blackgrass') {
@@ -1150,6 +1183,8 @@ export class Region {
     }
     const pulse = 0.35 + Math.sin(elapsed * 3) * 0.25;
     for (const fx of this.warFX) fx.material.opacity = pulse;
+    // every river runs and every lake breathes, in the world as on the table
+    for (const material of this.waterMats) advanceWater(material, dt);
     for (const ripple of this.waterRipples) {
       const t = (elapsed * 0.3 + ripple.phase) % 1;
       ripple.mesh.scale.setScalar(ripple.base * (0.45 + t * 2.4));

@@ -355,3 +355,59 @@ export function groundCover() {
     return { map: texture(map), bump: texture(bump, [1, 1], { srgb: false }) };
   });
 }
+
+/* --------------------------------- mountain -------------------------------- */
+
+// The face of a peak: grey stone with darker seams where the ridge broke, pale
+// veins of quartz and a scatter of grit, so the shared mountain design carries
+// real surface instead of flat colour.
+export function mountainRockTexture() {
+  return cached('mountainRock', () =>
+    texture(
+      draw(256, (ctx, w, h) => {
+        const base = ctx.createLinearGradient(0, 0, 0, h);
+        base.addColorStop(0, '#918c82');
+        base.addColorStop(0.5, '#78736b');
+        base.addColorStop(1, '#605c56');
+        ctx.fillStyle = base;
+        ctx.fillRect(0, 0, w, h);
+
+        // bedding planes, slightly out of level
+        for (let i = 0; i < 26; i++) {
+          const y = (i / 26) * h + (Math.random() - 0.5) * 6;
+          const dark = Math.random() < 0.55;
+          ctx.strokeStyle = dark
+            ? `rgba(38, 36, 34, ${0.06 + Math.random() * 0.12})`
+            : `rgba(214, 209, 198, ${0.04 + Math.random() * 0.10})`;
+          ctx.lineWidth = 1 + Math.random() * 3.4;
+          ctx.beginPath();
+          ctx.moveTo(-10, y);
+          for (let x = 0; x <= w + 10; x += 16) {
+            ctx.lineTo(x, y + Math.sin((x / w) * Math.PI * 2 + i) * (2 + Math.random() * 4));
+          }
+          ctx.stroke();
+        }
+
+        // cracks running down the face
+        for (let i = 0; i < 16; i++) {
+          let x = Math.random() * w;
+          let y = Math.random() * h;
+          ctx.strokeStyle = `rgba(30, 28, 27, ${0.16 + Math.random() * 0.2})`;
+          ctx.lineWidth = 0.8 + Math.random() * 1.2;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          for (let s = 0; s < 5; s++) {
+            x += (Math.random() - 0.5) * 18;
+            y += 6 + Math.random() * 12;
+            ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+
+        speckle(ctx, w, h, 900, '238, 235, 227', '28, 26, 25', 0.5, 1.7);
+        grain(ctx, w, h, 30, [0.02, 0.06], '20, 18, 17');
+      }),
+      [2, 2],
+    ),
+  );
+}

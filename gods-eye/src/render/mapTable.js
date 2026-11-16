@@ -13,6 +13,8 @@ import {
 import { loadCreatureModels, creaturesReady, creatureModel, onCreaturesReady } from './creatures.js';
 import { findClusters, buildCluster, loneMassif } from './clusters.js';
 import { buildGround } from './ground.js';
+import { advanceWater } from './water.js';
+import { loadMountainModels } from './mountains.js';
 import {
   buildSettlement, buildTerritories, settlementBlockKeys, loadSettlementModels, footprintBlocks,
 } from './settlements.js';
@@ -92,6 +94,11 @@ export class MapTable {
     loadPeopleModels();
     loadCreatureModels();
     loadSettlementModels().then(() => {
+      if (this.state) this.build(this.state);
+    });
+    // the shared mountain design arrives with the rest of the art: the board is
+    // rebuilt once with it so the ranges are the same rock as the world you walk
+    loadMountainModels().then(() => {
       if (this.state) this.build(this.state);
     });
 
@@ -800,12 +807,7 @@ export class MapTable {
       ripple.mesh.material.opacity = 0.17 * (1 - t);
     }
     // the water moves: a river runs on, a pond only breathes
-    for (const water of this.waters) {
-      if (water.material.map) {
-        water.material.map.offset.x = (water.material.map.offset.x + dt * water.speed * 0.06) % 1;
-        water.material.map.offset.y = (water.material.map.offset.y + dt * water.speed * 0.02) % 1;
-      }
-    }
+    for (const water of this.waters) advanceWater(water.material, dt);
     for (const ring of this.waterRipples) {
       const t = (elapsed * 0.45 + ring.phase) % 1;
       ring.mesh.scale.setScalar(ring.base * (0.5 + t * 1.6));
