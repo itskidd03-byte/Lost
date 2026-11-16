@@ -841,14 +841,14 @@ export class Region {
     const near = this.state.npcs.filter(
       (n) => n.alive && Math.abs(n.x - this.center.x) <= RADIUS && Math.abs(n.y - this.center.y) <= RADIUS,
     );
-    // A crowd of rigged characters is expensive on a phone, so only the ones
-    // around the tile you walked into are modelled; the rest keep the painted
-    // villager until you walk closer to their ground.
-    const ranked = [...near].sort(
-      (a, b) => (Math.abs(a.x - this.center.x) + Math.abs(a.y - this.center.y))
-        - (Math.abs(b.x - this.center.x) + Math.abs(b.y - this.center.y)),
+    // Rigged bodies are the priciest thing in a region, so a very large town
+    // keeps the painted figure for its outermost villagers.
+    const modelled = new Set(
+      [...near]
+        .sort((a, b) => (Math.abs(a.x - this.center.x) + Math.abs(a.y - this.center.y))
+          - (Math.abs(b.x - this.center.x) + Math.abs(b.y - this.center.y)))
+        .slice(0, 24),
     );
-    const modelled = new Set(ranked.slice(0, 14));
     for (const npc of near) {
       const info = this.tiles.get(key(npc.x, npc.y));
       if (!info) continue;
