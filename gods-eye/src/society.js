@@ -475,11 +475,32 @@ export class Society {
     const have = (camp.territory || []).length;
     if (have >= target) return;
     // a great kingdom reaches further than a village does
-    const reach = 5 + Math.min(35, Math.floor(have / 2));
+    // land is taken from the edge of what the camp already holds, so a country
+    // grows as one shape instead of scattering dots across the board
     for (let i = 0; i < 6 && (camp.territory || []).length < target; i++) {
-      const spot = this.freeTileNear(camp, world, 2, reach);
+      const spot = this.freeNeighbour(camp, world) || this.freeTileNear(camp, world, 2, 5 + Math.min(35, Math.floor(have / 2)));
       if (!spot || !this.claim(camp, spot.x, spot.y)) break;
     }
+  }
+
+  freeNeighbour(camp, world) {
+    const owned = camp.territory || [];
+    if (!world || !owned.length) return null;
+    const start = Math.floor(hash(camp.id * 1.7 + this.time * 0.07) * owned.length);
+    for (let n = 0; n < owned.length; n++) {
+      const [x, y] = owned[(start + n) % owned.length].split(',').map(Number);
+      const spin = Math.floor(hash(camp.id + n * 3.1 + this.time * 0.03) * 4);
+      for (let d = 0; d < 4; d++) {
+        const [dx, dy] = [[1, 0], [0, 1], [-1, 0], [0, -1]][(d + spin) % 4];
+        const nx = x + dx;
+        const ny = y + dy;
+        const tile = tileAt(world, nx, ny);
+        if (!tile || !isLand(tile)) continue;
+        if (this.claimed.has(`${nx},${ny}`)) continue;
+        return { x: nx, y: ny };
+      }
+    }
+    return null;
   }
 
   freeTileNear(camp, world, minRing = 2, maxRing = 12) {
@@ -502,8 +523,8 @@ export class Society {
   considerMigration(camp, world) {
     const pop = this.headcount(camp);
     if (pop < 45) return;
-    if (this.data.camps.length >= 80) return;
-    if (this.time - (camp.lastMigration || 0) < 180) return;
+    if (this.data.camps.length >= 16) return;
+    if (this.time - (camp.lastMigration || 0) < 600) return;
     // people only leave when there are enough of them to spare and stores to share
     if (camp.food < pop * 0.8) return;
     const willing = camp.people.filter((p) => p.age >= 15 && (p.dissent ?? 0) > 0.88);
@@ -596,7 +617,7 @@ export class Society {
     const kingdoms = this.data.camps.filter((c) => this.governmentRank(c) >= 3 && this.headcount(c) > 18);
     if (kingdoms.length < 2) return;
     // more colonies, more chances of a quarrel over the border
-    const chance = Math.min(0.006, 0.001 + this.data.camps.length * 0.0001);
+    const chance = Math.min(0.003, 0.0006 + this.data.camps.length * 0.00006);
     for (let i = 0; i < kingdoms.length; i++) {
       for (let j = i + 1; j < kingdoms.length; j++) {
         const a = kingdoms[i];

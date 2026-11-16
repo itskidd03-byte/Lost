@@ -830,7 +830,7 @@ export class MapTable {
     if (!this.societyMesh) {
       const geometry = new THREE.BufferGeometry();
       const material = new THREE.MeshBasicMaterial({
-        vertexColors: true, transparent: true, opacity: 0.5, depthWrite: false, side: THREE.DoubleSide,
+        vertexColors: true, transparent: true, opacity: 0.4, depthWrite: false, side: THREE.DoubleSide,
       });
       this.societyMesh = new THREE.Mesh(geometry, material);
       this.societyMesh.renderOrder = 2;
