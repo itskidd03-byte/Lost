@@ -236,8 +236,8 @@ export class Society {
     let water = 0;
     let grass = 0;
     if (!world) return { forest: 2, water: 1, grass: 4 };
-    for (let dx = -4; dx <= 4; dx++) {
-      for (let dy = -4; dy <= 4; dy++) {
+    for (let dx = -6; dx <= 6; dx++) {
+      for (let dy = -6; dy <= 6; dy++) {
         const tile = tileAt(world, camp.x + dx, camp.y + dy);
         if (!tile) continue;
         if (tile.biome === 'forest' || tile.biome === 'deepforest' || tile.biome === 'swamp') forest++;
@@ -259,7 +259,7 @@ export class Society {
     const pop = this.headcount(camp);
     const y = camp.yields || { forest: 8, water: 4, grass: 20 };
     // the land around a camp sets how much it can pull from it
-    const land = 0.7 + Math.min(0.6, y.grass * 0.008 + y.water * 0.01);
+    const land = 0.8 + Math.min(0.9, y.grass * 0.005 + y.water * 0.008);
     const timber = 0.7 + Math.min(0.7, y.forest * 0.012);
     const eff = 1 + camp.era * 0.3;
 
