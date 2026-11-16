@@ -15,7 +15,7 @@ import { dateLabel, civEvent } from './journal.js';
 import { TouchControls, isTouchDevice } from './mobile.js';
 import { Sound } from './audio.js';
 import { Decor, DECOR_PROPS } from './render/decor.js';
-import { Civ, ERAS } from './civ.js';
+import { Society, ERAS } from './society.js';
 import * as account from './account.js';
 
 const PROFILE_KEY = 'gods-eye-profile-v1';
@@ -55,8 +55,9 @@ class Game {
 
     this.cabin = new Cabin();
     this.decor = new Decor();
-    this.civ = null;
+    this.society = null;
     this.civHudIn = 0;
+    this.societyHudIn = 0;
     this.decorMode = false;
     this.decorPick = 'table';
     this.decor.load(this.cabin.root, this.cabin.blockers);
@@ -252,6 +253,18 @@ class Game {
   /* -------------------------------- title -------------------------------- */
 
   attachState() {
+    this.society = new Society(this.state);
+    this.society.restore(this.state.society || null);
+    this.society.onNote = (text, day) => {
+      if (!/enters the|founded|becomes a|Hunger/.test(text)) return;
+      civEvent(this.state, {
+        type: 'society',
+        title: text,
+        detail: text,
+        where: 'the camps',
+        important: /enters the|founded|becomes a/.test(text),
+      });
+    };
     this.state.onEvent = (event) =>
       this.ui.toast(event, event.category === 'civilization' ? 'civ' : event.category === 'jolene' ? 'jolene' : 'johan');
     this.ui.setState(this.state);
@@ -659,7 +672,10 @@ class Game {
     }
     this.region = new Region(this.state, tile);
     this.scene = this.region.scene;
-    this.startCiv();
+    this.society.ensureFounded(tile);
+    this.society.attachRegion(this.region);
+    this.societyHudIn = 0;
+    this.drawCivHud();
     this.setMode('world');
     this.orbit.enabled = false;
     this.fp.enabled = true;
@@ -683,65 +699,40 @@ class Game {
     if (!this.touchEnabled) requestAnimationFrame(() => this.fp.lock());
   }
 
-  // A hundred settlers walk in with you the first time; afterwards they are
-  // where you left them, with the same fire, huts and age.
-  startCiv() {
-    if (!this.region) return;
-    if (this.civ) {
-      this.civ.dispose();
-      this.civ = null;
-    }
-    const civ = new Civ(this.region);
-    civ.onEra = (era, was) => {
-      civEvent(this.state, {
-        type: 'age',
-        title: `${era.name} begins`,
-        detail: `The settlers around the fire at ${this.region.center.x},${this.region.center.y} left the ${was.name} behind: ${era.blurb.toLowerCase()}.`,
-        where: `${this.region.center.x},${this.region.center.y}`,
-        important: true,
-        consequence: 'New buildings, new tools, longer lives.',
-      });
-      this.ui.toast({
-        category: 'civilization',
-        day: this.state.world.day,
-        title: `The settlement enters the ${era.name}.`,
-        detail: era.blurb,
-      });
-    };
-    civ.spawn(this.state.civ || null);
-    this.civ = civ;
-    this.civHudIn = 0;
-    this.drawCivHud();
-  }
-
   drawCivHud() {
     const panel = document.getElementById('civ-panel');
     if (!panel) return;
-    const show = this.mode === 'world' && !!this.civ;
+    const show = this.mode === 'world' && !!this.society?.founded;
     panel.hidden = !show;
     if (!show) return;
-    const snap = this.civ.snapshot(this.fp.position);
+    const snap = this.society.snapshot(this.fp.position);
     const set = (id, text) => {
       const el = document.getElementById(id);
       if (el) el.textContent = text;
     };
+    set('civ-camp', snap.name);
     set('civ-era', snap.era);
     set('civ-blurb', snap.blurb);
-    set('civ-stats', `${snap.population} settlers · ${snap.huts}/${snap.hutCap} huts`);
-    set('civ-stores', `food ${snap.food} · wood ${snap.wood} · ${snap.deer} deer`);
+    set('civ-stats', `${snap.population} people · ${snap.homes} homes · ${snap.camps} camp${snap.camps === 1 ? '' : 's'}`);
+    set('civ-gov', `${snap.government}${snap.leader ? ` · led by ${snap.leader}` : ''}`);
+    set('civ-stores', `food ${snap.food} · wood ${snap.wood} · ${snap.born} born, ${snap.died} lost`);
     const fill = document.getElementById('civ-fill');
     if (fill) fill.style.width = `${Math.round(snap.progress * 100)}%`;
     set('civ-next', snap.next ? `toward the ${snap.next} — ${snap.knowledge} knowledge` : 'the last age, and they know it');
-    set('civ-task', snap.task ? `${snap.task.name} is ${snap.task.doing}.` : '');
+    const works = [...snap.businesses.slice(-3), ...snap.civics.slice(-2)];
+    set('civ-works', works.length ? works.join(' · ') : 'no trades or civic halls yet');
+    const inSight = this.society.views.length > 0;
+    set('civ-task', snap.person
+      ? `${inSight ? '' : 'No camp in sight — '}${snap.person.name}, ${snap.person.age}, is a ${snap.person.job}.`
+      : '');
   }
 
   ascend() {
     if (this.mode !== 'world') return;
     this.transition(() => {
-      if (this.civ) {
-        this.state.civ = this.civ.serialize();
-        this.civ.dispose();
-        this.civ = null;
+      if (this.society) {
+        this.society.detach();
+        this.society.save();
       }
       const leaving = this.region;
       this.region = null;
@@ -1082,7 +1073,7 @@ class Game {
   }
 
   persist() {
-    if (this.civ) this.state.civ = this.civ.serialize();
+    this.society?.save();
     if (this.state) saveState(this.state);
   }
 
@@ -1210,6 +1201,7 @@ class Game {
     this.elapsed += dt;
 
     this.tick(dt);
+    this.society?.tick(Math.min(0.5, frameDt));
     this.sound.update(dt);
 
     if (this.mode === 'table') {
@@ -1225,13 +1217,11 @@ class Game {
       this.fp.update(dt);
       this.region.update(dt, this.elapsed, this.fp.position);
       this.scene = this.region.scene;
-      if (this.civ) {
-        // the settlement is simulated on real time, capped so a tab that was in
-        // the background does not jump an hour of history in one frame
-        this.civ.update(Math.min(0.5, frameDt), this.elapsed, this.fp.position);
-        this.civHudIn -= dt;
-        if (this.civHudIn <= 0) {
-          this.civHudIn = 0.4;
+      if (this.society) {
+        this.society.updateVisuals(Math.min(0.05, frameDt), this.fp.position);
+        this.societyHudIn -= dt;
+        if (this.societyHudIn <= 0) {
+          this.societyHudIn = 0.4;
           this.drawCivHud();
         }
       }

@@ -173,7 +173,7 @@ export function serialize(state) {
     lastVisit: Date.now(),
     createdAt: state.createdAt,
     speed: state.speed,
-    civ: state.civ || null,
+    society: state.society || null,
     selected: state.selected,
     cradle: state.cradle,
   };
@@ -241,7 +241,7 @@ export function restoreState(raw) {
   state.lastVisit = raw.lastVisit ?? Date.now();
   state.createdAt = raw.createdAt ?? Date.now();
   state.speed = raw.speed ?? 1;
-  state.civ = raw.civ || null;
+  state.society = raw.society || null;
   state.selected = raw.selected ?? null;
   state.cradle = raw.cradle ?? null;
   return state;
