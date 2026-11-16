@@ -5,6 +5,7 @@ import { BUILDING_BY_ID } from '../data/buildings';
 import type { BuildingDef, BuildingInstance, NPC, World } from '../core/types';
 import type { GccTheme } from '../data/graphics';
 import { artDirection, type MaterialKey } from './artDirection';
+import { TexturePack, type TextureKey } from './textures';
 
 const MATERIAL_COLORS: Record<string, number> = {
   Thatch: 0xb99a5b, Mudbrick: 0x9a7b56, Hide: 0x8a6a4a, Wattle: 0x9c8c62, Log: 0x7a5c3a,
@@ -20,6 +21,15 @@ function materialKeyFor(def: BuildingDef): MaterialKey {
   if (/iron|steel|copper|bronze|rivet|smokestack|industrial|glass|modern|modular|automated|solar/.test(name)) return 'metal';
   if (/log|timber|wood|carpent|palisade/.test(name)) return 'wood';
   if (/fabric|cloth|banner|tent/.test(name)) return 'fabric';
+  return 'stone';
+}
+
+function textureForBuilding(def: BuildingDef): TextureKey {
+  const name = def.name.toLowerCase();
+  // Wattle, daub, mudbrick and thatch buildings all use a plastered wall here;
+  // the thatch texture is reserved for roofs so walls stay light and readable.
+  if (/brick|plaster|thatch|reed|turf|hide|wattle|bone|earth|mudbrick/.test(name)) return 'brick';
+  if (/log|timber|wood|carpent|palisade/.test(name)) return 'wood';
   return 'stone';
 }
 
@@ -62,6 +72,8 @@ export class WorldRenderer {
   private raycaster = new THREE.Raycaster();
   private ghost: THREE.Mesh | null = null;
   private homeMarker: THREE.Mesh | null = null;
+  private textures = new TexturePack();
+  private textureMaterials = new Map<TextureKey, Set<THREE.MeshLambertMaterial>>();
   private interiorMode = false;
   private interiorPosition = new THREE.Vector3(0, 0, 4);
   private lastWorldSeed = -1;
@@ -104,6 +116,9 @@ export class WorldRenderer {
     this.scene.add(this.treeGroup, this.resourceGroup, this.plantingGroup, this.npcGroup, this.buildingGroup, this.corpseGroup, this.interiorGroup);
     this.interiorGroup.visible = false;
 
+    this.textures.onReady(() => this.applyTextures());
+    this.textures.load();
+
     window.addEventListener('resize', () => this.resize());
   }
 
@@ -118,6 +133,41 @@ export class WorldRenderer {
 
   get portalMode(): boolean {
     return this.interiorMode;
+  }
+
+  /** A lit surface material that adopts an uploaded texture as soon as it loads. */
+  private texturedMaterial(base: THREE.ColorRepresentation, key: TextureKey, lighten = 0.25): THREE.MeshLambertMaterial {
+    const color = new THREE.Color(base).lerp(new THREE.Color(0xffffff), lighten);
+    const material = new THREE.MeshLambertMaterial({ color });
+    this.attachTexture(material, key);
+    return material;
+  }
+
+  private attachTexture(material: THREE.MeshLambertMaterial, key: TextureKey): void {
+    const texture = this.textures.get(key);
+    if (texture) {
+      material.map = texture;
+      material.needsUpdate = true;
+      return;
+    }
+    let pending = this.textureMaterials.get(key);
+    if (!pending) {
+      pending = new Set();
+      this.textureMaterials.set(key, pending);
+    }
+    pending.add(material);
+  }
+
+  private applyTextures(): void {
+    for (const [key, materials] of this.textureMaterials) {
+      const texture = this.textures.get(key);
+      if (!texture) continue;
+      for (const material of materials) {
+        material.map = texture;
+        material.needsUpdate = true;
+      }
+      materials.clear();
+    }
   }
 
   /** Blend a base colour toward one role of the active world theme. */
@@ -218,6 +268,7 @@ export class WorldRenderer {
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     geometry.computeVertexNormals();
     const material = new THREE.MeshLambertMaterial({ vertexColors: true });
+    this.attachTexture(material, 'ground');
     this.terrainMesh = new THREE.Mesh(geometry, material);
     this.terrainMesh.receiveShadow = true;
     this.scene.add(this.terrainMesh);
@@ -241,7 +292,7 @@ export class WorldRenderer {
     const trunkGeo = new THREE.CylinderGeometry(0.25, 0.35, 2.4, 5);
     const leafGeo = new THREE.ConeGeometry(1.7, 4.6, 6);
     const palette = this.treeColors();
-    const trunkMat = new THREE.MeshLambertMaterial({ color: palette.trunk });
+    const trunkMat = this.texturedMaterial(palette.trunk, 'bark', 0.2);
     const leafMat = new THREE.MeshLambertMaterial({ color: palette.leaf });
     const count = 2200;
     const trunks = new THREE.InstancedMesh(trunkGeo, trunkMat, count);
@@ -290,7 +341,12 @@ export class WorldRenderer {
     for (const node of resources) {
       if (node.amount <= 0) continue;
       const base = colors[node.type] ?? 0x9a9a9a;
-      const mat = new THREE.MeshLambertMaterial({ color: this.themedColor(base, 'accent', 0.18) });
+      const textureKey: TextureKey | null = node.type === 'stone' || node.type === 'iron' || node.type === 'copper' || node.type === 'gold'
+        ? 'stone'
+        : node.type === 'wood' ? 'bark' : null;
+      const mat = textureKey
+        ? this.texturedMaterial(this.themedColor(base, 'accent', 0.18), textureKey, 0.2)
+        : new THREE.MeshLambertMaterial({ color: this.themedColor(base, 'accent', 0.18) });
       const mesh = new THREE.Mesh(geo, mat);
       mesh.userData.baseColor = base;
       const h = heightAt(world.terrain, node.position.x, node.position.z);
@@ -307,7 +363,7 @@ export class WorldRenderer {
     const skin = new THREE.Color(artDirection.blend(skinBase.getHex(), 'skin', 0.35)).lerp(this.themeTextColor, this.themeTokens ? 0.1 : 0);
     const cloth = new THREE.Color(npc.isPlayer ? playerColor : artDirection.blend(factionColor, 'fabric', 0.4));
     if (this.themeTokens) cloth.lerp(this.themePrimaryColor, 0.32);
-    const bodyMat = new THREE.MeshLambertMaterial({ color: cloth });
+    const bodyMat = this.texturedMaterial(cloth, 'fabric', 0.4);
     const skinMat = new THREE.MeshLambertMaterial({ color: skin });
     const height = clamp(npc.appearance.height, 1.4, 2);
     const body = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.44, height * 0.62, 8), bodyMat);
@@ -315,7 +371,7 @@ export class WorldRenderer {
     body.castShadow = true;
     const head = new THREE.Mesh(new THREE.SphereGeometry(0.24, 10, 8), skinMat);
     head.position.y = height * 0.82;
-    const legs = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.3, height * 0.36, 6), new THREE.MeshLambertMaterial({ color: this.themedColor(0x3d3229, 'muted', 0.3) }));
+    const legs = new THREE.Mesh(new THREE.CylinderGeometry(0.26, 0.3, height * 0.36, 6), this.texturedMaterial(this.themedColor(0x3d3229, 'muted', 0.3), 'leather', 0.15));
     legs.position.y = height * 0.16;
     group.add(body, head, legs);
 
@@ -474,7 +530,9 @@ export class WorldRenderer {
       this.buildConstructionMesh(group, building, size, height);
       return;
     }
-    const wallMat = new THREE.MeshLambertMaterial({ color: wallColor });
+    const wallMat = def
+      ? this.texturedMaterial(wallColor, textureForBuilding(def), 0.55)
+      : new THREE.MeshLambertMaterial({ color: wallColor });
     const walls = new THREE.Mesh(new THREE.BoxGeometry(size, height, size * 0.86), wallMat);
     walls.position.y = height / 2;
     walls.castShadow = true;
@@ -482,7 +540,10 @@ export class WorldRenderer {
     group.add(walls);
 
     const roofColor = this.themedColor(faction?.color ?? 0xc9b071, 'accent', 0.32);
-    const roof = new THREE.Mesh(new THREE.ConeGeometry(size * 0.78, 1.7 + (def?.age ?? 0) * 0.12, 4), new THREE.MeshLambertMaterial({ color: roofColor }));
+    const roof = new THREE.Mesh(
+      new THREE.ConeGeometry(size * 0.78, 1.7 + (def?.age ?? 0) * 0.12, 4),
+      this.texturedMaterial(roofColor, (def?.age ?? 0) >= 4 ? 'stone' : 'thatch', 0.45)
+    );
     roof.position.y = height + 0.75;
     roof.rotation.y = Math.PI / 4;
     roof.castShadow = true;
@@ -495,7 +556,7 @@ export class WorldRenderer {
       window.position.set(offset, height * 0.62, size * 0.44);
       group.add(window);
     }
-    const door = new THREE.Mesh(new THREE.BoxGeometry(0.9, 1.6, 0.12), new THREE.MeshLambertMaterial({ color: this.themedColor(0x3b2b1c, 'muted', 0.25) }));
+    const door = new THREE.Mesh(new THREE.BoxGeometry(0.9, 1.6, 0.12), this.texturedMaterial(this.themedColor(0x3b2b1c, 'muted', 0.25), 'wood', 0.2));
     door.position.set(0, 0.8, size * 0.44);
     group.add(door);
 
@@ -515,8 +576,8 @@ export class WorldRenderer {
   /** Foundations, then framing, then walls: three visible stages before completion. */
   private buildConstructionMesh(group: THREE.Group, building: BuildingInstance, size: number, height: number): void {
     const stage = this.constructionStageFor(building.progress);
-    const stone = new THREE.MeshLambertMaterial({ color: this.themedColor(0x8b8172, 'muted', 0.3) });
-    const timber = new THREE.MeshLambertMaterial({ color: this.themedColor(0x7a5a35, 'primary', 0.25) });
+    const stone = this.texturedMaterial(this.themedColor(0x8b8172, 'muted', 0.3), 'stone', 0.3);
+    const timber = this.texturedMaterial(this.themedColor(0x7a5a35, 'primary', 0.25), 'wood', 0.2);
     const stageColor = stage === 'foundations'
       ? this.themedColor(0x8d99a6, 'muted', 0.4)
       : stage === 'framing' ? this.themedColor(0xd8b45a, 'accent', 0.4) : this.themedColor(0x6ad07a, 'accent', 0.3);
@@ -568,12 +629,12 @@ export class WorldRenderer {
     if (stage === 'building') {
       const walls = new THREE.Mesh(
         new THREE.BoxGeometry(size * 0.96, height * 0.82, size * 0.84),
-        new THREE.MeshLambertMaterial({ color: 0xa9997c })
+        this.texturedMaterial(0xa9997c, 'stone', 0.55)
       );
       walls.position.y = height * 0.41 + 0.28;
       walls.castShadow = true;
       group.add(walls);
-      const door = new THREE.Mesh(new THREE.BoxGeometry(0.9, 1.6, 0.12), new THREE.MeshLambertMaterial({ color: this.themedColor(0x3b2b1c, 'muted', 0.25) }));
+      const door = new THREE.Mesh(new THREE.BoxGeometry(0.9, 1.6, 0.12), this.texturedMaterial(this.themedColor(0x3b2b1c, 'muted', 0.25), 'wood', 0.2));
       door.position.set(0, 1.08, size * 0.43);
       group.add(door);
       const scaffold = new THREE.Mesh(
@@ -821,12 +882,12 @@ export class WorldRenderer {
 
     const floor = new THREE.Mesh(
       new THREE.BoxGeometry(9, 0.2, 8),
-      new THREE.MeshLambertMaterial({ color: this.themedColor(artDirection.color('wood'), 'primary', 0.25) })
+      this.texturedMaterial(this.themedColor(artDirection.color('wood'), 'primary', 0.25), 'wood', 0.3)
     );
     floor.position.y = 0;
     this.interiorGroup.add(floor);
 
-    const wallMat = new THREE.MeshLambertMaterial({ color: this.themedColor(artDirection.color('stone'), 'muted', 0.28) });
+    const wallMat = this.texturedMaterial(this.themedColor(artDirection.color('stone'), 'muted', 0.28), 'stone', 0.35);
     const back = new THREE.Mesh(new THREE.BoxGeometry(9, 3.2, 0.24), wallMat);
     back.position.set(0, 1.6, -4);
     const left = new THREE.Mesh(new THREE.BoxGeometry(0.24, 3.2, 8), wallMat);
@@ -837,7 +898,7 @@ export class WorldRenderer {
     frontLeft.position.set(-2.9, 1.6, 4);
     const frontRight = frontLeft.clone();
     frontRight.position.x = 2.9;
-    const ceiling = new THREE.Mesh(new THREE.BoxGeometry(9, 0.2, 8), new THREE.MeshLambertMaterial({ color: this.themedColor(artDirection.color('thatch'), 'accent', 0.22) }));
+    const ceiling = new THREE.Mesh(new THREE.BoxGeometry(9, 0.2, 8), this.texturedMaterial(this.themedColor(artDirection.color('thatch'), 'accent', 0.22), 'thatch', 0.2));
     ceiling.position.y = 3.2;
     this.interiorGroup.add(back, left, right, frontLeft, frontRight, ceiling);
 
@@ -876,8 +937,8 @@ export class WorldRenderer {
   private makeFurniture(kind: string, x: number, z: number): THREE.Object3D {
     const group = new THREE.Group();
     group.position.set(x, 0.1, z);
-    const wood = new THREE.MeshLambertMaterial({ color: this.themedColor(artDirection.color('wood'), 'primary', 0.3) });
-    const cloth = new THREE.MeshLambertMaterial({ color: this.themedColor(artDirection.color('fabric'), 'accent', 0.22) });
+    const wood = this.texturedMaterial(this.themedColor(artDirection.color('wood'), 'primary', 0.3), 'wood', 0.25);
+    const cloth = this.texturedMaterial(this.themedColor(artDirection.color('fabric'), 'accent', 0.22), 'fabric', 0.2);
     const metal = new THREE.MeshLambertMaterial({ color: this.themedColor(artDirection.color('metal'), 'muted', 0.3) });
     switch (kind) {
       case 'bed':
@@ -893,7 +954,7 @@ export class WorldRenderer {
       case 'hearth':
       case 'furnace':
       case 'kiln': {
-        const stone = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.4, 1.1), new THREE.MeshLambertMaterial({ color: 0x6d6a63 }));
+        const stone = new THREE.Mesh(new THREE.BoxGeometry(1.6, 1.4, 1.1), this.texturedMaterial(0x6d6a63, 'stone', 0.2));
         stone.position.y = 0.7;
         const fire = new THREE.Mesh(new THREE.SphereGeometry(0.28, 8, 8), new THREE.MeshBasicMaterial({ color: 0xff8a3a }));
         fire.position.set(0, 0.5, 0.55);
