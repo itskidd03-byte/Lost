@@ -165,6 +165,23 @@ export function buildGround({ world, scale, centerX, centerY, segmentsPerTile = 
     return RELIEF[tile?.biome] ?? 0.4;
   });
 
+  // Ground that is being raised or worked right now: Johan lifts a block out of
+  // the board and the surface under it is handed to the refine pass, which melts
+  // that block down into the land around it. `molds` holds the lift still to be
+  // worked off, keyed by tile.
+  let moldsNow = new Map();
+
+  const moldLift = (x, y) => {
+    let lift = 0;
+    for (const mold of moldsNow.values()) {
+      // the block is flat across its own tile and slopes away just outside it
+      const reach = Math.max(Math.abs(x - mold.x), Math.abs(y - mold.y));
+      const edge = Math.max(0, Math.min(1, (1.4 - reach) / 0.9));
+      lift += mold.raise * edge * edge * (3 - 2 * edge);
+    }
+    return lift;
+  };
+
   const heightAt = (x, y) => {
     const base = sample(x, y, (tx, ty) => level(tileAt(tx, ty)));
     // the swell is strongest where the land is rough, and flat on water
@@ -178,7 +195,7 @@ export function buildGround({ world, scale, centerX, centerY, segmentsPerTile = 
       y - (b.minY - 0.5), (b.maxY + 0.5) - y,
     );
     const fade = Math.max(0, Math.min(1, edge / 0.9));
-    return base + swell * smooth(fade);
+    return base + swell * smooth(fade) + moldLift(x, y);
   };
 
   const channel = (tx, ty, index) => rgbOf(tileAt(tx, ty)?.biome)[index];
@@ -241,5 +258,23 @@ export function buildGround({ world, scale, centerX, centerY, segmentsPerTile = 
   mesh.receiveShadow = true;
   mesh.name = 'ground';
 
-  return { mesh, heightAt, bounds: b };
+  // Re-sample the surface while something is being molded, so the block can be
+  // seen sinking into the landscape instead of popping into place.
+  const position = geometry.attributes.position;
+  let refreshAt = 0;
+  const refresh = (molds) => {
+    moldsNow = molds;
+    for (let j = 0; j <= segY; j++) {
+      for (let i = 0; i <= segX; i++) {
+        const tx = b.minX - 0.5 + (i / segX) * cols;
+        const ty = b.minY - 0.5 + (j / segY) * rows;
+        position.setY(j * (segX + 1) + i, heightAt(tx, ty));
+      }
+    }
+    position.needsUpdate = true;
+    geometry.computeVertexNormals();
+    refreshAt = performance.now();
+  };
+
+  return { mesh, heightAt, bounds: b, refresh, lastRefresh: () => refreshAt };
 }

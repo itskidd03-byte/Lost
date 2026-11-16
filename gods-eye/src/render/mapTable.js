@@ -420,6 +420,12 @@ export class MapTable {
     });
     this.tileGroup.add(ground.mesh);
     this.groundMesh = ground.mesh;
+    this.ground = ground;
+    // Blocks still being melted into the land survive a rebuild: the board is
+    // rebuilt every second or so while you are watching it, and clearing them
+    // here would cut the molding short every time.
+    if (!this.molds) this.molds = new Map();
+    this.moldClock = 0;
     const groundY = (tile) => ground.heightAt(tile.x, tile.y);
     this.groundY = groundY;
 
@@ -694,6 +700,53 @@ export class MapTable {
     return null;
   }
 
+  // Johan raises a block of ground out of the board; from there the refine pass
+  // takes it. The lift swells up, holds while he works it, then melts away so the
+  // new ground finishes as part of the landscape around it rather than as a slab.
+  startMold(tile, height = 1) {
+    if (!this.ground || !this.molds) return;
+    const k = key(tile.x, tile.y);
+    const peak = this.scale * 0.62 * height;
+    const running = this.molds.get(k);
+    if (running) {
+      // the board is rebuilt while a tile is still settling; let the block that
+      // is already standing finish its mold instead of starting over
+      running.peak = Math.max(running.peak, peak);
+      return;
+    }
+    this.molds.set(k, { x: tile.x, y: tile.y, raise: 0, peak, t: 0 });
+  }
+
+  updateMolds(dt) {
+    if (!this.molds || !this.molds.size || !this.ground?.refresh) return;
+    this.moldClock += dt;
+    let moved = false;
+    for (const [k, mold] of this.molds) {
+      mold.t += dt;
+      const before = mold.raise;
+      if (mold.t < 0.4) {
+        const p = mold.t / 0.4;
+        mold.raise = mold.peak * p * p * (3 - 2 * p);
+      } else if (mold.t < 1.1) {
+        mold.raise = mold.peak;
+      } else {
+        const p = Math.min(1, (mold.t - 1.1) / 1.9);
+        mold.raise = mold.peak * (1 - p * p * (3 - 2 * p));
+      }
+      if (Math.abs(mold.raise - before) > 1e-7) moved = true;
+      if (mold.t > 3.05) {
+        mold.raise = 0;
+        this.molds.delete(k);
+        moved = true;
+      }
+    }
+    // twenty-odd rebuilds a second is enough to look like the ground is flowing
+    if (moved && this.moldClock > 0.05) {
+      this.moldClock = 0;
+      this.ground.refresh(this.molds);
+    }
+  }
+
   applySelection(sel) {
     this.selection = sel;
     if (!sel) {
@@ -713,6 +766,7 @@ export class MapTable {
   }
 
   update(elapsed, dt = 0) {
+    this.updateMolds(dt);
     const pulse = 0.55 + Math.sin(elapsed * 3.4) * 0.3;
     for (const m of this.warMarks) {
       if (!m.mesh.material) continue;
@@ -845,7 +899,12 @@ export class MapTable {
       return;
     }
 
-    // at the tile: raise it out of the ground with the hammer
+    // at the tile: the block comes up out of the board here, and the refine pass
+    // takes over from the first swing and melts it back into the land
+    if (!job.molding) {
+      job.molding = true;
+      this.startMold(job.tile, job.kind === 'grow' ? 1 : 0.5);
+    }
     w.root.position.set(tx, ty, tz);
     w.root.rotation.y += Math.sin(elapsed * 1.2) * step * 0.4;
     this.workerTimer += step;
