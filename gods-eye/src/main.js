@@ -713,8 +713,8 @@ class Game {
     set('civ-camp', snap.name);
     set('civ-era', snap.era);
     set('civ-blurb', snap.blurb);
-    set('civ-stats', `${snap.population} of ${snap.capacity} the land can feed · ${snap.homes} homes`);
-    set('civ-gov', `${snap.government}${snap.leader ? ` · led by ${snap.leader}` : ''} · ${snap.camps}/${snap.campLimit} camps`);
+    set('civ-stats', `${snap.population} people · ${snap.homes} homes · ${snap.territory} tiles held`);
+    set('civ-gov', `${snap.government}${snap.leader ? ` · led by ${snap.leader}` : ''} · ${snap.camps} camps${snap.wars ? ` · ${snap.wars} at war` : ''}`);
     set('civ-gov', `${snap.government}${snap.leader ? ` · led by ${snap.leader}` : ''}`);
     set('civ-stores', `food ${snap.food} · wood ${snap.wood} · ${snap.born} born, ${snap.died} lost`);
     const fill = document.getElementById('civ-fill');
@@ -1226,6 +1226,12 @@ class Game {
           this.drawCivHud();
         }
       }
+    }
+
+    if (this.society?.founded && (this.mode === 'table' || this.mode === 'cabin')
+      && this.elapsed - (this.mapSocietyAt || 0) > 1.2) {
+      this.mapSocietyAt = this.elapsed;
+      this.cabin.map.updateSociety(this.society);
     }
 
     this.updatePrompts();

@@ -28,6 +28,8 @@ export class MapTable {
 
     this.tileGroup = new THREE.Group();
     this.markGroup = new THREE.Group();
+    this.societyMesh = null;
+    this.societyKey = '';
     this.group.add(this.tileGroup);
     this.group.add(this.markGroup);
 
@@ -794,6 +796,51 @@ export class MapTable {
       o.castShadow = false;
       o.receiveShadow = false;
     });
+  }
+
+  // Tiles the world's camps and kingdoms claim, painted on the board. The shape
+  // grows as they breed and take the land around them.
+  updateSociety(society) {
+    const camps = (society?.data ?? society)?.camps || [];
+    const key = camps.map((c) => `${c.id}:${(c.territory || []).length}:${c.people.length}`).join('|');
+    this.lastSociety = society;
+    if (key === this.societyKey && this.societyMesh?.parent) return;
+    this.societyKey = key;
+    if (!this.groundY) return;
+    const project = (x, y) => ({ x: (x - this.centerX) * this.scale, z: (y - this.centerY) * this.scale });
+    const positions = [];
+    const colors = [];
+    const color = new THREE.Color();
+    camps.forEach((camp, index) => {
+      color.setHSL((camp.id * 0.137) % 1, 0.55, 0.55);
+      for (const k of camp.territory || []) {
+        const [x, y] = k.split(',').map(Number);
+        const tile = this.state?.world?.tiles?.get(k);
+        if (!tile) continue;
+        const top = this.groundY(tile) + 0.006;
+        const a = project(x - 0.5, y - 0.5);
+        const b = project(x + 0.5, y - 0.5);
+        const c = project(x + 0.5, y + 0.5);
+        const d = project(x - 0.5, y + 0.5);
+        positions.push(a.x, top, a.z, b.x, top, b.z, c.x, top, c.z);
+        positions.push(a.x, top, a.z, c.x, top, c.z, d.x, top, d.z);
+        for (let i = 0; i < 6; i++) colors.push(color.r, color.g, color.b);
+      }
+    });
+    if (!this.societyMesh) {
+      const geometry = new THREE.BufferGeometry();
+      const material = new THREE.MeshBasicMaterial({
+        vertexColors: true, transparent: true, opacity: 0.34, depthWrite: false, side: THREE.DoubleSide,
+      });
+      this.societyMesh = new THREE.Mesh(geometry, material);
+      this.societyMesh.renderOrder = 2;
+    }
+    if (!this.societyMesh.parent) this.group.add(this.societyMesh);
+    const geometry = this.societyMesh.geometry;
+    geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    geometry.computeBoundingSphere();
+    this.societyMesh.visible = positions.length > 0;
   }
 
   update(elapsed, dt = 0) {

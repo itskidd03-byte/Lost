@@ -98,6 +98,8 @@ export class Society {
       died: 0,
       history: [],
     };
+    for (const camp of this.data.camps) this.headcount(camp);
+    this.rebuildClaims();
     this.note(`Johan's hundred step onto ${tile.x},${tile.y} and call it the First Camp.`);
     this.save();
     return true;
@@ -135,6 +137,8 @@ export class Society {
       y,
       foundedDay: this.state?.world?.day ?? 0,
       people: [],
+      territory: [`${x},${y}`],
+      isKingdom: false,
       food: 60,
       wood: 30,
       knowledge: 0,
@@ -208,21 +212,18 @@ export class Society {
       this.workCamp(camp, step, world);
     }
 
-    // once the land is settled and the camps are full, the world stops growing
-    if (this.data.camps.length < this.maxCamps()) {
-      for (const camp of [...this.data.camps]) {
-        const full = this.capacity(camp) * 0.92;
-        const quiet = this.time - (camp.lastSplit || 0) > 240;
-        if (quiet && camp.people.length >= full && camp.food > camp.people.length * 1.4) {
-          camp.lastSplit = this.time;
-          this.split(camp, world);
-        }
-      }
-    }
+    // the land a camp holds grows with the people living in it
+    for (const camp of this.data.camps) this.growTerritory(camp, world);
+
+    // people who no longer agree with the crown walk out and start again
+    for (const camp of [...this.data.camps]) this.considerMigration(camp, world);
+
+    // kingdoms whose borders touch find reasons to fight
+    this.tickWars();
 
     // a camp with nobody left is a ruin, not a place
     if (this.data.camps.length > 1) {
-      const dead = this.data.camps.filter((c) => c.people.length === 0);
+      const dead = this.data.camps.filter((c) => this.headcount(c) <= 0);
       for (const camp of dead) {
         this.data.camps = this.data.camps.filter((c) => c !== camp);
         this.note(`${camp.name} stands empty. ${camp.homes} homes and ${camp.civics.length} halls, and no one left to use them.`);
@@ -247,7 +248,15 @@ export class Society {
     return { forest, water, grass };
   }
 
+  // A camp's people are held as a head count; the named people are a sample of
+  // them, enough to be faces and voices without simulating tens of thousands.
+  headcount(camp) {
+    if (camp.pop == null) camp.pop = camp.people.length;
+    return camp.pop;
+  }
+
   workCamp(camp, dt, world) {
+    const pop = this.headcount(camp);
     const y = camp.yields || { forest: 8, water: 4, grass: 20 };
     // the land around a camp sets how much it can pull from it
     const land = 0.7 + Math.min(0.6, y.grass * 0.008 + y.water * 0.01);
@@ -255,10 +264,20 @@ export class Society {
     const eff = 1 + camp.era * 0.3;
 
     let hands = 0;
+    let sampled = 0;
     for (const p of [...camp.people]) {
       p.age += dt * 0.012; // a year every eighty seconds of watching
       // people grow into and out of their work as the years pass
       p.job = this.jobFor(p.age, hash(p.id * 5.7 + 1.3));
+      // how willing they are to live under the crown: ambition and learning both
+      // push against it, a republic holds them, hunger makes it worse
+      if (p.dissent == null) p.dissent = hash(p.id * 4.41) * 0.55;
+      const rank = this.governmentRank(camp);
+      const crowded = camp.food < pop ? 2.2 : 1;
+      p.dissent += dt * (rank >= 3 ? 0.004 : 0.0012) * crowded;
+      if (rank <= 2) p.dissent -= dt * 0.0015;
+      p.dissent = Math.max(0, Math.min(1.6, p.dissent));
+      sampled++;
       if (p.age < 8 || p.job === 'child') continue;
       if (p.age < 14) {
         hands += 0.5;
@@ -268,10 +287,14 @@ export class Society {
         hands += 0.4;
       }
     }
+    // the named sample is too small and too young to speak for the whole camp,
+    // so work is taken from the age structure of a settled village instead
+    hands = pop * 0.48;
 
     // feeding and sheltering the camp
-    const eat = camp.people.length * 0.2;
-    camp.food += (0.6 + hands * 0.5 * land) * eff * dt;
+    const eat = pop * 0.2;
+    // farmland is finite: twice the hands does not mean twice the harvest
+    camp.food += (0.6 + Math.sqrt(hands) * 3.2 * land) * eff * dt;
     camp.food -= eat * dt;
 
     // timber, and what the trades add to it
@@ -280,46 +303,51 @@ export class Society {
 
     // knowledge comes mostly from the halls and shops, not from digging
     const civicBonus = 1 + camp.civics.length * 0.12;
-    camp.knowledge += (0.25 + camp.people.length * 0.003 + camp.businesses.length * 0.05) * civicBonus * eff * dt;
+    camp.knowledge += (0.25 + pop * 0.003 + camp.businesses.length * 0.05) * civicBonus * eff * dt;
     const nextNeed = [400, 1200, 3000, 7000, 14000][camp.era];
     if (nextNeed) camp.knowledge = Math.min(camp.knowledge, nextNeed * 1.25);
 
-    camp.food = Math.max(0, Math.min(camp.food, 260 + camp.people.length * 4));
-    camp.wood = Math.min(camp.wood, 200 + camp.people.length * 2);
+    camp.food = Math.max(0, Math.min(camp.food, 260 + pop * 4));
+    camp.wood = Math.min(camp.wood, 200 + pop * 2);
 
     // hunger takes the oldest first, and only when the stores are truly empty
-    if (camp.food <= 0 && camp.people.length > 4) {
-      const victim = camp.people.reduce((old, p) => (p.age > old.age ? p : old), camp.people[0]);
-      camp.people = camp.people.filter((p) => p !== victim);
+    if (camp.food <= 0 && pop > 4) {
+      const victim = camp.people.length
+        ? camp.people.reduce((old, p) => (p.age > old.age ? p : old), camp.people[0])
+        : null;
+      if (victim) camp.people = camp.people.filter((p) => p !== victim);
+      camp.pop = pop - 1;
       this.data.died++;
-      if (this.data.died % 15 === 1) this.note(`Hunger in ${camp.name}. ${victim.name} did not see the next dawn.`);
+      if (victim && this.data.died % 15 === 1) this.note(`Hunger in ${camp.name}. ${victim.name} did not see the next dawn.`);
     }
 
-    // old age
+    // old age among the named, and quietly among the rest
     for (const p of [...camp.people]) {
       const limit = 62 + hash(p.id * 7.7) * 22;
       if (p.age > limit) {
         camp.people = camp.people.filter((q) => q !== p);
+        camp.pop = Math.max(1, this.headcount(camp) - 1);
         this.data.died++;
       }
     }
+    const hidden = Math.max(0, this.headcount(camp) - camp.people.length);
+    if (hidden > 0) camp.pop = Math.max(camp.people.length, camp.pop - hidden * dt * 0.00008);
+    const now = this.headcount(camp);
 
     // homes are built with a little room to spare
     const homesPer = ERAS[camp.era].homesPer;
     const homeCost = 24 + camp.era * 12;
-    const carrying = this.capacity(camp);
-    const homesAllowed = Math.ceil(carrying / homesPer);
-    if (camp.wood >= homeCost && camp.homes < homesAllowed && camp.homes * homesPer < camp.people.length * 1.25) {
+    if (camp.wood >= homeCost && camp.homes * homesPer < now * 1.25) {
       camp.wood -= homeCost;
       camp.homes++;
     }
 
-    const room = camp.homes * homesPer - camp.people.length;
-    const openness = Math.max(0, 1 - camp.people.length / carrying);
-    if (camp.food > camp.people.length * 0.5 && room > 1 && openness > 0) {
-      const couples = Math.min(10, this.couples(camp));
-      const strained = camp.people.length < 20 ? 2.5 : 1;
-      const pull = strained * openness * (1 + Math.min(2, room / Math.max(8, camp.people.length)));
+    const room = camp.homes * homesPer - now;
+    if (camp.food > now * 0.5 && room > 1) {
+      const couples = this.couples(camp);
+      const strained = now < 20 ? 2.5 : 1;
+      // a growing town keeps growing: food and houses are the only brakes
+      const pull = strained * (1 + Math.min(2, room / Math.max(8, now)));
       if (couples > 0 && hash(this.time * 0.37 + camp.id) < dt * 0.014 * couples * pull) {
         this.birth(camp);
       }
@@ -333,23 +361,29 @@ export class Society {
   }
 
   couples(camp) {
-    let n = 0;
-    const adults = camp.people.filter((p) => p.age >= 17 && p.age < 50);
-    for (const p of adults) if (!p.partner) n++;
-    return Math.floor(n / 2);
+    return Math.min(26, Math.round(this.headcount(camp) * 0.2));
   }
 
   birth(camp) {
+    camp.pop = this.headcount(camp) + 1;
+    this.data.born++;
+    // only the first sixty or so get names; the rest are counted, not written down
+    if (camp.people.length >= 60) return;
     const women = camp.people.filter((p) => p.sex === 'f' && p.age >= 17 && p.age < 44);
-    if (!women.length) return;
-    const mother = women[Math.floor(hash(this.time + camp.id) * women.length) % women.length];
+    const mother = women.length
+      ? women[Math.floor(hash(this.time + camp.id) * women.length) % women.length]
+      : null;
     const id = this.data.nextPersonId++;
     const child = this.makePerson(id, hash(id * 3.3) > 0.5 ? 'f' : 'm', 0);
+    if (child.sex === 'm' && hash(id * 1.7) > 0.6) child.sex = 'f';
     child.campId = camp.id;
-    child.bornBy = mother.name;
+    child.bornBy = mother?.name ?? null;
     camp.people.push(child);
-    this.data.born++;
-    if (this.data.born % 25 === 1) this.note(`${mother.name} of ${camp.name} gave birth to ${child.name}. The camp has ${camp.people.length} souls.`);
+    if (this.data.born % 25 === 1) {
+      this.note(mother
+        ? `${mother.name} of ${camp.name} gave birth to ${child.name}. The camp has ${Math.round(this.headcount(camp))} souls.`
+        : `${child.name} is born in ${camp.name}. The camp has ${Math.round(this.headcount(camp))} souls.`);
+    }
     if (this.onBirth) this.onBirth(camp, child);
   }
 
@@ -357,7 +391,7 @@ export class Society {
     const tiers = BUSINESSES.filter((b) => camp.era >= b.era);
     if (!tiers.length) return;
     const cap = 5 + camp.era * 3;
-    const allowed = Math.min(cap, Math.max(0, Math.floor(camp.people.length / (16 - camp.era * 1.5)))) - camp.businesses.length;
+    const allowed = Math.min(cap, Math.max(0, Math.floor(this.headcount(camp) / (16 - camp.era * 1.5)))) - camp.businesses.length;
     if (allowed <= 0) return;
     if (hash(this.time * 0.13 + camp.id * 3.7) > dt * 0.09) return;
     const tier = tiers[tiers.length - 1];
@@ -369,7 +403,7 @@ export class Society {
   growCivics(camp) {
     const next = CIVICS.find((c) => camp.era >= c.era && !camp.civics.includes(c.name));
     if (!next) return;
-    if (camp.people.length < 20 + camp.civics.length * 14) return;
+    if (this.headcount(camp) < 20 + camp.civics.length * 14) return;
     const cost = 40 + camp.civics.length * 30;
     if (camp.wood < cost) return;
     camp.wood -= cost;
@@ -386,7 +420,7 @@ export class Society {
       knowledge: [400, 1200, 3000, 7000, 14000][camp.era] ?? 14000,
       food: 40 + camp.era * 35,
     };
-    if (camp.people.length < need.pop) return;
+    if (this.headcount(camp) < need.pop) return;
     if (camp.homes < need.homes) return;
     if (camp.knowledge < need.knowledge) return;
     if (camp.food < need.food) return;
@@ -398,7 +432,7 @@ export class Society {
 
   growGovernment(camp) {
     const current = GOVERNMENTS.findIndex((g) => g.id === camp.government.id);
-    const options = GOVERNMENTS.filter((g, i) => i > current && camp.people.length >= g.min && camp.era >= g.era);
+    const options = GOVERNMENTS.filter((g, i) => i > current && this.headcount(camp) >= g.min && camp.era >= g.era);
     const best = options[options.length - 1];
     if (best) {
       const previous = camp.government;
@@ -408,25 +442,97 @@ export class Society {
     }
   }
 
-  split(camp, world) {
-    const band = camp.people.filter((p) => p.age >= 16 && p.age <= 45);
-    const leavers = band.slice(0, Math.min(14, Math.max(8, Math.floor(band.length * 0.3))));
-    if (leavers.length < 6) return;
-    const spot = this.findCampSpot(camp, world);
+  /* ------------------------- land, migration and war ----------------------- */
+
+  governmentRank(camp) {
+    return Math.max(0, GOVERNMENTS.findIndex((g) => g.id === camp.government.id));
+  }
+
+  rebuildClaims() {
+    this.claimed = new Map();
+    for (const camp of this.data?.camps || []) {
+      if (!camp.territory || !camp.territory.length) camp.territory = [`${camp.x},${camp.y}`];
+      for (const k of camp.territory) this.claimed.set(k, camp.id);
+    }
+  }
+
+  claim(camp, x, y) {
+    const k = `${x},${y}`;
+    if (this.claimed.has(k)) return false;
+    if (!camp.territory) camp.territory = [];
+    camp.territory.push(k);
+    this.claimed.set(k, camp.id);
+    return true;
+  }
+
+  // A camp's holdings grow with its people: about one tile for every ten souls.
+  // Kingdoms take the land around them faster than a band ever does.
+  growTerritory(camp, world) {
+    if (!this.claimed) this.rebuildClaims();
+    const rank = this.governmentRank(camp);
+    const per = rank >= 3 ? 6 : 10;
+    const target = 1 + Math.floor((this.headcount(camp) || 0) / per);
+    const have = (camp.territory || []).length;
+    if (have >= target) return;
+    // a great kingdom reaches further than a village does
+    const reach = 4 + Math.min(26, Math.floor(have / 3));
+    for (let i = 0; i < 4 && (camp.territory || []).length < target; i++) {
+      const spot = this.freeTileNear(camp, world, 2, reach);
+      if (!spot || !this.claim(camp, spot.x, spot.y)) break;
+    }
+  }
+
+  freeTileNear(camp, world, minRing = 2, maxRing = 12) {
+    if (!world) return null;
+    for (let ring = minRing; ring <= maxRing; ring++) {
+      for (let i = 0; i < 14; i++) {
+        const a = (i / 14) * Math.PI * 2 + hash(camp.id * 7 + ring * 3 + i) * 0.4;
+        const x = Math.round(camp.x + Math.cos(a) * ring);
+        const y = Math.round(camp.y + Math.sin(a) * ring);
+        const tile = tileAt(world, x, y);
+        if (!tile || !isLand(tile)) continue;
+        if (this.claimed?.has(`${x},${y}`)) continue;
+        return { x, y };
+      }
+    }
+    return null;
+  }
+
+  // Whoever has had enough of the crown goes looking for land of their own.
+  considerMigration(camp, world) {
+    const pop = this.headcount(camp);
+    if (pop < 45) return;
+    if (this.data.camps.length >= 80) return;
+    if (this.time - (camp.lastMigration || 0) < 180) return;
+    // people only leave when there are enough of them to spare and stores to share
+    if (camp.food < pop * 0.8) return;
+    const willing = camp.people.filter((p) => p.age >= 15 && (p.dissent ?? 0) > 0.88);
+    const share = Math.round(pop * 0.05);
+    if (willing.length < 2 && share < 5) return;
+    const leavers = willing.slice(0, Math.min(10, willing.length));
+    const moved = Math.max(leavers.length, Math.min(18, share));
+    const spot = this.freeTileNear(camp, world, 3, 16);
     if (!spot) return;
+    camp.lastMigration = this.time;
+    this.foundCamp(camp, leavers, spot, moved);
+  }
+
+  foundCamp(parent, leavers, spot, moved = leavers.length) {
     const id = this.data.nextCampId++;
     const name = this.campName(spot, id);
-    const child = {
+    const kid = {
       id,
       name,
       x: spot.x,
       y: spot.y,
       foundedDay: this.state?.world?.day ?? 0,
       people: leavers,
-      food: camp.food * 0.18,
-      wood: camp.wood * 0.2,
-      knowledge: camp.knowledge * 0.15,
-      era: camp.era,
+      territory: [`${spot.x},${spot.y}`],
+      pop: Math.max(leavers.length, moved),
+      food: Math.max(30, Math.max(leavers.length, moved) * 2.6),
+      wood: Math.max(16, Math.max(leavers.length, moved) * 2),
+      knowledge: Math.max(0, parent.knowledge * 0.08),
+      era: parent.era,
       homes: 2,
       buildings: [],
       businesses: [],
@@ -435,35 +541,111 @@ export class Society {
       yields: null,
       progress: 0,
     };
+    parent.food *= 0.86;
+    parent.wood *= 0.86;
+    parent.people = parent.people.filter((p) => !leavers.includes(p));
+    parent.pop = Math.max(parent.people.length, this.headcount(parent) - Math.max(leavers.length, moved));
     for (const p of leavers) {
-      camp.people = camp.people.filter((q) => q !== p);
       p.campId = id;
+      p.dissent = hash(p.id * 9.1) * 0.3;
     }
-    camp.food *= 0.8;
-    camp.wood *= 0.8;
-    this.chooseLeader(child);
-    this.data.camps.push(child);
-    this.note(`${leavers.length} of ${camp.name} leave the fire and found ${name} at ${spot.x},${spot.y}, under ${child.government.leader ?? 'no leader'}.`);
-    if (this.onSplit) this.onSplit(child);
+    this.chooseLeader(kid);
+    this.chooseLeader(parent);
+    this.claim(kid, spot.x, spot.y);
+    this.data.camps.push(kid);
+    const why = parent.government.id === 'king' || parent.government.id === 'kingdom' ? 'the crown' : 'the way things are run';
+    this.note(`${Math.max(leavers.length, moved)} of ${parent.name} leave ${why} behind and found ${name} at ${spot.x},${spot.y}.`);
+    if (this.onSplit) this.onSplit(kid);
+    return kid;
   }
 
-  findCampSpot(camp, world) {
-    if (!world) return null;
-    for (let ring = 3; ring <= 7; ring++) {
-      for (let i = 0; i < 16; i++) {
-        const a = (i / 16) * Math.PI * 2 + hash(camp.id * 7 + ring) * 0.6;
-        const x = Math.round(camp.x + Math.cos(a) * ring);
-        const y = Math.round(camp.y + Math.sin(a) * ring);
-        const tile = tileAt(world, x, y);
-        if (!tile || !isLand(tile)) continue;
-        if (this.data.camps.some((c) => Math.abs(c.x - x) + Math.abs(c.y - y) < 3)) continue;
-        return { x, y };
+  borders(a, b) {
+    for (const k of a.territory || []) {
+      const [x, y] = k.split(',').map(Number);
+      for (const [dx, dy] of [[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+        if (this.claimed?.get(`${x + dx},${y + dy}`) === b.id) return true;
       }
     }
-    return null;
+    return false;
   }
 
-  campName(spot, id) {
+  tickWars() {
+    if (!this.data.wars) this.data.wars = [];
+    if (!this.claimed) this.rebuildClaims();
+    if (this.time - (this.lastWarCheck || 0) < 5) return;
+    this.lastWarCheck = this.time;
+
+    for (const war of [...this.data.wars]) {
+      const a = this.data.camps.find((c) => c.id === war.a);
+      const b = this.data.camps.find((c) => c.id === war.b);
+      if (!a || !b) {
+        this.data.wars = this.data.wars.filter((w) => w !== war);
+        continue;
+      }
+      // a season of skirmishes
+      const killA = Math.max(1, Math.round(this.headcount(a) * 0.004));
+      const killB = Math.max(1, Math.round(this.headcount(b) * 0.004));
+      this.cull(a, killA);
+      this.cull(b, killB);
+      a.food *= 0.97;
+      b.food *= 0.97;
+      if (this.time > war.until) this.endWar(war, a, b);
+    }
+
+    if (this.data.wars.length >= 3) return;
+    const kingdoms = this.data.camps.filter((c) => this.governmentRank(c) >= 3 && this.headcount(c) > 18);
+    if (kingdoms.length < 2) return;
+    // more colonies, more chances of a quarrel over the border
+    const chance = Math.min(0.006, 0.001 + this.data.camps.length * 0.0001);
+    for (let i = 0; i < kingdoms.length; i++) {
+      for (let j = i + 1; j < kingdoms.length; j++) {
+        const a = kingdoms[i];
+        const b = kingdoms[j];
+        if (this.data.wars.some((w) => (w.a === a.id && w.b === b.id) || (w.a === b.id && w.b === a.id))) continue;
+        if (!this.borders(a, b)) continue;
+        if (hash(this.time * 0.31 + a.id * 7 + b.id * 13) > chance) continue;
+        this.startWar(a, b);
+        return;
+      }
+    }
+  }
+
+  cull(camp, n) {
+    for (let i = 0; i < n && this.headcount(camp) > 2; i++) {
+      camp.pop = this.headcount(camp) - 1;
+      if (camp.people.length > 2) {
+        const index = Math.floor(hash(camp.id * 3.1 + this.time + i * 7.7) * camp.people.length) % camp.people.length;
+        camp.people.splice(index, 1);
+      }
+      this.data.died++;
+    }
+  }
+
+  startWar(a, b) {
+    a.lastWar = this.time;
+    b.lastWar = this.time;
+    this.data.wars.push({ a: a.id, b: b.id, since: this.time, until: this.time + 30 + 60 * hash(a.id + b.id * 3) });
+    this.note(`${a.name} and ${b.name} go to war over their borders.`);
+    if (this.onWar) this.onWar(a, b);
+  }
+
+  endWar(war, a, b) {
+    const winner = this.headcount(a) >= this.headcount(b) ? a : b;
+    const loser = winner === a ? b : a;
+    const take = Math.min(2, Math.max(0, (loser.territory || []).length - 1));
+    for (let i = 0; i < take; i++) {
+      const k = loser.territory.pop();
+      if (!k) break;
+      winner.territory.push(k);
+      this.claimed.set(k, winner.id);
+    }
+    this.data.wars = this.data.wars.filter((w) => w !== war);
+    if (!this.data.peace) this.data.peace = {};
+    this.data.peace[`${Math.min(a.id, b.id)}-${Math.max(a.id, b.id)}`] = this.time;
+    this.note(`${winner.name} breaks ${loser.name}, taking ${take} border tiles and the fields on them.`);
+  }
+
+    campName(spot, id) {
     return `${pick(CAMP_FIRST, hash(spot.x * 3.1 + spot.y * 7.7))}${pick(CAMP_LAST, hash(id * 5.3))}`;
   }
 
@@ -477,7 +659,7 @@ export class Society {
       food: 40 + camp.era * 35,
     };
     const parts = [
-      Math.min(1, camp.people.length / need.pop),
+      Math.min(1, this.headcount(camp) / need.pop),
       Math.min(1, camp.homes / need.homes),
       Math.min(1, camp.knowledge / need.knowledge),
       Math.min(1, camp.food / need.food),
@@ -543,9 +725,10 @@ export class Society {
       blurb: ERAS[camp.era].blurb,
       next: ERAS[camp.era + 1]?.name ?? null,
       progress: camp.progress,
-      population: camp.people.length,
-      capacity: this.capacity(camp),
-      campLimit: this.maxCamps(),
+      population: Math.round(this.headcount(camp)),
+      territory: (camp.territory || []).length,
+      kingdom: this.governmentRank(camp) >= 3,
+      wars: (this.data.wars || []).length,
       homes: camp.homes,
       food: Math.round(camp.food),
       wood: Math.round(camp.wood),
@@ -844,7 +1027,9 @@ export class Society {
       camp.yields = null;
       camp.progress = this.progress(camp);
       for (const p of camp.people) p.campId = camp.id;
+      this.headcount(camp);
     }
+    this.rebuildClaims();
   }
 
   get founded() {
