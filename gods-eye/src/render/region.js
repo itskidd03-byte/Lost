@@ -6,6 +6,10 @@ import { BIOMES, isLand, key, tileAt } from '../world.js';
 import { tree as detailTree, grassStrands, waterSurface, mountain, animal as detailAnimal } from './detail.js';
 import { buildingModel, loadTownModels, townModels } from './models.js';
 import { loadNatureModels, onNatureReady, swapNatureTrees } from './nature.js';
+import {
+  loadPeopleModels, onPeopleReady, peopleReady, personModel, walkPerson,
+} from './people.js';
+import { loadCreatureModels, creaturesReady, creatureModel, onCreaturesReady } from './creatures.js';
 
 const TS = 4;
 const RADIUS = 6;
@@ -55,6 +59,9 @@ export class Region {
     // are rebuilt with them the moment they are ready
     this.modelsPending = true;
     loadTownModels();
+    // Villagers and wildlife are models too. Both packs are usually already in
+    // memory by the time you walk into a region; if not, the crowd is rebuilt
+    // the moment they land.
     this.natureSwapped = false;
     // trees drawn before the pack arrived are replaced in place the moment it
     // lands, without waiting for the next settlement rebuild
@@ -91,6 +98,23 @@ export class Region {
     this.buildFeatures();
     this.buildActors();
     this.spawn = this.findSpawn();
+
+    // Villagers and wildlife stand in as painted shapes until the model packs
+    // are in memory; if they land later, the crowd is rebuilt in place.
+    this.peopleApplied = peopleReady();
+    this.creaturesApplied = creaturesReady();
+    loadPeopleModels();
+    loadCreatureModels();
+    onPeopleReady(() => {
+      if (this.peopleApplied) return;
+      this.peopleApplied = true;
+      this.reskinActors();
+    });
+    onCreaturesReady(() => {
+      if (this.creaturesApplied) return;
+      this.creaturesApplied = true;
+      this.reskinActors();
+    });
   }
 
   buildGround() {
@@ -790,6 +814,17 @@ export class Region {
     }
   }
 
+  // Swaps every villager and animal for the modelled versions once the packs
+  // are in memory, keeping them on the same tiles.
+  reskinActors() {
+    if (!this.scene) return;
+    for (const actor of this.npcActors) this.scene.remove(actor.group);
+    for (const actor of this.animalActors) this.scene.remove(actor.group);
+    this.npcActors.length = 0;
+    this.animalActors.length = 0;
+    this.buildActors();
+  }
+
   buildActors() {
     const bodies = [
       new THREE.MeshStandardMaterial({ color: 0x8a6a4a, roughness: 0.9 }),
@@ -814,16 +849,23 @@ export class Region {
       const gx = info.x + (h - 0.5) * 2.6;
       const gz = info.z + (h2 - 0.5) * 2.6;
       const group = new THREE.Group();
-      const body = new THREE.Mesh(bodyGeo, bodies[npc.id % bodies.length]);
-      body.position.y = 0.85;
-      body.castShadow = true;
-      group.add(body);
-      const head = new THREE.Mesh(headGeo, skin);
-      head.position.y = 1.6;
-      group.add(head);
-      const hat = new THREE.Mesh(new THREE.ConeGeometry(0.26, 0.34, 7), bodies[(npc.id + 2) % bodies.length]);
-      hat.position.y = 1.82;
-      group.add(hat);
+      // the medieval person pack, when it is here; the painted villager only
+      // while the models are still on the wire
+      const person = peopleReady() ? personModel({ seed: npc.id * 31 + 7, height: 1.75 }) : null;
+      if (person) {
+        group.add(person.root);
+      } else {
+        const body = new THREE.Mesh(bodyGeo, bodies[npc.id % bodies.length]);
+        body.position.y = 0.85;
+        body.castShadow = true;
+        group.add(body);
+        const head = new THREE.Mesh(headGeo, skin);
+        head.position.y = 1.6;
+        group.add(head);
+        const hat = new THREE.Mesh(new THREE.ConeGeometry(0.26, 0.34, 7), bodies[(npc.id + 2) % bodies.length]);
+        hat.position.y = 1.82;
+        group.add(hat);
+      }
       group.position.set(gx, info.top, gz);
       this.scene.add(group);
       const roads = npc.settlementId ? this.settlementRoads.get(npc.settlementId) : null;
@@ -831,6 +873,7 @@ export class Region {
       this.npcActors.push({
         npc,
         group,
+        model: person || null,
         settlementId: npc.settlementId || null,
         baseX: gx,
         baseZ: gz,
@@ -851,11 +894,16 @@ export class Region {
       const info = this.tiles.get(key(sp.x, sp.y));
       if (!info) continue;
       for (let i = 0; i < 2; i++) {
-        const critter = detailAnimal({
-          kind: sp.kind === 'bird' ? 'bird' : 'deer',
-          scale: 1.05,
-          seed: sp.id * 7 + i,
-        });
+        const kinds = sp.kind === 'bird' ? ['chicken', 'duck'] : ['deer', 'sheep', 'cow', 'goat', 'horse', 'fox'];
+        const kind = kinds[Math.floor(hash(sp.id + i, 3) * kinds.length) % kinds.length];
+        const modelled = creaturesReady() ? creatureModel({ kind, height: 1.5, seed: sp.id * 7 + i }) : null;
+        const critter = modelled
+          ? { group: modelled.group, legs: [], kind: modelled.kind, modelled: true }
+          : detailAnimal({
+            kind: sp.kind === 'bird' ? 'bird' : 'deer',
+            scale: 1.05,
+            seed: sp.id * 7 + i,
+          });
         const ax = info.x + (hash(sp.id + i, 5) - 0.5) * 3;
         const az = info.z + (hash(sp.id - i, 9) - 0.5) * 3;
         critter.group.position.set(ax, info.top, az);
@@ -864,6 +912,7 @@ export class Region {
           group: critter.group,
           legs: critter.legs,
           kind: critter.kind,
+          modelled: !!modelled,
           baseX: ax,
           baseZ: az,
           top: info.top,
@@ -975,9 +1024,10 @@ export class Region {
             actor.group.position.z = z + (oz / od) * (1.2 - od);
           }
         }
-        actor.group.position.y = this.groundAt(x, z) + Math.abs(Math.sin(elapsed * 6.5 + actor.walkPhase)) * 0.055;
+        actor.group.position.y = this.groundAt(x, z) + Math.abs(Math.sin(elapsed * 6.5 + actor.walkPhase)) * (actor.model ? 0.02 : 0.055);
         const heading = Math.cos(elapsed * actor.speed + actor.walkPhase) >= 0 ? 1 : -1;
         actor.group.rotation.y = Math.atan2(dx * heading, dz * heading);
+        if (actor.model) walkPerson(actor.model, elapsed, 1);
         continue;
       }
       const bob = Math.sin(elapsed * 1.6 + actor.phase) * 0.05;
@@ -985,13 +1035,18 @@ export class Region {
       actor.group.rotation.y = Math.sin(elapsed * 0.4 + actor.phase) * 0.9;
       actor.group.position.x = actor.baseX + Math.sin(elapsed * 0.25 + actor.phase) * 0.35;
       actor.group.position.z = actor.baseZ + Math.cos(elapsed * 0.21 + actor.phase) * 0.35;
+      if (actor.model) walkPerson(actor.model, elapsed, 0.2);
     }
     for (const a of this.animalActors) {
       a.group.position.x = a.baseX + Math.sin(elapsed * 0.5 + a.phase) * 1.1;
       a.group.position.z = a.baseZ + Math.cos(elapsed * 0.42 + a.phase) * 1.1;
       a.group.rotation.y = Math.sin(elapsed * 0.5 + a.phase) * 1.4;
-      const gait = Math.sin(elapsed * (a.kind === 'bird' ? 9 : 6) + a.phase);
+      const gait = Math.sin(elapsed * (a.kind === 'bird' || a.modelled ? 5 : 6) + a.phase);
       for (const leg of a.legs) leg.mesh.rotation.x = leg.base + gait * (leg.wing ? 0.7 : 0.45);
+      if (a.modelled) {
+        a.group.position.y = a.top + Math.abs(gait) * 0.06;
+        a.group.rotation.z = gait * 0.03;
+      }
     }
     for (const fx of this.disasterFX) {
       const pos = fx.points.geometry.attributes.position;

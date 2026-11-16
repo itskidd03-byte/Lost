@@ -257,13 +257,14 @@ export function medievalVillage({ seed = 1, scale = 1, nationColor = '#c9a227', 
 
     // its household, standing a tenth of the house tall, as before
     if (peopleReady()) {
-      // a person is about half a house width tall, which reads right next to
-      // the one-cell cottages
-      const height = cell * 0.5;
+      // A person is scaled up from true size: on a board this small the real
+      // ratio turns villagers into three-pixel specks, so they stand about a
+      // house tall — miniature rules, not realism.
+      const height = cell * 1.05;
       const person = personModel({ seed: seed * 13 + i * 5, height });
       if (person) {
-        const px = Math.cos(angle + 0.5) * spread * 1.2;
-        const pz = Math.sin(angle + 0.5) * spread * 1.2;
+        const px = Math.cos(angle + 0.5) * spread * 1.45;
+        const pz = Math.sin(angle + 0.5) * spread * 1.45;
         person.root.position.set(px, 0, pz);
         group.add(person.root);
         people.push({

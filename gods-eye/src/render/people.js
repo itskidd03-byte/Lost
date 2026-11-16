@@ -35,6 +35,13 @@ export function loadPeopleModels() {
           if (!obj.isMesh) return;
           obj.castShadow = true;
           obj.frustumCulled = false;
+          // The exporter writes an empty colour attribute, which three turns
+          // into vertex colours and multiplies the atlas away — a black person.
+          if (obj.geometry.getAttribute('color')) obj.geometry.deleteAttribute('color');
+          if (obj.material) {
+            obj.material.vertexColors = false;
+            obj.material.needsUpdate = true;
+          }
         });
         const box = new THREE.Box3().setFromObject(gltf.scene);
         models.set(name, { scene: gltf.scene, height: box.getSize(new THREE.Vector3()).y || 1 });
