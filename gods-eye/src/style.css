@@ -90,11 +90,19 @@ html, body {
 /* ---------- generic panel ---------- */
 .panel {
   position: absolute; top: 72px; right: 18px; width: 320px; max-height: calc(100% - 100px);
-  overflow: auto; background: var(--panel); border: 1px solid var(--line);
+  overflow: auto; border: 1px solid var(--line);
+  background:
+    linear-gradient(150deg, rgba(14, 16, 19, 0.88), rgba(9, 11, 13, 0.93) 68%),
+    url('./assets/kraft.jpg') center / cover no-repeat;
   backdrop-filter: blur(9px); border-radius: 3px; padding: 14px 15px 12px;
   box-shadow: 0 26px 70px rgba(0, 0, 0, 0.65);
 }
 .panel.wide { right: auto; left: 18px; width: 340px; }
+#divine {
+  background:
+    linear-gradient(160deg, rgba(16, 9, 12, 0.9), rgba(11, 9, 12, 0.94) 66%),
+    url('./assets/crimson.jpg') center / cover no-repeat;
+}
 .panel header { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
 .panel h3 { margin: 0; font-size: 17px; letter-spacing: 0.03em; }
 .panel header p { margin: 2px 0 0; font-size: 11px; color: var(--ink-dim); letter-spacing: 0.06em; }
@@ -194,7 +202,10 @@ html, body {
 }
 #dialogue[hidden] { display: none; }
 .dlg {
-  background: var(--panel); border: 1px solid var(--line); border-radius: 3px;
+  border: 1px solid var(--line); border-radius: 3px;
+  background:
+    linear-gradient(150deg, rgba(10, 14, 18, 0.9), rgba(8, 11, 14, 0.94) 70%),
+    url('./assets/frost.jpg') center / cover no-repeat;
   padding: 15px 18px 12px; backdrop-filter: blur(10px); box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7);
 }
 .dlg header { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -273,7 +284,12 @@ html, body {
 #fade.on { opacity: 1; }
 
 /* ---------- intro ---------- */
-#intro { z-index: 60; background: radial-gradient(circle at 50% 30%, #10151a, #04060a 70%); }
+#intro {
+  z-index: 60;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(17, 24, 31, 0.6), rgba(4, 6, 10, 0.9) 72%),
+    url('./assets/night.jpg') center / cover no-repeat;
+}
 .intro-card { width: min(760px, 100%); text-align: center; padding: 12px; }
 .intro-card h1 {
   margin: 6px 0 8px; font-size: clamp(40px, 8vw, 72px); font-weight: 500; letter-spacing: 0.22em;
