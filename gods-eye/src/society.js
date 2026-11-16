@@ -91,6 +91,7 @@ export class Society {
       founded: true,
       homeTile: { x: tile.x, y: tile.y },
       camps: [camp],
+      landTiles: this.countLand(),
       nextPersonId: 100,
       nextCampId: 2,
       born: 0,
@@ -100,6 +101,30 @@ export class Society {
     this.note(`Johan's hundred step onto ${tile.x},${tile.y} and call it the First Camp.`);
     this.save();
     return true;
+  }
+
+  // How many people the ground around a camp can actually carry. This is the
+  // ceiling that stops the world filling up forever: finite land, finite
+  // harvest, finite population.
+  capacity(camp) {
+    const y = camp.yields || { forest: 8, water: 4, grass: 20 };
+    const cap = 60 + y.grass * 1.6 + y.water * 0.8 + y.forest * 0.7;
+    return Math.round(Math.max(70, Math.min(220, cap)));
+  }
+
+  countLand() {
+    const world = this.state?.world;
+    if (!world?.tiles) return 400;
+    let land = 0;
+    for (const tile of world.tiles.values()) if (isLand(tile)) land++;
+    return land;
+  }
+
+  // A finite world holds a finite number of camps: roughly one per fifty
+  // tiles of habitable ground, and never more than twelve.
+  maxCamps() {
+    const land = this.data?.landTiles ?? 400;
+    return Math.max(3, Math.min(12, Math.round(land / 50)));
   }
 
   makeCamp(x, y, name, withPeople) {
@@ -183,12 +208,12 @@ export class Society {
       this.workCamp(camp, step, world);
     }
 
-    // a camp can only crowd itself for so long before some of it leaves
-    if (this.data.camps.length < 16) {
+    // once the land is settled and the camps are full, the world stops growing
+    if (this.data.camps.length < this.maxCamps()) {
       for (const camp of [...this.data.camps]) {
-        const cap = 120 + camp.era * 22;
-        const quiet = this.time - (camp.lastSplit || 0) > 150;
-        if (quiet && camp.people.length > cap && camp.food > camp.people.length * 1.6) {
+        const full = this.capacity(camp) * 0.92;
+        const quiet = this.time - (camp.lastSplit || 0) > 240;
+        if (quiet && camp.people.length >= full && camp.food > camp.people.length * 1.4) {
           camp.lastSplit = this.time;
           this.split(camp, world);
         }
@@ -282,16 +307,19 @@ export class Society {
     // homes are built with a little room to spare
     const homesPer = ERAS[camp.era].homesPer;
     const homeCost = 24 + camp.era * 12;
-    if (camp.wood >= homeCost && camp.homes < ERAS[camp.era].homeCap && camp.homes * homesPer < camp.people.length * 1.25) {
+    const carrying = this.capacity(camp);
+    const homesAllowed = Math.ceil(carrying / homesPer);
+    if (camp.wood >= homeCost && camp.homes < homesAllowed && camp.homes * homesPer < camp.people.length * 1.25) {
       camp.wood -= homeCost;
       camp.homes++;
     }
 
     const room = camp.homes * homesPer - camp.people.length;
-    if (camp.food > camp.people.length * 0.5 && room > 1) {
+    const openness = Math.max(0, 1 - camp.people.length / carrying);
+    if (camp.food > camp.people.length * 0.5 && room > 1 && openness > 0) {
       const couples = Math.min(10, this.couples(camp));
       const strained = camp.people.length < 20 ? 2.5 : 1;
-      const pull = strained * (1 + Math.min(2, room / Math.max(8, camp.people.length)));
+      const pull = strained * openness * (1 + Math.min(2, room / Math.max(8, camp.people.length)));
       if (couples > 0 && hash(this.time * 0.37 + camp.id) < dt * 0.014 * couples * pull) {
         this.birth(camp);
       }
@@ -516,6 +544,8 @@ export class Society {
       next: ERAS[camp.era + 1]?.name ?? null,
       progress: camp.progress,
       population: camp.people.length,
+      capacity: this.capacity(camp),
+      campLimit: this.maxCamps(),
       homes: camp.homes,
       food: Math.round(camp.food),
       wood: Math.round(camp.wood),
