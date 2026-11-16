@@ -6,6 +6,14 @@ import { BIOMES, bounds, isLand, key } from '../world.js';
 import {
   terrainPiece, tree, grassStrands, waterSurface, villageCluster, mountain, animal, hash2, nameSprite,
 } from './detail.js';
+import { terrainTexture } from './textures.js';
+import {
+  loadMedievalModels, medievalReady, medievalVillage, onMedievalReady,
+} from './medieval.js';
+import {
+  loadPeopleModels, onPeopleReady, peopleReady, personModel, walkPerson,
+} from './people.js';
+import { loadCreatureModels, creaturesReady, creatureModel, onCreaturesReady } from './creatures.js';
 
 const TILE_MAX = 0.062;
 
@@ -57,6 +65,24 @@ export class MapTable {
     this.clouds = [];
     this.birds = [];
     this.buildSky();
+
+    // The art arrives a moment after the first frame. Until it does the board
+    // draws its painted stand-ins; the moment a pack lands the board is rebuilt
+    // so the table shows the models everywhere at once.
+    this.artPending = true;
+    const refresh = () => {
+      if (this.state) this.build(this.state);
+    };
+    onMedievalReady(refresh);
+    onPeopleReady(() => {
+      // the crew standing on the board are medieval people now
+      this.reskinJolene();
+      refresh();
+    });
+    onCreaturesReady(refresh);
+    loadMedievalModels();
+    loadPeopleModels();
+    loadCreatureModels();
 
     // Jolene walks the board too, but she only dresses what is already there.
     this.jolene = this.buildJolene();
@@ -175,8 +201,24 @@ export class MapTable {
     }
   }
 
-  buildJolene(clothColor = 0xcfc6e6) {
+  buildJolene(clothColor = 0xcfc6e6, seed = 11) {
     const root = new THREE.Group();
+    const glow = new THREE.Mesh(
+      new THREE.CircleGeometry(0.55, 18),
+      new THREE.MeshBasicMaterial({ color: 0xd8cff0, transparent: true, opacity: 0.14, depthWrite: false, blending: THREE.AdditiveBlending }),
+    );
+    glow.rotation.x = -Math.PI / 2;
+    glow.position.y = 0.002;
+
+    // Once the medieval people are in, the dressers are one of them — a person
+    // walking the board reads better than a robed cone. The robe is the
+    // stand-in for the first second, and anything that fails to load.
+    const person = peopleReady() ? personModel({ seed, height: 1.55 }) : null;
+    if (person) {
+      root.add(glow, person.root);
+      return { root, glow, model: person, gown: null, head: null, hair: null };
+    }
+
     const cloth = new THREE.MeshStandardMaterial({
       color: clothColor,
       roughness: 0.55,
@@ -196,16 +238,10 @@ export class MapTable {
     head.position.y = 1.74;
     const hair = new THREE.Mesh(new THREE.SphereGeometry(0.225, 10, 8, 0, Math.PI * 2, 0, Math.PI * 0.62), hairMat);
     hair.position.y = 1.78;
-    const glow = new THREE.Mesh(
-      new THREE.CircleGeometry(0.55, 18),
-      new THREE.MeshBasicMaterial({ color: 0xd8cff0, transparent: true, opacity: 0.14, depthWrite: false, blending: THREE.AdditiveBlending }),
-    );
-    glow.rotation.x = -Math.PI / 2;
-    glow.position.y = 0.002;
 
     root.add(gown, torso, head, hair, glow);
     root.scale.setScalar(0.08);
-    return { root, gown, head, hair, glow };
+    return { root, gown, head, hair, glow, model: null };
   }
 
   queueJob(tile, kind) {
@@ -281,6 +317,7 @@ export class MapTable {
       this.extraDressers.push({
         root: fig.root,
         glow: fig.glow,
+        model: fig.model || null,
         sector,
         goal: null,
         timer: i * 0.6,
@@ -345,7 +382,8 @@ export class MapTable {
       const h = this.heightOf(tile);
       const color = (BIOMES[tile.biome] || BIOMES.blackgrass).table;
       const surfaceTop = Math.max(0.006, h);
-      const mesh = terrainPiece(this.scale * 0.95, this.scale * 0.95, surfaceTop, color, { water: !t });
+      const map = t ? terrainTexture(tile.biome) : null;
+      const mesh = terrainPiece(this.scale * 0.95, this.scale * 0.95, surfaceTop, color, { water: !t, map });
       mesh.position.set((tile.x - this.centerX) * this.scale, surfaceTop, (tile.y - this.centerY) * this.scale);
       this.tileGroup.add(mesh);
       this.tilePick.push({ tile, mesh });
@@ -395,7 +433,7 @@ export class MapTable {
         const count = Math.min(3, Math.max(1, Math.round(tile.trees * 3)));
         for (let i = 0; i < count; i++) {
           const sapling = tree({
-            scale: this.scale * (0.52 + (i === 0 ? 0.08 : 0) + tile.detail * 0.16),
+            scale: this.scale * (0.34 + (i === 0 ? 0.05 : 0) + tile.detail * 0.1),
             seed: tile.x * 97 + tile.y * 13 + i,
             pale: tile.biome === 'deepforest',
           });
@@ -429,11 +467,17 @@ export class MapTable {
         const roll = hash2(tile.x * 71, tile.y * 37);
         if (roll > 0.5 && this.animals.length < 24) {
           const kind = roll > 0.86 ? 'bird' : roll > 0.7 ? 'fox' : 'deer';
-          const critter = animal({
-            kind,
-            scale: this.scale * (kind === 'bird' ? 0.6 : 0.44),
-            seed: tile.x * 13 + tile.y * 7,
-          });
+          const size = this.scale * (kind === 'bird' ? 0.6 : 0.44);
+          const modelled = creaturesReady()
+            ? creatureModel({
+              kind: kind === 'bird' ? (roll > 0.93 ? 'chicken' : 'duck') : kind === 'fox' ? 'fox' : 'deer',
+              height: size * 0.55,
+              seed: tile.x * 13 + tile.y * 7,
+            })
+            : null;
+          const critter = modelled
+            ? { group: modelled.group, legs: [], kind: modelled.kind, modelled: true }
+            : animal({ kind, scale: size, seed: tile.x * 13 + tile.y * 7 });
           critter.group.position.set((tile.x - this.centerX) * this.scale, top, (tile.y - this.centerY) * this.scale);
           critter.group.rotation.y = roll * Math.PI * 2;
           this.markGroup.add(critter.group);
@@ -455,12 +499,19 @@ export class MapTable {
         const pz = (tile.y - this.centerY) * this.scale;
         // The village spills over the neighbouring ground rather than sitting
         // on one block, and its people are a tenth of a house tall.
-        const village = villageCluster({
-          seed: (settlement?.id ?? tile.x * 31 + tile.y) + 7,
-          scale: this.scale * 0.95,
-          nationColor: colorHex,
-          houses: Math.min(7, 3 + (settlement?.buildings?.length ?? 1)),
-        });
+        const village = medievalReady()
+          ? medievalVillage({
+            seed: (settlement?.id ?? tile.x * 31 + tile.y) + 7,
+            scale: this.scale * 0.95,
+            nationColor: colorHex,
+            houses: Math.min(7, 3 + (settlement?.buildings?.length ?? 1)),
+          })
+          : villageCluster({
+            seed: (settlement?.id ?? tile.x * 31 + tile.y) + 7,
+            scale: this.scale * 0.95,
+            nationColor: colorHex,
+            houses: Math.min(7, 3 + (settlement?.buildings?.length ?? 1)),
+          });
         village.group.position.set(px, top, pz);
         this.markGroup.add(village.group);
         for (const person of village.people) this.villagers.push(person);
@@ -612,17 +663,32 @@ export class MapTable {
     for (const person of this.villagers) {
       person.group.position.x = person.base.x + Math.sin(elapsed * 0.5 + person.phase) * this.scale * 0.14;
       person.group.position.z = person.base.z + Math.cos(elapsed * 0.42 + person.phase) * this.scale * 0.14;
+      // modelled villagers walk on their own bones; the painted ones slide
+      if (person.model) {
+        walkPerson(person.model, elapsed + person.phase, person.speed ?? 0.6);
+        person.group.rotation.y = Math.atan2(
+          Math.cos(elapsed * 0.5 + person.phase) * 0.14,
+          -Math.sin(elapsed * 0.42 + person.phase) * 0.14,
+        );
+      }
     }
 
     for (const critter of this.animals) {
       critter.group.position.x = critter.base.x + Math.sin(elapsed * 0.35 * critter.drift + critter.phase) * this.scale * 0.45;
       critter.group.position.z = critter.base.z + Math.cos(elapsed * 0.29 * critter.drift + critter.phase) * this.scale * 0.45;
       critter.group.rotation.y = critter.home + Math.sin(elapsed * 0.4 + critter.phase) * 1.2;
-      const gait = Math.sin(elapsed * (critter.kind === 'bird' ? 10 : 6.5) + critter.phase);
+      const gait = Math.sin(elapsed * (critter.kind === 'bird' || critter.modelled ? 5.2 : 6.5) + critter.phase);
       for (const leg of critter.legs) {
         leg.mesh.rotation.x = leg.base + gait * (leg.wing ? 0.75 : 0.5);
       }
-      if (critter.kind === 'bird') critter.group.position.y += Math.abs(gait) * this.scale * 0.03;
+      if (critter.modelled) {
+        // the animal models have no skeleton, so the body carries the walk:
+        // a small bob with a roll each stride
+        critter.group.position.y = critter.base.y + Math.abs(gait) * this.scale * 0.03;
+        critter.group.rotation.z = gait * 0.05;
+      } else if (critter.kind === 'bird') {
+        critter.group.position.y += Math.abs(gait) * this.scale * 0.03;
+      }
     }
 
     const halfWidth = (this.base.scale.x || 1) * 0.5;
@@ -762,6 +828,24 @@ export class MapTable {
         this.spawnPuff(this.joleneGoal.x, this.joleneGoal.z, this.joleneGoal.y, 0xd8cff0);
       }
     }
+    if (j.model) walkPerson(j.model, elapsed, dist > 0.01 ? 1 : 0.12);
+  }
+
+  // Swaps Jolene's robed figure for a person from the pack, keeping where she
+  // stands and the name over her head.
+  reskinJolene() {
+    if (!this.jolene || this.jolene.model) return;
+    const at = this.jolene.root.position.clone();
+    const face = this.jolene.root.rotation.y;
+    this.group.remove(this.jolene.root);
+    this.jolene = this.buildJolene(this.joleneTint ?? 0xcfc6e6, 23);
+    this.jolene.root.position.copy(at);
+    this.jolene.root.rotation.y = face;
+    this.group.add(this.jolene.root);
+    if (this.state) {
+      const crew = this.state.sectors || [];
+      this.setNameplate(this.jolene.root, crew[0]?.dresser || 'Jolene', '#d9c9f2');
+    }
   }
 
   setNameplate(root, name, color) {
@@ -829,16 +913,19 @@ export class MapTable {
         const move = Math.min(dist, Math.max(0.1, this.scale * 2.2) * step);
         d.root.position.x += (dx / dist) * move;
         d.root.position.z += (dz / dist) * move;
-        d.root.position.y = d.goal.y + Math.abs(Math.sin(elapsed * 5)) * this.scale * 0.05;
+        d.root.position.y = d.goal.y + Math.abs(Math.sin(elapsed * 5)) * this.scale * 0.02;
         d.root.rotation.y = Math.atan2(dx, dz);
         d.glow.material.opacity = 0.1;
+        if (d.model) walkPerson(d.model, elapsed, 1);
       } else {
-        d.root.position.y = d.goal.y + Math.sin(elapsed * 1.6) * this.scale * 0.02;
+        d.root.position.y = d.goal.y + Math.sin(elapsed * 1.6) * this.scale * 0.01;
         d.root.rotation.y += step * 1.5;
         d.glow.material.opacity = 0.09 + Math.abs(Math.sin(elapsed * 1.8)) * 0.09;
+        if (d.model) walkPerson(d.model, elapsed, 0.12);
       }
     }
   }
+
 
   spawnPuff(x, z, y, color = 0xf0cf6a) {
     if (this.puffs.length > 7) return;

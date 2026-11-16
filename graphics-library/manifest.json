@@ -2012,6 +2012,638 @@
      "bytes": 356840
     }
    ]
+  },
+  "medieval-kit": {
+   "title": "Kenney Retro Medieval Kit",
+   "description": "Modular retro medieval buildings and props, 1x1x1 cells, pixel-art atlases kept in medieval-kit/Textures.",
+   "license": "CC0 1.0 \u2014 Kenney (kenney.nl)",
+   "count": 105,
+   "bytes": 1042108,
+   "models": [
+    {
+     "name": "barrels",
+     "file": "medieval-kit/barrels.glb",
+     "bytes": 63196
+    },
+    {
+     "name": "battlement-corner-inner",
+     "file": "medieval-kit/battlement-corner-inner.glb",
+     "bytes": 16852
+    },
+    {
+     "name": "battlement-corner-outer",
+     "file": "medieval-kit/battlement-corner-outer.glb",
+     "bytes": 18536
+    },
+    {
+     "name": "battlement-half",
+     "file": "medieval-kit/battlement-half.glb",
+     "bytes": 8936
+    },
+    {
+     "name": "battlement",
+     "file": "medieval-kit/battlement.glb",
+     "bytes": 11320
+    },
+    {
+     "name": "bricks",
+     "file": "medieval-kit/bricks.glb",
+     "bytes": 16624
+    },
+    {
+     "name": "column-damaged",
+     "file": "medieval-kit/column-damaged.glb",
+     "bytes": 7728
+    },
+    {
+     "name": "column-paint-damaged",
+     "file": "medieval-kit/column-paint-damaged.glb",
+     "bytes": 7784
+    },
+    {
+     "name": "column-paint",
+     "file": "medieval-kit/column-paint.glb",
+     "bytes": 4704
+    },
+    {
+     "name": "column-wood",
+     "file": "medieval-kit/column-wood.glb",
+     "bytes": 11608
+    },
+    {
+     "name": "column",
+     "file": "medieval-kit/column.glb",
+     "bytes": 4676
+    },
+    {
+     "name": "detail-barrel",
+     "file": "medieval-kit/detail-barrel.glb",
+     "bytes": 9968
+    },
+    {
+     "name": "detail-crate-ropes",
+     "file": "medieval-kit/detail-crate-ropes.glb",
+     "bytes": 11052
+    },
+    {
+     "name": "detail-crate-small",
+     "file": "medieval-kit/detail-crate-small.glb",
+     "bytes": 4196
+    },
+    {
+     "name": "detail-crate",
+     "file": "medieval-kit/detail-crate.glb",
+     "bytes": 4176
+    },
+    {
+     "name": "dock-corner",
+     "file": "medieval-kit/dock-corner.glb",
+     "bytes": 7496
+    },
+    {
+     "name": "dock-side",
+     "file": "medieval-kit/dock-side.glb",
+     "bytes": 6456
+    },
+    {
+     "name": "fence-top",
+     "file": "medieval-kit/fence-top.glb",
+     "bytes": 2440
+    },
+    {
+     "name": "fence-wood",
+     "file": "medieval-kit/fence-wood.glb",
+     "bytes": 7736
+    },
+    {
+     "name": "fence",
+     "file": "medieval-kit/fence.glb",
+     "bytes": 2376
+    },
+    {
+     "name": "floor-flat",
+     "file": "medieval-kit/floor-flat.glb",
+     "bytes": 2080
+    },
+    {
+     "name": "floor-stairs-corner-inner",
+     "file": "medieval-kit/floor-stairs-corner-inner.glb",
+     "bytes": 10484
+    },
+    {
+     "name": "floor-stairs-corner-outer",
+     "file": "medieval-kit/floor-stairs-corner-outer.glb",
+     "bytes": 10484
+    },
+    {
+     "name": "floor-stairs",
+     "file": "medieval-kit/floor-stairs.glb",
+     "bytes": 7848
+    },
+    {
+     "name": "floor-steps-corner-inner",
+     "file": "medieval-kit/floor-steps-corner-inner.glb",
+     "bytes": 12064
+    },
+    {
+     "name": "floor-steps-corner-outer",
+     "file": "medieval-kit/floor-steps-corner-outer.glb",
+     "bytes": 11260
+    },
+    {
+     "name": "floor-steps",
+     "file": "medieval-kit/floor-steps.glb",
+     "bytes": 8240
+    },
+    {
+     "name": "floor",
+     "file": "medieval-kit/floor.glb",
+     "bytes": 4200
+    },
+    {
+     "name": "ladder",
+     "file": "medieval-kit/ladder.glb",
+     "bytes": 14512
+    },
+    {
+     "name": "overhang-fence",
+     "file": "medieval-kit/overhang-fence.glb",
+     "bytes": 5776
+    },
+    {
+     "name": "overhang-round-railing",
+     "file": "medieval-kit/overhang-round-railing.glb",
+     "bytes": 14792
+    },
+    {
+     "name": "overhang-round",
+     "file": "medieval-kit/overhang-round.glb",
+     "bytes": 6576
+    },
+    {
+     "name": "overhang",
+     "file": "medieval-kit/overhang.glb",
+     "bytes": 15548
+    },
+    {
+     "name": "pulley-crate",
+     "file": "medieval-kit/pulley-crate.glb",
+     "bytes": 19128
+    },
+    {
+     "name": "pulley",
+     "file": "medieval-kit/pulley.glb",
+     "bytes": 9704
+    },
+    {
+     "name": "roof-corner",
+     "file": "medieval-kit/roof-corner.glb",
+     "bytes": 11820
+    },
+    {
+     "name": "roof-edge",
+     "file": "medieval-kit/roof-edge.glb",
+     "bytes": 9040
+    },
+    {
+     "name": "roof-high-side-corner-inner",
+     "file": "medieval-kit/roof-high-side-corner-inner.glb",
+     "bytes": 5156
+    },
+    {
+     "name": "roof-high-side-corner",
+     "file": "medieval-kit/roof-high-side-corner.glb",
+     "bytes": 4360
+    },
+    {
+     "name": "roof-high-side",
+     "file": "medieval-kit/roof-high-side.glb",
+     "bytes": 4508
+    },
+    {
+     "name": "roof-side-corner-inner",
+     "file": "medieval-kit/roof-side-corner-inner.glb",
+     "bytes": 5140
+    },
+    {
+     "name": "roof-side-corner",
+     "file": "medieval-kit/roof-side-corner.glb",
+     "bytes": 4316
+    },
+    {
+     "name": "roof-side",
+     "file": "medieval-kit/roof-side.glb",
+     "bytes": 4480
+    },
+    {
+     "name": "roof",
+     "file": "medieval-kit/roof.glb",
+     "bytes": 10824
+    },
+    {
+     "name": "stairs-corner",
+     "file": "medieval-kit/stairs-corner.glb",
+     "bytes": 23896
+    },
+    {
+     "name": "stairs-stone",
+     "file": "medieval-kit/stairs-stone.glb",
+     "bytes": 20312
+    },
+    {
+     "name": "stairs-wood",
+     "file": "medieval-kit/stairs-wood.glb",
+     "bytes": 21316
+    },
+    {
+     "name": "structure-cross",
+     "file": "medieval-kit/structure-cross.glb",
+     "bytes": 24724
+    },
+    {
+     "name": "structure-pole",
+     "file": "medieval-kit/structure-pole.glb",
+     "bytes": 4164
+    },
+    {
+     "name": "structure-poles",
+     "file": "medieval-kit/structure-poles.glb",
+     "bytes": 11244
+    },
+    {
+     "name": "structure-wall-cross",
+     "file": "medieval-kit/structure-wall-cross.glb",
+     "bytes": 11376
+    },
+    {
+     "name": "structure-wall",
+     "file": "medieval-kit/structure-wall.glb",
+     "bytes": 17232
+    },
+    {
+     "name": "structure",
+     "file": "medieval-kit/structure.glb",
+     "bytes": 22992
+    },
+    {
+     "name": "tower-base",
+     "file": "medieval-kit/tower-base.glb",
+     "bytes": 11984
+    },
+    {
+     "name": "tower-edge",
+     "file": "medieval-kit/tower-edge.glb",
+     "bytes": 9876
+    },
+    {
+     "name": "tower-paint-base",
+     "file": "medieval-kit/tower-paint-base.glb",
+     "bytes": 12032
+    },
+    {
+     "name": "tower-paint",
+     "file": "medieval-kit/tower-paint.glb",
+     "bytes": 7152
+    },
+    {
+     "name": "tower-top",
+     "file": "medieval-kit/tower-top.glb",
+     "bytes": 35704
+    },
+    {
+     "name": "tower",
+     "file": "medieval-kit/tower.glb",
+     "bytes": 7108
+    },
+    {
+     "name": "tree-large",
+     "file": "medieval-kit/tree-large.glb",
+     "bytes": 3100
+    },
+    {
+     "name": "tree-shrub",
+     "file": "medieval-kit/tree-shrub.glb",
+     "bytes": 3112
+    },
+    {
+     "name": "wall-detail",
+     "file": "medieval-kit/wall-detail.glb",
+     "bytes": 4676
+    },
+    {
+     "name": "wall-door",
+     "file": "medieval-kit/wall-door.glb",
+     "bytes": 7508
+    },
+    {
+     "name": "wall-flat-gate",
+     "file": "medieval-kit/wall-flat-gate.glb",
+     "bytes": 2992
+    },
+    {
+     "name": "wall-fortified-door",
+     "file": "medieval-kit/wall-fortified-door.glb",
+     "bytes": 14520
+    },
+    {
+     "name": "wall-fortified-gate-half",
+     "file": "medieval-kit/wall-fortified-gate-half.glb",
+     "bytes": 15236
+    },
+    {
+     "name": "wall-fortified-gate",
+     "file": "medieval-kit/wall-fortified-gate.glb",
+     "bytes": 17224
+    },
+    {
+     "name": "wall-fortified-half",
+     "file": "medieval-kit/wall-fortified-half.glb",
+     "bytes": 8416
+    },
+    {
+     "name": "wall-fortified-paint-door",
+     "file": "medieval-kit/wall-fortified-paint-door.glb",
+     "bytes": 14564
+    },
+    {
+     "name": "wall-fortified-paint-gate",
+     "file": "medieval-kit/wall-fortified-paint-gate.glb",
+     "bytes": 27388
+    },
+    {
+     "name": "wall-fortified-paint-half",
+     "file": "medieval-kit/wall-fortified-paint-half.glb",
+     "bytes": 8460
+    },
+    {
+     "name": "wall-fortified-paint-window",
+     "file": "medieval-kit/wall-fortified-paint-window.glb",
+     "bytes": 14596
+    },
+    {
+     "name": "wall-fortified-paint",
+     "file": "medieval-kit/wall-fortified-paint.glb",
+     "bytes": 11628
+    },
+    {
+     "name": "wall-fortified-window",
+     "file": "medieval-kit/wall-fortified-window.glb",
+     "bytes": 14548
+    },
+    {
+     "name": "wall-fortified",
+     "file": "medieval-kit/wall-fortified.glb",
+     "bytes": 11584
+    },
+    {
+     "name": "wall-gate-half",
+     "file": "medieval-kit/wall-gate-half.glb",
+     "bytes": 7456
+    },
+    {
+     "name": "wall-gate",
+     "file": "medieval-kit/wall-gate.glb",
+     "bytes": 10036
+    },
+    {
+     "name": "wall-half",
+     "file": "medieval-kit/wall-half.glb",
+     "bytes": 4588
+    },
+    {
+     "name": "wall-low",
+     "file": "medieval-kit/wall-low.glb",
+     "bytes": 4588
+    },
+    {
+     "name": "wall-paint-detail",
+     "file": "medieval-kit/wall-paint-detail.glb",
+     "bytes": 4720
+    },
+    {
+     "name": "wall-paint-door",
+     "file": "medieval-kit/wall-paint-door.glb",
+     "bytes": 7552
+    },
+    {
+     "name": "wall-paint-flat",
+     "file": "medieval-kit/wall-paint-flat.glb",
+     "bytes": 9228
+    },
+    {
+     "name": "wall-paint-gate",
+     "file": "medieval-kit/wall-paint-gate.glb",
+     "bytes": 21688
+    },
+    {
+     "name": "wall-paint-half",
+     "file": "medieval-kit/wall-paint-half.glb",
+     "bytes": 4652
+    },
+    {
+     "name": "wall-paint-window",
+     "file": "medieval-kit/wall-paint-window.glb",
+     "bytes": 7996
+    },
+    {
+     "name": "wall-paint",
+     "file": "medieval-kit/wall-paint.glb",
+     "bytes": 4620
+    },
+    {
+     "name": "wall-pane-door",
+     "file": "medieval-kit/wall-pane-door.glb",
+     "bytes": 4612
+    },
+    {
+     "name": "wall-pane-paint-door",
+     "file": "medieval-kit/wall-pane-paint-door.glb",
+     "bytes": 4660
+    },
+    {
+     "name": "wall-pane-paint-window",
+     "file": "medieval-kit/wall-pane-paint-window.glb",
+     "bytes": 5284
+    },
+    {
+     "name": "wall-pane-paint",
+     "file": "medieval-kit/wall-pane-paint.glb",
+     "bytes": 2304
+    },
+    {
+     "name": "wall-pane-painted-wood-door",
+     "file": "medieval-kit/wall-pane-painted-wood-door.glb",
+     "bytes": 5988
+    },
+    {
+     "name": "wall-pane-painted-wood-window",
+     "file": "medieval-kit/wall-pane-painted-wood-window.glb",
+     "bytes": 6424
+    },
+    {
+     "name": "wall-pane-painted-wood",
+     "file": "medieval-kit/wall-pane-painted-wood.glb",
+     "bytes": 3460
+    },
+    {
+     "name": "wall-pane-window",
+     "file": "medieval-kit/wall-pane-window.glb",
+     "bytes": 6588
+    },
+    {
+     "name": "wall-pane-wood-door",
+     "file": "medieval-kit/wall-pane-wood-door.glb",
+     "bytes": 5936
+    },
+    {
+     "name": "wall-pane-wood-window",
+     "file": "medieval-kit/wall-pane-wood-window.glb",
+     "bytes": 6372
+    },
+    {
+     "name": "wall-pane-wood",
+     "file": "medieval-kit/wall-pane-wood.glb",
+     "bytes": 3408
+    },
+    {
+     "name": "wall-pane",
+     "file": "medieval-kit/wall-pane.glb",
+     "bytes": 2044
+    },
+    {
+     "name": "wall-window",
+     "file": "medieval-kit/wall-window.glb",
+     "bytes": 7948
+    },
+    {
+     "name": "wall",
+     "file": "medieval-kit/wall.glb",
+     "bytes": 4576
+    },
+    {
+     "name": "water",
+     "file": "medieval-kit/water.glb",
+     "bytes": 3124
+    },
+    {
+     "name": "wood-floor-half",
+     "file": "medieval-kit/wood-floor-half.glb",
+     "bytes": 4052
+    },
+    {
+     "name": "wood-floor-quarter",
+     "file": "medieval-kit/wood-floor-quarter.glb",
+     "bytes": 4296
+    },
+    {
+     "name": "wood-floor-railing",
+     "file": "medieval-kit/wood-floor-railing.glb",
+     "bytes": 9004
+    },
+    {
+     "name": "wood-floor",
+     "file": "medieval-kit/wood-floor.glb",
+     "bytes": 4040
+    }
+   ]
+  },
+  "people": {
+   "title": "Free Medieval 3D People",
+   "description": "Rigged low-poly medieval people: peasants, townsfolk, rich citizens, king and queen, sharing one 64px atlas.",
+   "license": "free, see people/LICENSE.txt \u2014 source pack as uploaded",
+   "count": 8,
+   "bytes": 786780,
+   "models": [
+    {
+     "name": "city_dwellers_1",
+     "file": "people/city_dwellers_1.glb",
+     "bytes": 118788
+    },
+    {
+     "name": "city_dwellers_2",
+     "file": "people/city_dwellers_2.glb",
+     "bytes": 84908
+    },
+    {
+     "name": "king",
+     "file": "people/king.glb",
+     "bytes": 109204
+    },
+    {
+     "name": "peasant_1",
+     "file": "people/peasant_1.glb",
+     "bytes": 103648
+    },
+    {
+     "name": "peasant_2",
+     "file": "people/peasant_2.glb",
+     "bytes": 95904
+    },
+    {
+     "name": "peasant_3",
+     "file": "people/peasant_3.glb",
+     "bytes": 85380
+    },
+    {
+     "name": "peasant_4",
+     "file": "people/peasant_4.glb",
+     "bytes": 92424
+    },
+    {
+     "name": "queen",
+     "file": "people/queen.glb",
+     "bytes": 96524
+    }
+   ]
+  },
+  "animals": {
+   "title": "Everything Library \u2014 animals",
+   "description": "Low-poly animals painted with vertex colours: cattle, sheep, goats, deer, horses, foxes, chickens, ducks.",
+   "license": "see the pack terms (as uploaded)",
+   "count": 8,
+   "bytes": 102056,
+   "models": [
+    {
+     "name": "BrownCow",
+     "file": "animals/BrownCow.glb",
+     "bytes": 17568
+    },
+    {
+     "name": "ChestnutHorse",
+     "file": "animals/ChestnutHorse.glb",
+     "bytes": 10080
+    },
+    {
+     "name": "Chicken",
+     "file": "animals/Chicken.glb",
+     "bytes": 17180
+    },
+    {
+     "name": "Deer",
+     "file": "animals/Deer.glb",
+     "bytes": 18768
+    },
+    {
+     "name": "Goat",
+     "file": "animals/Goat.glb",
+     "bytes": 9844
+    },
+    {
+     "name": "PekinDuck",
+     "file": "animals/PekinDuck.glb",
+     "bytes": 9356
+    },
+    {
+     "name": "RedFox",
+     "file": "animals/RedFox.glb",
+     "bytes": 10280
+    },
+    {
+     "name": "Sheep",
+     "file": "animals/Sheep.glb",
+     "bytes": 8980
+    }
+   ]
   }
  }
 }

@@ -26,13 +26,14 @@ export function hash2(x, y) {
   return ((h ^ (h >>> 16)) >>> 0) / 4294967296;
 }
 
-export function surfaceMaterial(colorHex, { water = false, flat = false } = {}) {
-  const key = `${colorHex}|${water ? 'w' : 's'}`;
+export function surfaceMaterial(colorHex, { water = false, flat = false, map = null } = {}) {
+  const key = `${colorHex}|${water ? 'w' : 's'}|${map ? map.uuid : 'plain'}|${flat ? 'f' : ''}`;
   return mat(key, () =>
     new THREE.MeshStandardMaterial({
-      color: new THREE.Color(colorHex),
-      roughness: water ? 0.24 : 0.92,
-      metalness: water ? 0.45 : 0.03,
+      color: new THREE.Color(map ? 0xffffff : colorHex),
+      map,
+      roughness: water ? 0.24 : 0.95,
+      metalness: water ? 0.45 : 0.02,
       flatShading: flat,
       transparent: water,
       opacity: water ? 0.9 : 1,
@@ -91,9 +92,9 @@ export function nameSprite(text, color = '#f0dfb4') {
 
 // A tile is a small mound of ground, not a cube: a rounded crown sitting on a
 // slightly wider skirt so neighbouring tiles read as one landscape.
-export function terrainPiece(width, depth, height, colorHex, { water = false, lump = 1 } = {}) {
+export function terrainPiece(width, depth, height, colorHex, { water = false, lump = 1, map = null } = {}) {
   const group = new THREE.Group();
-  const material = surfaceMaterial(colorHex, { water });
+  const material = surfaceMaterial(colorHex, { water, map });
 
   const crown = new THREE.Mesh(
     geom('tile-crown', () => new THREE.SphereGeometry(1, 10, 5, 0, Math.PI * 2, 0, Math.PI / 2)),
