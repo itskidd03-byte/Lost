@@ -4,16 +4,18 @@
 import * as THREE from 'three';
 import { BIOMES, bounds, isLand, key } from '../world.js';
 import {
-  terrainPiece, tree, grassStrands, waterSurface, villageCluster, mountain, animal, hash2, nameSprite,
+  terrainPiece, tree, grassStrands, waterSurface, animal, hash2, nameSprite,
 } from './detail.js';
 import { terrainTexture } from './textures.js';
-import {
-  loadMedievalModels, medievalReady, medievalVillage, onMedievalReady,
-} from './medieval.js';
+import { loadMedievalModels, onMedievalReady } from './medieval.js';
 import {
   loadPeopleModels, onPeopleReady, peopleReady, personModel, walkPerson,
 } from './people.js';
 import { loadCreatureModels, creaturesReady, creatureModel, onCreaturesReady } from './creatures.js';
+import { findClusters, buildCluster, loneMassif } from './clusters.js';
+import {
+  buildSettlement, buildTerritories, settlementBlockKeys, loadSettlementModels, footprintBlocks,
+} from './settlements.js';
 
 const TILE_MAX = 0.062;
 
@@ -60,6 +62,11 @@ export class MapTable {
     this.ripples = [];
     this.villagers = [];
     this.animals = [];
+    this.waters = [];
+    this.waterRipples = [];
+    this.borders = [];
+    this.clusterByKey = new Map();
+    this.blocksByKey = new Map();
     this.sky = new THREE.Group();
     this.group.add(this.sky);
     this.clouds = [];
@@ -77,12 +84,16 @@ export class MapTable {
     onPeopleReady(() => {
       // the crew standing on the board are medieval people now
       this.reskinJolene();
+      this.swapWorker();
       refresh();
     });
     onCreaturesReady(refresh);
     loadMedievalModels();
     loadPeopleModels();
     loadCreatureModels();
+    loadSettlementModels().then(() => {
+      if (this.state) this.build(this.state);
+    });
 
     // Jolene walks the board too, but she only dresses what is already there.
     this.jolene = this.buildJolene();
@@ -123,8 +134,18 @@ export class MapTable {
     this.group.add(this.frame);
   }
 
+  // Johan is one of the same people as the villagers once the pack is in; the
+  // robed cone is only the stand-in for the first second of the page.
   buildWorker() {
     const root = new THREE.Group();
+    if (peopleReady()) {
+      const person = personModel({ seed: 97, height: 1.55 });
+      if (person) {
+        root.add(person.root);
+        root.rotation.y = Math.PI * 0.15;
+        return { root, model: person, armPivot: new THREE.Group(), head: null, cloak: null };
+      }
+    }
     const robe = new THREE.MeshStandardMaterial({ color: 0x24251f, roughness: 0.85, emissive: 0x2b2516, emissiveIntensity: 0.6 });
     const trim = new THREE.MeshStandardMaterial({ color: 0xe0bb55, roughness: 0.45, metalness: 0.3, emissive: 0xc9a227, emissiveIntensity: 0.55 });
     const skin = new THREE.MeshStandardMaterial({ color: 0xefdcb4, roughness: 0.75, emissive: 0x6a5330, emissiveIntensity: 0.45 });
@@ -244,6 +265,20 @@ export class MapTable {
     return { root, gown, head, hair, glow, model: null };
   }
 
+  // Swaps the robed stand-in for a person, keeping where he stands.
+  swapWorker() {
+    if (!this.worker || this.worker.model) return;
+    const at = this.worker.root.position.clone();
+    const face = this.worker.root.rotation.y;
+    this.group.remove(this.worker.root);
+    this.worker = this.buildWorker();
+    this.worker.root.position.copy(at);
+    this.worker.root.rotation.y = face;
+    this.worker.root.scale.setScalar(this.workerHeight / 1.55);
+    this.group.add(this.worker.root);
+    if (this.state) this.setNameplate(this.worker.root, this.state.johan?.name || 'Johan', '#f0cf6a');
+  }
+
   queueJob(tile, kind) {
     const k = key(tile.x, tile.y);
     const job = { x: tile.x, y: tile.y, kind };
@@ -305,6 +340,11 @@ export class MapTable {
     this.ripples.length = 0;
     this.villagers.length = 0;
     this.animals.length = 0;
+    this.waters.length = 0;
+    this.waterRipples.length = 0;
+    this.borders.length = 0;
+    this.clusterByKey.clear();
+    this.blocksByKey.clear();
 
     // Sector dressers are rebuilt with the board: one figure per sector.
     for (const fig of this.extraDressers) this.group.remove(fig.root);
@@ -354,6 +394,16 @@ export class MapTable {
       bird.position.y = this.scale * (2.8 + bird.userData.phase * 0.06);
     }
 
+    // Landforms and towns are worked out before the tiles are drawn: the tiles
+    // need to know which of them belong to a lake, a wood or a street.
+    const tiles = [...state.world.tiles.values()];
+    this.clusters = findClusters(tiles).filter((c) => c.size >= 2);
+    for (const cluster of this.clusters) {
+      for (const k of cluster.keys) this.clusterByKey.set(k, cluster);
+    }
+    this.blocksByKey = settlementBlockKeys(state);
+    const project = (x, y) => ({ x: (x - this.centerX) * this.scale, z: (y - this.centerY) * this.scale });
+
     const lastSeen = state.lastSeenDay ?? 0;
     const changed = [];
     const firstBuild = this.knownTiles.size === 0;
@@ -380,20 +430,33 @@ export class MapTable {
     for (const tile of state.world.tiles.values()) {
       const t = isLand(tile);
       const h = this.heightOf(tile);
+      const tileKey = key(tile.x, tile.y);
+      const cluster = this.clusterByKey.get(tileKey) || null;
+      const inBlock = this.blocksByKey.has(tileKey);
       const color = (BIOMES[tile.biome] || BIOMES.blackgrass).table;
       const surfaceTop = Math.max(0.006, h);
       const map = t ? terrainTexture(tile.biome) : null;
-      const mesh = terrainPiece(this.scale * 0.95, this.scale * 0.95, surfaceTop, color, { water: !t, map });
-      mesh.position.set((tile.x - this.centerX) * this.scale, surfaceTop, (tile.y - this.centerY) * this.scale);
-      this.tileGroup.add(mesh);
+      // A body of water is one basin under one surface, so its tiles do not each
+      // lay down a block of their own.
+      const underWater = !!cluster && cluster.kind === 'water';
+      let mesh = null;
+      if (!underWater) {
+        mesh = terrainPiece(this.scale * 0.95, this.scale * 0.95, surfaceTop, color, { water: !t, map });
+        mesh.position.set((tile.x - this.centerX) * this.scale, surfaceTop, (tile.y - this.centerY) * this.scale);
+        this.tileGroup.add(mesh);
+      }
       this.tilePick.push({ tile, mesh });
 
+      // A lake or a river is drawn once for the whole body of water, so its
+      // tiles do not each get a square of surface.
       if (!t) {
-        const water = waterSurface(this.scale * 0.92, this.scale * 0.92, color);
-        water.group.position.set((tile.x - this.centerX) * this.scale, surfaceTop + 0.002, (tile.y - this.centerY) * this.scale);
-        this.tileGroup.add(water.group);
-        for (const ripple of water.ripples) this.ripples.push(ripple);
-      } else if (tile.detail > 0.15) {
+        if (!cluster) {
+          const water = waterSurface(this.scale * 0.92, this.scale * 0.92, color);
+          water.group.position.set((tile.x - this.centerX) * this.scale, surfaceTop + 0.002, (tile.y - this.centerY) * this.scale);
+          this.tileGroup.add(water.group);
+          for (const ripple of water.ripples) this.ripples.push(ripple);
+        }
+      } else if (tile.detail > 0.15 && !cluster && !inBlock) {
         const grassColor = tile.biome === 'blackgrass' ? '#1d2a20' : '#3c5a30';
         const strands = grassStrands(
           Math.min(12, 4 + Math.round(tile.detail * 8)),
@@ -408,8 +471,7 @@ export class MapTable {
 
       // Remember every tile so that new or changed ground can be built in
       // front of the player instead of silently appearing.
-      const tileKey = key(tile.x, tile.y);
-      this.meshByKey.set(tileKey, { mesh, top });
+      if (mesh) this.meshByKey.set(tileKey, { mesh, top });
       if (firstBuild) {
         this.knownTiles.set(tileKey, tile.changedDay);
       } else {
@@ -423,13 +485,13 @@ export class MapTable {
         }
       }
       const growth = this.growth.get(tileKey);
-      if (growth !== undefined && growth < 1) {
+      if (mesh && growth !== undefined && growth < 1) {
         mesh.scale.y = Math.max(0.02, growth);
       }
 
       // forests and settlements
       const def = BIOMES[tile.biome] || BIOMES.blackgrass;
-      if (t && (def.trees || tile.trees > 0.45) && tile.detail > 0.25) {
+      if (t && !cluster && !inBlock && (def.trees || tile.trees > 0.45) && tile.detail > 0.25) {
         const count = Math.min(3, Math.max(1, Math.round(tile.trees * 3)));
         for (let i = 0; i < count; i++) {
           const sapling = tree({
@@ -449,14 +511,15 @@ export class MapTable {
       }
 
       // Peaks and slopes get real mountains, not a smoother mound.
-      if (t && (tile.biome === 'mountain' || tile.biome === 'peak') && tile.detail > 0.2) {
-        const peak = mountain({
-          scale: this.scale * (tile.biome === 'peak' ? 1.35 : 1.0),
-          seed: tile.x * 53 + tile.y * 29,
-          snow: tile.biome === 'peak' || tile.elevation > 0.62,
-          ridges: tile.biome === 'peak' ? 3 : 2,
+      // Rock is sculpted, never a cone: a lone block gets one massif, a line of
+      // them a whole range (drawn with its cluster below).
+      if (t && !cluster && (tile.biome === 'mountain' || tile.biome === 'peak') && tile.detail > 0.2) {
+        const peak = loneMassif({
+          project,
+          scale: this.scale * (tile.biome === 'peak' ? 1.15 : 1.0),
+          heightOf: (t) => this.heightOf(t),
+          tile,
         });
-        peak.position.set((tile.x - this.centerX) * this.scale, top, (tile.y - this.centerY) * this.scale);
         this.markGroup.add(peak);
       }
 
@@ -494,27 +557,6 @@ export class MapTable {
       if (tile.settlementId) {
         const settlement = state.settlements.find((s) => s.id === tile.settlementId && s.alive);
         const nation = settlement?.nationId ? state.nations.find((n) => n.id === settlement.nationId) : null;
-        const colorHex = nation?.color || '#e6c977';
-        const px = (tile.x - this.centerX) * this.scale;
-        const pz = (tile.y - this.centerY) * this.scale;
-        // The village spills over the neighbouring ground rather than sitting
-        // on one block, and its people are a tenth of a house tall.
-        const village = medievalReady()
-          ? medievalVillage({
-            seed: (settlement?.id ?? tile.x * 31 + tile.y) + 7,
-            scale: this.scale * 0.95,
-            nationColor: colorHex,
-            houses: Math.min(7, 3 + (settlement?.buildings?.length ?? 1)),
-          })
-          : villageCluster({
-            seed: (settlement?.id ?? tile.x * 31 + tile.y) + 7,
-            scale: this.scale * 0.95,
-            nationColor: colorHex,
-            houses: Math.min(7, 3 + (settlement?.buildings?.length ?? 1)),
-          });
-        village.group.position.set(px, top, pz);
-        this.markGroup.add(village.group);
-        for (const person of village.people) this.villagers.push(person);
         this.markerData.push({ type: 'settlement', tile, settlement, nation });
       }
 
@@ -565,6 +607,48 @@ export class MapTable {
         this.warMarks.push({ mesh: smoke, kind: 'disaster', tile, base: 0.35 });
       }
     }
+
+    // Landforms are drawn once for the whole cluster: a lake becomes a sheet of
+    // moving water, grass rolls over several blocks, a wood is one canopy and a
+    // line of rock one ridge.
+    for (const cluster of this.clusters) {
+      const built = buildCluster(cluster, {
+        project,
+        scale: this.scale,
+        heightOf: (tile) => this.heightOf(tile),
+      });
+      if (!built) continue;
+      this.markGroup.add(built.group);
+      for (const water of built.waters) this.waters.push(water);
+      for (const ring of built.ripples) this.waterRipples.push(ring);
+    }
+
+    // Settlements take the ground their population can hold: tents on a block,
+    // a town of ten, a kingdom of twenty with a keep and an army.
+    for (const settlement of state.settlements) {
+      if (!settlement.alive) continue;
+      const nation = settlement.nationId ? state.nations.find((n) => n.id === settlement.nationId) : null;
+      const built = buildSettlement({
+        settlement,
+        state,
+        project,
+        scale: this.scale * 0.95,
+        heightOf: (tile) => this.heightOf(tile),
+        nationColor: nation?.color || '#e6c977',
+      });
+      this.markGroup.add(built.group);
+      for (const person of built.people) this.villagers.push(person);
+    }
+
+    // and the country each nation claims around its towns
+    const territory = buildTerritories({
+      state,
+      project,
+      scale: this.scale,
+      heightOf: (tile) => this.heightOf(tile),
+    });
+    this.markGroup.add(territory.group);
+    for (const mark of territory.marks) this.borders.push(mark);
 
     // unexplored ground inside the world's bounds reads as dark, solid void
     for (let tx = b.minX; tx <= b.maxX; tx++) {
@@ -660,9 +744,25 @@ export class MapTable {
                 ripple.mesh.scale.setScalar(ripple.base * (0.45 + t * 1.8));
       ripple.mesh.material.opacity = 0.17 * (1 - t);
     }
+    // the water moves: a river runs on, a pond only breathes
+    for (const water of this.waters) {
+      if (water.material.map) {
+        water.material.map.offset.x = (water.material.map.offset.x + dt * water.speed * 0.06) % 1;
+        water.material.map.offset.y = (water.material.map.offset.y + dt * water.speed * 0.02) % 1;
+      }
+    }
+    for (const ring of this.waterRipples) {
+      const t = (elapsed * 0.45 + ring.phase) % 1;
+      ring.mesh.scale.setScalar(ring.base * (0.5 + t * 1.6));
+      ring.mesh.material.opacity = 0.26 * (1 - t);
+    }
+    for (const mark of this.borders) {
+      mark.mesh.material.opacity = mark.base * (0.7 + Math.sin(elapsed * 1.3) * 0.3);
+    }
     for (const person of this.villagers) {
-      person.group.position.x = person.base.x + Math.sin(elapsed * 0.5 + person.phase) * this.scale * 0.14;
-      person.group.position.z = person.base.z + Math.cos(elapsed * 0.42 + person.phase) * this.scale * 0.14;
+      const reach = person.radius ?? this.scale * 0.14;
+      person.group.position.x = person.base.x + Math.sin(elapsed * 0.5 + person.phase) * reach;
+      person.group.position.z = person.base.z + Math.cos(elapsed * 0.42 + person.phase) * reach;
       // modelled villagers walk on their own bones; the painted ones slide
       if (person.model) {
         walkPerson(person.model, elapsed + person.phase, person.speed ?? 0.6);
@@ -731,8 +831,11 @@ export class MapTable {
     if (!job) {
       // idle: he stands over the work and looks across it, hammer resting
       w.armPivot.rotation.x *= Math.max(0, 1 - step * 5);
-      w.head.position.y = 1.34 + Math.sin(elapsed * 1.7) * 0.012;
-      w.head.rotation.y = Math.sin(elapsed * 0.55) * 0.4;
+      if (w.head) {
+        w.head.position.y = 1.34 + Math.sin(elapsed * 1.7) * 0.012;
+        w.head.rotation.y = Math.sin(elapsed * 0.55) * 0.4;
+      }
+      if (w.model) walkPerson(w.model, elapsed, 0.15);
       return;
     }
 
@@ -753,6 +856,7 @@ export class MapTable {
       const turn = ((heading - w.root.rotation.y + Math.PI * 3) % (Math.PI * 2)) - Math.PI;
       w.root.rotation.y += turn * Math.min(1, step * 9);
       w.armPivot.rotation.x = Math.sin(elapsed * 12) * 0.4;
+      if (w.model) walkPerson(w.model, elapsed, 1);
       this.workerTimer = 0;
       return;
     }
@@ -764,6 +868,7 @@ export class MapTable {
     const swing = Math.sin(this.workerTimer * 24);
     w.armPivot.rotation.x = -0.85 + swing * 0.95;
     w.root.position.y = ty + Math.abs(swing) * this.scale * 0.18;
+    if (w.model) walkPerson(w.model, elapsed, 0.35);
     if (swing < -0.9) this.spawnPuff(tx, tz, ty);
 
     if (job.kind === 'grow') {

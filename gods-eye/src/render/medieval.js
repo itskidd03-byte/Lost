@@ -233,6 +233,98 @@ function instantiate(template) {
   return group;
 }
 
+// A single kit house, for towns that spread a building over every block they
+// hold instead of ringing them around one square.
+export function medievalBuilding({ seed = 1, scale = 1, kind = null } = {}) {
+  const group = new THREE.Group();
+  if (!ready || !templates.length) return group;
+  const rand = (n) => hash2(seed * 37 + n, seed * 19 + n * 7);
+  let template = templates[0];
+  if (kind === 'tower') template = templates.find((t) => t.name === 'tower') || template;
+  else if (kind === 'hall') template = templates.find((t) => t.name === 'hall') || template;
+  else template = templates[Math.floor(rand(1) * templates.length) % templates.length] || template;
+  const house = instantiate(template);
+  house.scale.setScalar(scale * 0.6);
+  house.rotation.y = rand(2) * Math.PI * 2;
+  group.add(house);
+  // a barrel or a fence beside it, so a street of houses is not a row of boxes
+  if (dressing.length && rand(3) > 0.55) {
+    const item = dressing[Math.floor(rand(4) * dressing.length) % dressing.length];
+    const piece = item.scene.clone(true);
+    piece.scale.setScalar(scale * 0.3);
+    const angle = rand(5) * Math.PI * 2;
+    piece.position.set(Math.cos(angle) * scale * 0.6, 0, Math.sin(angle) * scale * 0.6);
+    piece.rotation.y = angle;
+    group.add(piece);
+  }
+  return group;
+}
+
+// A keep for a kingdom: four towers at the corners, a wall of stone between them
+// and a hall in the middle, all from the same kit as the houses so the castle
+// belongs to the town instead of sitting on top of it.
+export function medievalCastle({ scale = 1, seed = 1 } = {}) {
+  const group = new THREE.Group();
+  if (!ready || !templates.length) return group;
+  const tower = templates.find((t) => t.name === 'tower') || templates[0];
+  const hall = templates.find((t) => t.name === 'hall') || templates[0];
+  const house = templates.find((t) => t.name === 'house') || templates[0];
+  const half = scale * 0.58;
+
+  for (const [cx, cz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+    const t = instantiate(tower);
+    t.scale.setScalar(scale * 0.46);
+    t.position.set(cx * half, 0, cz * half);
+    t.rotation.y = Math.PI / 4;
+    group.add(t);
+  }
+
+  // walls between the towers, with one gap left as the gate
+  const wallMat = litMaterial('stones');
+  const wallGeo = new THREE.BoxGeometry(1, 1, 1);
+  const sides = [
+    { x: 0, z: -half, w: half * 2, ry: 0 },
+    { x: 0, z: half, w: half * 2, ry: 0 },
+    { x: -half, z: 0, w: half * 2, ry: Math.PI / 2 },
+    { x: half, z: 0, w: half * 2, ry: Math.PI / 2 },
+  ];
+  sides.forEach((side, i) => {
+    const wall = new THREE.Mesh(wallGeo, wallMat);
+    wall.scale.set(side.w * 0.92, scale * 0.22, scale * 0.06);
+    wall.position.set(side.x, scale * 0.11, side.z);
+    wall.rotation.y = side.ry;
+    wall.castShadow = true;
+    wall.receiveShadow = true;
+    group.add(wall);
+    // merlons along the top
+    for (let m = -2; m <= 2; m++) {
+      const merlon = new THREE.Mesh(wallGeo, wallMat);
+      merlon.scale.set(scale * 0.06, scale * 0.07, scale * 0.05);
+      const along = m * side.w * 0.18;
+      merlon.position.set(
+        side.x + (i >= 2 ? 0 : along),
+        scale * 0.25,
+        side.z + (i < 2 ? 0 : along),
+      );
+      group.add(merlon);
+    }
+  });
+
+  const keep = instantiate(hall);
+  keep.scale.setScalar(scale * 0.5);
+  keep.rotation.y = Math.PI / 4;
+  group.add(keep);
+
+  // a second hall beside the keep reads as the great house of the town
+  const side = instantiate(house);
+  side.scale.setScalar(scale * 0.42);
+  side.position.set(scale * 0.28, 0, -scale * 0.3);
+  side.rotation.y = Math.PI / 2;
+  group.add(side);
+
+  return group;
+}
+
 // A settlement on the table: a ring of cottages facing outwards, a tower for
 // the bigger ones, a few fences and barrels, and its people walking about.
 export function medievalVillage({ seed = 1, scale = 1, nationColor = '#c9a227', houses = 5 } = {}) {

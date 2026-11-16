@@ -2,6 +2,7 @@
 // acts of God's Eye. Everything here mutates the same tile store the table shows.
 
 import { addEvent, civEvent, dateLabel } from './journal.js';
+import { tickMind, seedMind, chooseTrade, buildTeachingIndex } from './mind.js';
 import {
   BIOMES, isLand, key, setBiome, tileAt, addResource, raiseMountains, carveRiver,
   growForest, makeLake, claimTile,
@@ -131,6 +132,9 @@ export function createInhabitant(state, rand, opts = {}) {
     lastSpokeDay: -999,
   };
   npc.name = `${npc.firstName} ${npc.familyName}`;
+  // a mind of their own: a trade they are part-way into, and wants that will
+  // push them for the rest of their life
+  seedMind(npc, rand);
   state.npcs.push(npc);
   if (npc.parentIds.length) {
     for (const p of opts.parents) if (!p.childIds.includes(npc.id)) p.childIds.push(npc.id);
@@ -266,8 +270,11 @@ function maybeFoundSettlements(state, rand) {
 function spawnSplinter(state, s, rand) {
   const adults = livingNpcs(state).filter((n) => n.settlementId === s.id && n.age >= 16 && n.age < 55);
   if (adults.length < 8) return;
+  // the ones already looking down the road are the first to go
+  const restless = adults.filter((n) => n.readyToLeave);
   const settlers = [];
-  for (let i = 0; i < 3; i++) settlers.push(pick(adults, rand));
+  for (let i = 0; i < 3; i++) settlers.push(pick(restless.length ? restless : adults, rand));
+  for (const npc of settlers) npc.readyToLeave = false;
   const good = [];
   const any = [];
   for (let dx = -4; dx <= 4; dx++) {
@@ -312,7 +319,10 @@ function spawnSplinter(state, s, rand) {
 function createBusiness(state, s, rand) {
   const owners = livingNpcs(state).filter((n) => n.settlementId === s.id && n.age >= 18 && !n.businessId && n.wealth > 12);
   if (!owners.length) return null;
-  const owner = owners[Math.floor(rand() * owners.length)];
+  // whoever has been saving for a shop of their own gets the first chance
+  const keen = owners.filter((n) => n.wantsBusiness);
+  const owner = (keen.length ? keen : owners)[Math.floor(rand() * owners.length) % (keen.length || owners.length)];
+  owner.wantsBusiness = false;
   const [type, job] = BUSINESS_TYPES[Math.floor(rand() * BUSINESS_TYPES.length)];
   const business = {
     id: ++state.businessSeq,
@@ -377,7 +387,11 @@ function tickSettlement(state, s, rand) {
 
   const irrigation = s.tech.includes('Irrigation') ? 2.4 : 0;
   // Labour scales with people; the land sets how much each pair of hands brings in.
-  const production = 1 + s.population * 0.62 * (0.6 + tile.fertility) + irrigation;
+  // Hands that have learned their work bring in more than the same number of
+  // untrained ones, so a town that teaches its young grows faster than one that
+  // only counts heads.
+  const avgSkill = npcs.reduce((a, n) => a + (n.skill ?? 0.2), 0) / Math.max(1, npcs.length);
+  const production = 1 + s.population * 0.62 * (0.6 + tile.fertility) * (0.82 + avgSkill * 0.55) + irrigation;
   const consumption = s.population * 0.5 + s.buildings.length * 0.15;
   s.food = Math.max(0, s.food + production - consumption);
   s.food = Math.min(s.food, 200 + s.population * 30);
@@ -428,7 +442,8 @@ function tickSettlement(state, s, rand) {
 
   const myBusinesses = state.businesses.filter((b) => b.alive && b.settlementId === s.id);
   const businessCap = Math.min(14, 1 + Math.floor(s.population / 7));
-  if (myBusinesses.length < businessCap && rand() < 0.09) createBusiness(state, s, rand);
+  const wantsTrade = npcs.some((n) => n.wantsBusiness && !n.businessId);
+  if (myBusinesses.length < businessCap && (wantsTrade || rand() < 0.09)) createBusiness(state, s, rand);
   for (const b of myBusinesses) {
     const owner = state.npcs.find((n) => n.id === b.ownerId);
     if (!owner || !owner.alive) {
@@ -439,7 +454,7 @@ function tickSettlement(state, s, rand) {
       continue;
     }
     b.employees = clamp(1 + Math.floor(s.population / 12), 1, 9);
-    b.profit = 0.35 + s.population * 0.034 + owner.traits.ambition * 0.5 - b.employees * 0.11;
+    b.profit = 0.35 + s.population * 0.034 + owner.traits.ambition * 0.5 + (owner.skill ?? 0.3) * 0.45 - b.employees * 0.11;
     owner.wealth = Math.max(0, owner.wealth + b.profit);
     s.treasury += Math.max(0, b.profit) * 0.08;
     if (b.profit < 0.02 && rand() < 0.02) {
@@ -886,7 +901,7 @@ function tickPredators(state, rand) {
 
 /* ------------------------------ daily tick ------------------------------- */
 
-function tickInhabitant(state, npc, rand) {
+function tickInhabitant(state, npc, rand, teachingIndex = null) {
   npc.age += 1 / 360;
   npc.health = Math.min(1, npc.health + 0.0015);
   npc.happiness = clamp(npc.happiness + (rand() - 0.5) * 0.01, 0.05, 1);
@@ -929,7 +944,11 @@ function tickInhabitant(state, npc, rand) {
     }
   }
 
-  if (npc.sex === 'f' && npc.partnerId && npc.age >= 18 && npc.age <= 44 && npc.health > 0.55 && rand() < 0.02) {
+  // Children come from wanting them, not from a dice roll: a couple with a strong
+  // wish for a family and food on the table is far more likely to have one.
+  const familyWant = npc.desires?.family ?? 0.35;
+  if (npc.sex === 'f' && npc.partnerId && npc.age >= 18 && npc.age <= 44 && npc.health > 0.5 &&
+    (!s || s.food > 2) && rand() < 0.006 + familyWant * 0.032) {
     const partner = state.npcs.find((n) => n.id === npc.partnerId && n.alive);
     if (partner) {
       const child = createInhabitant(state, rand, {
@@ -953,18 +972,29 @@ function tickInhabitant(state, npc, rand) {
         });
       }
       if (child.generation > (state.maxGeneration || 0)) state.maxGeneration = child.generation;
+      // the want is answered for a while
+      npc.desires.family = Math.max(0.05, npc.desires.family * 0.35);
+      if (partner.desires) partner.desires.family = Math.max(0.05, partner.desires.family * 0.45);
+      npc.wantsChild = false;
     }
   }
 
-  if (npc.age >= 16 && npc.job === 'child') npc.job = pick(JOBS, rand);
+  // work of their own, and a mind that keeps working at it
+  if (npc.age >= 16 && npc.job === 'child') {
+    const trade = chooseTrade(npc, state, rand);
+    npc.job = trade.job;
+    npc.skill = Math.max(npc.skill || 0, trade.skill);
+  }
+  tickMind(state, npc, rand, teachingIndex);
 }
 
 export function tickDay(state, rand = Math.random) {
   state.world.day++;
   state.eventBudget = 5;
+  const teachingIndex = buildTeachingIndex(state);
   for (const npc of state.npcs) {
     if (!npc.alive) continue;
-    tickInhabitant(state, npc, rand);
+    tickInhabitant(state, npc, rand, teachingIndex);
   }
   maybeFoundSettlements(state, rand);
   for (const s of state.settlements) {
