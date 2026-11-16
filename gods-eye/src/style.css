@@ -65,6 +65,7 @@ html, body {
 .speed button:last-child { border-right: 0; }
 .speed button.on { color: #0b0d0f; background: var(--gold); }
 
+#btn-kingdoms { padding: 6px 9px; }
 .hud-btn {
   background: rgba(8, 10, 12, 0.75); border: 1px solid var(--line); color: var(--ink);
   font-family: var(--serif); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
@@ -72,6 +73,7 @@ html, body {
 }
 .hud-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(20, 17, 10, 0.8); }
 .hud-btn.ghost { padding: 6px 10px; color: var(--ink-dim); }
+.hud-btn, .brand, .clock { white-space: nowrap; }
 .hud-btn b { color: var(--gold); font-weight: 600; }
 
 #kingdom-menu {
