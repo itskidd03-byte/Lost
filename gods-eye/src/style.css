@@ -553,3 +553,66 @@ body.touch-mode #toasts { top: 56px; }
   #decor-bar { bottom: 132px; padding: 6px; gap: 5px; }
   .decor-pick { font-size: 11px; padding: 6px 8px; }
 }
+
+/* The settlement readout while you walk the land. */
+#civ-panel {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  width: min(300px, 62vw);
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: rgba(12, 14, 12, 0.82);
+  border: 1px solid rgba(226, 201, 141, 0.26);
+  color: #e9dcc0;
+  font-size: 12px;
+  line-height: 1.45;
+  z-index: 30;
+  pointer-events: none;
+}
+#civ-panel[hidden] { display: none; }
+#civ-panel .civ-head {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 6px;
+}
+#civ-panel #civ-era {
+  font-family: Georgia, serif;
+  font-size: 17px;
+  letter-spacing: 0.04em;
+  color: #f0dfb4;
+}
+#civ-panel #civ-blurb {
+  font-size: 10.5px;
+  color: #a89b80;
+  font-style: italic;
+}
+#civ-panel .civ-line { color: #d8cbb0; }
+#civ-panel .civ-line.dim { color: #9d917a; font-size: 11px; }
+#civ-panel .civ-bar {
+  height: 5px;
+  margin: 6px 0 4px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+#civ-panel .civ-bar i {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #8a6a3a, #e2c98d);
+  transition: width 0.3s;
+}
+#civ-panel .civ-task {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(226, 201, 141, 0.16);
+  color: #c9b894;
+  font-size: 11px;
+  font-style: italic;
+  min-height: 1em;
+}
+@media (max-width: 640px) {
+  #civ-panel { left: 8px; bottom: 120px; width: min(240px, 56vw); font-size: 11px; padding: 8px 10px; }
+  #civ-panel #civ-era { font-size: 15px; }
+}

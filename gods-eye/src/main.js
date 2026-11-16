@@ -11,10 +11,11 @@ import { UI } from './ui.js';
 import { godAction, talk } from './life.js';
 import { parseOrder, runOrder } from './orders.js';
 import { isLand, tileAt } from './world.js';
-import { dateLabel } from './journal.js';
+import { dateLabel, civEvent } from './journal.js';
 import { TouchControls, isTouchDevice } from './mobile.js';
 import { Sound } from './audio.js';
 import { Decor, DECOR_PROPS } from './render/decor.js';
+import { Civ, ERAS } from './civ.js';
 import * as account from './account.js';
 
 const PROFILE_KEY = 'gods-eye-profile-v1';
@@ -54,6 +55,8 @@ class Game {
 
     this.cabin = new Cabin();
     this.decor = new Decor();
+    this.civ = null;
+    this.civHudIn = 0;
     this.decorMode = false;
     this.decorPick = 'table';
     this.decor.load(this.cabin.root, this.cabin.blockers);
@@ -447,6 +450,8 @@ class Game {
 
   setMode(mode) {
     this.mode = mode;
+    const civPanel = document.getElementById('civ-panel');
+    if (civPanel && mode !== 'world') civPanel.hidden = true;
     this.touchControls.setMode(mode);
     document.body.classList.toggle('playing', mode === 'cabin' || mode === 'table' || mode === 'world');
   }
@@ -654,6 +659,7 @@ class Game {
     }
     this.region = new Region(this.state, tile);
     this.scene = this.region.scene;
+    this.startCiv();
     this.setMode('world');
     this.orbit.enabled = false;
     this.fp.enabled = true;
@@ -677,9 +683,66 @@ class Game {
     if (!this.touchEnabled) requestAnimationFrame(() => this.fp.lock());
   }
 
+  // A hundred settlers walk in with you the first time; afterwards they are
+  // where you left them, with the same fire, huts and age.
+  startCiv() {
+    if (!this.region) return;
+    if (this.civ) {
+      this.civ.dispose();
+      this.civ = null;
+    }
+    const civ = new Civ(this.region);
+    civ.onEra = (era, was) => {
+      civEvent(this.state, {
+        type: 'age',
+        title: `${era.name} begins`,
+        detail: `The settlers around the fire at ${this.region.center.x},${this.region.center.y} left the ${was.name} behind: ${era.blurb.toLowerCase()}.`,
+        where: `${this.region.center.x},${this.region.center.y}`,
+        important: true,
+        consequence: 'New buildings, new tools, longer lives.',
+      });
+      this.ui.toast({
+        category: 'civilization',
+        day: this.state.world.day,
+        title: `The settlement enters the ${era.name}.`,
+        detail: era.blurb,
+      });
+    };
+    civ.spawn(this.state.civ || null);
+    this.civ = civ;
+    this.civHudIn = 0;
+    this.drawCivHud();
+  }
+
+  drawCivHud() {
+    const panel = document.getElementById('civ-panel');
+    if (!panel) return;
+    const show = this.mode === 'world' && !!this.civ;
+    panel.hidden = !show;
+    if (!show) return;
+    const snap = this.civ.snapshot(this.fp.position);
+    const set = (id, text) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    };
+    set('civ-era', snap.era);
+    set('civ-blurb', snap.blurb);
+    set('civ-stats', `${snap.population} settlers · ${snap.huts}/${snap.hutCap} huts`);
+    set('civ-stores', `food ${snap.food} · wood ${snap.wood} · ${snap.deer} deer`);
+    const fill = document.getElementById('civ-fill');
+    if (fill) fill.style.width = `${Math.round(snap.progress * 100)}%`;
+    set('civ-next', snap.next ? `toward the ${snap.next} — ${snap.knowledge} knowledge` : 'the last age, and they know it');
+    set('civ-task', snap.task ? `${snap.task.name} is ${snap.task.doing}.` : '');
+  }
+
   ascend() {
     if (this.mode !== 'world') return;
     this.transition(() => {
+      if (this.civ) {
+        this.state.civ = this.civ.serialize();
+        this.civ.dispose();
+        this.civ = null;
+      }
       const leaving = this.region;
       this.region = null;
       this.enterCabin(false);
@@ -1019,6 +1082,7 @@ class Game {
   }
 
   persist() {
+    if (this.civ) this.state.civ = this.civ.serialize();
     if (this.state) saveState(this.state);
   }
 
@@ -1141,7 +1205,8 @@ class Game {
 
   loop() {
     requestAnimationFrame(this.loop);
-    const dt = Math.min(0.05, this.clock.getDelta());
+    const frameDt = this.clock.getDelta();
+    const dt = Math.min(0.05, frameDt);
     this.elapsed += dt;
 
     this.tick(dt);
@@ -1160,6 +1225,16 @@ class Game {
       this.fp.update(dt);
       this.region.update(dt, this.elapsed, this.fp.position);
       this.scene = this.region.scene;
+      if (this.civ) {
+        // the settlement is simulated on real time, capped so a tab that was in
+        // the background does not jump an hour of history in one frame
+        this.civ.update(Math.min(0.5, frameDt), this.elapsed, this.fp.position);
+        this.civHudIn -= dt;
+        if (this.civHudIn <= 0) {
+          this.civHudIn = 0.4;
+          this.drawCivHud();
+        }
+      }
     }
 
     this.updatePrompts();
