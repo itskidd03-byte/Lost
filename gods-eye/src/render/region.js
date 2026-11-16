@@ -12,7 +12,7 @@ import {
 import { loadCreatureModels, creaturesReady, creatureModel, onCreaturesReady } from './creatures.js';
 import { groundCover } from './surfaces.js';
 import { loadMountainModels, peak as sharedPeak } from './mountains.js';
-import { advanceWater } from './water.js';
+import { advanceWater, makeWaterMaterial } from './water.js';
 
 const TS = 4;
 const RADIUS = 6;
@@ -122,14 +122,21 @@ export class Region {
   }
 
   buildGround() {
-    // deep ocean plane so the patch never floats in the void
-    const ocean = new THREE.Mesh(
-      new THREE.PlaneGeometry(260, 260),
-      new THREE.MeshStandardMaterial({ color: 0x3f86a8, roughness: 0.35, metalness: 0.25 }),
-    );
+    // the sea the island stands in: painted water with long slow swells, so the
+    // patch never floats in the void and the horizon is alive
+    const oceanMat = makeWaterMaterial({
+      tint: '#9cc6da',
+      opacity: 1,
+      river: false,
+      dir: 'both',
+      repeat: 26,
+      speed: 0.035,
+    });
+    const ocean = new THREE.Mesh(new THREE.PlaneGeometry(260, 260), oceanMat);
     ocean.rotation.x = -Math.PI / 2;
     ocean.position.y = -0.42;
     this.scene.add(ocean);
+    this.waterMats.push(oceanMat);
 
     // Pass 1: every tile becomes a sample of ground, not a cube.
     for (let dx = -RADIUS; dx <= RADIUS; dx++) {

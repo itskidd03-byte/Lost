@@ -79,7 +79,7 @@ export function waterTexture() {
 // river follows its own length, a pond only breathes where it sits.
 // `repeat` under one widens the pattern: the sheet's uvs are in tiles, so a
 // quarter repeat stretches one current band across four tiles.
-export function makeWaterMaterial({ tint = '#eaf7fb', opacity = 0.93, river = false, dir = 'both', repeat = 0.3 } = {}) {
+export function makeWaterMaterial({ tint = '#eaf7fb', opacity = 0.93, river = false, dir = 'both', repeat = 0.3, speed = null } = {}) {
   const map = waterTexture().clone();
   map.needsUpdate = true;
   map.wrapS = THREE.RepeatWrapping;
@@ -95,7 +95,7 @@ export function makeWaterMaterial({ tint = '#eaf7fb', opacity = 0.93, river = fa
     transparent: true,
     opacity,
   });
-  material.userData.flow = { speed: river ? 0.5 : 0.05, dir };
+  material.userData.flow = { speed: speed ?? (river ? 0.5 : 0.05), dir };
   return material;
 }
 

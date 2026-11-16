@@ -218,13 +218,17 @@ function waterCluster(cluster, { project, scale, heightOf, isWater }) {
   // bodies that touch overlap by a hair, so each sits a little above its neighbour
   // and no two sheets fight for the same pixel
   const level = Math.max(0.006, heightOf(cluster.tiles[0])) + 0.0035 + (cluster.cx + cluster.cy) * 0.00002;
-  // dark water with pale current bands, running along the channel it fills
+  // dark water with pale current bands, running along the channel it fills. The
+  // open sea is a deeper blue than a lake and moves in long, slow swells.
+  const sea = cluster.tiles.some((t) => t.biome === 'ocean' || t.biome === 'coast');
   const dir = river ? (cluster.alongX ? 'x' : 'y') : 'both';
   const material = makeWaterMaterial({
-    tint: river ? '#e8f7fd' : '#e2f3fa',
-    opacity: river ? 0.94 : 0.9,
+    tint: sea ? '#a8cfe2' : river ? '#e8f7fd' : '#e2f3fa',
+    opacity: sea ? 0.97 : river ? 0.94 : 0.9,
     river,
     dir,
+    repeat: sea ? 0.14 : 0.3,
+    speed: sea ? 0.06 : null,
   });
   if (material.map) material.map.offset.set(hash(cluster.cx, cluster.cy), hash(cluster.cy, cluster.cx));
   // The ground under the water is one dark basin, so no tile edge shows through

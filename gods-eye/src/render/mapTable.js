@@ -13,7 +13,7 @@ import {
 import { loadCreatureModels, creaturesReady, creatureModel, onCreaturesReady } from './creatures.js';
 import { findClusters, buildCluster, loneMassif } from './clusters.js';
 import { buildGround } from './ground.js';
-import { advanceWater } from './water.js';
+import { advanceWater, makeWaterMaterial } from './water.js';
 import { loadMountainModels } from './mountains.js';
 import {
   buildSettlement, buildTerritories, settlementBlockKeys, loadSettlementModels, footprintBlocks,
@@ -127,10 +127,17 @@ export class MapTable {
     this.selectionBox.visible = false;
     this.group.add(this.selectionBox);
 
-    this.base = new THREE.Mesh(
-      new THREE.BoxGeometry(1, 0.035, 1),
-      new THREE.MeshStandardMaterial({ color: 0x2a2015, roughness: 0.9, metalness: 0.05 }),
-    );
+    // The slab under the world is the sea the island sits in: wherever the land
+    // does not reach, this is what shows, so it is painted and moving water.
+    this.seaMaterial = makeWaterMaterial({
+      tint: '#9cc6da',
+      opacity: 1,
+      river: false,
+      dir: 'both',
+      repeat: 0.09,
+      speed: 0.04,
+    });
+    this.base = new THREE.Mesh(new THREE.BoxGeometry(1, 0.035, 1), this.seaMaterial);
     this.group.add(this.base);
 
     this.frame = new THREE.Mesh(
@@ -808,6 +815,7 @@ export class MapTable {
     }
     // the water moves: a river runs on, a pond only breathes
     for (const water of this.waters) advanceWater(water.material, dt);
+    if (this.seaMaterial) advanceWater(this.seaMaterial, dt);
     for (const ring of this.waterRipples) {
       const t = (elapsed * 0.45 + ring.phase) % 1;
       ring.mesh.scale.setScalar(ring.base * (0.5 + t * 1.6));
