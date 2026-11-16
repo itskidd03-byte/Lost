@@ -55,6 +55,25 @@ function plasterTexture() {
   });
 }
 
+// A soft radial glow for the lantern and the candle: the light has to look like
+// it is coming from somewhere, not only land on things.
+function glowTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 128;
+  canvas.height = 128;
+  const ctx = canvas.getContext('2d');
+  const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+  g.addColorStop(0, 'rgba(255,226,170,0.95)');
+  g.addColorStop(0.3, 'rgba(255,190,110,0.5)');
+  g.addColorStop(0.65, 'rgba(255,150,70,0.16)');
+  g.addColorStop(1, 'rgba(255,140,60,0)');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, 0, 128, 128);
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.colorSpace = THREE.SRGBColorSpace;
+  return tex;
+}
+
 function parchmentTexture() {
   return canvasTexture(256, 320, (ctx, w, h) => {
     ctx.fillStyle = '#d8c49a';
@@ -141,6 +160,25 @@ export class Cabin {
     this.map = new MapTable(this.mapGroup);
     this.focusTarget = this.mapCenter.clone();
     this.focusTarget.y += 0.04;
+    // The room casts and catches shadow; the board does not, or every tree on it
+    // would be a caster and the lantern-lit table would crawl.
+    this.enableShadows();
+  }
+
+  enableShadows() {
+    const board = new Set();
+    if (this.mapGroup) this.mapGroup.traverse((o) => board.add(o));
+    this.root.traverse((o) => {
+      if (!o.isMesh || board.has(o)) return;
+      // glass and glow cards throw no shadow, they only take light
+      if (o.material && o.material.isMeshBasicMaterial) {
+        o.receiveShadow = false;
+        return;
+      }
+      o.castShadow = true;
+      o.receiveShadow = true;
+    });
+    if (this.floorMat) this.floorMat.needsUpdate = true;
   }
 
   buildRoom() {
@@ -513,6 +551,18 @@ export class Cabin {
     flame.position.set(-1.16, 0.155, -0.62);
     props.add(flame);
     this.tableFlame = flame;
+    const candleGlow = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: glowTexture(),
+      color: 0xffc27a,
+      transparent: true,
+      opacity: 0.4,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    }));
+    candleGlow.position.set(-1.16, 0.16, -0.62);
+    candleGlow.scale.setScalar(0.3);
+    props.add(candleGlow);
+    this.candleGlow = candleGlow;
     this.tableCandle = new THREE.PointLight(0xffb765, 1.1, 1.6, 2);
     this.tableCandle.position.set(-1.16, 0.2, -0.62);
     props.add(this.tableCandle);
@@ -746,14 +796,31 @@ export class Cabin {
   }
 
   buildLight() {
-    this.scene.add(new THREE.AmbientLight(0x5c6c80, 0.95));
-    this.scene.add(new THREE.HemisphereLight(0x3a4e63, 0x1a1208, 0.7));
+    this.ambient = new THREE.AmbientLight(0x6b7a8c, 1.15);
+    this.scene.add(this.ambient);
+    this.hemi = new THREE.HemisphereLight(0x42566a, 0x241a10, 0.95);
+    this.scene.add(this.hemi);
 
+    // Moonlight through the window: the one light in the room that casts, so the
+    // furniture and the props on the table throw shadows on the boards.
     const moon = new THREE.DirectionalLight(0x9dc3e6, 1.7);
     moon.position.set(6, 4.5, 1.5);
     moon.target.position.set(-1, 1, 0);
+    moon.castShadow = true;
+    // a phone pays for every shadow texel, so it gets a smaller map
+    const shadowSize = (typeof window !== 'undefined' && window.innerWidth < 900) ? 512 : 1024;
+    moon.shadow.mapSize.set(shadowSize, shadowSize);
+    moon.shadow.camera.left = -6.5;
+    moon.shadow.camera.right = 6.5;
+    moon.shadow.camera.top = 6.5;
+    moon.shadow.camera.bottom = -6.5;
+    moon.shadow.camera.near = 0.4;
+    moon.shadow.camera.far = 24;
+    moon.shadow.bias = -0.0007;
+    moon.shadow.normalBias = 0.02;
     this.scene.add(moon);
     this.scene.add(moon.target);
+    this.moon = moon;
 
     const lantern = new THREE.Group();
     lantern.position.set(this.tablePos.x - 1.5, 2.15, this.tablePos.z + 0.35);
@@ -772,9 +839,28 @@ export class Cabin {
     cord.position.y = 0.58;
     lantern.add(cord);
 
-    this.lantern = new THREE.PointLight(0xffb35c, 13, 10, 1.8);
+    this.lantern = new THREE.PointLight(0xffb35c, 15, 11, 1.7);
     this.lantern.position.set(lantern.position.x, lantern.position.y - 0.05, lantern.position.z);
     this.scene.add(this.lantern);
+
+    // The visible glow, and a wide warm fill so the lamp actually brightens the
+    // room rather than just dotting the table with a hotspot.
+    const glowMat = new THREE.SpriteMaterial({
+      map: glowTexture(),
+      color: 0xffc27a,
+      transparent: true,
+      opacity: 0.55,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending,
+    });
+    this.lanternGlow = new THREE.Sprite(glowMat);
+    this.lanternGlow.position.copy(lantern.position);
+    this.lanternGlow.scale.setScalar(0.95);
+    this.scene.add(this.lanternGlow);
+
+    this.roomGlow = new THREE.PointLight(0xffb877, 7.2, 11, 1.35);
+    this.roomGlow.position.set(lantern.position.x - 0.1, lantern.position.y - 0.25, lantern.position.z + 0.1);
+    this.scene.add(this.roomGlow);
 
     this.mapLight = new THREE.PointLight(0xffd79a, 5.2, 3.4, 2);
     this.mapLight.position.set(this.mapCenter.x, this.mapCenter.y + 0.95, this.mapCenter.z);
@@ -800,14 +886,28 @@ export class Cabin {
   update(dt, elapsed) {
     this.time = elapsed;
     if (this.lantern) {
-      const flicker = 7.6 + Math.sin(elapsed * 7.3) * 0.5 + Math.sin(elapsed * 17.1) * 0.32 + Math.random() * 0.35;
+      const flicker = 8.8 + Math.sin(elapsed * 7.3) * 0.5 + Math.sin(elapsed * 17.1) * 0.32 + Math.random() * 0.35;
       this.lantern.intensity = flicker;
+      // the glow breathes with the flame, and the room brightens a little with it
+      if (this.lanternGlow) {
+        const swell = 0.9 + flicker * 0.022;
+        this.lanternGlow.scale.setScalar(swell);
+        this.lanternGlow.material.opacity = 0.42 + flicker * 0.012;
+      }
+      // the room is lit by the lamp: as the flame swells, the walls brighten
+      if (this.roomGlow) this.roomGlow.intensity = 5.4 + flicker * 0.26;
+      if (this.ambient) this.ambient.intensity = 1.02 + flicker * 0.016;
+      if (this.hemi) this.hemi.intensity = 0.8 + flicker * 0.018;
     }
     if (this.tableFlame) {
       const f = 0.85 + Math.sin(elapsed * 9.1) * 0.1 + Math.random() * 0.07;
       this.tableFlame.scale.set(1, f, 1);
       this.tableFlame.position.y = 0.148 + f * 0.01;
       if (this.tableCandle) this.tableCandle.intensity = 0.75 + f * 0.4;
+      if (this.candleGlow) {
+        this.candleGlow.scale.setScalar(0.26 + f * 0.06);
+        this.candleGlow.material.opacity = 0.3 + f * 0.16;
+      }
     }
     if (this.dust) {
       const pos = this.dust.geometry.attributes.position;

@@ -678,6 +678,7 @@ export class MapTable {
     }
 
     this.applySelection(state.selected);
+    this.muteShadows();
   }
 
   tileCenter(tile) {
@@ -768,6 +769,17 @@ export class MapTable {
     this.selectionBox.scale.set(this.scale * 1.1, Math.max(0.02, h * 1.6), this.scale * 1.1);
     const c = this.tileCenter(tile);
     this.selectionBox.position.set(c.x, Math.max(0.02, h) * 0.85, c.z);
+  }
+
+  // The board has its own lamp and fifteen hundred little pieces on it; letting
+  // all of those cast into the room's shadow map would cost more than the room
+  // is worth. The furniture and the walls still cast.
+  muteShadows() {
+    this.group.traverse((o) => {
+      if (!o.isMesh) return;
+      o.castShadow = false;
+      o.receiveShadow = false;
+    });
   }
 
   update(elapsed, dt = 0) {
