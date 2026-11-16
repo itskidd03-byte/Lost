@@ -49,10 +49,23 @@
             <span class="vol-num" id="vol-num">6</span>
           </div>
           <button class="hud-btn" id="btn-laptop" title="Laptop (L)">Laptop</button>
+          <button class="hud-btn" id="btn-decor" title="Decorate the room (B)">Decorate</button>
           <button class="hud-btn" id="btn-journal" title="Journal (J)">Journal</button>
           <button class="hud-btn" id="btn-divine" title="God's Eye (G)">God's Eye</button>
           <button class="hud-btn ghost" id="btn-help" title="Controls (H)">?</button>
         </div>
+      </div>
+
+      <div id="decor-bar" hidden>
+        <span class="decor-title">Decorate</span>
+        <button class="decor-pick" data-decor="table">Table</button>
+        <button class="decor-pick" data-decor="chair">Chair</button>
+        <button class="decor-pick" data-decor="lamp">Lamp</button>
+        <button class="decor-pick" data-decor="statue">Statue</button>
+        <button class="decor-pick" data-decor="fern">Fern</button>
+        <button class="decor-pick danger" data-decor="remove">Remove</button>
+        <button class="decor-pick done" data-decor="done">Done</button>
+        <span class="decor-hint">Tap the floor to place · tap a piece to clear it</span>
       </div>
 
       <div id="prompt" hidden><span class="key">E</span><span id="prompt-text"></span></div>

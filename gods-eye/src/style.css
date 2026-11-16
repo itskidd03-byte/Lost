@@ -503,3 +503,53 @@ body.touch-mode #toasts { top: 56px; }
 @media (max-width: 640px) {
   .vol input[type='range'] { width: 44px; }
 }
+
+/* Decorating: a bar of pieces across the bottom of the room, thumb-sized. */
+#decor-bar {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: min(94vw, 720px);
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: rgba(14, 12, 10, 0.86);
+  border: 1px solid rgba(226, 201, 141, 0.28);
+  z-index: 40;
+}
+#decor-bar[hidden] { display: none; }
+#decor-bar .decor-title {
+  color: #e2c98d;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-right: 4px;
+}
+.decor-pick {
+  font: inherit;
+  font-size: 12px;
+  padding: 7px 11px;
+  border-radius: 7px;
+  color: #f0e3c6;
+  background: rgba(58, 46, 32, 0.9);
+  border: 1px solid rgba(226, 201, 141, 0.25);
+  cursor: pointer;
+}
+.decor-pick.on { background: #e2c98d; color: #20170e; border-color: #e2c98d; }
+.decor-pick.danger { color: #e8b3a3; }
+.decor-pick.done { background: #26372a; color: #d8e8cf; }
+#decor-bar .decor-hint {
+  width: 100%;
+  text-align: center;
+  font-size: 10.5px;
+  color: #9d8f76;
+}
+@media (max-width: 640px) {
+  #decor-bar { bottom: 132px; padding: 6px; gap: 5px; }
+  .decor-pick { font-size: 11px; padding: 6px 8px; }
+}

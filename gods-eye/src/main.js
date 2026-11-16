@@ -14,6 +14,7 @@ import { isLand, tileAt } from './world.js';
 import { dateLabel } from './journal.js';
 import { TouchControls, isTouchDevice } from './mobile.js';
 import { Sound } from './audio.js';
+import { Decor, DECOR_PROPS } from './render/decor.js';
 import * as account from './account.js';
 
 const PROFILE_KEY = 'gods-eye-profile-v1';
@@ -52,6 +53,10 @@ class Game {
     this.camera.rotation.order = 'YXZ';
 
     this.cabin = new Cabin();
+    this.decor = new Decor();
+    this.decorMode = false;
+    this.decorPick = 'table';
+    this.decor.load(this.cabin.root, this.cabin.blockers);
     this.fp = new FirstPerson(this.camera, this.renderer.domElement);
     this.orbit = new MapOrbit(this.camera, this.renderer.domElement);
     this.ui = new UI(this);
@@ -311,7 +316,11 @@ class Game {
 
   bindEvents() {
     window.addEventListener('resize', () => this.onResize());
-    this.renderer.domElement.addEventListener('click', () => {
+    this.renderer.domElement.addEventListener('click', (e) => {
+      if (this.mode === 'cabin' && this.decorMode) {
+        this.placeDecor(e);
+        return;
+      }
       if (this.mode === 'cabin' || this.mode === 'world') {
         if (this.ui.dialogueNpc || this.touchEnabled) return;
         this.fp.lock();
@@ -419,6 +428,7 @@ class Game {
     }
     if (key === 'KeyE') return this.interact();
     if (key === 'KeyM') return this.toggleMute();
+    if (key === 'KeyB') return this.toggleDecor();
     if (key === 'KeyJ') return this.toggleJournal();
     if (key === 'KeyL') return this.toggleLaptop();
     if (key === 'KeyG') return this.toggleDivine();
@@ -687,6 +697,66 @@ class Game {
   }
 
   /* ------------------------------- overlays ------------------------------- */
+
+  /* -------------------------------- decorate ------------------------------- */
+
+  toggleDecor(force = null) {
+    if (this.mode !== 'cabin') return;
+    this.decorMode = force === null ? !this.decorMode : force;
+    const bar = document.getElementById('decor-bar');
+    if (bar) bar.hidden = !this.decorMode;
+    if (this.decorMode) {
+      this.fp.unlock();
+      this.ui.setPrompt('');
+      this.syncDecorBar();
+    } else {
+      this.ui.setPrompt('');
+    }
+  }
+
+  syncDecorBar() {
+    document.querySelectorAll('.decor-pick[data-decor]').forEach((btn) => {
+      const id = btn.dataset.decor;
+      btn.classList.toggle('on', id === this.decorPick);
+    });
+  }
+
+  setDecorPick(id) {
+    if (id === 'done') return this.toggleDecor(false);
+    this.decorPick = id;
+    this.syncDecorBar();
+  }
+
+  // A tap in the room: place the chosen piece where the floor was hit, or clear
+  // whatever sits under the finger when Remove is chosen.
+  placeDecor(e) {
+    const x = e.clientX ?? e.changedTouches?.[0]?.clientX;
+    const y = e.clientY ?? e.changedTouches?.[0]?.clientY;
+    if (x === undefined || !this.cabin.floor) return;
+    const rect = this.renderer.domElement.getBoundingClientRect();
+    this.pointer.x = ((x - rect.left) / rect.width) * 2 - 1;
+    this.pointer.y = -((y - rect.top) / rect.height) * 2 + 1;
+    this.raycaster.setFromCamera(this.pointer, this.camera);
+    const hits = this.raycaster.intersectObject(this.cabin.floor, false);
+    if (!hits.length) return;
+    const point = hits[0].point;
+    // keep furniture off the walls
+    const px = Math.max(-3.9, Math.min(3.9, point.x));
+    const pz = Math.max(-3.2, Math.min(3.2, point.z));
+
+    if (this.decorPick === 'remove') {
+      const item = this.decor.nearest(px, pz, 0.9);
+      if (item) {
+        this.decor.remove(this.cabin.root, this.cabin.blockers, item);
+        this.sound?.cue('tap');
+      }
+      return;
+    }
+
+    const yaw = Math.atan2(this.fp.position.x - px, this.fp.position.z - pz);
+    this.decor.add(this.cabin.root, this.cabin.blockers, this.decorPick, px, pz, yaw);
+    this.sound?.cue('open');
+  }
 
   toggleJournal() {
     if (this.ui.els.journal.hidden) this.openJournal();

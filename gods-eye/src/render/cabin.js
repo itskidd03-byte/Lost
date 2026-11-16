@@ -214,6 +214,7 @@ export class Cabin {
       color: 0xcbb394,
     });
     const floor = new THREE.Mesh(new THREE.PlaneGeometry(8.6, 7.4), floorMat);
+    this.floor = floor;
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;
     this.root.add(floor);
@@ -287,14 +288,35 @@ export class Cabin {
     skirt(0.05, 7.28, -4.12, 0);
     skirt(0.05, 7.28, 4.12, 0);
     skirt(8.44, 0.05, 0, 3.52);
+    // the panelling wears the oak taken from the shared furniture pack, with a
+    // batten every metre, so the walls are boarded rather than painted flat
+    const panelMat = new THREE.MeshStandardMaterial({
+      map: furnitureTexture('table-top.jpg', [6, 1]),
+      color: 0xd8c3a6,
+      roughness: 0.8,
+    });
+    this.panelMat = panelMat;
     const dado = (w, d, x, z) => {
-      const panel = new THREE.Mesh(new THREE.BoxGeometry(w, 0.92, d), beamMat);
+      const panel = new THREE.Mesh(new THREE.BoxGeometry(w, 0.92, d), panelMat);
       panel.position.set(x, 0.56, z);
       panel.receiveShadow = true;
       this.root.add(panel);
       const rail = new THREE.Mesh(new THREE.BoxGeometry(w, 0.06, d + 0.02), darkBeamMat);
       rail.position.set(x, 1.05, z);
       this.root.add(rail);
+      // battens: thin uprights splitting the boarding into panels
+      const along = w > d ? w : d;
+      const vertical = w < d;
+      const count = Math.max(2, Math.round(along / 1.1));
+      for (let i = 1; i < count; i++) {
+        const t = -along / 2 + (along * i) / count;
+        const batten = new THREE.Mesh(
+          new THREE.BoxGeometry(vertical ? d + 0.01 : 0.05, 0.86, vertical ? 0.05 : d + 0.01),
+          darkBeamMat,
+        );
+        batten.position.set(vertical ? x : x + t, 0.56, vertical ? z + t : z);
+        this.root.add(batten);
+      }
     };
     dado(8.42, 0.035, 0, -3.56);
     dado(0.035, 7.24, -4.16, 0);

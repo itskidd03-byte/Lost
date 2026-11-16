@@ -150,6 +150,13 @@ export class UI {
       this.game.setVolume(Number(e.target.value));
     });
     this.els.volBtn?.addEventListener('click', () => this.game.toggleMute());
+    $('#btn-decor')?.addEventListener('click', () => this.game.toggleDecor());
+    document.querySelectorAll('.decor-pick[data-decor]').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.game.setDecorPick(btn.dataset.decor);
+      });
+    });
     $('#btn-ack')?.addEventListener('click', () => this.game.acknowledge());
     $('#btn-ack2')?.addEventListener('click', () => this.game.acknowledge());
 
