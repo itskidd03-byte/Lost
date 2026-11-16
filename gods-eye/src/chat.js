@@ -92,7 +92,7 @@ export function johanReply(state, text, offset = 0) {
   if (/(what can you do|what do you do|how does this work|help|commands?)/.test(lower)) {
     return {
       title: 'Johan counts it off on the table.',
-      detail: `"${pick(JOHAN_CAN, n)} Type it plainly — 'johan raise mountains' — or ask Jolene for her half."`,
+      detail: `"${pick(JOHAN_CAN, n)} I can give coin away too — to a person, to a building, to a whole settlement — I just cannot buy anything with it. Type it plainly: 'johan raise mountains', 'johan give to the baker'."`,
     };
   }
   if (/(build|castle|palace|tower|city|house|bridge|wall|road)/.test(lower)) {

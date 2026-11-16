@@ -3,7 +3,7 @@
 // straight to the world. No network, no model, no cloud.
 
 import { BIOMES, isLand, tileAt } from './world.js';
-import { godAction } from './life.js';
+import { godAction, livingNpcs, settlementAt } from './life.js';
 import { advanceDays } from './state.js';
 import { addEvent } from './journal.js';
 import { crewSummary, dressSector, sectorByDresser } from './sectors.js';
@@ -115,6 +115,39 @@ function johanOrder(state, text, tile) {
       title: 'That is not his work.',
       detail: 'Johan only raises, carves and breaks ground. Type "jolene reskin this" and she will dress it.',
     };
+  }
+
+  // Giving: to a person, to a building, or to the settlement as a whole.
+  if (/(donate|gift|fund|charity|alms|give (?:to|them|him|her|out|coins?|money|bread|food))/.test(text)) {
+    // a building the settlement actually has beats a generic word list
+    const here = settlementAt(state, tile.x, tile.y);
+    const named = here ? here.buildings.find((b) => text.includes(String(b).toLowerCase())) : null;
+    const isBuilding = !!named
+      || /\b(building|temple|granary|mill|school|library|forge|shop|house|roof|market|barn|wall|well|hall|bakery|tavern|smithy|dock|harbour|gate)\b/.test(text);
+    const people = livingNpcs(state).filter(
+      (n) => (here && n.settlementId === here.id) || (Math.abs(n.x - tile.x) <= 2 && Math.abs(n.y - tile.y) <= 2),
+    );
+    const namedPerson = people.find((n) =>
+      String(n.name)
+        .toLowerCase()
+        .split(' ')
+        .some((part) => part.length > 2 && text.includes(part)),
+    );
+    const personWord =
+      /\b(civilian|people|person|family|woman|man|child|inhabitant|villager|worker|farmer|baker|smith|miner|herder|fisher|healer|scholar|orphan|beggar|elders?)\b/.test(
+        text,
+      );
+    const kind = isBuilding ? 'donate_building' : namedPerson || personWord ? 'donate_npc' : 'donate';
+    const event = godAction(state, kind, tile, Math.random, text);
+    if (!event) {
+      return {
+        ok: false,
+        category: 'johan',
+        title: 'There was no one there to give to.',
+        detail: `He looked at ${tile.x},${tile.y} and found no hands out, and no roof worth funding.`,
+      };
+    }
+    return { ok: true, category: 'johan', title: event.title, detail: event.detail || '' };
   }
 
   for (const [pattern, kind] of JOHAN_ACTS) {

@@ -1029,7 +1029,7 @@ function disasterEvent(state, tile, label, detail, consequence) {
   });
 }
 
-export function godAction(state, kind, tile, rand = Math.random) {
+export function godAction(state, kind, tile, rand = Math.random, hint = '') {
   if (!tile) return null;
   const w = state.world;
   const x = tile.x;
@@ -1322,6 +1322,69 @@ export function godAction(state, kind, tile, rand = Math.random) {
         where: s.name,
         important: true,
         consequence: 'Prices settle, bellies fill, and the settlement remembers.',
+      });
+    }
+
+    case 'donate_npc': {
+      const near = livingNpcs(state)
+        .filter((n) => Math.abs(n.x - x) <= 2 && Math.abs(n.y - y) <= 2)
+        .sort(
+          (a, b) =>
+            Math.abs(a.x - x) + Math.abs(a.y - y) - (Math.abs(b.x - x) + Math.abs(b.y - y)),
+        );
+      // "give to the baker" should reach the baker when one is standing there
+      const wanted = String(hint || '').toLowerCase();
+      const byName = wanted
+        ? near.find((n) => wanted.includes(String(n.name).toLowerCase().split(' ')[0]))
+        : null;
+      const byJob = wanted ? near.find((n) => n.job && wanted.includes(String(n.job).toLowerCase())) : null;
+      const person = byName || byJob || near[0] || null;
+      if (!person) return null;
+      const amount = Math.round(40 + rand() * 160);
+      person.wealth += amount;
+      person.happiness = Math.min(1, (person.happiness ?? 0.5) + 0.22);
+      person.opinionOfJohan = Math.min(1, (person.opinionOfJohan ?? 0.5) + 0.2);
+      remember(person, w.day, `Johan put ${amount} in my hand and asked for nothing back.`);
+      return addEvent(state, {
+        category: 'johan',
+        type: 'gift',
+        title: `${amount} given to ${person.name}`,
+        detail: `${person.name}, ${person.job}, took the coins with no debt tied to them. Nothing was asked — not a name on a wall, not a share of their work.`,
+        where: `${x},${y}`,
+        actors: [person.id],
+        important: true,
+        consequence: 'One person is a little less afraid of the eye in the sky.',
+      });
+    }
+
+    case 'donate_building': {
+      const s = settlementAt(state, x, y) || nearestSettlement(state, x, y, 4);
+      if (!s || !s.buildings.length) return null;
+      // fund the building that was named, else the newest one standing
+      const wantedBuilding = String(hint || '').toLowerCase();
+      const namedBuilding = wantedBuilding
+        ? s.buildings.find((b) => wantedBuilding.includes(String(b).toLowerCase()))
+        : null;
+      const building = namedBuilding || s.buildings[s.buildings.length - 1];
+      const amount = Math.round(150 + rand() * 450);
+      s.treasury += amount;
+      s.mood = Math.min(0.99, s.mood + 0.05);
+      s.culture += 0.03;
+      const label = String(building).charAt(0).toUpperCase() + String(building).slice(1);
+      s.fundedBuilding = { name: building, amount, day: w.day };
+      const keepers = livingNpcs(state).filter((n) => n.settlementId === s.id);
+      for (const n of keepers) {
+        n.wealth += (amount / Math.max(1, keepers.length)) * 0.2;
+        n.happiness = Math.min(1, (n.happiness ?? 0.5) + 0.06);
+      }
+      return addEvent(state, {
+        category: 'johan',
+        type: 'gift',
+        title: `${label} in ${s.name} was funded`,
+        detail: `${amount} went straight into the ${String(building).toLowerCase()} — roof, hinges, lamps and wages. The hands that keep it still own it.`,
+        where: s.name,
+        important: true,
+        consequence: 'The building stands a little prouder, and everyone under it knows who paid.',
       });
     }
 

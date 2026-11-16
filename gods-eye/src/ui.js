@@ -40,7 +40,11 @@ const DIVINE_GROUPS = [
   },
   {
     title: 'Divine money',
-    acts: [['donate', 'Donate to this settlement']],
+    acts: [
+      ['donate', 'Donate to this settlement'],
+      ['donate_npc', 'Give to a civilian'],
+      ['donate_building', 'Fund a building'],
+    ],
   },
 ];
 
