@@ -7,13 +7,14 @@ import { godAction } from './life.js';
 import { advanceDays } from './state.js';
 import { addEvent } from './journal.js';
 import { crewSummary, dressSector, sectorByDresser } from './sectors.js';
+import { johanReply, joleneReply } from './chat.js';
 
 const JOHAN_ACTS = [
   [/(new land|more land|raise land|grow land|expand)/, 'newland'],
-  [/(mountain|peak|ridge|summit|range)/, 'mountain'],
-  [/(river|stream|creek|coursed? water)/, 'river'],
+  [/(\bmountain|\bpeak|\bridge|\bsummit|\brange)/, 'mountain'],
+  [/(\briver|\bstream|\bcreek|coursed? water)/, 'river'],
   [/(forest|wood|grove|trees?)/, 'forest'],
-  [/(lake|pond)/, 'lake'],
+  [/(\blake|\bpond)/, 'lake'],
   [/(fertile|fertil|farm|crop|harvest|field)/, 'blessfertility'],
   [/(tornado|twister)/, 'tornado'],
   [/(hurricane|cyclone)/, 'hurricane'],
@@ -51,7 +52,7 @@ const JOLENE_KINDS = [
   [/(water|ripple|wave|river|lake|sea|ocean|coast)/, 'water'],
   [/(village|house|roof|town|settlement|person|people)/, 'village'],
   [/(mountain|peak|ridge)/, 'mountains'],
-  [/(reskin|re-?skin|polish|refine|sharpen|clean|detail|beautif|paint|skin|smooth|mold|mould)/, 'polish'],
+  [/(reskin|re-?skin|polish|refine|sharpen|clean|detail|beautif|paint|skin|smooth|mold|mould|nicer|pretty|better|lovely|tidy)/, 'polish'],
 ];
 
 const JOLENE_BIOMES = {
@@ -125,21 +126,26 @@ function johanOrder(state, text, tile) {
     return { ok: true, category: 'johan', title: event.title || 'Johan worked.', detail: event.detail || '' };
   }
 
-  return {
-    ok: false,
-    category: 'johan',
-    title: 'He did not understand the order.',
-    detail: 'Try "johan raise mountains", "johan carve a river", "johan grow forest", "johan flood", "johan wait 20 days".',
-  };
+  // Nothing he knows how to do: he answers in his own voice instead of a
+  // flat "not understood".
+  const reply = johanReply(state, text, ((state.world?.day || 0) % 11) / 11);
+  return { ok: false, category: 'johan', title: reply.title, detail: reply.detail };
 }
 
 function joleneOrder(state, text, tile) {
-  let kind = 'polish';
+  let kind = null;
   for (const [pattern, name] of JOLENE_KINDS) {
     if (pattern.test(text)) {
       kind = name;
       break;
     }
+  }
+
+  // She only dresses what stands: anything she does not recognise gets her
+  // own answer instead of a silent reskin of whatever is nearby.
+  if (!kind) {
+    const reply = joleneReply(state, text, ((state.world?.day || 0) % 11) / 11);
+    return { ok: false, category: 'jolene', title: reply.title, detail: reply.detail };
   }
 
   const wide = kind === 'all';
