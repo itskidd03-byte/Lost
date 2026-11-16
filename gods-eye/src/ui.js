@@ -100,9 +100,31 @@ export class UI {
       intro: $('#intro'),
       fade: $('#fade'),
       reticle: $('#reticle'),
+      volSlider: $('#vol-slider'),
+      volBtn: $('#btn-vol'),
+      volNum: $('#vol-num'),
+      volWrap: $('#vol'),
     };
     this.buildDivine();
     this.bind();
+    this.syncVolume();
+  }
+
+  // The slider is ten steps, the sound is nought to one; this keeps the two in
+  // step however the volume was changed (slider, mute button or the saved value).
+  syncVolume() {
+    const sound = this.game.sound;
+    if (!sound) return;
+    const step = Math.round(sound.volume * 10);
+    if (this.els.volSlider && document.activeElement !== this.els.volSlider) {
+      this.els.volSlider.value = String(step);
+    }
+    if (this.els.volNum) this.els.volNum.textContent = String(step);
+    if (this.els.volBtn) {
+      this.els.volBtn.textContent = sound.muted || sound.volume === 0 ? '✕' : '♪';
+      this.els.volBtn.title = sound.muted ? 'Sound off (M)' : 'Sound (M)';
+    }
+    this.els.volWrap?.classList.toggle('muted', sound.muted || sound.volume === 0);
   }
 
   bind() {
@@ -124,6 +146,10 @@ export class UI {
     });
     $('#btn-divine')?.addEventListener('click', () => this.game.toggleDivine());
     $('#btn-help')?.addEventListener('click', () => this.showIntro(true));
+    this.els.volSlider?.addEventListener('input', (e) => {
+      this.game.setVolume(Number(e.target.value));
+    });
+    this.els.volBtn?.addEventListener('click', () => this.game.toggleMute());
     $('#btn-ack')?.addEventListener('click', () => this.game.acknowledge());
     $('#btn-ack2')?.addEventListener('click', () => this.game.acknowledge());
 

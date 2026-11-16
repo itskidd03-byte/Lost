@@ -470,3 +470,36 @@ body.touch-mode #toasts { top: 56px; }
   .entry .what { font-size: 12.5px; }
   .panel.wide, .panel { top: 56px; }
 }
+
+/* Volume: a speaker, a ten-step slider and the number you set. */
+.vol {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 4px 0 2px;
+  border-radius: 6px;
+  background: rgba(18, 22, 26, 0.35);
+}
+.vol .vol-num {
+  font-size: 11px;
+  color: #cbb98f;
+  min-width: 10px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.vol input[type='range'] {
+  width: 76px;
+  height: 16px;
+  margin: 0;
+  background: transparent;
+  accent-color: #e2c98d;
+  cursor: pointer;
+}
+.vol.muted { opacity: 0.6; }
+@media (max-width: 900px) {
+  .vol input[type='range'] { width: 56px; }
+  .vol .vol-num { display: none; }
+}
+@media (max-width: 640px) {
+  .vol input[type='range'] { width: 44px; }
+}

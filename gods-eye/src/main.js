@@ -13,6 +13,7 @@ import { parseOrder, runOrder } from './orders.js';
 import { isLand, tileAt } from './world.js';
 import { dateLabel } from './journal.js';
 import { TouchControls, isTouchDevice } from './mobile.js';
+import { Sound } from './audio.js';
 import * as account from './account.js';
 
 const PROFILE_KEY = 'gods-eye-profile-v1';
@@ -76,6 +77,15 @@ class Game {
     this.hiddenAt = 0;
     this.installEvent = null;
     this.touchEnabled = false;
+    this.sound = new Sound();
+    // audio may not start until the player has touched the page
+    const wakeAudio = () => {
+      this.sound.ensure();
+      window.removeEventListener('pointerdown', wakeAudio);
+      window.removeEventListener('keydown', wakeAudio);
+    };
+    window.addEventListener('pointerdown', wakeAudio);
+    window.addEventListener('keydown', wakeAudio);
 
     this.raycaster = new THREE.Raycaster();
     this.pointer = new THREE.Vector2();
@@ -408,6 +418,7 @@ class Game {
       return;
     }
     if (key === 'KeyE') return this.interact();
+    if (key === 'KeyM') return this.toggleMute();
     if (key === 'KeyJ') return this.toggleJournal();
     if (key === 'KeyL') return this.toggleLaptop();
     if (key === 'KeyG') return this.toggleDivine();
@@ -858,6 +869,18 @@ class Game {
 
   /* -------------------------------- touch -------------------------------- */
 
+  setVolume(value) {
+    this.sound.setVolume(value / 10);
+    this.ui.syncVolume();
+    if (value > 0 && !this.sound.muted) this.sound.cue('tap');
+  }
+
+  toggleMute() {
+    this.sound.toggleMute();
+    this.ui.syncVolume();
+    if (!this.sound.muted) this.sound.cue('tap');
+  }
+
   lookBy(dx, dy) {
     if (this.mode !== 'cabin' && this.mode !== 'world') return;
     this.fp.yaw -= dx * 0.0055;
@@ -1052,6 +1075,7 @@ class Game {
     this.elapsed += dt;
 
     this.tick(dt);
+    this.sound.update(dt);
 
     if (this.mode === 'table') {
       this.moveTable(dt);
