@@ -5,7 +5,7 @@
 // textures) is cached up front too, so an offline board is drawn from the same
 // models as an online one instead of falling back to the painted stand-ins.
 
-const CACHE = 'gods-eye-shell-v3';
+const CACHE = 'gods-eye-shell-v4';
 const SCOPE = new URL('./', self.location.href).href;
 const SHELL = [SCOPE, `${SCOPE}index.html`, `${SCOPE}manifest.webmanifest`];
 
