@@ -92,27 +92,43 @@ export function personModel({ seed = 1, height = 0.03 } = {}) {
 }
 
 const swing = new THREE.Quaternion();
+const rest = new THREE.Quaternion();
 const AXIS_X = new THREE.Vector3(1, 0, 0);
+const AXIS_Z = new THREE.Vector3(0, 0, 1);
 
 // A walk made of bone swings: thighs and arms counter each other, knees bend on
 // the back half of the stride. speed 0 leaves them standing with a small breath.
+//
+// The pack ships in a T-pose, so the arms are also brought down to the sides as
+// part of the pose — otherwise every idle villager stands with their arms out.
 export function walkPerson(model, time, speed = 1) {
   if (!model?.bones.size) return;
   const stride = time * (4.2 + speed * 1.6);
+  const moving = Math.min(1, speed + 0.15);
   for (const [name, entry] of model.bones) {
     const left = name.endsWith('_L');
     const phase = left ? 0 : Math.PI;
     let angle = 0;
-    if (name.startsWith('Thigh')) angle = Math.sin(stride + phase) * 0.52 * Math.min(1, speed + 0.15);
-    else if (name.startsWith('Calf')) angle = Math.max(0, -Math.sin(stride + phase)) * 0.6 * Math.min(1, speed + 0.1);
-    else if (name.startsWith('Upperarm')) angle = Math.sin(stride + phase + Math.PI) * 0.42 * Math.min(1, speed + 0.15);
-    else if (name.startsWith('Lowerarm')) angle = 0.2 + Math.sin(stride + phase) * 0.12;
+    let droop = 0;
+    if (name.startsWith('Thigh')) angle = Math.sin(stride + phase) * 0.52 * moving;
+    else if (name.startsWith('Calf')) angle = Math.max(0, -Math.sin(stride + phase)) * 0.6 * moving;
+    else if (name.startsWith('Upperarm')) {
+      angle = Math.sin(stride + phase + Math.PI) * 0.42 * moving;
+      droop = left ? 1.18 : -1.18;
+    } else if (name.startsWith('Lowerarm')) angle = 0.2 + Math.sin(stride + phase) * 0.12;
     else if (name === 'Spine_02') angle = Math.sin(stride * 2) * 0.03;
-    if (!angle) {
+    if (!angle && !droop) {
       entry.bone.quaternion.copy(entry.base);
       continue;
     }
-    swing.setFromAxisAngle(AXIS_X, angle);
-    entry.bone.quaternion.copy(entry.base).multiply(swing);
+    entry.bone.quaternion.copy(entry.base);
+    if (droop) {
+      rest.setFromAxisAngle(AXIS_Z, droop);
+      entry.bone.quaternion.multiply(rest);
+    }
+    if (angle) {
+      swing.setFromAxisAngle(AXIS_X, angle);
+      entry.bone.quaternion.multiply(swing);
+    }
   }
 }
