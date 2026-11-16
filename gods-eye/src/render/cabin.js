@@ -1,5 +1,8 @@
 import * as THREE from 'three';
 import { MapTable } from './mapTable.js';
+import {
+  plankFloor, plasterWall, beamWood, wovenFabric, tableTopWood,
+} from './surfaces.js';
 
 function canvasTexture(w, h, draw, repeat = [1, 1]) {
   const canvas = document.createElement('canvas');
@@ -141,25 +144,69 @@ export class Cabin {
   }
 
   buildRoom() {
-    const floorTex = woodTexture('#3a2a1b', 'rgba(0,0,0,0.35)');
-    floorTex.repeat.set(5, 5);
-    const floor = new THREE.Mesh(
-      new THREE.PlaneGeometry(8.6, 7.4),
-      new THREE.MeshStandardMaterial({ map: floorTex, roughness: 0.92, color: 0xbfae98 }),
-    );
+    // floorboards
+    const floorTex = plankFloor({ boards: 7 });
+    const floorMap = floorTex.map.clone();
+    floorMap.needsUpdate = true;
+    floorMap.repeat.set(7, 6);
+    const floorBump = floorTex.bump.clone();
+    floorBump.needsUpdate = true;
+    floorBump.repeat.set(7, 6);
+    const floorMat = new THREE.MeshStandardMaterial({
+      map: floorMap,
+      bumpMap: floorBump,
+      bumpScale: 0.02,
+      roughness: 0.82,
+      color: 0xcbb394,
+    });
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(8.6, 7.4), floorMat);
     floor.rotation.x = -Math.PI / 2;
+    floor.receiveShadow = true;
     this.root.add(floor);
+    this.floorMat = floorMat;
 
-    const wallTex = plasterTexture();
-    wallTex.repeat.set(3, 1.6);
-    const wallMat = new THREE.MeshStandardMaterial({ map: wallTex, roughness: 0.95, color: 0x8a7b68 });
-    const beamMat = new THREE.MeshStandardMaterial({ color: 0x2a1d12, roughness: 0.85 });
+    // plaster with grit, patches and hairline cracks
+    const plaster = plasterWall();
+    const wallMap = plaster.map.clone();
+    wallMap.needsUpdate = true;
+    wallMap.repeat.set(3.2, 1.7);
+    const wallBump = plaster.bump.clone();
+    wallBump.needsUpdate = true;
+    wallBump.repeat.set(3.2, 1.7);
+    const wallMat = new THREE.MeshStandardMaterial({
+      map: wallMap,
+      bumpMap: wallBump,
+      bumpScale: 0.03,
+      roughness: 0.97,
+      color: 0xa2937c,
+    });
+
+    // oak for beams, frames and furniture
+    const beams = beamWood();
+    const beamMap = beams.map.clone();
+    beamMap.needsUpdate = true;
+    const beamBump = beams.bump.clone();
+    beamBump.needsUpdate = true;
+    const beamMat = new THREE.MeshStandardMaterial({
+      map: beamMap,
+      bumpMap: beamBump,
+      bumpScale: 0.015,
+      color: 0xb59a7c,
+      roughness: 0.86,
+    });
+    const darkBeamMat = new THREE.MeshStandardMaterial({
+      map: beamMap,
+      color: 0x6a5340,
+      roughness: 0.9,
+    });
+
     const H = 3.15;
     const T = 0.16;
 
     const wall = (w, h, d, x, y, z) => {
       const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), wallMat);
       m.position.set(x, y, z);
+      m.receiveShadow = true;
       this.root.add(m);
       return m;
     };
@@ -176,19 +223,73 @@ export class Cabin {
     wall(2.9, H, T, 2.85, H / 2, 3.62);
     wall(1.6, 0.85, T, -0.65, 2.72, 3.62);
 
-    // door
-    const door = new THREE.Mesh(new THREE.BoxGeometry(1.42, 2.3, 0.1), beamMat);
-    door.position.set(-0.65, 1.15, 3.6);
-    door.rotation.y = 0.02;
-    this.root.add(door);
-    const handle = new THREE.Mesh(new THREE.SphereGeometry(0.04, 8, 8), new THREE.MeshStandardMaterial({ color: 0x8a6b2c, metalness: 0.7, roughness: 0.4 }));
-    handle.position.set(-0.12, 1.16, 3.53);
-    this.root.add(handle);
+    // skirting and a panelled dado: the wall meets the floor in carpentry, not a seam
+    const skirt = (w, d, x, z) => {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.12, d), darkBeamMat);
+      m.position.set(x, 0.06, z);
+      this.root.add(m);
+    };
+    skirt(8.44, 0.05, 0, -3.52);
+    skirt(0.05, 7.28, -4.12, 0);
+    skirt(0.05, 7.28, 4.12, 0);
+    skirt(8.44, 0.05, 0, 3.52);
+    const dado = (w, d, x, z) => {
+      const panel = new THREE.Mesh(new THREE.BoxGeometry(w, 0.92, d), beamMat);
+      panel.position.set(x, 0.56, z);
+      panel.receiveShadow = true;
+      this.root.add(panel);
+      const rail = new THREE.Mesh(new THREE.BoxGeometry(w, 0.06, d + 0.02), darkBeamMat);
+      rail.position.set(x, 1.05, z);
+      this.root.add(rail);
+    };
+    dado(8.42, 0.035, 0, -3.56);
+    dado(0.035, 7.24, -4.16, 0);
+    dado(0.035, 7.24, 4.16, 0);
+    dado(8.42, 0.035, 0, 3.56);
+    for (const sx of [-3.2, -1.7, 0.6, 2.2, 3.4]) {
+      const stile = new THREE.Mesh(new THREE.BoxGeometry(0.06, 0.92, 0.05), darkBeamMat);
+      stile.position.set(sx, 0.56, -3.53);
+      this.root.add(stile);
+    }
 
-    // window frame + glass
+    // door: boards, casing, iron hinges and a latch
+    const doorGroup = new THREE.Group();
+    doorGroup.position.set(-0.65, 0, 3.6);
+    this.root.add(doorGroup);
+    for (let i = 0; i < 5; i++) {
+      const board = new THREE.Mesh(new THREE.BoxGeometry(0.27, 2.28, 0.06), beamMat);
+      board.position.set(-0.56 + i * 0.28, 1.15, 0);
+      doorGroup.add(board);
+    }
+    for (const [y, x, w] of [[0.42, 0, 1.42], [1.86, 0, 1.42]]) {
+      const batten = new THREE.Mesh(new THREE.BoxGeometry(w, 0.12, 0.05), darkBeamMat);
+      batten.position.set(x, y, 0.05);
+      doorGroup.add(batten);
+    }
+    for (const y of [0.55, 1.5]) {
+      const hinge = new THREE.Mesh(new THREE.BoxGeometry(0.3, 0.06, 0.02), new THREE.MeshStandardMaterial({ color: 0x3b3a38, metalness: 0.8, roughness: 0.45 }));
+      hinge.position.set(-0.62, y, 0.05);
+      doorGroup.add(hinge);
+    }
+    const latch = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.05, 0.03), new THREE.MeshStandardMaterial({ color: 0x2f2c28, metalness: 0.75, roughness: 0.4 }));
+    latch.position.set(0.5, 1.1, 0.06);
+    doorGroup.add(latch);
+    const handle = new THREE.Mesh(new THREE.SphereGeometry(0.035, 8, 8), new THREE.MeshStandardMaterial({ color: 0x8a6b2c, metalness: 0.7, roughness: 0.4 }));
+    handle.position.set(0.56, 1.1, 0.1);
+    doorGroup.add(handle);
+    for (const [w, h, x, y] of [[1.62, 0.09, 0, 2.36], [0.09, 2.36, -0.76, 1.18], [0.09, 2.36, 0.76, 1.18]]) {
+      const casing = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.09), darkBeamMat);
+      casing.position.set(-0.65 + x, y, 3.56);
+      this.root.add(casing);
+    }
+    const threshold = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.05, 0.16), darkBeamMat);
+    threshold.position.set(-0.65, 0.025, 3.58);
+    this.root.add(threshold);
+
+    // window: glass, frame, sill and shutters
     const glass = new THREE.Mesh(
       new THREE.PlaneGeometry(1.5, 1.25),
-      new THREE.MeshBasicMaterial({ map: windowTexture(), transparent: false }),
+      new THREE.MeshBasicMaterial({ map: windowTexture() }),
     );
     glass.rotation.y = -Math.PI / 2;
     glass.position.set(4.12, 1.72, 0);
@@ -199,13 +300,44 @@ export class Cabin {
       [0.08, 0.08, 1.64, 4.1, 2.42, 0],
       [0.08, 0.08, 1.64, 4.1, 1.02, 0],
       [0.06, 1.3, 0.05, 4.1, 1.72, 0],
+      [0.06, 0.05, 1.3, 4.1, 1.72, 0],
     ]) {
-      const bar = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), beamMat);
+      const bar = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), darkBeamMat);
       bar.position.set(x, y, z);
       this.root.add(bar);
     }
+    const sill = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.07, 1.78), beamMat);
+    sill.position.set(4.02, 0.98, 0);
+    this.root.add(sill);
+    for (const sz of [-1.02, 1.02]) {
+      const shutter = new THREE.Mesh(new THREE.BoxGeometry(0.05, 1.34, 0.28), beamMat);
+      shutter.position.set(4.06, 1.74, sz);
+      shutter.rotation.x = sz > 0 ? -0.14 : 0.14;
+      this.root.add(shutter);
+    }
 
-    // ceiling beams
+    // ...and a little herb pot on the sill
+    const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.05, 0.1, 8), new THREE.MeshStandardMaterial({ color: 0x8d5a3c, roughness: 0.95 }));
+    pot.position.set(4.0, 1.06, -0.5);
+    this.root.add(pot);
+    for (let i = 0; i < 5; i++) {
+      const sprig = new THREE.Mesh(new THREE.ConeGeometry(0.012, 0.16, 4), new THREE.MeshStandardMaterial({ color: 0x3f6b3a, roughness: 1 }));
+      sprig.position.set(3.98 + (Math.random() - 0.5) * 0.05, 1.19, -0.55 + i * 0.024);
+      sprig.rotation.z = (Math.random() - 0.5) * 0.5;
+      this.root.add(sprig);
+    }
+
+    // ceiling boards between the rafters
+    const ceilMap = floorTex.map.clone();
+    ceilMap.needsUpdate = true;
+    ceilMap.repeat.set(4, 5);
+    const ceil = new THREE.Mesh(
+      new THREE.PlaneGeometry(8.6, 7.4),
+      new THREE.MeshStandardMaterial({ map: ceilMap, roughness: 0.95, color: 0x8d7a60 }),
+    );
+    ceil.rotation.x = Math.PI / 2;
+    ceil.position.y = 3.13;
+    this.root.add(ceil);
     for (let i = -1; i <= 1; i++) {
       const beam = new THREE.Mesh(new THREE.BoxGeometry(8.6, 0.16, 0.2), beamMat);
       beam.position.set(0, 3.02, i * 2.0);
@@ -215,43 +347,133 @@ export class Cabin {
     ridge.position.set(0, 3.06, 0);
     this.root.add(ridge);
 
-    // rug
+    // rug: woven wool, worn at the edge
+    const wool = wovenFabric('#3f1a18', '#6b3a24', 40);
+    const rugMap = wool.map.clone();
+    rugMap.needsUpdate = true;
+    rugMap.repeat.set(4, 4);
     const rug = new THREE.Mesh(
-      new THREE.CircleGeometry(1.9, 32),
-      new THREE.MeshStandardMaterial({ color: 0x4a1f1c, roughness: 1 }),
+      new THREE.CircleGeometry(1.9, 40),
+      new THREE.MeshStandardMaterial({ map: rugMap, roughness: 1, color: 0xc9b49a }),
     );
     rug.rotation.x = -Math.PI / 2;
     rug.position.set(0.4, 0.005, -0.2);
+    rug.receiveShadow = true;
     this.root.add(rug);
-    const rugInner = new THREE.Mesh(new THREE.RingGeometry(1.25, 1.55, 32), new THREE.MeshStandardMaterial({ color: 0x6b3a24, roughness: 1 }));
+    const rugInner = new THREE.Mesh(
+      new THREE.RingGeometry(1.25, 1.55, 40),
+      new THREE.MeshStandardMaterial({ color: 0x7d4a2c, roughness: 1 }),
+    );
     rugInner.rotation.x = -Math.PI / 2;
     rugInner.position.set(0.4, 0.007, -0.2);
     this.root.add(rugInner);
 
+    // a shelf of books, a jar and a candle stub on the back wall
+    const shelf = new THREE.Group();
+    shelf.position.set(1.05, 1.7, -3.48);
+    this.root.add(shelf);
+    const board = new THREE.Mesh(new THREE.BoxGeometry(1.4, 0.05, 0.26), beamMat);
+    shelf.add(board);
+    for (const [w, h, x, dy, colour] of [
+      [0.07, 0.26, -0.55, 0.15, 0x5b2f28], [0.05, 0.24, -0.46, 0.14, 0x2f4150],
+      [0.08, 0.22, -0.36, 0.13, 0x4a3d24], [0.06, 0.25, 0.18, 0.15, 0x35472f],
+    ]) {
+      const book = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.19), new THREE.MeshStandardMaterial({ color: colour, roughness: 0.95 }));
+      book.position.set(x, dy, 0);
+      shelf.add(book);
+    }
+    const jar = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.06, 0.055, 0.14, 10),
+      new THREE.MeshStandardMaterial({ color: 0x8b9a7a, roughness: 0.4, metalness: 0.05, transparent: true, opacity: 0.85 }),
+    );
+    jar.position.set(0.42, 0.1, 0);
+    shelf.add(jar);
+    const stub = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.028, 0.032, 0.09, 8),
+      new THREE.MeshStandardMaterial({ color: 0xd8cba9, roughness: 0.9 }),
+    );
+    stub.position.set(-0.1, 0.07, 0.02);
+    shelf.add(stub);
+
+    // coat pegs by the door
+    for (const [px, py] of [[-2.05, 1.68], [-1.72, 1.66], [-2.3, 1.5]]) {
+      const peg = new THREE.Mesh(new THREE.CylinderGeometry(0.016, 0.02, 0.1, 6), darkBeamMat);
+      peg.rotation.x = Math.PI / 2;
+      peg.position.set(px, py, 3.52);
+      this.root.add(peg);
+    }
+    const cloak = new THREE.Mesh(
+      new THREE.BoxGeometry(0.34, 0.8, 0.06),
+      new THREE.MeshStandardMaterial({ color: 0x3b3a30, roughness: 1 }),
+    );
+    cloak.position.set(-2.05, 1.28, 3.5);
+    cloak.rotation.z = 0.05;
+    this.root.add(cloak);
+
+    // a chest at the foot of the bed
+    const chest = new THREE.Group();
+    chest.position.set(-2.2, 0, -2.6);
+    chest.rotation.y = 0.5;
+    this.root.add(chest);
+    const body = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.44, 0.56), beamMat);
+    body.position.y = 0.22;
+    chest.add(body);
+    const lid = new THREE.Mesh(new THREE.BoxGeometry(0.94, 0.1, 0.6), darkBeamMat);
+    lid.position.y = 0.48;
+    chest.add(lid);
+    for (const bx of [-0.28, 0.28]) {
+      const band = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.46, 0.58), new THREE.MeshStandardMaterial({ color: 0x33312d, metalness: 0.7, roughness: 0.5 }));
+      band.position.set(bx, 0.23, 0);
+      chest.add(band);
+    }
+
     this.wallMat = wallMat;
     this.beamMat = beamMat;
+    this.darkBeamMat = darkBeamMat;
   }
 
   buildTable() {
-    const wood = woodTexture('#5a3f24', 'rgba(0,0,0,0.4)');
-    wood.repeat.set(2, 1.4);
-    const mat = new THREE.MeshStandardMaterial({ map: wood, roughness: 0.72, color: 0xa9906d });
+    const top = tableTopWood();
+    const topMap = top.map.clone();
+    topMap.needsUpdate = true;
+    topMap.repeat.set(2, 1.4);
+    const topBump = top.bump.clone();
+    topBump.needsUpdate = true;
+    topBump.repeat.set(2, 1.4);
+    const mat = new THREE.MeshStandardMaterial({
+      map: topMap,
+      bumpMap: topBump,
+      bumpScale: 0.012,
+      roughness: 0.68,
+      color: 0xd3b48e,
+    });
     const group = new THREE.Group();
     group.position.copy(this.tablePos);
     this.root.add(group);
 
-    const top = new THREE.Mesh(new THREE.BoxGeometry(2.9, 0.1, 1.95), mat);
-    top.position.y = this.tableTop - 0.05;
-    group.add(top);
+    const surface = new THREE.Mesh(new THREE.BoxGeometry(2.9, 0.1, 1.95), mat);
+    surface.position.y = this.tableTop - 0.05;
+    surface.receiveShadow = true;
+    group.add(surface);
+    // a lipped edge, so the top is a piece of joinery rather than a slab
+    const rim = new THREE.Mesh(new THREE.BoxGeometry(2.98, 0.045, 2.03), this.darkBeamMat || this.beamMat);
+    rim.position.y = this.tableTop - 0.088;
+    group.add(rim);
 
     const apron = new THREE.Mesh(new THREE.BoxGeometry(2.72, 0.14, 1.78), this.beamMat);
     apron.position.y = this.tableTop - 0.17;
     group.add(apron);
+    for (const [w, d, x, z] of [[2.6, 0.09, 0, 0.86], [2.6, 0.09, 0, -0.86], [0.09, 1.62, 1.3, 0], [0.09, 1.62, -1.3, 0]]) {
+      const rail = new THREE.Mesh(new THREE.BoxGeometry(w, 0.09, d), this.darkBeamMat || this.beamMat);
+      rail.position.set(x, this.tableTop - 0.29, z);
+      group.add(rail);
+    }
 
     for (const sx of [-1, 1]) {
       for (const sz of [-1, 1]) {
-        const leg = new THREE.Mesh(new THREE.BoxGeometry(0.13, this.tableTop - 0.1, 0.13), this.beamMat);
+        const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.075, this.tableTop - 0.1, 8), this.beamMat);
         leg.position.set(sx * 1.32, (this.tableTop - 0.1) / 2, sz * 0.82);
+        leg.rotation.z = sx * 0.012;
         group.add(leg);
       }
     }
@@ -267,10 +489,66 @@ export class Cabin {
       maxZ: this.tablePos.z + 0.97,
     });
 
+    // the odds and ends a man keeps beside his world: a candle, an inkwell, a
+    // rolled chart and a cup
+    const props = new THREE.Group();
+    props.position.set(0, this.tableTop, 0);
+    group.add(props);
+    const candle = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.022, 0.028, 0.13, 9),
+      new THREE.MeshStandardMaterial({ color: 0xe2d6b8, roughness: 0.9 }),
+    );
+    candle.position.set(-1.16, 0.065, -0.62);
+    props.add(candle);
+    const dish = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.07, 0.075, 0.012, 12),
+      new THREE.MeshStandardMaterial({ color: 0x6c6257, metalness: 0.5, roughness: 0.55 }),
+    );
+    dish.position.set(-1.16, 0.006, -0.62);
+    props.add(dish);
+    const flame = new THREE.Mesh(
+      new THREE.ConeGeometry(0.012, 0.045, 6),
+      new THREE.MeshBasicMaterial({ color: 0xffcf82 }),
+    );
+    flame.position.set(-1.16, 0.155, -0.62);
+    props.add(flame);
+    this.tableFlame = flame;
+    this.tableCandle = new THREE.PointLight(0xffb765, 1.1, 1.6, 2);
+    this.tableCandle.position.set(-1.16, 0.2, -0.62);
+    props.add(this.tableCandle);
+
+    const ink = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.03, 0.038, 0.045, 10),
+      new THREE.MeshStandardMaterial({ color: 0x1b1a1c, roughness: 0.5, metalness: 0.2 }),
+    );
+    ink.position.set(1.12, 0.022, -0.6);
+    props.add(ink);
+    const quill = new THREE.Mesh(
+      new THREE.ConeGeometry(0.006, 0.2, 4),
+      new THREE.MeshStandardMaterial({ color: 0xe8e0cc, roughness: 0.95 }),
+    );
+    quill.position.set(1.16, 0.11, -0.55);
+    quill.rotation.z = 0.4;
+    props.add(quill);
+    const scroll = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.022, 0.022, 0.42, 10),
+      new THREE.MeshStandardMaterial({ color: 0xd9c8a2, roughness: 1 }),
+    );
+    scroll.position.set(1.24, 0.022, 0.34);
+    scroll.rotation.z = Math.PI / 2;
+    scroll.rotation.y = 0.3;
+    props.add(scroll);
+    const cup = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.038, 0.032, 0.085, 12),
+      new THREE.MeshStandardMaterial({ color: 0x7d6a52, roughness: 0.6 }),
+    );
+    cup.position.set(-1.22, 0.042, 0.42);
+    props.add(cup);
+
     // stool
     const stool = new THREE.Group();
     stool.position.set(this.tablePos.x + 1.9, 0, this.tablePos.z + 0.4);
-    const seat = new THREE.Mesh(new THREE.CylinderGeometry(0.27, 0.27, 0.08, 14), mat);
+    const seat = new THREE.Mesh(new THREE.CylinderGeometry(0.27, 0.27, 0.08, 16), mat);
     seat.position.y = 0.58;
     stool.add(seat);
     for (let i = 0; i < 3; i++) {
@@ -281,6 +559,10 @@ export class Cabin {
       leg.rotation.x = -Math.sin(a) * 0.08;
       stool.add(leg);
     }
+    const brace = new THREE.Mesh(new THREE.TorusGeometry(0.16, 0.016, 6, 14), this.darkBeamMat || this.beamMat);
+    brace.rotation.x = Math.PI / 2;
+    brace.position.y = 0.22;
+    stool.add(brace);
     this.root.add(stool);
     this.blockers.push({ minX: this.tablePos.x + 1.6, maxX: this.tablePos.x + 2.2, minZ: this.tablePos.z + 0.1, maxZ: this.tablePos.z + 0.7 });
   }
@@ -372,28 +654,60 @@ export class Cabin {
 
     const frame = new THREE.Mesh(new THREE.BoxGeometry(1.7, 0.32, 2.5), frameMat);
     frame.position.y = 0.26;
+    frame.receiveShadow = true;
     group.add(frame);
+
+    // posts and rails
+    for (const [px, pz] of [[-0.82, -1.2], [0.82, -1.2], [-0.82, 1.2], [0.82, 1.2]]) {
+      const post = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.065, 0.5, 8), this.darkBeamMat || frameMat);
+      post.position.set(px, 0.25, pz);
+      group.add(post);
+    }
+
     const mattress = new THREE.Mesh(
       new THREE.BoxGeometry(1.56, 0.28, 2.32),
-      new THREE.MeshStandardMaterial({ color: 0xa89b82, roughness: 1 }),
+      new THREE.MeshStandardMaterial({ color: 0xb2a48a, roughness: 1 }),
     );
     mattress.position.y = 0.54;
     group.add(mattress);
+
+    const wool = wovenFabric('#5c2f28', '#8a4a34', 34);
+    const blanketMap = wool.map.clone();
+    blanketMap.needsUpdate = true;
+    blanketMap.repeat.set(3, 4);
     const blanket = new THREE.Mesh(
       new THREE.BoxGeometry(1.6, 0.12, 1.5),
-      new THREE.MeshStandardMaterial({ color: 0x5c2f28, roughness: 1 }),
+      new THREE.MeshStandardMaterial({ map: blanketMap, roughness: 1, color: 0xcfae90 }),
     );
     blanket.position.set(0, 0.69, 0.4);
     group.add(blanket);
+
+    // the turned-down edge of the blanket
+    const fold = new THREE.Mesh(
+      new THREE.BoxGeometry(1.6, 0.09, 0.34),
+      new THREE.MeshStandardMaterial({ map: blanketMap, roughness: 1, color: 0xe0c3a4 }),
+    );
+    fold.position.set(0, 0.75, -0.22);
+    group.add(fold);
+
+    const pillowMap = wovenFabric('#b8ab90', '#d3c6ab', 22).map.clone();
+    pillowMap.needsUpdate = true;
+    pillowMap.repeat.set(2, 1);
     const pillow = new THREE.Mesh(
       new THREE.BoxGeometry(0.9, 0.16, 0.42),
-      new THREE.MeshStandardMaterial({ color: 0xc7bba2, roughness: 1 }),
+      new THREE.MeshStandardMaterial({ map: pillowMap, roughness: 1, color: 0xdfd3ba }),
     );
     pillow.position.set(0, 0.7, -0.86);
+    pillow.rotation.x = 0.04;
     group.add(pillow);
+
     const head = new THREE.Mesh(new THREE.BoxGeometry(1.7, 1.1, 0.12), frameMat);
     head.position.set(0, 0.78, -1.24);
+    head.receiveShadow = true;
     group.add(head);
+    const rail = new THREE.Mesh(new THREE.BoxGeometry(1.78, 0.09, 0.16), this.darkBeamMat || frameMat);
+    rail.position.set(0, 1.32, -1.24);
+    group.add(rail);
 
     this.blockers.push({ minX: -4.1, maxX: -2.2, minZ: -3.45, maxZ: -0.75 });
   }
@@ -488,6 +802,12 @@ export class Cabin {
     if (this.lantern) {
       const flicker = 7.6 + Math.sin(elapsed * 7.3) * 0.5 + Math.sin(elapsed * 17.1) * 0.32 + Math.random() * 0.35;
       this.lantern.intensity = flicker;
+    }
+    if (this.tableFlame) {
+      const f = 0.85 + Math.sin(elapsed * 9.1) * 0.1 + Math.random() * 0.07;
+      this.tableFlame.scale.set(1, f, 1);
+      this.tableFlame.position.y = 0.148 + f * 0.01;
+      if (this.tableCandle) this.tableCandle.intensity = 0.75 + f * 0.4;
     }
     if (this.dust) {
       const pos = this.dust.geometry.attributes.position;

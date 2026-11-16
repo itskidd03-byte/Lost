@@ -10,6 +10,7 @@ import {
   loadPeopleModels, onPeopleReady, peopleReady, personModel, walkPerson,
 } from './people.js';
 import { loadCreatureModels, creaturesReady, creatureModel, onCreaturesReady } from './creatures.js';
+import { groundCover } from './surfaces.js';
 
 const TS = 4;
 const RADIUS = 6;
@@ -224,8 +225,10 @@ export class Region {
     const rowsV = rows + 1;
     const positions = [];
     const colors = [];
+    const uvs = [];
     const indices = [];
     const color = new THREE.Color();
+    const sand = new THREE.Color('#c2ab7d');
 
     for (let j = 0; j < rowsV; j++) {
       for (let i = 0; i < colsV; i++) {
@@ -237,9 +240,13 @@ export class Region {
         let g = 0;
         let b = 0;
         let n = 0;
+        let wet = false;
+        let landHere = false;
         for (const [dx, dy] of [[-1, -1], [0, -1], [-1, 0], [0, 0]]) {
           const info = this.tiles.get(key(ctx + dx, cty + dy));
           if (!info) continue;
+          if (info.land) landHere = true;
+          else wet = true;
           const def = BIOMES[info.tile.biome] || BIOMES.blackgrass;
           color.set(def.world);
           r += color.r;
@@ -247,10 +254,20 @@ export class Region {
           b += color.b;
           n += 1;
         }
-        positions.push(x, this.cornerH(ctx, cty), z);
+        // slopes catch the sun: this is what makes a hill read as a hill up close
+        const slope = this.cornerH(ctx - 1, cty - 1) - this.cornerH(ctx + 1, cty + 1);
+        const shade = Math.max(0.8, Math.min(1.18, 1 + slope * 0.35));
+        // a little unevenness so the ground is trodden earth, not a table
+        const bumps = (hash(ctx * 7 + 1, cty * 13 + 3) - 0.5) * 0.07;
+        positions.push(x, this.cornerH(ctx, cty) + bumps, z);
+        // the texture repeats every two tiles, in world units, so it keeps its
+        // scale whether the patch is nine tiles across or fifteen
+        uvs.push(x / (TS * 2), z / (TS * 2));
         if (n) {
           color.setRGB(r / n, g / n, b / n);
-          colors.push(color.r, color.g, color.b);
+          // where water meets land the ground dries into a band of sand
+          if (wet && landHere) color.lerp(sand, 0.45);
+          colors.push(color.r * shade, color.g * shade, color.b * shade);
         } else {
           colors.push(0.04, 0.16, 0.26);
         }
@@ -270,11 +287,16 @@ export class Region {
     const geo = new THREE.BufferGeometry();
     geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+    geo.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
     geo.setIndex(indices);
     geo.computeVertexNormals();
+    const cover = groundCover();
     const material = new THREE.MeshStandardMaterial({
       vertexColors: true,
-      roughness: 0.95,
+      map: cover.map,
+      bumpMap: cover.bump,
+      bumpScale: 0.25,
+      roughness: 0.96,
       metalness: 0.02,
       side: THREE.DoubleSide,
     });
@@ -297,6 +319,14 @@ export class Region {
     const hutMat = new THREE.MeshStandardMaterial({ color: 0x9a7f5c, roughness: 0.92 });
     const roofMat = new THREE.MeshStandardMaterial({ color: 0x53331f, roughness: 0.95 });
 
+    const bloomMats = [
+      new THREE.MeshStandardMaterial({ color: '#e0c96a', roughness: 0.85 }),
+      new THREE.MeshStandardMaterial({ color: '#d8d2c0', roughness: 0.85 }),
+      new THREE.MeshStandardMaterial({ color: '#b06ba0', roughness: 0.85 }),
+    ];
+    const bloomGeo = new THREE.SphereGeometry(0.032, 5, 4);
+    const stemGeo = new THREE.CylinderGeometry(0.006, 0.008, 0.11, 4);
+    const reedMat = new THREE.MeshStandardMaterial({ color: 0x4d6b3a, roughness: 1 });
     const trunkGeo = new THREE.CylinderGeometry(0.09, 0.14, 1.1, 6);
     const leafGeo = new THREE.ConeGeometry(0.9, 2.6, 7);
     const rockGeo = new THREE.IcosahedronGeometry(0.8, 0);
@@ -357,6 +387,55 @@ export class Region {
           // over the ground around it, not rebuilt on every tile it covers.
           if (settlement.x === tile.x && settlement.y === tile.y) {
             this.buildSettlement(info, settlement, hutMat, roofMat, hutGeo, roofGeo, r);
+          }
+        }
+      }
+
+      // ground clutter: pebbles, flowers, ferns and reeds, so a field is a field
+      // when you are standing in it and not only from the table
+      if (land && !tile.settlementId) {
+        const pebbles = 3;
+        for (let i = 0; i < pebbles; i++) {
+          const hx = hash(tile.x * 41 + i, tile.y * 7 - i);
+          if (hx > 0.62) continue;
+          const sz = 0.1 + hx * 0.22;
+          const stone = new THREE.Mesh(rockGeo, rockMat);
+          stone.scale.set(sz, sz * 0.55, sz * 0.9);
+          stone.position.set(
+            x + (hash(tile.y * 3 + i, tile.x) - 0.5) * (TS - 0.6),
+            top + sz * 0.22,
+            z + (hash(tile.x * 5 - i, tile.y * 9) - 0.5) * (TS - 0.6),
+          );
+          stone.rotation.y = hx * 6.2;
+          this.scene.add(stone);
+        }
+        if (tile.detail > 0.32) {
+          const flowers = 3 + Math.round(tile.detail * 5);
+          for (let i = 0; i < flowers; i++) {
+            const hx = hash(tile.x * 23 + i * 7, tile.y * 31 - i);
+            const bx = x + (hash(tile.y * 11 + i, tile.x * 3) - 0.5) * (TS - 0.8);
+            const bz = z + (hash(tile.x * 17 - i, tile.y * 5) - 0.5) * (TS - 0.8);
+            const stem = new THREE.Mesh(stemGeo, reedMat);
+            stem.position.set(bx, top + 0.055, bz);
+            this.scene.add(stem);
+            const bloom = new THREE.Mesh(bloomGeo, bloomMats[hx > 0.66 ? 0 : hx > 0.33 ? 1 : 2]);
+            bloom.scale.setScalar(0.7 + hx * 0.5);
+            bloom.position.set(bx, top + 0.11, bz);
+            this.scene.add(bloom);
+          }
+        }
+        if ((tile.biome === 'swamp') && hash(tile.x, tile.y) > 0.4) {
+          for (let i = 0; i < 4; i++) {
+            const reed = new THREE.Mesh(
+              new THREE.ConeGeometry(0.03, 0.9 + hash(i, tile.x) * 0.5, 4),
+              reedMat,
+            );
+            reed.position.set(
+              x + (hash(tile.x + i, tile.y) - 0.5) * 3.2,
+              top + 0.45,
+              z + (hash(tile.y + i, tile.x) - 0.5) * 3.2,
+            );
+            this.scene.add(reed);
           }
         }
       }

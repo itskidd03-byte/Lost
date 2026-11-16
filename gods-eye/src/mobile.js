@@ -106,7 +106,9 @@ export class TouchControls {
     if (!this.enabled) return;
     const table = mode === 'table';
     if (this.els.table) this.els.table.hidden = !table;
-    if (this.els.stick) this.els.stick.style.display = table ? 'none' : '';
+    // the stick roams the board too: push forward to walk the aim across the map,
+    // push sideways to turn
+    if (this.els.stick) this.els.stick.style.display = '';
     if (this.els.interact) {
       this.els.interact.textContent = table ? 'Walk' : mode === 'world' ? 'Talk' : 'Look';
       this.els.interact.style.display = table ? 'none' : '';

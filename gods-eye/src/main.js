@@ -79,6 +79,11 @@ class Game {
 
     this.raycaster = new THREE.Raycaster();
     this.pointer = new THREE.Vector2();
+    // Keys held while roaming the table, and the little bit of drift the camera
+    // keeps after the stick is let go.
+    this.tableKeys = new Set();
+    this.tableDrift = new THREE.Vector2();
+    document.addEventListener('keyup', (e) => this.tableKeys.delete(keyCode(e)));
 
     this.bindEvents();
     this.registerServiceWorker();
@@ -388,6 +393,11 @@ class Game {
     if (!this.state) return;
     if (e.target && ['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
     const key = keyCode(e);
+    if (this.mode === 'table' && ['KeyW', 'KeyA', 'KeyS', 'KeyD', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'KeyQ', 'KeyE'].includes(key)) {
+      if (key.startsWith('Arrow')) e.preventDefault();
+      this.tableKeys.add(key);
+      return;
+    }
     if (key === 'Escape') {
       if (this.ui.dialogueNpc) return this.closeDialogue();
       if (!this.ui.els.whatsnew.hidden) return this.ui.closeWhatsNew();
@@ -509,7 +519,7 @@ class Game {
     this.orbit.enabled = true;
     this.orbit.update();
     this.buildTable(true);
-    this.ui.setPrompt('Drag to rotate · wheel or pinch to zoom · tap a tile · Enter walks it · Esc steps back');
+    this.ui.setPrompt('Stick roams and turns · pinch to zoom · tap a tile · Enter walks it · Esc steps back');
     this.overlay = 'table';
     if (this.state.selected) {
       const tile = tileAt(this.state.world, this.state.selected.x, this.state.selected.y);
@@ -517,8 +527,56 @@ class Game {
     }
   }
 
+  // Free roam over the board: the stick (or WASD) walks the camera's aim across
+  // the map and its sideways push turns the view, so you can cross the whole
+  // world without pinching and dragging.
+  moveTable(dt) {
+    if (!this.state || !this.orbit.enabled) return;
+    const keys = this.tableKeys;
+    const touch = this.fp.touch || { x: 0, y: 0 };
+    let forward = (keys.has('KeyW') || keys.has('ArrowUp') ? 1 : 0) - (keys.has('KeyS') || keys.has('ArrowDown') ? 1 : 0);
+    let strafe = (keys.has('KeyD') || keys.has('ArrowRight') ? 1 : 0) - (keys.has('KeyA') || keys.has('ArrowLeft') ? 1 : 0);
+    let turn = (keys.has('KeyQ') ? 1 : 0) - (keys.has('KeyE') ? 1 : 0);
+    forward += -touch.y;
+    // sideways push turns rather than strafes: a stick walk, not a crab walk
+    turn += -touch.x * 1.4;
+    if (turn) this.orbit.theta += turn * dt * 1.15;
+
+    const mag = Math.hypot(forward, strafe);
+    if (mag > 1) {
+      forward /= mag;
+      strafe /= mag;
+    }
+    const move = Math.min(1, Math.hypot(forward, strafe));
+    // the camera keeps moving for a moment after you let go
+    const speed = this.orbit.radius * 1.35;
+    const sin = Math.sin(this.orbit.theta);
+    const cos = Math.cos(this.orbit.theta);
+    const fwdX = -sin;
+    const fwdZ = -cos;
+    const rightX = cos;
+    const rightZ = -sin;
+    const wantX = (fwdX * forward + rightX * strafe) * speed;
+    const wantZ = (fwdZ * forward + rightZ * strafe) * speed;
+    const ease = Math.min(1, dt * (move > 0.01 ? 9 : 6));
+    this.tableDrift.x += (wantX - this.tableDrift.x) * ease;
+    this.tableDrift.y += (wantZ - this.tableDrift.y) * ease;
+    if (move < 0.01 && this.tableDrift.length() < 0.002) {
+      this.tableDrift.set(0, 0);
+      return;
+    }
+    this.orbit.target.x += this.tableDrift.x * dt;
+    this.orbit.target.z += this.tableDrift.y * dt;
+    // the board has edges; the aim stays on it
+    const t = this.cabin.tablePos;
+    this.orbit.target.x = Math.max(t.x - 1.5, Math.min(t.x + 1.5, this.orbit.target.x));
+    this.orbit.target.z = Math.max(t.z - 1.05, Math.min(t.z + 1.05, this.orbit.target.z));
+  }
+
   exitTable() {
     this.orbit.enabled = false;
+    this.tableKeys.clear();
+    this.tableDrift.set(0, 0);
     this.ui.els.selection.hidden = true;
     this.enterCabin(false);
   }
@@ -964,7 +1022,7 @@ class Game {
       return;
     }
     if (this.mode === 'table') {
-      this.ui.setPrompt('Drag to rotate · wheel to zoom · click a tile · Enter walks it · Esc steps back');
+      this.ui.setPrompt('WASD roams · Q/E or drag turns · wheel zooms · click a tile · Enter walks it');
       return;
     }
     if (this.mode === 'world') {
@@ -996,6 +1054,7 @@ class Game {
     this.tick(dt);
 
     if (this.mode === 'table') {
+      this.moveTable(dt);
       this.orbit.update();
       this.cabin.update(dt, this.elapsed);
       this.scene = this.cabin.scene;
