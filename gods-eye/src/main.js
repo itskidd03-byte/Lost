@@ -652,6 +652,18 @@ class Game {
     this.ui.els.selection.hidden = true;
   }
 
+  // Walk straight to a camp picked from the top bar's roll.
+  travelToTile(x, y) {
+    if (!this.state) return;
+    const tile = tileAt(this.state.world, x, y);
+    if (!tile) {
+      this.ui.toast({ category: 'johan', day: this.state.world.day, title: 'That ground is not on the map.' });
+      return;
+    }
+    this.state.selected = { x, y };
+    this.transition(() => this.buildRegion(tile));
+  }
+
   descend() {
     if (!this.state || !this.state.selected) {
       this.ui.toast({ category: 'johan', day: this.state?.world.day || 0, title: 'Select a land tile on the table first.' });
@@ -1062,6 +1074,7 @@ class Game {
     if (this.uiTimer > 0.4) {
       this.uiTimer = 0;
       this.ui.update(state);
+      this.ui.updateKingdoms();
     }
     this.saveTimer += dt;
     if (this.saveTimer > 20) {

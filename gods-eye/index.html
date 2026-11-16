@@ -48,12 +48,19 @@
             <input id="vol-slider" type="range" min="0" max="10" step="1" value="6" aria-label="Volume" />
             <span class="vol-num" id="vol-num">6</span>
           </div>
+          <button class="hud-btn" id="btn-kingdoms" title="Camps and kingdoms">Camps · <b id="stat-camps">0</b></button>
           <button class="hud-btn" id="btn-laptop" title="Laptop (L)">Laptop</button>
           <button class="hud-btn" id="btn-decor" title="Decorate the room (B)">Decorate</button>
           <button class="hud-btn" id="btn-journal" title="Journal (J)">Journal</button>
           <button class="hud-btn" id="btn-divine" title="God's Eye (G)">God's Eye</button>
           <button class="hud-btn ghost" id="btn-help" title="Controls (H)">?</button>
         </div>
+      </div>
+
+      <div id="kingdom-menu" hidden>
+        <div class="km-head">Camps and kingdoms</div>
+        <div id="kingdom-list"></div>
+        <div class="km-foot">Pick one to walk its ground.</div>
       </div>
 
       <div id="civ-panel" hidden>

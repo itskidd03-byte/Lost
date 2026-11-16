@@ -70,6 +70,10 @@ export class UI {
       statTiles: $('#stat-tiles'),
       statNations: $('#stat-nations'),
       statWars: $('#stat-wars'),
+      statCamps: $('#stat-camps'),
+      kingdomBtn: $('#btn-kingdoms'),
+      kingdomMenu: $('#kingdom-menu'),
+      kingdomList: $('#kingdom-list'),
       prompt: $('#prompt'),
       promptText: $('#prompt-text'),
       selection: $('#selection'),
@@ -135,6 +139,21 @@ export class UI {
     $('#btn-continue')?.addEventListener('click', () => this.game.continueGame());
     $('#btn-install')?.addEventListener('click', () => this.game.install());
     $('#btn-touch')?.addEventListener('click', () => this.game.toggleTouch());
+    this.els.kingdomBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.toggleKingdoms();
+    });
+    this.els.kingdomList?.addEventListener('click', (e) => {
+      const row = e.target.closest('.km-row');
+      if (!row) return;
+      this.closeKingdoms();
+      this.game.travelToTile(Number(row.dataset.x), Number(row.dataset.y));
+    });
+    document.addEventListener('click', (e) => {
+      if (!this.els.kingdomMenu || this.els.kingdomMenu.hidden) return;
+      if (this.els.kingdomMenu.contains(e.target) || this.els.kingdomBtn?.contains(e.target)) return;
+      this.closeKingdoms();
+    });
     $('#btn-journal')?.addEventListener('click', () => this.game.toggleJournal());
     $('#btn-laptop')?.addEventListener('click', () => this.game.toggleLaptop());
     this.els.laptopForm?.addEventListener('submit', (e) => {
@@ -343,6 +362,45 @@ export class UI {
   updateTouchButton(on) {
     const btn = $('#btn-touch');
     if (btn) btn.textContent = `Touch controls: ${on ? 'on' : 'off'}`;
+  }
+
+  /* ----------------------------- camps and kingdoms ----------------------- */
+
+  toggleKingdoms() {
+    const menu = this.els.kingdomMenu;
+    if (!menu) return;
+    menu.hidden = !menu.hidden;
+    this.kingdomKey = '';
+    if (!menu.hidden) this.updateKingdoms();
+  }
+
+  closeKingdoms() {
+    if (this.els.kingdomMenu) this.els.kingdomMenu.hidden = true;
+  }
+
+  // The top bar keeps a roll of every camp in the world, biggest first, and each
+  // name walks Johan down onto that ground.
+  updateKingdoms() {
+    const society = this.game.society;
+    const camps = society?.data?.camps || [];
+    if (this.els.statCamps) this.els.statCamps.textContent = String(camps.length);
+    const menu = this.els.kingdomMenu;
+    if (!menu || menu.hidden) return;
+    const roll = [...camps].sort((a, b) => society.headcount(b) - society.headcount(a));
+    const key = roll.map((c) => `${c.id}:${Math.round(society.headcount(c))}:${(c.territory || []).length}:${c.government.id}`).join('|');
+    if (key === this.kingdomKey) return;
+    this.kingdomKey = key;
+    this.els.kingdomList.innerHTML = roll.map((camp) => {
+      const people = Math.round(society.headcount(camp));
+      const tiles = (camp.territory || []).length;
+      const kind = society.governmentRank(camp) >= 3
+        ? `Kingdom${camp.government.leader ? ` of ${camp.government.leader}` : ''}`
+        : camp.government.name;
+      return `<button class="km-row" data-x="${camp.x}" data-y="${camp.y}">
+        <span class="km-name">${escapeHtml(camp.name)}</span>
+        <span class="km-meta">${escapeHtml(kind)} · ${people} people · ${tiles} tiles</span>
+      </button>`;
+    }).join('') || '<div class="km-empty">No camps yet — walk the land and let them found one.</div>';
   }
 
   update(state) {
