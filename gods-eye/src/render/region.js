@@ -4,6 +4,7 @@
 import * as THREE from 'three';
 import { BIOMES, isLand, key, tileAt } from '../world.js';
 import { tree as detailTree, grassStrands, waterSurface, mountain, animal as detailAnimal } from './detail.js';
+import { buildingModel, loadTownModels, townModels } from './models.js';
 
 const TS = 4;
 const RADIUS = 6;
@@ -49,6 +50,10 @@ export class Region {
     this.towns = new Map();
     this.townMats = null;
     this.townCheck = 0;
+    // the modelled buildings arrive a moment after the first frame; the towns
+    // are rebuilt with them the moment they are ready
+    this.modelsPending = true;
+    loadTownModels();
     this.disposables = [];
     this.time = 0;
 
@@ -454,39 +459,51 @@ export class Region {
       const h = biz ? 4.4 + hash(i + 9, settlement.id) * 0.9 : 3.2 + hash(i + 7, settlement.id) * 1.8;
       const house = new THREE.Group();
 
-      const walls = new THREE.Mesh(wallGeo, hutMat);
-      walls.scale.set(w, h, d);
-      walls.position.y = h / 2;
-      walls.castShadow = true;
-      walls.receiveShadow = true;
-      house.add(walls);
+      // A real modelled building from the graphics pack when it is loaded, and
+      // the painted box only until the first models arrive.
+      const modelName = this.houseModelFor(i, biz, settlement);
+      const model = modelName ? buildingModel(modelName, h * 1.25, 4.6) : null;
+      const top = model ? model.userData.height || h : h;
+      if (model) {
+        house.add(model);
+      } else {
+        const walls = new THREE.Mesh(wallGeo, hutMat);
+        walls.scale.set(w, h, d);
+        walls.position.y = h / 2;
+        walls.castShadow = true;
+        walls.receiveShadow = true;
+        house.add(walls);
 
-      const roof = new THREE.Mesh(gableGeo, roofMat);
-      roof.scale.set(w * 1.34, h * 0.3, d * 1.34);
-      roof.position.y = h + h * 0.15;
-      roof.rotation.y = Math.PI / 4;
-      roof.castShadow = true;
-      house.add(roof);
+        const roof = new THREE.Mesh(gableGeo, roofMat);
+        roof.scale.set(w * 1.34, h * 0.3, d * 1.34);
+        roof.position.y = h + h * 0.15;
+        roof.rotation.y = Math.PI / 4;
+        roof.castShadow = true;
+        house.add(roof);
 
-      const door = new THREE.Mesh(doorGeo, doorMat);
-      door.scale.set(w * 0.24, h * 0.3, 0.3);
-      door.position.set(0, h * 0.15, d / 2 + 0.02);
-      house.add(door);
+        const door = new THREE.Mesh(doorGeo, doorMat);
+        door.scale.set(w * 0.24, h * 0.3, 0.3);
+        door.position.set(0, h * 0.15, d / 2 + 0.02);
+        house.add(door);
+      }
 
       if (biz) {
-        // a shopfront: awning, lit windows and its name over the door
-        const awning = new THREE.Mesh(new THREE.BoxGeometry(w * 1.08, 0.14, 1.6), awningMat);
-        awning.position.set(0, h * 0.62, d / 2 + 0.6);
-        awning.castShadow = true;
-        house.add(awning);
-        for (const side of [-1, 1]) {
-          const win = new THREE.Mesh(new THREE.BoxGeometry(w * 0.24, h * 0.2, 0.08), windowMat);
-          win.position.set(side * w * 0.28, h * 0.4, d / 2 + 0.03);
-          house.add(win);
+        // a shopfront: awning and lit windows on the painted box, and the name
+        // over the door whichever building stands there
+        if (!model) {
+          const awning = new THREE.Mesh(new THREE.BoxGeometry(w * 1.08, 0.14, 1.6), awningMat);
+          awning.position.set(0, h * 0.62, d / 2 + 0.6);
+          awning.castShadow = true;
+          house.add(awning);
+          for (const side of [-1, 1]) {
+            const win = new THREE.Mesh(new THREE.BoxGeometry(w * 0.24, h * 0.2, 0.08), windowMat);
+            win.position.set(side * w * 0.28, h * 0.4, d / 2 + 0.03);
+            house.add(win);
+          }
         }
         const sign = labelSprite(biz.name, '#f0dfb4');
         sign.scale.set(3.4, 0.85, 1);
-        sign.position.set(0, h + 1.15, 0);
+        sign.position.set(0, top + 1.15, 0);
         house.add(sign);
       }
 
@@ -522,6 +539,20 @@ export class Region {
 
     this.dressTown(group, info, settlement, nation, routes, houses);
     this.towns.set(settlement.id, { group, signature: this.townSignature(settlement) });
+  }
+
+  // Which modelled building stands on a plot: a shopfront for a business, the
+  // odd landmark around the edge, and homes everywhere else.
+  houseModelFor(index, biz, settlement) {
+    if (!townModels()) return null;
+    const seed = settlement.id * 131 + index * 17;
+    const pick = (list, salt) => list[Math.floor(hash(seed, salt) * list.length) % list.length];
+    if (biz) return pick(['market', 'blacksmith', 'barracks', 'market'], 3);
+    if (index > 0 && index % 9 === 4) {
+      return pick(['church', 'windmill', 'watermill', 'tower_a', 'tower_b', 'archery', 'mine', 'castle'], 5);
+    }
+    const homes = ['home_a', 'home_b', 'building_a', 'home_b', 'home_a', 'building_b'];
+    return homes[index % homes.length];
   }
 
   // Jolene's pass over the world: the same town Johan raised, but painted,
@@ -966,6 +997,27 @@ export class Region {
       const t = (elapsed * 0.3 + ripple.phase) % 1;
       ripple.mesh.scale.setScalar(ripple.base * (0.45 + t * 2.4));
       ripple.mesh.material.opacity = 0.26 * (1 - t);
+    }
+
+    // the modelled buildings finished loading: rebuild every town with them,
+    // without waiting for the settlement to grow
+    if (this.modelsPending && townModels()) {
+      this.modelsPending = false;
+      for (const [id] of [...this.towns]) {
+        const settlement = this.state.settlements.find((s) => s.id === id && s.alive);
+        const info = settlement ? this.tiles.get(key(settlement.x, settlement.y)) : null;
+        if (!info || !this.townMats) continue;
+        this.buildSettlement(
+          info,
+          settlement,
+          this.townMats.hutMat,
+          this.townMats.roofMat,
+          this.townMats.hutGeo,
+          this.townMats.roofGeo,
+          0,
+        );
+        this.reassignRoutes(id);
+      }
     }
 
     // the village keeps growing while you stand in it: a new house or shop
