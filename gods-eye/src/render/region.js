@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import { BIOMES, isLand, key, tileAt } from '../world.js';
 import { tree as detailTree, grassStrands, waterSurface, mountain, animal as detailAnimal } from './detail.js';
 import { buildingModel, loadTownModels, townModels } from './models.js';
+import { loadNatureModels, onNatureReady, swapNatureTrees } from './nature.js';
 
 const TS = 4;
 const RADIUS = 6;
@@ -54,6 +55,15 @@ export class Region {
     // are rebuilt with them the moment they are ready
     this.modelsPending = true;
     loadTownModels();
+    this.natureSwapped = false;
+    // trees drawn before the pack arrived are replaced in place the moment it
+    // lands, without waiting for the next settlement rebuild
+    onNatureReady(() => {
+      if (this.natureSwapped) return;
+      this.natureSwapped = true;
+      swapNatureTrees(this.scene);
+    });
+    loadNatureModels();
     this.disposables = [];
     this.time = 0;
 

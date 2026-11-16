@@ -5,6 +5,7 @@
 // caller places them; nothing here reads game state.
 
 import * as THREE from 'three';
+import { natureTree } from './nature.js';
 
 const geoCache = new Map();
 const matCache = new Map();
@@ -120,7 +121,17 @@ const TREE_LEAVES = ['#2f5a38', '#3b6b41', '#24462e', '#4a7a3f'];
 
 export function tree({ scale = 1, seed = 1, pale = false } = {}) {
   const rand = (n) => hash2(seed * 977 + n, seed * 131 + n * 7);
+
+  // A real modelled tree once the nature pack has loaded; the painted one only
+  // until then (and it gets swapped out when the models arrive).
+  const modelled = natureTree({ scale, seed });
+  if (modelled) {
+    modelled.userData.treeSpec = { scale, seed, pale, modelled: true };
+    return modelled;
+  }
+
   const group = new THREE.Group();
+  group.userData.treeSpec = { scale, seed, pale, modelled: false };
   const trunkMat = mat('trunk', () => new THREE.MeshStandardMaterial({ color: 0x3b2a1b, roughness: 1 }));
   const barkMat = mat('bark', () => new THREE.MeshStandardMaterial({ color: 0x2e2114, roughness: 1 }));
 

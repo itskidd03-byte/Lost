@@ -47,9 +47,10 @@ const TURN = {
 
 const models = new Map();
 let started = null;
+let ready = false;
 
 export function townModels() {
-  return models.size ? models : null;
+  return ready ? models : null;
 }
 
 export function loadTownModels() {
@@ -72,7 +73,10 @@ export function loadTownModels() {
         console.warn(`[godseye] building model ${file} did not load`, err);
       }
     }),
-  ).then(() => models);
+  ).then(() => {
+    ready = true;
+    return models;
+  });
   return started;
 }
 
