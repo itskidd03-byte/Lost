@@ -4,15 +4,15 @@
 import * as THREE from 'three';
 import { BIOMES, bounds, isLand, key } from '../world.js';
 import {
-  terrainPiece, tree, grassStrands, waterSurface, animal, hash2, nameSprite,
+  tree, grassStrands, animal, hash2, nameSprite,
 } from './detail.js';
-import { terrainTexture } from './textures.js';
 import { loadMedievalModels, onMedievalReady } from './medieval.js';
 import {
   loadPeopleModels, onPeopleReady, peopleReady, personModel, walkPerson,
 } from './people.js';
 import { loadCreatureModels, creaturesReady, creatureModel, onCreaturesReady } from './creatures.js';
 import { findClusters, buildCluster, loneMassif } from './clusters.js';
+import { buildGround } from './ground.js';
 import {
   buildSettlement, buildTerritories, settlementBlockKeys, loadSettlementModels, footprintBlocks,
 } from './settlements.js';
@@ -315,9 +315,13 @@ export class MapTable {
     while (group.children.length) group.remove(group.children[0]);
   }
 
+  // Where the surface actually is at a tile: the smooth ground once it exists,
+  // the tile's own elevation before that (and in the walkable region, which
+  // builds its own ground).
   heightOf(tile) {
-    if (!isLand(tile)) return 0.012;
-    return 0.014 + Math.max(0, tile.elevation + 0.15) * 0.036;
+    if (this.groundY && tile) return this.groundY(tile);
+    if (!isLand(tile)) return 0.01;
+    return 0.016 + Math.max(0, tile.elevation + 0.15) * 0.032;
   }
 
   build(state) {
@@ -397,12 +401,27 @@ export class MapTable {
     // Landforms and towns are worked out before the tiles are drawn: the tiles
     // need to know which of them belong to a lake, a wood or a street.
     const tiles = [...state.world.tiles.values()];
-    this.clusters = findClusters(tiles).filter((c) => c.size >= 2);
+    // a lone pool still deserves a surface of its own, so water is kept even at
+    // one tile; every other kind of ground needs neighbours to become a landform
+    this.clusters = findClusters(tiles).filter((c) => c.size >= 2 || c.kind === 'water');
     for (const cluster of this.clusters) {
       for (const k of cluster.keys) this.clusterByKey.set(k, cluster);
     }
     this.blocksByKey = settlementBlockKeys(state);
     const project = (x, y) => ({ x: (x - this.centerX) * this.scale, z: (y - this.centerY) * this.scale });
+
+    // One ground for the whole board. Everything else — trees, houses, water,
+    // people — is placed on this surface, so nothing stands in a hole or floats.
+    const ground = buildGround({
+      world: state.world,
+      scale: this.scale,
+      centerX: this.centerX,
+      centerY: this.centerY,
+    });
+    this.tileGroup.add(ground.mesh);
+    this.groundMesh = ground.mesh;
+    const groundY = (tile) => ground.heightAt(tile.x, tile.y);
+    this.groundY = groundY;
 
     const lastSeen = state.lastSeenDay ?? 0;
     const changed = [];
@@ -429,49 +448,26 @@ export class MapTable {
 
     for (const tile of state.world.tiles.values()) {
       const t = isLand(tile);
-      const h = this.heightOf(tile);
       const tileKey = key(tile.x, tile.y);
       const cluster = this.clusterByKey.get(tileKey) || null;
       const inBlock = this.blocksByKey.has(tileKey);
-      const color = (BIOMES[tile.biome] || BIOMES.blackgrass).table;
-      const surfaceTop = Math.max(0.006, h);
-      const map = t ? terrainTexture(tile.biome) : null;
-      // A body of water is one basin under one surface, so its tiles do not each
-      // lay down a block of their own.
-      const underWater = !!cluster && cluster.kind === 'water';
-      let mesh = null;
-      if (!underWater) {
-        mesh = terrainPiece(this.scale * 0.95, this.scale * 0.95, surfaceTop, color, { water: !t, map });
-        mesh.position.set((tile.x - this.centerX) * this.scale, surfaceTop, (tile.y - this.centerY) * this.scale);
-        this.tileGroup.add(mesh);
-      }
-      this.tilePick.push({ tile, mesh });
+      const top = groundY(tile);
+      this.tilePick.push({ tile });
 
-      // A lake or a river is drawn once for the whole body of water, so its
-      // tiles do not each get a square of surface.
-      if (!t) {
-        if (!cluster) {
-          const water = waterSurface(this.scale * 0.92, this.scale * 0.92, color);
-          water.group.position.set((tile.x - this.centerX) * this.scale, surfaceTop + 0.002, (tile.y - this.centerY) * this.scale);
-          this.tileGroup.add(water.group);
-          for (const ripple of water.ripples) this.ripples.push(ripple);
-        }
-      } else if (tile.detail > 0.15 && !cluster && !inBlock) {
-        const grassColor = tile.biome === 'blackgrass' ? '#1d2a20' : '#3c5a30';
+      // grass tufts sit on the smooth ground where no patch has taken over
+      if (t && tile.detail > 0.15 && !cluster && !inBlock && tile.biome !== 'mountain' && tile.biome !== 'peak') {
+        const grassColor = tile.biome === 'blackgrass' ? '#2b3a2b' : '#4f7040';
         const strands = grassStrands(
           Math.min(12, 4 + Math.round(tile.detail * 8)),
           this.scale * 0.36,
           { color: grassColor, height: this.scale * 0.42 },
         );
-        strands.position.set((tile.x - this.centerX) * this.scale, surfaceTop, (tile.y - this.centerY) * this.scale);
+        strands.position.set((tile.x - this.centerX) * this.scale, top, (tile.y - this.centerY) * this.scale);
         this.markGroup.add(strands);
       }
 
-      const top = Math.max(0.006, h);
-
       // Remember every tile so that new or changed ground can be built in
       // front of the player instead of silently appearing.
-      if (mesh) this.meshByKey.set(tileKey, { mesh, top });
       if (firstBuild) {
         this.knownTiles.set(tileKey, tile.changedDay);
       } else {
@@ -484,11 +480,6 @@ export class MapTable {
           this.queueJob(tile, 'shape');
         }
       }
-      const growth = this.growth.get(tileKey);
-      if (mesh && growth !== undefined && growth < 1) {
-        mesh.scale.y = Math.max(0.02, growth);
-      }
-
       // forests and settlements
       const def = BIOMES[tile.biome] || BIOMES.blackgrass;
       if (t && !cluster && !inBlock && (def.trees || tile.trees > 0.45) && tile.detail > 0.25) {
@@ -615,7 +606,11 @@ export class MapTable {
       const built = buildCluster(cluster, {
         project,
         scale: this.scale,
-        heightOf: (tile) => this.heightOf(tile),
+        heightOf: (tile) => groundY(tile),
+        isWater: (x, y) => {
+          const beside = state.world.tiles.get(key(x, y));
+          return !!beside && !isLand(beside);
+        },
       });
       if (!built) continue;
       this.markGroup.add(built.group);
@@ -633,7 +628,7 @@ export class MapTable {
         state,
         project,
         scale: this.scale * 0.95,
-        heightOf: (tile) => this.heightOf(tile),
+        heightOf: (tile) => groundY(tile),
         nationColor: nation?.color || '#e6c977',
       });
       this.markGroup.add(built.group);
@@ -645,21 +640,10 @@ export class MapTable {
       state,
       project,
       scale: this.scale,
-      heightOf: (tile) => this.heightOf(tile),
+      heightOf: (tile) => groundY(tile),
     });
     this.markGroup.add(territory.group);
     for (const mark of territory.marks) this.borders.push(mark);
-
-    // unexplored ground inside the world's bounds reads as dark, solid void
-    for (let tx = b.minX; tx <= b.maxX; tx++) {
-      for (let ty = b.minY; ty <= b.maxY; ty++) {
-        if (state.world.tiles.has(key(tx, ty))) continue;
-        const voidTile = new THREE.Mesh(this.box, this.material('#0a0d0b'));
-        voidTile.scale.set(this.scale * 0.95, 0.008, this.scale * 0.95);
-        voidTile.position.set((tx - this.centerX) * this.scale, 0.004, (ty - this.centerY) * this.scale);
-        this.tileGroup.add(voidTile);
-      }
-    }
 
     changed
       .sort((a, b) => b.tile.changedDay - a.tile.changedDay)
@@ -873,14 +857,7 @@ export class MapTable {
 
     if (job.kind === 'grow') {
       const k = key(job.x, job.y);
-      const growth = Math.min(1, (this.growth.get(k) ?? 0) + step * 1.7);
-      this.growth.set(k, growth);
-      const entry = this.meshByKey.get(k);
-      if (entry) {
-        const raised = Math.max(0.0004, entry.top * growth);
-        entry.mesh.scale.y = raised;
-        entry.mesh.position.y = raised / 2;
-      }
+      this.growth.set(k, Math.min(1, (this.growth.get(k) ?? 0) + step * 1.7));
     }
 
     if (this.workerTimer > 1.25) {

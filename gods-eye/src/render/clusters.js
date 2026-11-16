@@ -11,9 +11,8 @@
 // from tile space to table space, and gets back a group to add to the board.
 
 import * as THREE from 'three';
-import { BIOMES, WATER_BIOMES, isLand, key } from '../world.js';
+import { WATER_BIOMES, isLand, key } from '../world.js';
 import { tree, surfaceMaterial } from './detail.js';
-import { terrainTexture } from './textures.js';
 
 const ROCK = new Set(['mountain', 'peak']);
 const WOOD = new Set(['forest', 'deepforest']);
@@ -140,21 +139,50 @@ function waterTexture() {
 
 // One flat sheet over every tile of the cluster, with coordinates that line up
 // across tiles so a texture can flow over the whole body.
-function sheetGeometry(cluster, project, y) {
+// One sheet over the whole body of water. Each tile contributes a rounded square
+// rather than a flat quad: the tiles still meet exactly along their shared edges,
+// but the outer rim of the body curves, so a lake is a lake and not a run of
+// squares.
+const SHEET_STEPS = 4;
+
+function sheetGeometry(cluster, project, y, isWater) {
   const positions = [];
   const uvs = [];
   const indices = [];
-  let v = 0;
+  const N = SHEET_STEPS;
   for (const t of cluster.tiles) {
-    const a = project(t.x - 0.5, t.y - 0.5);
-    const b = project(t.x + 0.5, t.y - 0.5);
-    const c = project(t.x + 0.5, t.y + 0.5);
-    const d = project(t.x - 0.5, t.y + 0.5);
+    const base = positions.length / 3;
     const level = y + (t.elevation ?? 0) * 0.0004;
-    positions.push(a.x, level, a.z, b.x, level, b.z, c.x, level, c.z, d.x, level, d.z);
-    uvs.push(t.x, t.y, t.x + 1, t.y, t.x + 1, t.y + 1, t.x, t.y + 1);
-    indices.push(v, v + 2, v + 1, v, v + 3, v + 2);
-    v += 4;
+    // where the water meets land, pull the sheet back so the bank shows: a lake
+    // edge should wander, not trace the tile grid
+    // any water beside this tile counts, even water found as a separate body: two
+    // lakes that touch should read as one shore, not two insets meeting in a seam
+    const wet = (dx, dy) => !!(isWater && isWater(t.x + dx, t.y + dy));
+    const bank = 0.26;
+    const halfL = 0.5 * (wet(-1, 0) ? 1 : 1 - bank);
+    const halfR = 0.5 * (wet(1, 0) ? 1 : 1 - bank);
+    const halfU = 0.5 * (wet(0, -1) ? 1 : 1 - bank);
+    const halfD = 0.5 * (wet(0, 1) ? 1 : 1 - bank);
+    for (let j = 0; j <= N; j++) {
+      for (let i = 0; i <= N; i++) {
+        const u = (i / N) * 2 - 1;
+        const v = (j / N) * 2 - 1;
+        // a squircle: full width along the axes, corners pulled in
+        const reach = Math.pow(Math.pow(Math.abs(u), 4) + Math.pow(Math.abs(v), 4), 0.25);
+        const k = reach > 1 ? 1 / reach : 1;
+        const px = t.x + u * (u < 0 ? halfL : halfR) * k;
+        const py = t.y + v * (v < 0 ? halfU : halfD) * k;
+        const at = project(px, py);
+        positions.push(at.x, level, at.z);
+        uvs.push(px, py);
+      }
+    }
+    for (let j = 0; j < N; j++) {
+      for (let i = 0; i < N; i++) {
+        const a = base + j * (N + 1) + i;
+        indices.push(a, a + N + 2, a + 1, a, a + N + 1, a + N + 2);
+      }
+    }
   }
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
@@ -203,75 +231,34 @@ function heightField(cluster, heightOf) {
   };
 }
 
-function rollingGeometry(cluster, project, height, { lift = 0.0016, steps = 3 } = {}) {
-  const nx = Math.max(1, Math.round(cluster.w * steps));
-  const ny = Math.max(1, Math.round(cluster.h * steps));
-  const positions = [];
-  const uvs = [];
-  const indices = [];
-  for (let j = 0; j <= ny; j++) {
-    for (let i = 0; i <= nx; i++) {
-      const u = i / nx;
-      const v = j / ny;
-      const tx = cluster.minX + u * cluster.w;
-      const ty = cluster.minY + v * cluster.h;
-      const at = project(tx, ty);
-      // a gentle swell so the patch is a landform, not a carpet
-      const swell = Math.sin(u * Math.PI * 2.2 + cluster.cx) * Math.cos(v * Math.PI * 1.7 + cluster.cy) * 0.0014;
-      positions.push(at.x, height(tx, ty) + lift + swell, at.z);
-      uvs.push(tx * 0.9, ty * 0.9);
-    }
-  }
-  for (let j = 0; j < ny; j++) {
-    for (let i = 0; i < nx; i++) {
-      const a = j * (nx + 1) + i;
-      indices.push(a, a + nx + 1, a + 1, a + 1, a + nx + 1, a + nx + 2);
-    }
-  }
-  const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
-  geometry.setIndex(indices);
-  geometry.computeVertexNormals();
-  return geometry;
-}
-
 /* -------------------------------- builders -------------------------------- */
 
-function patchMaterial(biome, tint) {
-  const map = terrainTexture(biome);
-  return new THREE.MeshStandardMaterial({
-    color: new THREE.Color(tint),
-    map: map || null,
-    roughness: 0.95,
-    metalness: 0.02,
-  });
-}
-
-function waterCluster(cluster, { project, scale, heightOf }) {
+function waterCluster(cluster, { project, scale, heightOf, isWater }) {
   const group = new THREE.Group();
   const river = cluster.elongation >= 2.4 && cluster.size >= 2;
   const big = cluster.size > 26;
-  const level = Math.max(0.006, heightOf(cluster.tiles[0])) + 0.0035;
+  // bodies that touch overlap by a hair, so each sits a little above its neighbour
+  // and no two sheets fight for the same pixel
+  const level = Math.max(0.006, heightOf(cluster.tiles[0])) + 0.0035 + (cluster.cx + cluster.cy) * 0.00002;
   const map = waterTexture();
   const material = new THREE.MeshStandardMaterial({
-    color: new THREE.Color(river ? '#2f7f96' : '#2b7288'),
+    color: new THREE.Color(river ? '#3f9cb4' : '#37899f'),
     map,
-    roughness: 0.18,
-    metalness: 0.4,
+    roughness: 0.24,
+    metalness: 0.22,
     transparent: true,
-    opacity: river ? 0.94 : 0.9,
+    opacity: river ? 0.93 : 0.89,
   });
   // The ground under the water is one dark basin, so no tile edge shows through
   // the surface as a square of its own.
   const basin = new THREE.Mesh(
-    sheetGeometry(cluster, project, level - scale * 0.16),
+    sheetGeometry(cluster, project, level - scale * 0.16, isWater),
     new THREE.MeshStandardMaterial({ color: 0x0d2b3a, roughness: 0.9, metalness: 0.05 }),
   );
   basin.receiveShadow = true;
   group.add(basin);
 
-  const sheet = new THREE.Mesh(sheetGeometry(cluster, project, level), material);
+  const sheet = new THREE.Mesh(sheetGeometry(cluster, project, level, isWater), material);
   sheet.receiveShadow = true;
   group.add(sheet);
 
@@ -342,14 +329,13 @@ function waterCluster(cluster, { project, scale, heightOf }) {
   return { group, waters: [{ material, river, speed: river ? 0.14 : 0.02 }], ripples };
 }
 
+// The ground itself is one continuous surface built by ground.js, so a meadow
+// adds only what grows on it. Nothing here lays a patch over the tiles: that is
+// what used to show circles of the old surface through the blend.
 function meadowCluster(cluster, { project, scale, heightOf }) {
   const group = new THREE.Group();
   const height = heightField(cluster, heightOf);
   const biome = cluster.tiles.some((t) => t.biome === 'meadow') ? 'meadow' : cluster.tiles.some((t) => t.biome === 'hills') ? 'hills' : 'grass';
-  const tint = BIOMES[biome]?.table || '#4b6b40';
-  const patch = new THREE.Mesh(rollingGeometry(cluster, project, height), patchMaterial(biome, tint));
-  patch.receiveShadow = true;
-  group.add(patch);
 
   // Tufts and the odd flower break the surface up without costing much.
   const tuftGeo = new THREE.ConeGeometry(scale * 0.03, scale * 0.2, 3);
@@ -381,11 +367,6 @@ function woodCluster(cluster, { project, scale, heightOf }) {
   const group = new THREE.Group();
   const height = heightField(cluster, heightOf);
   const deep = cluster.tiles.some((t) => t.biome === 'deepforest');
-  const biome = deep ? 'deepforest' : 'forest';
-  const tint = BIOMES[biome]?.table || '#2c4b33';
-  const floor = new THREE.Mesh(rollingGeometry(cluster, project, height, { lift: 0.0014 }), patchMaterial(biome, tint));
-  floor.receiveShadow = true;
-  group.add(floor);
 
   // A canopy, thickest at the middle of the wood, thinning at its edge.
   const count = Math.min(26, Math.max(3, Math.round(cluster.size * 2.2)));
@@ -503,7 +484,8 @@ function hash(x, y) {
 // Draw one cluster. Small clusters are left to the per-tile art, which is cheap
 // and already reads correctly on a single block.
 export function buildCluster(cluster, opts) {
-  if (cluster.size < 2) return null;
+  // a single pool is still a pool; everything else needs a neighbour to be a landform
+  if (cluster.size < 2 && cluster.kind !== 'water') return null;
   switch (cluster.kind) {
     case 'water':
       return waterCluster(cluster, opts);
