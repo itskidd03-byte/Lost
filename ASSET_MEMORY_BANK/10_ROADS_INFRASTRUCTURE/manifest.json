@@ -1,8 +1,8 @@
 {
  "category": "10_ROADS_INFRASTRUCTURE",
- "assets": 14,
- "files": 14,
- "bytes": 723276,
+ "assets": 27,
+ "files": 509,
+ "bytes": 8130926,
  "subcategories": [
   "Railways",
   "Roads"
@@ -147,6 +147,136 @@
    "files": 1,
    "bytes": 17664,
    "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/racecourse-and-parade-ring-parade-ring-gate-28242051.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0097",
+   "name": "Wheeled boarding stair (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 41164,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-boarding-stair-8444e1ab.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0098",
+   "name": "Parade Ring Walkway (Racecourse and Parade Ring)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 28952,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/racecourse-and-parade-ring-parade-ring-walkway-68cc22a9.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0099",
+   "name": "Parade Ring Rail (Racecourse and Parade Ring)",
+   "subcategory": "Railways",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 9328,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Railways/racecourse-and-parade-ring-parade-ring-rail-41ee58f9.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0100",
+   "name": "Colour light signal showing clear (Modern Rail and Metro Network)",
+   "subcategory": "Railways",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 39020,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Railways/modern-rail-and-metro-network-colour-light-signal-clea-0d88cff8.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0101",
+   "name": "Corner Pier Section (Fishing Harbour and Boats)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 92312,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/harbor-and-tackle-pier-corner-e48224b5.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0102",
+   "name": "Steel stair flight 2 m rise (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 20620,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-dock-stair-flight-d643cfe5.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0103",
+   "name": "Four aspect colour light signal (Modern Rail and Metro Network)",
+   "subcategory": "Railways",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 38936,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Railways/modern-rail-and-metro-network-colour-light-signal-f0826f08.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0104",
+   "name": "Island platform module (Modern Rail and Metro Network)",
+   "subcategory": "Railways",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 31636,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Railways/modern-rail-and-metro-network-island-platform-module-f7c68962.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0105",
+   "name": "Caged access ladder (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 42996,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-access-ladder-a4976308.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0106",
+   "name": "Steel road plate (Demolition and Site Clearance)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 38500,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/demolition-and-site-clearance-demolition-and-site-clea-016dd84b.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0107",
+   "name": "Running Rail Post (Racecourse and Parade Ring)",
+   "subcategory": "Railways",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 4732,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Railways/racecourse-and-parade-ring-running-rail-post-790a190f.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0108",
+   "name": "Car Park Bay Module (Racecourse and Parade Ring)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 23032,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/racecourse-and-parade-ring-car-park-bay-module-d02c7826.thumb.webp"
+  },
+  {
+   "asset_id": "KNY-0025",
+   "name": "City Kit (Roads) pack",
+   "subcategory": "Roads",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 483,
+   "bytes": 6996422,
+   "thumbnail": ""
   }
  ]
 }

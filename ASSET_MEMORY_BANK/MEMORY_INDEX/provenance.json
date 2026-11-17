@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-17T05:44:15.518Z",
+ "generated": "2026-11-17T05:47:27.296Z",
  "policy": {
   "licences": [
    "CC0 1.0",
@@ -10,63 +10,91 @@
    "CC BY-ND",
    "CC BY-SA at ingest"
   ],
-  "max_bank_bytes": 340000000
+  "max_bank_bytes": 650117120
  },
  "holdings": [
   {
    "source": "3dassets",
-   "assets": 201,
-   "files": 201,
-   "bytes": 143791784,
+   "assets": 336,
+   "files": 336,
+   "bytes": 164374296,
    "licenses": [
     "CC0 1.0 Universal"
    ],
    "creators": 1,
-   "megabytes": 137.1
+   "megabytes": 156.8
   },
   {
    "source": "polyhaven",
-   "assets": 16,
-   "files": 60,
-   "bytes": 28984636,
+   "assets": 44,
+   "files": 192,
+   "bytes": 98971019,
    "licenses": [
     "CC0 1.0 Universal"
    ],
-   "creators": 14,
-   "megabytes": 27.6
+   "creators": 33,
+   "megabytes": 94.4
   },
   {
    "source": "ambientcg",
-   "assets": 10,
-   "files": 49,
-   "bytes": 45767130,
+   "assets": 30,
+   "files": 142,
+   "bytes": 119480229,
    "licenses": [
     "CC0 1.0 Universal"
    ],
    "creators": 1,
-   "megabytes": 43.6
+   "megabytes": 113.9
   },
   {
    "source": "kenney",
-   "assets": 12,
-   "files": 8447,
-   "bytes": 23908891,
+   "assets": 48,
+   "files": 23546,
+   "bytes": 257726517,
    "licenses": [
     "CC0 1.0 Universal"
    ],
    "creators": 1,
-   "megabytes": 22.8
+   "megabytes": 245.8
   }
  ],
  "runs": [
   {
    "source": "3dassets",
-   "at": "2026-11-17T05:42:34.990Z",
-   "downloaded": 81,
-   "skipped_already_indexed": 143,
+   "at": "2026-11-17T05:46:37.323Z",
+   "downloaded": 135,
+   "skipped_already_indexed": 233,
    "api": "https://3dassets.dev/api/v1/assets",
    "license": "CC0 1.0 Universal (per-asset licence recorded)",
    "note": "Fetched through the public discovery API; the CDN URL is immutable and cached, so each model is downloaded once."
+  },
+  {
+   "source": "polyhaven",
+   "at": "2026-11-17T05:46:43.764Z",
+   "models": 21,
+   "hdris": 7,
+   "api": "https://api.polyhaven.com",
+   "license": "CC0 1.0 Universal"
+  },
+  {
+   "source": "ambientcg",
+   "at": "2026-11-17T05:46:56.336Z",
+   "materials": 20,
+   "license": "CC0 1.0 Universal",
+   "note": "1K JPG PBR sets, extracted; the zip is removed after successful extraction."
+  },
+  {
+   "source": "kenney",
+   "at": "2026-11-17T05:47:20.286Z",
+   "pack": "weapon-pack",
+   "error": "https://kenney.nl/assets/weapon-pack -> 404 Not Found"
+  },
+  {
+   "source": "kenney",
+   "at": "2026-11-17T05:47:27.274Z",
+   "packs": 48,
+   "license": "CC0 1.0 Universal",
+   "note": "Signed download links are requested per pack; the archive is extracted and then removed."
   }
  ]
 }

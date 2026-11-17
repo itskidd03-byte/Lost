@@ -796,5 +796,473 @@
   "asset_id": "D3A-0076",
   "model": "Goods brake van (Steam Era Railway and Rolling Stock)",
   "path": "11_PROPS_RESOURCES/Vehicles/steam-era-railway-and-rolling-stock-brake-van-8d7a6f07.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0003",
+  "model": "Shed wall bay with a sliding door (Steampunk Airship Dock and Workshop)",
+  "path": "04_BUILDINGS/Shops/steampunk-airship-dock-and-workshop-shed-wall-door-302e76d0.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0003",
+  "model": "Shed wall bay with a sliding door (Steampunk Airship Dock and Workshop)",
+  "path": "04_BUILDINGS/Shops/steampunk-airship-dock-and-workshop-shed-wall-door-302e76d0.glb"
+ },
+ {
+  "clip": "bell-swing",
+  "asset_id": "D3A-0005",
+  "model": "Gate Tower (Imperial China Palace and Garden)",
+  "path": "04_BUILDINGS/Castles/imperial-china-palace-and-garden-gate-tower-9d0d0bb6.glb"
+ },
+ {
+  "clip": "drum-tilt",
+  "asset_id": "D3A-0005",
+  "model": "Gate Tower (Imperial China Palace and Garden)",
+  "path": "04_BUILDINGS/Castles/imperial-china-palace-and-garden-gate-tower-9d0d0bb6.glb"
+ },
+ {
+  "clip": "tilt",
+  "asset_id": "D3A-0026",
+  "model": "Humanoid Worker (Robots and Drones Kit)",
+  "path": "01_CHARACTERS/Civilians/robots-and-drones-kit-humanoid-worker-85f63bad.glb"
+ },
+ {
+  "clip": "tilt",
+  "asset_id": "D3A-0031",
+  "model": "Service Robot Biped (Robots and Drones Kit)",
+  "path": "01_CHARACTERS/Humans/robots-and-drones-kit-service-robot-biped-5cf806de.glb"
+ },
+ {
+  "clip": "bow",
+  "asset_id": "D3A-0034",
+  "model": "Cowboy Sheriff (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-cowboy-sheriff-280096c4.glb"
+ },
+ {
+  "clip": "idle",
+  "asset_id": "D3A-0034",
+  "model": "Cowboy Sheriff (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-cowboy-sheriff-280096c4.glb"
+ },
+ {
+  "clip": "wave",
+  "asset_id": "D3A-0034",
+  "model": "Cowboy Sheriff (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-cowboy-sheriff-280096c4.glb"
+ },
+ {
+  "clip": "bow",
+  "asset_id": "D3A-0035",
+  "model": "Secutor Gladiator (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-secutor-707e1d08.glb"
+ },
+ {
+  "clip": "idle",
+  "asset_id": "D3A-0035",
+  "model": "Secutor Gladiator (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-secutor-707e1d08.glb"
+ },
+ {
+  "clip": "wave",
+  "asset_id": "D3A-0035",
+  "model": "Secutor Gladiator (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-secutor-707e1d08.glb"
+ },
+ {
+  "clip": "bow",
+  "asset_id": "D3A-0036",
+  "model": "Viking Berserker (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-viking-berserker-5f40dcf1.glb"
+ },
+ {
+  "clip": "idle",
+  "asset_id": "D3A-0036",
+  "model": "Viking Berserker (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-viking-berserker-5f40dcf1.glb"
+ },
+ {
+  "clip": "wave",
+  "asset_id": "D3A-0036",
+  "model": "Viking Berserker (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-viking-berserker-5f40dcf1.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0050",
+  "model": "Battery Swap Cabinet (Robots and Drones Kit)",
+  "path": "06_FURNITURE/Cabinets/robots-and-drones-kit-battery-swap-cabinet-e152705f.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0050",
+  "model": "Battery Swap Cabinet (Robots and Drones Kit)",
+  "path": "06_FURNITURE/Cabinets/robots-and-drones-kit-battery-swap-cabinet-e152705f.glb"
+ },
+ {
+  "clip": "tilt",
+  "asset_id": "D3A-0058",
+  "model": "Spotlight Tower (Robots and Drones Kit)",
+  "path": "11_PROPS_RESOURCES/robots-and-drones-kit-spotlight-tower-d2d47182.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0068",
+  "model": "Drinks Dispenser Bank (Cinema Multiplex and Foyer)",
+  "path": "07_FOOD/Drinks/cinema-multiplex-and-foyer-drinks-dispenser-bank-5ab89b48.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0068",
+  "model": "Drinks Dispenser Bank (Cinema Multiplex and Foyer)",
+  "path": "07_FOOD/Drinks/cinema-multiplex-and-foyer-drinks-dispenser-bank-5ab89b48.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0073",
+  "model": "Steel tool chest (Steampunk Airship Dock and Workshop)",
+  "path": "03_MILITARY/Weapons/steampunk-airship-dock-and-workshop-tool-chest-92ccaee9.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0073",
+  "model": "Steel tool chest (Steampunk Airship Dock and Workshop)",
+  "path": "03_MILITARY/Weapons/steampunk-airship-dock-and-workshop-tool-chest-92ccaee9.glb"
+ },
+ {
+  "clip": "magazine-open",
+  "asset_id": "D3A-0074",
+  "model": "Light Machine Gun (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-light-machine-gun-7dace329.glb"
+ },
+ {
+  "clip": "magazine-close",
+  "asset_id": "D3A-0074",
+  "model": "Light Machine Gun (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-light-machine-gun-7dace329.glb"
+ },
+ {
+  "clip": "bolt-open",
+  "asset_id": "D3A-0074",
+  "model": "Light Machine Gun (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-light-machine-gun-7dace329.glb"
+ },
+ {
+  "clip": "bolt-close",
+  "asset_id": "D3A-0074",
+  "model": "Light Machine Gun (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-light-machine-gun-7dace329.glb"
+ },
+ {
+  "clip": "bipod-open",
+  "asset_id": "D3A-0074",
+  "model": "Light Machine Gun (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-light-machine-gun-7dace329.glb"
+ },
+ {
+  "clip": "bipod-close",
+  "asset_id": "D3A-0074",
+  "model": "Light Machine Gun (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-light-machine-gun-7dace329.glb"
+ },
+ {
+  "clip": "cock",
+  "asset_id": "D3A-0077",
+  "model": "Service Revolver (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-service-revolver-9b1db52a.glb"
+ },
+ {
+  "clip": "spin",
+  "asset_id": "D3A-0077",
+  "model": "Service Revolver (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-service-revolver-9b1db52a.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0078",
+  "model": "Riveted toolbox (Steampunk Airship Dock and Workshop)",
+  "path": "03_MILITARY/Weapons/steampunk-airship-dock-and-workshop-toolbox-2754f8a9.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0078",
+  "model": "Riveted toolbox (Steampunk Airship Dock and Workshop)",
+  "path": "03_MILITARY/Weapons/steampunk-airship-dock-and-workshop-toolbox-2754f8a9.glb"
+ },
+ {
+  "clip": "stock-open",
+  "asset_id": "D3A-0081",
+  "model": "Folding Stock SMG (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-folding-stock-smg-cbcb9a4c.glb"
+ },
+ {
+  "clip": "stock-close",
+  "asset_id": "D3A-0081",
+  "model": "Folding Stock SMG (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-folding-stock-smg-cbcb9a4c.glb"
+ },
+ {
+  "clip": "magazine-open",
+  "asset_id": "D3A-0081",
+  "model": "Folding Stock SMG (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-folding-stock-smg-cbcb9a4c.glb"
+ },
+ {
+  "clip": "magazine-close",
+  "asset_id": "D3A-0081",
+  "model": "Folding Stock SMG (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-folding-stock-smg-cbcb9a4c.glb"
+ },
+ {
+  "clip": "charge-open",
+  "asset_id": "D3A-0081",
+  "model": "Folding Stock SMG (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-folding-stock-smg-cbcb9a4c.glb"
+ },
+ {
+  "clip": "charge-close",
+  "asset_id": "D3A-0081",
+  "model": "Folding Stock SMG (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-folding-stock-smg-cbcb9a4c.glb"
+ },
+ {
+  "clip": "slide-open",
+  "asset_id": "D3A-0082",
+  "model": "Compact Pistol (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-compact-pistol-f6c087cf.glb"
+ },
+ {
+  "clip": "slide-close",
+  "asset_id": "D3A-0082",
+  "model": "Compact Pistol (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-compact-pistol-f6c087cf.glb"
+ },
+ {
+  "clip": "magazine-open",
+  "asset_id": "D3A-0082",
+  "model": "Compact Pistol (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-compact-pistol-f6c087cf.glb"
+ },
+ {
+  "clip": "magazine-close",
+  "asset_id": "D3A-0082",
+  "model": "Compact Pistol (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-compact-pistol-f6c087cf.glb"
+ },
+ {
+  "clip": "cock",
+  "asset_id": "D3A-0082",
+  "model": "Compact Pistol (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-compact-pistol-f6c087cf.glb"
+ },
+ {
+  "clip": "bolt-open",
+  "asset_id": "D3A-0083",
+  "model": "Bolt Action Sniper Rifle (Tactical Shooter Hill Town)",
+  "path": "03_MILITARY/Weapons/tactical-shooter-hill-town-bolt-sniper-rifle-4bf1076c.glb"
+ },
+ {
+  "clip": "bolt-close",
+  "asset_id": "D3A-0083",
+  "model": "Bolt Action Sniper Rifle (Tactical Shooter Hill Town)",
+  "path": "03_MILITARY/Weapons/tactical-shooter-hill-town-bolt-sniper-rifle-4bf1076c.glb"
+ },
+ {
+  "clip": "magazine-open",
+  "asset_id": "D3A-0083",
+  "model": "Bolt Action Sniper Rifle (Tactical Shooter Hill Town)",
+  "path": "03_MILITARY/Weapons/tactical-shooter-hill-town-bolt-sniper-rifle-4bf1076c.glb"
+ },
+ {
+  "clip": "magazine-close",
+  "asset_id": "D3A-0083",
+  "model": "Bolt Action Sniper Rifle (Tactical Shooter Hill Town)",
+  "path": "03_MILITARY/Weapons/tactical-shooter-hill-town-bolt-sniper-rifle-4bf1076c.glb"
+ },
+ {
+  "clip": "roll",
+  "asset_id": "D3A-0085",
+  "model": "Delivery Lorry, Flatbed (Distillery and Bonded Warehouse)",
+  "path": "11_PROPS_RESOURCES/Vehicles/distillery-and-bonded-warehouse-delivery-lorry-5a2271a0.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0086",
+  "model": "City Bus Single Decker (Bus Station and City Transit)",
+  "path": "11_PROPS_RESOURCES/Vehicles/bus-station-and-city-transit-city-bus-single-decker-ddf9a355.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0086",
+  "model": "City Bus Single Decker (Bus Station and City Transit)",
+  "path": "11_PROPS_RESOURCES/Vehicles/bus-station-and-city-transit-city-bus-single-decker-ddf9a355.glb"
+ },
+ {
+  "clip": "roll",
+  "asset_id": "D3A-0086",
+  "model": "City Bus Single Decker (Bus Station and City Transit)",
+  "path": "11_PROPS_RESOURCES/Vehicles/bus-station-and-city-transit-city-bus-single-decker-ddf9a355.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0087",
+  "model": "Forklift (Car Factory Production Line)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-factory-production-line-forklift-4daac5a1.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0087",
+  "model": "Forklift (Car Factory Production Line)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-factory-production-line-forklift-4daac5a1.glb"
+ },
+ {
+  "clip": "roll",
+  "asset_id": "D3A-0087",
+  "model": "Forklift (Car Factory Production Line)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-factory-production-line-forklift-4daac5a1.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0088",
+  "model": "Agv Loader (Robots and Drones Kit)",
+  "path": "11_PROPS_RESOURCES/Vehicles/robots-and-drones-kit-agv-loader-b0e56fc5.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0088",
+  "model": "Agv Loader (Robots and Drones Kit)",
+  "path": "11_PROPS_RESOURCES/Vehicles/robots-and-drones-kit-agv-loader-b0e56fc5.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0088",
+  "model": "Agv Loader (Robots and Drones Kit)",
+  "path": "11_PROPS_RESOURCES/Vehicles/robots-and-drones-kit-agv-loader-b0e56fc5.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0089",
+  "model": "Airship crew gondola (Steampunk Airship Dock and Workshop)",
+  "path": "11_PROPS_RESOURCES/Vehicles/steampunk-airship-dock-and-workshop-airship-gondola-5178984f.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0089",
+  "model": "Airship crew gondola (Steampunk Airship Dock and Workshop)",
+  "path": "11_PROPS_RESOURCES/Vehicles/steampunk-airship-dock-and-workshop-airship-gondola-5178984f.glb"
+ },
+ {
+  "clip": "door-open",
+  "asset_id": "D3A-0090",
+  "model": "Finished Compact Hatchback (Car Factory Production Line)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-factory-production-line-finished-compact-hatchback-03e14d24.glb"
+ },
+ {
+  "clip": "door-close",
+  "asset_id": "D3A-0090",
+  "model": "Finished Compact Hatchback (Car Factory Production Line)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-factory-production-line-finished-compact-hatchback-03e14d24.glb"
+ },
+ {
+  "clip": "bonnet-open",
+  "asset_id": "D3A-0090",
+  "model": "Finished Compact Hatchback (Car Factory Production Line)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-factory-production-line-finished-compact-hatchback-03e14d24.glb"
+ },
+ {
+  "clip": "bonnet-close",
+  "asset_id": "D3A-0090",
+  "model": "Finished Compact Hatchback (Car Factory Production Line)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-factory-production-line-finished-compact-hatchback-03e14d24.glb"
+ },
+ {
+  "clip": "roll",
+  "asset_id": "D3A-0090",
+  "model": "Finished Compact Hatchback (Car Factory Production Line)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-factory-production-line-finished-compact-hatchback-03e14d24.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0091",
+  "model": "Superbike (Motorcycle Racing and Street Bikes)",
+  "path": "11_PROPS_RESOURCES/Vehicles/motorcycle-racing-and-street-bikes-superbike-d02e949c.glb"
+ },
+ {
+  "clip": "steer",
+  "asset_id": "D3A-0091",
+  "model": "Superbike (Motorcycle Racing and Street Bikes)",
+  "path": "11_PROPS_RESOURCES/Vehicles/motorcycle-racing-and-street-bikes-superbike-d02e949c.glb"
+ },
+ {
+  "clip": "side-stand-up",
+  "asset_id": "D3A-0091",
+  "model": "Superbike (Motorcycle Racing and Street Bikes)",
+  "path": "11_PROPS_RESOURCES/Vehicles/motorcycle-racing-and-street-bikes-superbike-d02e949c.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0092",
+  "model": "Mid-size row-crop tractor (Arable Fields and Farm Machinery)",
+  "path": "11_PROPS_RESOURCES/Vehicles/arable-fields-and-farm-machinery-row-crop-tractor-eefceb01.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0092",
+  "model": "Mid-size row-crop tractor (Arable Fields and Farm Machinery)",
+  "path": "11_PROPS_RESOURCES/Vehicles/arable-fields-and-farm-machinery-row-crop-tractor-eefceb01.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0092",
+  "model": "Mid-size row-crop tractor (Arable Fields and Farm Machinery)",
+  "path": "11_PROPS_RESOURCES/Vehicles/arable-fields-and-farm-machinery-row-crop-tractor-eefceb01.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0093",
+  "model": "Track-prepared coupe (Vehicle Collection HD: Cars, Planes and Boats)",
+  "path": "11_PROPS_RESOURCES/Vehicles/transport-collection-hd-track-coupe-80aa8ec7.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0094",
+  "model": "Long-nose conventional sleeper (Long-Haul Trucking and Truck Stop)",
+  "path": "03_MILITARY/Vehicles/long-haul-trucking-and-truck-stop-long-nose-sleeper-949ae647.glb"
+ },
+ {
+  "clip": "cab-doors-open",
+  "asset_id": "D3A-0094",
+  "model": "Long-nose conventional sleeper (Long-Haul Trucking and Truck Stop)",
+  "path": "03_MILITARY/Vehicles/long-haul-trucking-and-truck-stop-long-nose-sleeper-949ae647.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0095",
+  "model": "Rigid box delivery truck (Long-Haul Trucking and Truck Stop)",
+  "path": "03_MILITARY/Vehicles/long-haul-trucking-and-truck-stop-box-truck-7c3e3e9d.glb"
+ },
+ {
+  "clip": "cab-doors-open",
+  "asset_id": "D3A-0095",
+  "model": "Rigid box delivery truck (Long-Haul Trucking and Truck Stop)",
+  "path": "03_MILITARY/Vehicles/long-haul-trucking-and-truck-stop-box-truck-7c3e3e9d.glb"
+ },
+ {
+  "clip": "spin",
+  "asset_id": "D3A-0117",
+  "model": "Glowing Crystal Cluster (Sunken City and Underwater Ruins)",
+  "path": "14_LIGHTING_EFFECTS/Lighting Effects/sunken-city-and-underwater-ruins-glowing-crystal-clust-897febc9.glb"
+ },
+ {
+  "clip": "bob",
+  "asset_id": "D3A-0126",
+  "model": "Half heart pickup (Pickups and Collectibles)",
+  "path": "13_GRAPHICS_UI/Icons/pickups-and-collectibles-heart-pickup-half-47977ec4.glb"
+ },
+ {
+  "clip": "spin",
+  "asset_id": "D3A-0126",
+  "model": "Half heart pickup (Pickups and Collectibles)",
+  "path": "13_GRAPHICS_UI/Icons/pickups-and-collectibles-heart-pickup-half-47977ec4.glb"
  }
 ]

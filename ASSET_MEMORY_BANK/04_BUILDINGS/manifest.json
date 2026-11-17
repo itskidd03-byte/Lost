@@ -1,11 +1,14 @@
 {
  "category": "04_BUILDINGS",
- "assets": 24,
- "files": 24,
- "bytes": 12676684,
+ "assets": 47,
+ "files": 3003,
+ "bytes": 90009479,
  "subcategories": [
+  "Castles",
   "Factories",
+  "Fortresses",
   "Houses",
+  "Industrial",
   "Medieval Buildings",
   "Modern Buildings",
   "Modular Building Pieces",
@@ -252,6 +255,236 @@
    "files": 1,
    "bytes": 1497312,
    "thumbnail": "04_BUILDINGS/Modular Building Pieces/hotel-and-resort-operations-guest-room-w-0766f7ed-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0001",
+   "name": "Rigid cylinder crew habitat on legs (Moon Base Colony and Lunar Rovers)",
+   "subcategory": "Houses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 209532,
+   "thumbnail": "04_BUILDINGS/Houses/lunar-surface-colony-and-rovers-rigid-cylinder-habitat-9b2fdbb4.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0002",
+   "name": "Corner Pillar (Distillery and Bonded Warehouse)",
+   "subcategory": "Warehouses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 58956,
+   "thumbnail": "04_BUILDINGS/Warehouses/distillery-and-bonded-warehouse-corner-pillar-88348036.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0003",
+   "name": "Shed wall bay with a sliding door (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Shops",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 31784,
+   "thumbnail": "04_BUILDINGS/Shops/steampunk-airship-dock-and-workshop-shed-wall-door-302e76d0.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0004",
+   "name": "Shed wall bay, clad (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Shops",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 12388,
+   "thumbnail": "04_BUILDINGS/Shops/steampunk-airship-dock-and-workshop-shed-wall-panel-13e7ce7b.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0005",
+   "name": "Gate Tower (Imperial China Palace and Garden)",
+   "subcategory": "Castles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 236480,
+   "thumbnail": "04_BUILDINGS/Castles/imperial-china-palace-and-garden-gate-tower-9d0d0bb6.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0006",
+   "name": "Terminal Floor Tile (Airport Terminal and Ground Operations)",
+   "subcategory": "Modern Buildings",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 7432,
+   "thumbnail": "04_BUILDINGS/Modern Buildings/airport-terminal-and-ground-operations-terminal-floor--a890a4e0.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0007",
+   "name": "Movable Partition Wall (Art Gallery and Exhibition Rooms)",
+   "subcategory": "Modern Buildings",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 14876,
+   "thumbnail": "04_BUILDINGS/Modern Buildings/art-gallery-and-exhibition-rooms-movable-partition-wal-1b35e01f.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0008",
+   "name": "Inflatable dome habitat (Moon Base Colony and Lunar Rovers)",
+   "subcategory": "Houses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 225440,
+   "thumbnail": "04_BUILDINGS/Houses/lunar-surface-colony-and-rovers-inflatable-dome-habita-f86f5d7b.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0009",
+   "name": "Pressurised connecting tunnel, straight bay (Moon Base Colony and Lunar Rovers)",
+   "subcategory": "Houses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 176788,
+   "thumbnail": "04_BUILDINGS/Houses/lunar-surface-colony-and-rovers-connecting-tunnel-stra-cf36f8da.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0010",
+   "name": "Lifeguard Tower (Beach Surf and Paddle Kit)",
+   "subcategory": "Castles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 332684,
+   "thumbnail": "04_BUILDINGS/Castles/beach-surf-and-paddle-kit-lifeguard-tower-c000085e.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0011",
+   "name": "Workshop Floor Tile (Robots and Drones Kit)",
+   "subcategory": "Shops",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 4396,
+   "thumbnail": "04_BUILDINGS/Shops/robots-and-drones-kit-workshop-floor-tile-f35da3e3.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0012",
+   "name": "Slate Roof Section (Distillery and Bonded Warehouse)",
+   "subcategory": "Warehouses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 35212,
+   "thumbnail": "04_BUILDINGS/Warehouses/distillery-and-bonded-warehouse-slate-roof-section-99afa97a.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0110",
+   "name": "Open-Plan Office Floor Plate (Downtown Office Interiors)",
+   "subcategory": "Modular Building Pieces",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1289984,
+   "thumbnail": "04_BUILDINGS/Modular Building Pieces/downtown-office-interiors-open-plan-floo-fc7431a0-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0111",
+   "name": "Office Lobby (Office Lobby and Building Facilities)",
+   "subcategory": "Modular Building Pieces",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1303620,
+   "thumbnail": "04_BUILDINGS/Modular Building Pieces/office-lobby-and-facilities-office-lobby-a6a9c028-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "KNY-0015",
+   "name": "Mini Dungeon pack",
+   "subcategory": "Modular Building Pieces",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 158,
+   "bytes": 4698866,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0017",
+   "name": "Mini Shop pack",
+   "subcategory": "Shops",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 162,
+   "bytes": 7361898,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0022",
+   "name": "Castle Kit pack",
+   "subcategory": "Castles",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 393,
+   "bytes": 6832184,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0023",
+   "name": "City Kit (Commercial) pack",
+   "subcategory": "Modern Buildings",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 215,
+   "bytes": 11180448,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0024",
+   "name": "City Kit (Suburban) pack",
+   "subcategory": "Houses",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 212,
+   "bytes": 8059673,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0026",
+   "name": "City Kit (Industrial) pack",
+   "subcategory": "Industrial",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 197,
+   "bytes": 11047274,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0030",
+   "name": "Tower Defense Kit pack",
+   "subcategory": "Fortresses",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 808,
+   "bytes": 16682261,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0031",
+   "name": "Retro Fantasy Kit pack",
+   "subcategory": "Medieval Buildings",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 558,
+   "bytes": 5589380,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0036",
+   "name": "Medieval RTS pack",
+   "subcategory": "Medieval Buildings",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 262,
+   "bytes": 1941239,
+   "thumbnail": ""
   }
  ]
 }

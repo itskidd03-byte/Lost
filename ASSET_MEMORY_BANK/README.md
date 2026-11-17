@@ -4,7 +4,7 @@ Permanent, reusable game-development asset warehouse. These are **actual files**
 (`.glb`, `.gltf`, PBR map sets, sprites, HUD art, audio, HDRIs), verified after
 download and indexed — not links.
 
-**239 assets · 8757 files · 231.2 MB** — all CC0 1.0
+**458 assets · 24216 files · 610.9 MB** — all CC0 1.0
 (public domain): free for commercial use, no attribution required.
 
 Start at `MEMORY_INDEX/catalog.csv` (one row per file: licence, creator, source
@@ -14,21 +14,21 @@ category folder also carries a `manifest.json` so it can be read alone.
 
 | Category | Assets | Files | Size |
 | --- | ---: | ---: | ---: |
-| `01_CHARACTERS` | 28 | 28 | 9.4 MB |
+| `01_CHARACTERS` | 53 | 272 | 35.4 MB |
 | `02_ANIMATIONS` | 0 | 0 | 0.0 MB |
-| `03_MILITARY` | 15 | 15 | 8.6 MB |
-| `04_BUILDINGS` | 24 | 24 | 12.1 MB |
+| `03_MILITARY` | 30 | 236 | 17.2 MB |
+| `04_BUILDINGS` | 47 | 3003 | 85.8 MB |
 | `05_CONSTRUCTION` | 1 | 1 | 0.4 MB |
-| `06_FURNITURE` | 6 | 18 | 3.7 MB |
-| `07_FOOD` | 16 | 24 | 3.2 MB |
-| `08_ENVIRONMENT` | 47 | 51 | 97.5 MB |
-| `09_TERRAIN` | 4 | 20 | 22.0 MB |
-| `10_ROADS_INFRASTRUCTURE` | 14 | 14 | 0.7 MB |
-| `11_PROPS_RESOURCES` | 32 | 52 | 18.8 MB |
-| `12_TEXTURES_MATERIALS` | 6 | 29 | 21.7 MB |
-| `13_GRAPHICS_UI` | 20 | 7959 | 12.3 MB |
-| `14_LIGHTING_EFFECTS` | 20 | 20 | 10.0 MB |
-| `15_AUDIO` | 6 | 502 | 10.9 MB |
+| `06_FURNITURE` | 19 | 1331 | 29.3 MB |
+| `07_FOOD` | 30 | 1046 | 18.9 MB |
+| `08_ENVIRONMENT` | 64 | 3147 | 126.9 MB |
+| `09_TERRAIN` | 10 | 49 | 46.6 MB |
+| `10_ROADS_INFRASTRUCTURE` | 27 | 509 | 7.8 MB |
+| `11_PROPS_RESOURCES` | 63 | 1833 | 86.9 MB |
+| `12_TEXTURES_MATERIALS` | 21 | 187 | 68.1 MB |
+| `13_GRAPHICS_UI` | 43 | 11688 | 30.6 MB |
+| `14_LIGHTING_EFFECTS` | 42 | 251 | 43.3 MB |
+| `15_AUDIO` | 8 | 663 | 13.8 MB |
 
 ## Sources
 

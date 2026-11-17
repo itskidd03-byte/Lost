@@ -1,11 +1,12 @@
 {
  "category": "14_LIGHTING_EFFECTS",
- "assets": 20,
- "files": 20,
- "bytes": 10452183,
+ "assets": 42,
+ "files": 251,
+ "bytes": 45380013,
  "subcategories": [
   "HDRI",
-  "Lighting Effects"
+  "Lighting Effects",
+  "Skyboxes"
  ],
  "items": [
   {
@@ -207,6 +208,226 @@
    "files": 1,
    "bytes": 23112,
    "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/cyberpunk-apartment-and-neon-block-puddle-plate-a0e6077e.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0112",
+   "name": "Crescent slash mesh (Sunfall Rift: MOBA Heroes and Arena)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 12044,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/sunfall-rift-moba-crescent-slash-5489a2d2.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0113",
+   "name": "Thruster cone (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 67624,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-thruster-cone-a2af2dfc.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0114",
+   "name": "Shockwave ring, large (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 85504,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-shockwave-ring-large-9568b02e.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0115",
+   "name": "Arrow with trail ribbon (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 20292,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-arrow-trail-ribbon-1edeeb40.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0116",
+   "name": "Shockwave ring, small (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 69440,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-shockwave-ring-small-fc40a3ab.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0117",
+   "name": "Glowing Crystal Cluster (Sunken City and Underwater Ruins)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 22736,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/sunken-city-and-underwater-ruins-glowing-crystal-clust-897febc9.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0118",
+   "name": "Bubble Column (Sunken City and Underwater Ruins)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 37768,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/sunken-city-and-underwater-ruins-bubble-column-557e5240.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0119",
+   "name": "Portal ring (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 70360,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-portal-ring-8e64f6d8.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0120",
+   "name": "Lava Fountain Plate (Volcano and Lava Fields)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 65820,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/volcano-and-lava-fields-volcano-and-lava-fields-lava-f-e483e5c3.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0121",
+   "name": "Light Shaft Plate (Sunken City and Underwater Ruins)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 4428,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/sunken-city-and-underwater-ruins-light-shaft-plate-ac1ae3e2.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0122",
+   "name": "Ember cluster (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 57244,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-ember-cluster-3e828dd2.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0123",
+   "name": "Steam column (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 55588,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-steam-column-bed1861f.thumb.webp"
+  },
+  {
+   "asset_id": "PLH-0022",
+   "name": "Belfast Open Field",
+   "subcategory": "HDRI",
+   "kind": "hdri",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1647689,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/belfast_open_field.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0023",
+   "name": "Eilenriede Labyrinth",
+   "subcategory": "HDRI",
+   "kind": "hdri",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1852833,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/eilenriede_labyrinth.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0024",
+   "name": "Kloppenheim 03 (Pure Sky)",
+   "subcategory": "HDRI",
+   "kind": "hdri",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1428760,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/kloppenheim_03_puresky.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0025",
+   "name": "Photo Studio Loft Hall",
+   "subcategory": "HDRI",
+   "kind": "hdri",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1640243,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/photo_studio_loft_hall.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0026",
+   "name": "Small Harbor 02",
+   "subcategory": "HDRI",
+   "kind": "hdri",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1564066,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/small_harbor_02.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0027",
+   "name": "Vestibule",
+   "subcategory": "HDRI",
+   "kind": "hdri",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1657793,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/vestibule.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0028",
+   "name": "Zwinger Night",
+   "subcategory": "HDRI",
+   "kind": "hdri",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1627536,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/zwinger_night.png?width=256"
+  },
+  {
+   "asset_id": "KNY-0032",
+   "name": "Skyboxes pack",
+   "subcategory": "Skyboxes",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 9,
+   "bytes": 5070766,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0033",
+   "name": "Skyboxes Space pack",
+   "subcategory": "Skyboxes",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 9,
+   "bytes": 8165271,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0034",
+   "name": "Particle Pack",
+   "subcategory": "Lighting Effects",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 194,
+   "bytes": 9704025,
+   "thumbnail": ""
   }
  ]
 }

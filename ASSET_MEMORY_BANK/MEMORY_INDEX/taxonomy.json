@@ -1,11 +1,11 @@
 {
   "01_CHARACTERS": {
-    "Humans": 7,
-    "Soldiers": 3,
-    "Civilians": 2,
-    "Fantasy Characters": 0,
-    "Monsters": 2,
-    "Animals": 14,
+    "Humans": 14,
+    "Soldiers": 6,
+    "Civilians": 3,
+    "Fantasy Characters": 1,
+    "Monsters": 3,
+    "Animals": 26,
     "Creatures": 0,
     "NPCs": 0,
     "Character Skins": 0,
@@ -31,12 +31,12 @@
   },
   "03_MILITARY": {
     "Soldiers": 0,
-    "Weapons": 14,
+    "Weapons": 27,
     "Tanks": 0,
     "Helicopters": 0,
     "Aircraft": 0,
     "Ships": 0,
-    "Vehicles": 1,
+    "Vehicles": 3,
     "Military Buildings": 0,
     "Barracks": 0,
     "Fortifications": 0,
@@ -46,19 +46,19 @@
     "Military Props": 0
   },
   "04_BUILDINGS": {
-    "Houses": 3,
-    "Castles": 0,
-    "Fortresses": 0,
-    "Shops": 3,
+    "Houses": 7,
+    "Castles": 3,
+    "Fortresses": 1,
+    "Shops": 7,
     "Hospitals": 0,
     "Factories": 1,
-    "Warehouses": 5,
+    "Warehouses": 7,
     "Farms": 0,
     "Churches": 0,
-    "Industrial": 0,
-    "Modern Buildings": 2,
-    "Medieval Buildings": 2,
-    "Modular Building Pieces": 8
+    "Industrial": 1,
+    "Modern Buildings": 5,
+    "Medieval Buildings": 4,
+    "Modular Building Pieces": 11
   },
   "05_CONSTRUCTION": {
     "Walls": 0,
@@ -76,43 +76,44 @@
     "Structural Pieces": 1
   },
   "06_FURNITURE": {
-    "Bedroom": 1,
-    "Living Room": 0,
+    "Bedroom": 2,
+    "Living Room": 1,
     "Kitchen": 1,
     "Bathroom": 0,
     "Office": 0,
-    "Tables": 1,
-    "Chairs": 3,
-    "Cabinets": 0,
+    "Tables": 2,
+    "Chairs": 5,
+    "Cabinets": 1,
     "Beds": 0,
     "Appliances": 0,
-    "Decorations": 0
+    "Decorations": 0,
+    "_other": 7
   },
   "07_FOOD": {
-    "Fruits": 2,
-    "Vegetables": 1,
+    "Fruits": 4,
+    "Vegetables": 3,
     "Meat": 2,
     "Bread": 1,
-    "Prepared Meals": 6,
-    "Drinks": 0,
+    "Prepared Meals": 12,
+    "Drinks": 3,
     "Ingredients": 0,
     "Cooking Equipment": 2,
-    "_other": 2
+    "_other": 3
   },
   "08_ENVIRONMENT": {
-    "Trees": 5,
-    "Bushes": 0,
-    "Grass": 2,
+    "Trees": 14,
+    "Bushes": 1,
+    "Grass": 4,
     "Flowers": 0,
-    "Rocks": 2,
+    "Rocks": 3,
     "Mountains": 0,
-    "Water": 1,
+    "Water": 2,
     "Rivers": 0,
     "Lakes": 0,
     "Cliffs": 0,
     "Caves": 1,
     "Forests": 0,
-    "_other": 36
+    "_other": 39
   },
   "09_TERRAIN": {
     "Dirt": 0,
@@ -123,23 +124,23 @@
     "Stone": 0,
     "Snow": 0,
     "Asphalt": 1,
-    "Concrete": 1,
+    "Concrete": 3,
     "Terrain Tiles": 0,
-    "Terrain Textures": 2
+    "Terrain Textures": 6
   },
   "10_ROADS_INFRASTRUCTURE": {
-    "Roads": 9,
+    "Roads": 17,
     "Intersections": 0,
     "Sidewalks": 0,
     "Highways": 0,
     "Bridges": 0,
-    "Railways": 5,
+    "Railways": 10,
     "Streetlights": 0,
     "Traffic Signs": 0,
     "Utility Poles": 0
   },
   "11_PROPS_RESOURCES": {
-    "Tools": 0,
+    "Tools": 1,
     "Crates": 0,
     "Barrels": 0,
     "Mining Resources": 0,
@@ -148,42 +149,42 @@
     "Metals": 0,
     "Crafting Materials": 0,
     "Collectibles": 0,
-    "_other": 32
+    "_other": 62
   },
   "12_TEXTURES_MATERIALS": {
-    "PBR Materials": 6,
+    "PBR Materials": 20,
     "Normal Maps": 0,
     "Roughness Maps": 0,
     "Metallic Maps": 0,
     "Displacement Maps": 0,
     "Ambient Occlusion": 0,
     "Decals": 0,
-    "Surface Details": 0
+    "Surface Details": 1
   },
   "13_GRAPHICS_UI": {
-    "Icons": 15,
+    "Icons": 27,
     "Buttons": 2,
-    "HUD": 1,
+    "HUD": 2,
     "Inventory": 1,
-    "Menus": 1,
-    "Sprites": 0,
-    "Tilesets": 0,
+    "Menus": 2,
+    "Sprites": 5,
+    "Tilesets": 2,
     "Particle Effects": 0,
-    "Backgrounds": 0
+    "Backgrounds": 2
   },
   "14_LIGHTING_EFFECTS": {
-    "HDRI": 6,
-    "Skyboxes": 0,
+    "HDRI": 13,
+    "Skyboxes": 2,
     "Fire": 0,
     "Smoke": 0,
     "Weather": 0,
     "Rain": 0,
     "Snow": 0,
     "Fog": 0,
-    "Lighting Effects": 14
+    "Lighting Effects": 27
   },
   "15_AUDIO": {
-    "Sound Effects": 4,
+    "Sound Effects": 6,
     "Weapons": 0,
     "Footsteps": 0,
     "Animals": 0,

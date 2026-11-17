@@ -1,13 +1,22 @@
 {
  "category": "06_FURNITURE",
- "assets": 6,
- "files": 18,
- "bytes": 3921645,
+ "assets": 19,
+ "files": 1331,
+ "bytes": 30743885,
  "subcategories": [
+  "",
   "Bedroom",
+  "Cabinets",
   "Chairs",
+  "Chandelier_03",
+  "GothicBed_01",
   "Kitchen",
-  "Tables"
+  "Living Room",
+  "Tables",
+  "brass_pan_01",
+  "industrial_caged_sconce",
+  "marble_bust_01",
+  "street_lamp_02"
  ],
  "items": [
   {
@@ -69,6 +78,136 @@
    "files": 1,
    "bytes": 45820,
    "thumbnail": "06_FURNITURE/Kitchen/alpine-snow-village-cast-iron-cabin-stove-189f1e06.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0049",
+   "name": "Sofa Three Seat (Bedroom and Living Room Furniture)",
+   "subcategory": "Living Room",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 126228,
+   "thumbnail": "06_FURNITURE/Living Room/bedroom-and-living-room-furniture-sofa-three-seat-6be9b44b.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0050",
+   "name": "Battery Swap Cabinet (Robots and Drones Kit)",
+   "subcategory": "Cabinets",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 12412,
+   "thumbnail": "06_FURNITURE/Cabinets/robots-and-drones-kit-battery-swap-cabinet-e152705f.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0051",
+   "name": "Full mannequin form (Clothing Rail and Wardrobe)",
+   "subcategory": "Bedroom",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 71928,
+   "thumbnail": "06_FURNITURE/Bedroom/clothing-rail-and-wardrobe-mannequin-full-form-e937795f.thumb.webp"
+  },
+  {
+   "asset_id": "PLH-0002",
+   "name": "Brass Pan 01",
+   "subcategory": "brass_pan_01",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 1615932,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/brass_pan_01.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0003",
+   "name": "Chandelier 03",
+   "subcategory": "Chandelier_03",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 6,
+   "bytes": 1364013,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/Chandelier_03.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0007",
+   "name": "Gothic Bed 01",
+   "subcategory": "GothicBed_01",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 1155213,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/GothicBed_01.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0008",
+   "name": "Industrial Caged Sconce",
+   "subcategory": "industrial_caged_sconce",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 6,
+   "bytes": 3125535,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/industrial_caged_sconce.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0009",
+   "name": "Marble Bust 01",
+   "subcategory": "marble_bust_01",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 898283,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/marble_bust_01.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0010",
+   "name": "Mid Century Lounge Chair",
+   "subcategory": "Chairs",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 2087019,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/mid_century_lounge_chair.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0012",
+   "name": "Old Drill Press",
+   "subcategory": "Chairs",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 2352717,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/old_drill_press.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0017",
+   "name": "Street Lamp 02",
+   "subcategory": "street_lamp_02",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 1870246,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/street_lamp_02.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0021",
+   "name": "Wooden Table 03",
+   "subcategory": "Tables",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 638291,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/WoodenTable_03.png?width=256"
+  },
+  {
+   "asset_id": "KNY-0018",
+   "name": "Furniture Kit pack",
+   "subcategory": "",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 1263,
+   "bytes": 11504423,
+   "thumbnail": ""
   }
  ]
 }

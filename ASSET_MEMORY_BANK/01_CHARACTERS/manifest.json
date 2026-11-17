@@ -1,11 +1,12 @@
 {
  "category": "01_CHARACTERS",
- "assets": 28,
- "files": 28,
- "bytes": 9826120,
+ "assets": 53,
+ "files": 272,
+ "bytes": 37086705,
  "subcategories": [
   "Animals",
   "Civilians",
+  "Fantasy Characters",
   "Humans",
   "Monsters",
   "Soldiers"
@@ -290,6 +291,256 @@
    "files": 1,
    "bytes": 134856,
    "thumbnail": "01_CHARACTERS/Animals/ocean-giants-kit-loggerhead-turtle-3bc323f1.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0025",
+   "name": "Ground Crew Marshaller (Aircraft Fleet and Airfield)",
+   "subcategory": "Humans",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 40416,
+   "thumbnail": "01_CHARACTERS/Humans/aircraft-fleet-and-airfield-ground-crew-marshaller-07489e09.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0026",
+   "name": "Humanoid Worker (Robots and Drones Kit)",
+   "subcategory": "Civilians",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 77464,
+   "thumbnail": "01_CHARACTERS/Civilians/robots-and-drones-kit-humanoid-worker-85f63bad.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0027",
+   "name": "Low Poly Police Figure Standing (Low Poly Character Figures)",
+   "subcategory": "Humans",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 66944,
+   "thumbnail": "01_CHARACTERS/Humans/low-poly-character-figures-police-officer-standing-cedbbfb3.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0028",
+   "name": "Low Poly Villager Man (Low Poly Character Figures)",
+   "subcategory": "Fantasy Characters",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 61820,
+   "thumbnail": "01_CHARACTERS/Fantasy Characters/low-poly-character-figures-villager-man-bfcdf400.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0029",
+   "name": "Maintenance Technician Kneeling (Car Factory Production Line)",
+   "subcategory": "Humans",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 46136,
+   "thumbnail": "01_CHARACTERS/Humans/car-factory-production-line-maintenance-technician-kne-25bdcdac.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0030",
+   "name": "Female display mannequin, standing (Retail Store Fixtures and Mall)",
+   "subcategory": "Humans",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 127708,
+   "thumbnail": "01_CHARACTERS/Humans/retail-store-fixtures-and-mall-mannequin-female-standi-bd5d8738.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0031",
+   "name": "Service Robot Biped (Robots and Drones Kit)",
+   "subcategory": "Humans",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 76560,
+   "thumbnail": "01_CHARACTERS/Humans/robots-and-drones-kit-service-robot-biped-5cf806de.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0032",
+   "name": "Infected office clerk (Zombie Horde and Infected Characters)",
+   "subcategory": "Monsters",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 282712,
+   "thumbnail": "01_CHARACTERS/Monsters/undead-horde-and-infected-variants-walker-office-clerk-ed21f7d7.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0033",
+   "name": "Low Poly T Pose Reference Figure (Low Poly Character Figures)",
+   "subcategory": "Humans",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 49224,
+   "thumbnail": "01_CHARACTERS/Humans/low-poly-character-figures-reference-figure-t-pose-96ab66de.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0034",
+   "name": "Cowboy Sheriff (Legendary Warriors Kit)",
+   "subcategory": "Soldiers",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 195840,
+   "thumbnail": "01_CHARACTERS/Soldiers/legendary-warriors-kit-cowboy-sheriff-280096c4.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0035",
+   "name": "Secutor Gladiator (Legendary Warriors Kit)",
+   "subcategory": "Soldiers",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 206816,
+   "thumbnail": "01_CHARACTERS/Soldiers/legendary-warriors-kit-secutor-707e1d08.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0036",
+   "name": "Viking Berserker (Legendary Warriors Kit)",
+   "subcategory": "Soldiers",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 209144,
+   "thumbnail": "01_CHARACTERS/Soldiers/legendary-warriors-kit-viking-berserker-5f40dcf1.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0037",
+   "name": "Grizzly bear (Realistic Wild Animals HD)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 352036,
+   "thumbnail": "01_CHARACTERS/Animals/exotic-wildlife-hd-grizzly-bear-0638d906.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0038",
+   "name": "Domestic Shorthair Cat Sitting (Pets and Companions HD)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 301316,
+   "thumbnail": "01_CHARACTERS/Animals/pets-and-companions-hd-domestic-shorthair-sitting-b1cd877a.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0039",
+   "name": "Carp Fish (Quiet Lake Fishing)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 24352,
+   "thumbnail": "01_CHARACTERS/Animals/quiet-lake-fishing-carp-6dc09cd8.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0040",
+   "name": "Domestic Shorthair Cat (Pets and Companions HD)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 301124,
+   "thumbnail": "01_CHARACTERS/Animals/pets-and-companions-hd-domestic-shorthair-bdac6d3e.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0041",
+   "name": "Labrador Retriever (Pets and Companions HD)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 293364,
+   "thumbnail": "01_CHARACTERS/Animals/pets-and-companions-hd-labrador-retriever-927d54b7.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0042",
+   "name": "spotted lagoon jellyfish (Ocean Giants: Whales, Dolphins, Sharks and Reef Life)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 126024,
+   "thumbnail": "01_CHARACTERS/Animals/ocean-giants-kit-spotted-lagoon-jellyfish-ce22e3fc.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0043",
+   "name": "Bengal tiger (Realistic Wild Animals HD)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 412044,
+   "thumbnail": "01_CHARACTERS/Animals/exotic-wildlife-hd-bengal-tiger-cbb738df.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0044",
+   "name": "Holstein Dairy Cow (Farm and Working Animals HD)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 373996,
+   "thumbnail": "01_CHARACTERS/Animals/farm-and-working-animals-hd-dairy-cow-holstein-00db2fd7.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0045",
+   "name": "lions mane jellyfish (Ocean Giants: Whales, Dolphins, Sharks and Reef Life)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 195712,
+   "thumbnail": "01_CHARACTERS/Animals/ocean-giants-kit-lions-mane-jellyfish-71cdb2df.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0046",
+   "name": "hawksbill turtle (Ocean Giants: Whales, Dolphins, Sharks and Reef Life)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 140296,
+   "thumbnail": "01_CHARACTERS/Animals/ocean-giants-kit-hawksbill-turtle-f09f91bd.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0047",
+   "name": "harbour seal (Ocean Giants: Whales, Dolphins, Sharks and Reef Life)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 139628,
+   "thumbnail": "01_CHARACTERS/Animals/ocean-giants-kit-harbour-seal-7ee4abc0.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0048",
+   "name": "cownose ray (Ocean Giants: Whales, Dolphins, Sharks and Reef Life)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 118364,
+   "thumbnail": "01_CHARACTERS/Animals/ocean-giants-kit-cownose-ray-f53e982f.thumb.webp"
+  },
+  {
+   "asset_id": "KNY-0014",
+   "name": "Mini Characters pack",
+   "subcategory": "Humans",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 220,
+   "bytes": 23041545,
+   "thumbnail": ""
   }
  ]
 }

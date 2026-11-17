@@ -1,8 +1,8 @@
 {
  "category": "15_AUDIO",
- "assets": 6,
- "files": 502,
- "bytes": 11443562,
+ "assets": 8,
+ "files": 663,
+ "bytes": 14495984,
  "subcategories": [
   "Interface Sounds",
   "Music",
@@ -67,6 +67,26 @@
    "license": "CC0 1.0 Universal",
    "files": 87,
    "bytes": 1433122,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0012",
+   "name": "Digital Audio pack",
+   "subcategory": "Sound Effects",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 64,
+   "bytes": 1064484,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0013",
+   "name": "Voiceover Pack",
+   "subcategory": "Sound Effects",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 97,
+   "bytes": 1987938,
    "thumbnail": ""
   }
  ]
