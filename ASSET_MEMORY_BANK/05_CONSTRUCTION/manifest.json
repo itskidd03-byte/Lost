@@ -1,0 +1,21 @@
+{
+ "category": "05_CONSTRUCTION",
+ "assets": 1,
+ "files": 1,
+ "bytes": 446224,
+ "subcategories": [
+  "Structural Pieces"
+ ],
+ "items": [
+  {
+   "asset_id": "D3A-0059",
+   "name": "House staircase (Haunted House and Ghost Hunting Kit)",
+   "subcategory": "Structural Pieces",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 446224,
+   "thumbnail": "05_CONSTRUCTION/Structural Pieces/paranormal-investigation-house-house-staircase-b3f746ca.thumb.webp"
+  }
+ ]
+}

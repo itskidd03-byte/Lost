@@ -1,0 +1,800 @@
+[
+ {
+  "clip": "close-open",
+  "asset_id": "D3A-0001",
+  "model": "Pile Dwelling (Bellroot Fen Floodward Marches)",
+  "path": "04_BUILDINGS/Houses/bellroot-fen-floodward-marches-pile-dwelling-c61503ef.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0003",
+  "model": "Ceremonial Hall (Imperial China Palace and Garden)",
+  "path": "04_BUILDINGS/Houses/imperial-china-palace-and-garden-ceremonial-hall-3f95c2b7.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0003",
+  "model": "Ceremonial Hall (Imperial China Palace and Garden)",
+  "path": "04_BUILDINGS/Houses/imperial-china-palace-and-garden-ceremonial-hall-3f95c2b7.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0005",
+  "model": "Warehouse Door Pair (Distillery and Bonded Warehouse)",
+  "path": "04_BUILDINGS/Warehouses/distillery-and-bonded-warehouse-warehouse-door-pair-3108b2f4.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0005",
+  "model": "Warehouse Door Pair (Distillery and Bonded Warehouse)",
+  "path": "04_BUILDINGS/Warehouses/distillery-and-bonded-warehouse-warehouse-door-pair-3108b2f4.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0006",
+  "model": "Timber House Small (Medieval MMO Starter Realm)",
+  "path": "04_BUILDINGS/Medieval Buildings/medieval-mmo-starter-realm-timber-house-small-25223f49.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0006",
+  "model": "Timber House Small (Medieval MMO Starter Realm)",
+  "path": "04_BUILDINGS/Medieval Buildings/medieval-mmo-starter-realm-timber-house-small-25223f49.glb"
+ },
+ {
+  "clip": "idle",
+  "asset_id": "D3A-0021",
+  "model": "Gorgehold Scout (Gorgehold Survivor Gallery and Operations)",
+  "path": "01_CHARACTERS/Humans/gorgehold-survivor-gallery-and-operations-gorgehold-sc-5418288a.glb"
+ },
+ {
+  "clip": "walk",
+  "asset_id": "D3A-0021",
+  "model": "Gorgehold Scout (Gorgehold Survivor Gallery and Operations)",
+  "path": "01_CHARACTERS/Humans/gorgehold-survivor-gallery-and-operations-gorgehold-sc-5418288a.glb"
+ },
+ {
+  "clip": "run",
+  "asset_id": "D3A-0021",
+  "model": "Gorgehold Scout (Gorgehold Survivor Gallery and Operations)",
+  "path": "01_CHARACTERS/Humans/gorgehold-survivor-gallery-and-operations-gorgehold-sc-5418288a.glb"
+ },
+ {
+  "clip": "grasp",
+  "asset_id": "D3A-0021",
+  "model": "Gorgehold Scout (Gorgehold Survivor Gallery and Operations)",
+  "path": "01_CHARACTERS/Humans/gorgehold-survivor-gallery-and-operations-gorgehold-sc-5418288a.glb"
+ },
+ {
+  "clip": "idle",
+  "asset_id": "D3A-0023",
+  "model": "Forest Stalker, Jointed (FPS Survival Forest Outpost)",
+  "path": "01_CHARACTERS/Monsters/fps-survival-forest-outpost-creature-stalker-ec567238.glb"
+ },
+ {
+  "clip": "head-turn",
+  "asset_id": "D3A-0023",
+  "model": "Forest Stalker, Jointed (FPS Survival Forest Outpost)",
+  "path": "01_CHARACTERS/Monsters/fps-survival-forest-outpost-creature-stalker-ec567238.glb"
+ },
+ {
+  "clip": "arm-swing",
+  "asset_id": "D3A-0023",
+  "model": "Forest Stalker, Jointed (FPS Survival Forest Outpost)",
+  "path": "01_CHARACTERS/Monsters/fps-survival-forest-outpost-creature-stalker-ec567238.glb"
+ },
+ {
+  "clip": "tilt",
+  "asset_id": "D3A-0025",
+  "model": "Humanoid Android (Robots and Drones Kit)",
+  "path": "01_CHARACTERS/Humans/robots-and-drones-kit-humanoid-android-88d6d911.glb"
+ },
+ {
+  "clip": "idle",
+  "asset_id": "D3A-0026",
+  "model": "Infected Runner, Jointed (FPS Survival Forest Outpost)",
+  "path": "01_CHARACTERS/Monsters/fps-survival-forest-outpost-creature-infected-runner-d6e26047.glb"
+ },
+ {
+  "clip": "head-turn",
+  "asset_id": "D3A-0026",
+  "model": "Infected Runner, Jointed (FPS Survival Forest Outpost)",
+  "path": "01_CHARACTERS/Monsters/fps-survival-forest-outpost-creature-infected-runner-d6e26047.glb"
+ },
+ {
+  "clip": "arm-swing",
+  "asset_id": "D3A-0026",
+  "model": "Infected Runner, Jointed (FPS Survival Forest Outpost)",
+  "path": "01_CHARACTERS/Monsters/fps-survival-forest-outpost-creature-infected-runner-d6e26047.glb"
+ },
+ {
+  "clip": "bow",
+  "asset_id": "D3A-0027",
+  "model": "Pirate Captain (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-pirate-captain-5801918a.glb"
+ },
+ {
+  "clip": "idle",
+  "asset_id": "D3A-0027",
+  "model": "Pirate Captain (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-pirate-captain-5801918a.glb"
+ },
+ {
+  "clip": "wave",
+  "asset_id": "D3A-0027",
+  "model": "Pirate Captain (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-pirate-captain-5801918a.glb"
+ },
+ {
+  "clip": "bow",
+  "asset_id": "D3A-0029",
+  "model": "Samurai Duelist (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-samurai-duelist-87b9cbe3.glb"
+ },
+ {
+  "clip": "idle",
+  "asset_id": "D3A-0029",
+  "model": "Samurai Duelist (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-samurai-duelist-87b9cbe3.glb"
+ },
+ {
+  "clip": "wave",
+  "asset_id": "D3A-0029",
+  "model": "Samurai Duelist (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-samurai-duelist-87b9cbe3.glb"
+ },
+ {
+  "clip": "idle",
+  "asset_id": "D3A-0038",
+  "model": "Forest Boar, Jointed (FPS Survival Forest Outpost)",
+  "path": "01_CHARACTERS/Animals/fps-survival-forest-outpost-creature-boar-2eae041a.glb"
+ },
+ {
+  "clip": "head-turn",
+  "asset_id": "D3A-0038",
+  "model": "Forest Boar, Jointed (FPS Survival Forest Outpost)",
+  "path": "01_CHARACTERS/Animals/fps-survival-forest-outpost-creature-boar-2eae041a.glb"
+ },
+ {
+  "clip": "spin",
+  "asset_id": "D3A-0055",
+  "model": "Popcorn Kettle Machine (Cinema Multiplex and Foyer)",
+  "path": "07_FOOD/Prepared Meals/cinema-multiplex-and-foyer-popcorn-kettle-machine-cec50d7d.glb"
+ },
+ {
+  "clip": "magazine-open",
+  "asset_id": "D3A-0061",
+  "model": "Standard Assault Rifle (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-standard-rifle-94762172.glb"
+ },
+ {
+  "clip": "magazine-close",
+  "asset_id": "D3A-0061",
+  "model": "Standard Assault Rifle (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-standard-rifle-94762172.glb"
+ },
+ {
+  "clip": "charge-open",
+  "asset_id": "D3A-0061",
+  "model": "Standard Assault Rifle (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-standard-rifle-94762172.glb"
+ },
+ {
+  "clip": "charge-close",
+  "asset_id": "D3A-0061",
+  "model": "Standard Assault Rifle (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-standard-rifle-94762172.glb"
+ },
+ {
+  "clip": "slide-open",
+  "asset_id": "D3A-0062",
+  "model": "Service Pistol (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-service-pistol-f84987cb.glb"
+ },
+ {
+  "clip": "slide-close",
+  "asset_id": "D3A-0062",
+  "model": "Service Pistol (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-service-pistol-f84987cb.glb"
+ },
+ {
+  "clip": "magazine-open",
+  "asset_id": "D3A-0062",
+  "model": "Service Pistol (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-service-pistol-f84987cb.glb"
+ },
+ {
+  "clip": "magazine-close",
+  "asset_id": "D3A-0062",
+  "model": "Service Pistol (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-service-pistol-f84987cb.glb"
+ },
+ {
+  "clip": "cock",
+  "asset_id": "D3A-0062",
+  "model": "Service Pistol (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-service-pistol-f84987cb.glb"
+ },
+ {
+  "clip": "charge-open",
+  "asset_id": "D3A-0064",
+  "model": "General Purpose Machine Gun (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-general-purpose-mg-4f11f2e1.glb"
+ },
+ {
+  "clip": "charge-close",
+  "asset_id": "D3A-0064",
+  "model": "General Purpose Machine Gun (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-general-purpose-mg-4f11f2e1.glb"
+ },
+ {
+  "clip": "bipod-open",
+  "asset_id": "D3A-0064",
+  "model": "General Purpose Machine Gun (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-general-purpose-mg-4f11f2e1.glb"
+ },
+ {
+  "clip": "bipod-close",
+  "asset_id": "D3A-0064",
+  "model": "General Purpose Machine Gun (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-general-purpose-mg-4f11f2e1.glb"
+ },
+ {
+  "clip": "magazine-open",
+  "asset_id": "D3A-0065",
+  "model": "Chassis Sniper, Scoped (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-bolt-sniper-chassis-scoped-891e227c.glb"
+ },
+ {
+  "clip": "magazine-close",
+  "asset_id": "D3A-0065",
+  "model": "Chassis Sniper, Scoped (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-bolt-sniper-chassis-scoped-891e227c.glb"
+ },
+ {
+  "clip": "bolt-open",
+  "asset_id": "D3A-0065",
+  "model": "Chassis Sniper, Scoped (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-bolt-sniper-chassis-scoped-891e227c.glb"
+ },
+ {
+  "clip": "bolt-close",
+  "asset_id": "D3A-0065",
+  "model": "Chassis Sniper, Scoped (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-bolt-sniper-chassis-scoped-891e227c.glb"
+ },
+ {
+  "clip": "bipod-open",
+  "asset_id": "D3A-0065",
+  "model": "Chassis Sniper, Scoped (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-bolt-sniper-chassis-scoped-891e227c.glb"
+ },
+ {
+  "clip": "bipod-close",
+  "asset_id": "D3A-0065",
+  "model": "Chassis Sniper, Scoped (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-bolt-sniper-chassis-scoped-891e227c.glb"
+ },
+ {
+  "clip": "stock-open",
+  "asset_id": "D3A-0066",
+  "model": "Bolt-action precision rifle (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-bolt-sniper-b3944481.glb"
+ },
+ {
+  "clip": "stock-close",
+  "asset_id": "D3A-0066",
+  "model": "Bolt-action precision rifle (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-bolt-sniper-b3944481.glb"
+ },
+ {
+  "clip": "bipod-open",
+  "asset_id": "D3A-0066",
+  "model": "Bolt-action precision rifle (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-bolt-sniper-b3944481.glb"
+ },
+ {
+  "clip": "bipod-close",
+  "asset_id": "D3A-0066",
+  "model": "Bolt-action precision rifle (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-bolt-sniper-b3944481.glb"
+ },
+ {
+  "clip": "stock-open",
+  "asset_id": "D3A-0067",
+  "model": "Compact submachine gun (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-smg-e216f9a5.glb"
+ },
+ {
+  "clip": "stock-close",
+  "asset_id": "D3A-0067",
+  "model": "Compact submachine gun (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-smg-e216f9a5.glb"
+ },
+ {
+  "clip": "magazine-open",
+  "asset_id": "D3A-0067",
+  "model": "Compact submachine gun (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-smg-e216f9a5.glb"
+ },
+ {
+  "clip": "magazine-close",
+  "asset_id": "D3A-0067",
+  "model": "Compact submachine gun (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-smg-e216f9a5.glb"
+ },
+ {
+  "clip": "door-open",
+  "asset_id": "D3A-0072",
+  "model": "Mid-engine sports car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-sports-car-900de487.glb"
+ },
+ {
+  "clip": "door-close",
+  "asset_id": "D3A-0072",
+  "model": "Mid-engine sports car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-sports-car-900de487.glb"
+ },
+ {
+  "clip": "bonnet-open",
+  "asset_id": "D3A-0072",
+  "model": "Mid-engine sports car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-sports-car-900de487.glb"
+ },
+ {
+  "clip": "bonnet-close",
+  "asset_id": "D3A-0072",
+  "model": "Mid-engine sports car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-sports-car-900de487.glb"
+ },
+ {
+  "clip": "boot-open",
+  "asset_id": "D3A-0072",
+  "model": "Mid-engine sports car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-sports-car-900de487.glb"
+ },
+ {
+  "clip": "boot-close",
+  "asset_id": "D3A-0072",
+  "model": "Mid-engine sports car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-sports-car-900de487.glb"
+ },
+ {
+  "clip": "steer",
+  "asset_id": "D3A-0072",
+  "model": "Mid-engine sports car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-sports-car-900de487.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0072",
+  "model": "Mid-engine sports car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-sports-car-900de487.glb"
+ },
+ {
+  "clip": "door-open",
+  "asset_id": "D3A-0073",
+  "model": "Four-door saloon (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-saloon-ad831b1f.glb"
+ },
+ {
+  "clip": "door-close",
+  "asset_id": "D3A-0073",
+  "model": "Four-door saloon (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-saloon-ad831b1f.glb"
+ },
+ {
+  "clip": "bonnet-open",
+  "asset_id": "D3A-0073",
+  "model": "Four-door saloon (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-saloon-ad831b1f.glb"
+ },
+ {
+  "clip": "bonnet-close",
+  "asset_id": "D3A-0073",
+  "model": "Four-door saloon (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-saloon-ad831b1f.glb"
+ },
+ {
+  "clip": "boot-open",
+  "asset_id": "D3A-0073",
+  "model": "Four-door saloon (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-saloon-ad831b1f.glb"
+ },
+ {
+  "clip": "boot-close",
+  "asset_id": "D3A-0073",
+  "model": "Four-door saloon (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-saloon-ad831b1f.glb"
+ },
+ {
+  "clip": "steer",
+  "asset_id": "D3A-0073",
+  "model": "Four-door saloon (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-saloon-ad831b1f.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0073",
+  "model": "Four-door saloon (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-saloon-ad831b1f.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0074",
+  "model": "Crashed Transport Nose (Arctic Station FPS Kit)",
+  "path": "11_PROPS_RESOURCES/Vehicles/arctic-station-fps-kit-crashed-transport-nose-3c92d20c.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0074",
+  "model": "Crashed Transport Nose (Arctic Station FPS Kit)",
+  "path": "11_PROPS_RESOURCES/Vehicles/arctic-station-fps-kit-crashed-transport-nose-3c92d20c.glb"
+ },
+ {
+  "clip": "spin",
+  "asset_id": "D3A-0074",
+  "model": "Crashed Transport Nose (Arctic Station FPS Kit)",
+  "path": "11_PROPS_RESOURCES/Vehicles/arctic-station-fps-kit-crashed-transport-nose-3c92d20c.glb"
+ },
+ {
+  "clip": "door-open",
+  "asset_id": "D3A-0076",
+  "model": "City car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-city-car-033e3215.glb"
+ },
+ {
+  "clip": "door-close",
+  "asset_id": "D3A-0076",
+  "model": "City car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-city-car-033e3215.glb"
+ },
+ {
+  "clip": "bonnet-open",
+  "asset_id": "D3A-0076",
+  "model": "City car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-city-car-033e3215.glb"
+ },
+ {
+  "clip": "bonnet-close",
+  "asset_id": "D3A-0076",
+  "model": "City car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-city-car-033e3215.glb"
+ },
+ {
+  "clip": "boot-open",
+  "asset_id": "D3A-0076",
+  "model": "City car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-city-car-033e3215.glb"
+ },
+ {
+  "clip": "boot-close",
+  "asset_id": "D3A-0076",
+  "model": "City car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-city-car-033e3215.glb"
+ },
+ {
+  "clip": "steer",
+  "asset_id": "D3A-0076",
+  "model": "City car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-city-car-033e3215.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0076",
+  "model": "City car (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-city-car-033e3215.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0077",
+  "model": "Road sportbike (Motorcycle Racing and Street Bikes)",
+  "path": "11_PROPS_RESOURCES/Vehicles/motorcycle-racing-and-street-bikes-road-sportbike-e1418015.glb"
+ },
+ {
+  "clip": "steer",
+  "asset_id": "D3A-0077",
+  "model": "Road sportbike (Motorcycle Racing and Street Bikes)",
+  "path": "11_PROPS_RESOURCES/Vehicles/motorcycle-racing-and-street-bikes-road-sportbike-e1418015.glb"
+ },
+ {
+  "clip": "side-stand-up",
+  "asset_id": "D3A-0077",
+  "model": "Road sportbike (Motorcycle Racing and Street Bikes)",
+  "path": "11_PROPS_RESOURCES/Vehicles/motorcycle-racing-and-street-bikes-road-sportbike-e1418015.glb"
+ },
+ {
+  "clip": "boom-open",
+  "asset_id": "D3A-0078",
+  "model": "Tracked excavator with digging bucket (Demolition and Site Clearance)",
+  "path": "11_PROPS_RESOURCES/Vehicles/demolition-and-site-clearance-demolition-and-site-clea-4c94ddeb.glb"
+ },
+ {
+  "clip": "boom-close",
+  "asset_id": "D3A-0078",
+  "model": "Tracked excavator with digging bucket (Demolition and Site Clearance)",
+  "path": "11_PROPS_RESOURCES/Vehicles/demolition-and-site-clearance-demolition-and-site-clea-4c94ddeb.glb"
+ },
+ {
+  "clip": "bucket-open",
+  "asset_id": "D3A-0078",
+  "model": "Tracked excavator with digging bucket (Demolition and Site Clearance)",
+  "path": "11_PROPS_RESOURCES/Vehicles/demolition-and-site-clearance-demolition-and-site-clea-4c94ddeb.glb"
+ },
+ {
+  "clip": "bucket-close",
+  "asset_id": "D3A-0078",
+  "model": "Tracked excavator with digging bucket (Demolition and Site Clearance)",
+  "path": "11_PROPS_RESOURCES/Vehicles/demolition-and-site-clearance-demolition-and-site-clea-4c94ddeb.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0080",
+  "model": "Narrow Body Twinjet In Flight (Aircraft Fleet and Airfield)",
+  "path": "11_PROPS_RESOURCES/Vehicles/aircraft-fleet-and-airfield-narrowbody-twinjet-in-flig-99819439.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0080",
+  "model": "Narrow Body Twinjet In Flight (Aircraft Fleet and Airfield)",
+  "path": "11_PROPS_RESOURCES/Vehicles/aircraft-fleet-and-airfield-narrowbody-twinjet-in-flig-99819439.glb"
+ },
+ {
+  "clip": "aileron-roll",
+  "asset_id": "D3A-0080",
+  "model": "Narrow Body Twinjet In Flight (Aircraft Fleet and Airfield)",
+  "path": "11_PROPS_RESOURCES/Vehicles/aircraft-fleet-and-airfield-narrowbody-twinjet-in-flig-99819439.glb"
+ },
+ {
+  "clip": "flap-tilt",
+  "asset_id": "D3A-0080",
+  "model": "Narrow Body Twinjet In Flight (Aircraft Fleet and Airfield)",
+  "path": "11_PROPS_RESOURCES/Vehicles/aircraft-fleet-and-airfield-narrowbody-twinjet-in-flig-99819439.glb"
+ },
+ {
+  "clip": "elevator-tilt",
+  "asset_id": "D3A-0080",
+  "model": "Narrow Body Twinjet In Flight (Aircraft Fleet and Airfield)",
+  "path": "11_PROPS_RESOURCES/Vehicles/aircraft-fleet-and-airfield-narrowbody-twinjet-in-flig-99819439.glb"
+ },
+ {
+  "clip": "rudder-steer",
+  "asset_id": "D3A-0080",
+  "model": "Narrow Body Twinjet In Flight (Aircraft Fleet and Airfield)",
+  "path": "11_PROPS_RESOURCES/Vehicles/aircraft-fleet-and-airfield-narrowbody-twinjet-in-flig-99819439.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0081",
+  "model": "Entry barrier with a lifting arm (Car Park and Road Vehicle Fleet)",
+  "path": "10_ROADS_INFRASTRUCTURE/Roads/car-park-and-road-vehicle-fleet-entry-barrier-7cb4f555.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0081",
+  "model": "Entry barrier with a lifting arm (Car Park and Road Vehicle Fleet)",
+  "path": "10_ROADS_INFRASTRUCTURE/Roads/car-park-and-road-vehicle-fleet-entry-barrier-7cb4f555.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0083",
+  "model": "Slewing jib crane (Steampunk Airship Dock and Workshop)",
+  "path": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-jib-crane-68fb499b.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0083",
+  "model": "Slewing jib crane (Steampunk Airship Dock and Workshop)",
+  "path": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-jib-crane-68fb499b.glb"
+ },
+ {
+  "clip": "spin",
+  "asset_id": "D3A-0083",
+  "model": "Slewing jib crane (Steampunk Airship Dock and Workshop)",
+  "path": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-jib-crane-68fb499b.glb"
+ },
+ {
+  "clip": "trolley-open",
+  "asset_id": "D3A-0087",
+  "model": "Dock gantry with travelling hoist (Steampunk Airship Dock and Workshop)",
+  "path": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-dock-gantry-f46a3526.glb"
+ },
+ {
+  "clip": "trolley-close",
+  "asset_id": "D3A-0087",
+  "model": "Dock gantry with travelling hoist (Steampunk Airship Dock and Workshop)",
+  "path": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-dock-gantry-f46a3526.glb"
+ },
+ {
+  "clip": "hoist-open",
+  "asset_id": "D3A-0087",
+  "model": "Dock gantry with travelling hoist (Steampunk Airship Dock and Workshop)",
+  "path": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-dock-gantry-f46a3526.glb"
+ },
+ {
+  "clip": "hoist-close",
+  "asset_id": "D3A-0087",
+  "model": "Dock gantry with travelling hoist (Steampunk Airship Dock and Workshop)",
+  "path": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-dock-gantry-f46a3526.glb"
+ },
+ {
+  "clip": "spin",
+  "asset_id": "D3A-0088",
+  "model": "Airship mooring mast (Steampunk Airship Dock and Workshop)",
+  "path": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-mooring-mast-2a9d3e5d.glb"
+ },
+ {
+  "clip": "bob",
+  "asset_id": "D3A-0112",
+  "model": "Health cross pickup (Pickups and Collectibles)",
+  "path": "13_GRAPHICS_UI/Icons/pickups-and-collectibles-health-cross-8a1140c8.glb"
+ },
+ {
+  "clip": "spin",
+  "asset_id": "D3A-0112",
+  "model": "Health cross pickup (Pickups and Collectibles)",
+  "path": "13_GRAPHICS_UI/Icons/pickups-and-collectibles-health-cross-8a1140c8.glb"
+ },
+ {
+  "clip": "bob",
+  "asset_id": "D3A-0114",
+  "model": "Invincibility star (Pickups and Collectibles)",
+  "path": "13_GRAPHICS_UI/Icons/pickups-and-collectibles-invincibility-star-485cc6af.glb"
+ },
+ {
+  "clip": "spin",
+  "asset_id": "D3A-0114",
+  "model": "Invincibility star (Pickups and Collectibles)",
+  "path": "13_GRAPHICS_UI/Icons/pickups-and-collectibles-invincibility-star-485cc6af.glb"
+ },
+ {
+  "clip": "bob",
+  "asset_id": "D3A-0115",
+  "model": "Heart pickup (Pickups and Collectibles)",
+  "path": "13_GRAPHICS_UI/Icons/pickups-and-collectibles-heart-pickup-eb879634.glb"
+ },
+ {
+  "clip": "spin",
+  "asset_id": "D3A-0115",
+  "model": "Heart pickup (Pickups and Collectibles)",
+  "path": "13_GRAPHICS_UI/Icons/pickups-and-collectibles-heart-pickup-eb879634.glb"
+ },
+ {
+  "clip": "close-open",
+  "asset_id": "D3A-0004",
+  "model": "Flood Refuge Dormitory (Bellroot Fen Floodward Marches)",
+  "path": "04_BUILDINGS/Houses/bellroot-fen-floodward-marches-flood-refuge-dormitory-4ec961ae.glb"
+ },
+ {
+  "clip": "bow",
+  "asset_id": "D3A-0010",
+  "model": "Samurai Commander (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-samurai-commander-c5b5aa5e.glb"
+ },
+ {
+  "clip": "idle",
+  "asset_id": "D3A-0010",
+  "model": "Samurai Commander (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-samurai-commander-c5b5aa5e.glb"
+ },
+ {
+  "clip": "wave",
+  "asset_id": "D3A-0010",
+  "model": "Samurai Commander (Legendary Warriors Kit)",
+  "path": "01_CHARACTERS/Soldiers/legendary-warriors-kit-samurai-commander-c5b5aa5e.glb"
+ },
+ {
+  "clip": "wave",
+  "asset_id": "D3A-0012",
+  "model": "Astronaut Waving (Solar System and Astronauts)",
+  "path": "01_CHARACTERS/Humans/solar-system-and-astronauts-astronaut-waving-0f97b8c2.glb"
+ },
+ {
+  "clip": "idle",
+  "asset_id": "D3A-0014",
+  "model": "Timber Wolf, Jointed (FPS Survival Forest Outpost)",
+  "path": "01_CHARACTERS/Animals/fps-survival-forest-outpost-creature-wolf-4be4d311.glb"
+ },
+ {
+  "clip": "head-turn",
+  "asset_id": "D3A-0014",
+  "model": "Timber Wolf, Jointed (FPS Survival Forest Outpost)",
+  "path": "01_CHARACTERS/Animals/fps-survival-forest-outpost-creature-wolf-4be4d311.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0026",
+  "model": "Attacker Assault Rifle (Tactical Shooter Hill Town)",
+  "path": "03_MILITARY/Weapons/tactical-shooter-hill-town-attacker-assault-rifle-b84190ac.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0026",
+  "model": "Attacker Assault Rifle (Tactical Shooter Hill Town)",
+  "path": "03_MILITARY/Weapons/tactical-shooter-hill-town-attacker-assault-rifle-b84190ac.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0027",
+  "model": "Pump Shotgun (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-pump-shotgun-2c9708bd.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0027",
+  "model": "Pump Shotgun (Mega Weapon Pack)",
+  "path": "03_MILITARY/Weapons/mega-weapon-pack-pump-shotgun-2c9708bd.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0029",
+  "model": "Current ground-effect racer (Formula Race Cars and Grand Prix Circuit)",
+  "path": "11_PROPS_RESOURCES/Vehicles/grand-prix-circuit-and-open-wheel-ground-effect-racer-02c3b491.glb"
+ },
+ {
+  "clip": "prop-spin",
+  "asset_id": "D3A-0030",
+  "model": "Heavy Lift Quadcopter Drone (Aircraft Fleet and Airfield)",
+  "path": "11_PROPS_RESOURCES/Vehicles/aircraft-fleet-and-airfield-quadcopter-drone-bf85eb66.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0031",
+  "model": "Touring SUV (Vehicle Collection HD: Cars, Planes and Boats)",
+  "path": "11_PROPS_RESOURCES/Vehicles/transport-collection-hd-touring-suv-f8566c14.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0032",
+  "model": "Executive sedan (Vehicle Collection HD: Cars, Planes and Boats)",
+  "path": "11_PROPS_RESOURCES/Vehicles/transport-collection-hd-executive-sedan-cfa7dfcf.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0036",
+  "model": "Parade Ring Gate (Racecourse and Parade Ring)",
+  "path": "10_ROADS_INFRASTRUCTURE/Roads/racecourse-and-parade-ring-parade-ring-gate-28242051.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0036",
+  "model": "Parade Ring Gate (Racecourse and Parade Ring)",
+  "path": "10_ROADS_INFRASTRUCTURE/Roads/racecourse-and-parade-ring-parade-ring-gate-28242051.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0051",
+  "model": "Hall Roller Door Bay (Car Factory Production Line)",
+  "path": "04_BUILDINGS/Factories/car-factory-production-line-hall-roller-door-bay-70209852.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0051",
+  "model": "Hall Roller Door Bay (Car Factory Production Line)",
+  "path": "04_BUILDINGS/Factories/car-factory-production-line-hall-roller-door-bay-70209852.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0058",
+  "model": "Double Decker Bus (Bus Station and City Transit)",
+  "path": "11_PROPS_RESOURCES/Vehicles/bus-station-and-city-transit-double-decker-bus-2c08dd6d.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0058",
+  "model": "Double Decker Bus (Bus Station and City Transit)",
+  "path": "11_PROPS_RESOURCES/Vehicles/bus-station-and-city-transit-double-decker-bus-2c08dd6d.glb"
+ },
+ {
+  "clip": "roll",
+  "asset_id": "D3A-0058",
+  "model": "Double Decker Bus (Bus Station and City Transit)",
+  "path": "11_PROPS_RESOURCES/Vehicles/bus-station-and-city-transit-double-decker-bus-2c08dd6d.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0076",
+  "model": "Goods brake van (Steam Era Railway and Rolling Stock)",
+  "path": "11_PROPS_RESOURCES/Vehicles/steam-era-railway-and-rolling-stock-brake-van-8d7a6f07.glb"
+ }
+]

@@ -1,0 +1,53 @@
+{
+ "category": "09_TERRAIN",
+ "assets": 4,
+ "files": 20,
+ "bytes": 23034563,
+ "subcategories": [
+  "Asphalt",
+  "Concrete",
+  "Terrain Textures"
+ ],
+ "items": [
+  {
+   "asset_id": "ACG-0001",
+   "name": "Concrete049",
+   "subcategory": "Concrete",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 6407024,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0004",
+   "name": "Ground106",
+   "subcategory": "Terrain Textures",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 5786876,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0005",
+   "name": "Ground103",
+   "subcategory": "Terrain Textures",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 5879183,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0006",
+   "name": "Road012A",
+   "subcategory": "Asphalt",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 4961480,
+   "thumbnail": ""
+  }
+ ]
+}

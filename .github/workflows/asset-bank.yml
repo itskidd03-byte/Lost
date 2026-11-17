@@ -1,0 +1,77 @@
+name: Asset memory bank
+
+# Acquires new CC0 game assets, verifies them and commits the index. Runs on a
+# schedule and on demand; a manual run can be narrowed with the `source` input.
+on:
+  workflow_dispatch:
+    inputs:
+      source:
+        description: 'Comma-separated sources (3dassets, polyhaven, ambientcg, kenney). Empty = all.'
+        required: false
+        default: ''
+  schedule:
+    - cron: '40 3 * * 1'
+  push:
+    paths:
+      - 'tools/asset-bank/**'
+      - '.github/workflows/asset-bank.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: asset-bank
+  # A newer run supersedes an older one; the stale run would otherwise commit an
+  # index built by outdated routing rules.
+  cancel-in-progress: true
+
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Acquire, verify and index assets
+        env:
+          BANK_SOURCE: ${{ inputs.source }}
+        run: |
+          if [ -n "$BANK_SOURCE" ]; then
+            node tools/asset-bank/build-assets.mjs --source="$BANK_SOURCE"
+          else
+            node tools/asset-bank/build-assets.mjs
+          fi
+
+      - name: Verify the bank
+        run: |
+          node -e "
+          const fs = require('node:fs');
+          const recs = JSON.parse(fs.readFileSync('ASSET_MEMORY_BANK/MEMORY_INDEX/assets.json', 'utf8'));
+          const files = recs.flatMap((r) => r.files || []);
+          const missing = files.filter((f) => !fs.existsSync('ASSET_MEMORY_BANK/' + f.path));
+          const broken = files.filter((f) => f.status !== 'valid');
+          if (missing.length || broken.length) {
+            console.error('missing', missing.length, 'invalid', broken.length);
+            process.exit(1);
+          }
+          const bytes = files.reduce((n, f) => n + f.bytes, 0);
+          console.log(recs.length + ' assets, ' + files.length + ' files, ' + (bytes / 1048576).toFixed(1) + ' MB, all present and valid');
+          "
+
+      - name: Commit
+        run: |
+          git config user.name "asset-bank-bot"
+          git config user.email "asset-bank-bot@users.noreply.github.com"
+          git add ASSET_MEMORY_BANK reports/asset-bank-snapshot.md
+          if git diff --staged --quiet; then
+            echo "no new assets"
+          else
+            git commit -m "chore: acquire new CC0 game assets into the memory bank"
+            git push
+          fi

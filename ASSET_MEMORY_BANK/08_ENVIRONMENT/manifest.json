@@ -1,0 +1,486 @@
+{
+ "category": "08_ENVIRONMENT",
+ "assets": 47,
+ "files": 51,
+ "bytes": 102214488,
+ "subcategories": [
+  "",
+  "Caves",
+  "Grass",
+  "Rocks",
+  "Trees",
+  "Water"
+ ],
+ "items": [
+  {
+   "asset_id": "D3A-0011",
+   "name": "Surf Cove Base (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 344140,
+   "thumbnail": "08_ENVIRONMENT/beach-surf-and-paddle-kit-surf-cove-base-c5f15a02.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0012",
+   "name": "Flood Debris Jam (Bellroot Fen Floodward Marches)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 496376,
+   "thumbnail": "08_ENVIRONMENT/bellroot-fen-floodward-marches-flood-debris-jam-7c36b196.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0013",
+   "name": "Brain coral (Coral Reef and Underwater Scenery)",
+   "subcategory": "Water",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 304356,
+   "thumbnail": "08_ENVIRONMENT/Water/underwater-reef-worlds-brain-coral-97992b75.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0014",
+   "name": "City Broadleaf Tree (Fantasy MMO City And Townsfolk)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 110004,
+   "thumbnail": "08_ENVIRONMENT/Trees/fantasy-mmo-city-and-townsfolk-city-broadleaf-tree-0328372c.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0015",
+   "name": "Meadow Grass Clump (Dense Temperate Forest Flora)",
+   "subcategory": "Grass",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 12696,
+   "thumbnail": "08_ENVIRONMENT/Grass/dense-temperate-forest-flora-meadow-grass-clump-9922893b.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0016",
+   "name": "Pine Tree (Wipe Day Survival Island)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 8040,
+   "thumbnail": "08_ENVIRONMENT/Trees/wipe-day-survival-island-pine-tree-dfc88d2b.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0017",
+   "name": "Tall Grass Clump (Wipe Day Survival Island)",
+   "subcategory": "Grass",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 11472,
+   "thumbnail": "08_ENVIRONMENT/Grass/wipe-day-survival-island-tall-grass-clump-99fa2311.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0018",
+   "name": "Paddock Tree (Racecourse and Parade Ring)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 19572,
+   "thumbnail": "08_ENVIRONMENT/Trees/racecourse-and-parade-ring-paddock-tree-91f358c4.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0019",
+   "name": "Shellback Nesting Hummock (Bellroot Fen Floodward Marches)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 383436,
+   "thumbnail": "08_ENVIRONMENT/bellroot-fen-floodward-marches-shellback-nesting-hummo-dc5fe152.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0020",
+   "name": "Seasonal Flood Scar Cliff (Bellroot Fen Floodward Marches)",
+   "subcategory": "Rocks",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 241776,
+   "thumbnail": "08_ENVIRONMENT/Rocks/bellroot-fen-floodward-marches-seasonal-flood-scar-cli-70cf6c5a.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0091",
+   "name": "Assembled soccer club ground (Football Soccer Stadium and Club Grounds)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 274456,
+   "thumbnail": "08_ENVIRONMENT/football-soccer-club-grounds-assembled-c-a701b13a-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0092",
+   "name": "Departures Concourse (Airport Terminal and Ground Operations)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 588636,
+   "thumbnail": "08_ENVIRONMENT/airport-terminal-and-ground-operations-d-39670331-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0093",
+   "name": "Surf Beach Cove (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 4127016,
+   "thumbnail": "08_ENVIRONMENT/beach-surf-and-paddle-kit-surf-beach-cov-c569902d-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0094",
+   "name": "Working Fishing Harbor (Fishing Harbour and Boats)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 2184140,
+   "thumbnail": "08_ENVIRONMENT/harbor-and-tackle-working-harbor-b60a5f78-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0095",
+   "name": "Lunar Colony Overview (Moon Base Colony and Lunar Rovers)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 2615980,
+   "thumbnail": "08_ENVIRONMENT/lunar-surface-colony-and-rovers-colony-o-5943a18b-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0096",
+   "name": "Metro station with an island platform and units at both faces (Modern Rail and Metro Network)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 859320,
+   "thumbnail": "08_ENVIRONMENT/modern-rail-and-metro-network-metro-stat-14053602-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0097",
+   "name": "Checkpoint to Safehouse (Zombie Quarantine Streets)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 60264,
+   "thumbnail": "08_ENVIRONMENT/zombie-quarantine-streets-checkpoint-to--057ebfe4-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0099",
+   "name": "Airship dock with the ship moored and the erecting shed at work (Steampunk Airship Dock and Workshop)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 2391240,
+   "thumbnail": "08_ENVIRONMENT/steampunk-airship-dock-and-workshop-airs-10f46afc-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0100",
+   "name": "Resort Base Area (Ski Resort and Snow Park)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 493476,
+   "thumbnail": "08_ENVIRONMENT/ski-resort-and-snow-park-resort-base-are-6d7f3faa-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "PLH-0008",
+   "name": "Rock Face 01",
+   "subcategory": "Rocks",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 3049988,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/rock_face_01.png?width=256"
+  },
+  {
+   "asset_id": "D3A-0005",
+   "name": "Mireglass Mineral Vent (Bellroot Fen Floodward Marches)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 184500,
+   "thumbnail": "08_ENVIRONMENT/bellroot-fen-floodward-marches-mireglass-mineral-vent-4f9d91e8.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0006",
+   "name": "Buttress Root Tree (Jungle Temple and Stone City)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 168820,
+   "thumbnail": "08_ENVIRONMENT/Trees/jungle-temple-and-stone-city-buttress-root-tree-44607ba7.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0007",
+   "name": "Collapsed cave chamber (Cave and Crystal Caverns)",
+   "subcategory": "Caves",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 92656,
+   "thumbnail": "08_ENVIRONMENT/Caves/cave-and-crystal-networks-collapsed-chamber-ccc811dd.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0008",
+   "name": "Stylized Grass Tuft Tall (Stylized Trees and Rocks Kit)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 7160,
+   "thumbnail": "08_ENVIRONMENT/Trees/stylized-trees-and-rocks-kit-grass-tuft-tall-be191773.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0038",
+   "name": "Sunlit Grove and Rock Garden (Stylized Trees and Rocks Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 685404,
+   "thumbnail": "08_ENVIRONMENT/stylized-trees-and-rocks-kit-sunlit-grov-8de02198-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0039",
+   "name": "School Gate and Street (Japanese School and City Street)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 2337352,
+   "thumbnail": "08_ENVIRONMENT/japanese-school-and-city-street-school-g-b3013a62-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0040",
+   "name": "Day shift machine hall (Machine Shop and Factory Hall)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 7916140,
+   "thumbnail": "08_ENVIRONMENT/machine-shop-and-factory-hall-machine-sh-2df080ea-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0049",
+   "name": "Cyberpunk Apartment Block: Four Cell Cutaway (Cyberpunk Apartment and Neon Block)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 5553848,
+   "thumbnail": "08_ENVIRONMENT/cyberpunk-apartment-and-neon-block-neon--5f3c4535-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0050",
+   "name": "Riverside Concrete Skate Park (Skate Park and Street Sports)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 548408,
+   "thumbnail": "08_ENVIRONMENT/skate-park-and-street-sports-riverside-c-822d7a9e-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0053",
+   "name": "Working Airfield At Dusk (Aircraft Fleet and Airfield)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 12033584,
+   "thumbnail": "08_ENVIRONMENT/aircraft-fleet-and-airfield-working-airf-78cd49ec-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0054",
+   "name": "First circle town edge (Battle Royale Town and Airfield)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 7831092,
+   "thumbnail": "08_ENVIRONMENT/battle-royale-town-and-airfield-first-ci-310e2e00-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0056",
+   "name": "Bazaar Street and Shrine at Trading Hours (Indian Bazaar Street and Temple)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 2174000,
+   "thumbnail": "08_ENVIRONMENT/indian-bazaar-street-and-temple-bazaar-s-ed705cc2-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0060",
+   "name": "Fountain square at site A (Tactical Shooter Hill Town)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 2369104,
+   "thumbnail": "08_ENVIRONMENT/tactical-shooter-hill-town-fountain-squa-a5996d68-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0061",
+   "name": "Body to Finish Line (Car Factory Production Line)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 2639212,
+   "thumbnail": "08_ENVIRONMENT/car-factory-production-line-body-to-fini-df38da0c-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0062",
+   "name": "Walled palace courtyard and lotus garden (Imperial China Palace and Garden)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 2876988,
+   "thumbnail": "08_ENVIRONMENT/imperial-china-palace-and-garden-walled--b51639b8-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0063",
+   "name": "Lost City Plaza (Jungle Temple and Stone City)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 6093900,
+   "thumbnail": "08_ENVIRONMENT/jungle-temple-and-stone-city-lost-city-p-d9f41cec-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0064",
+   "name": "Starter Town And Outlands (Medieval MMO Starter Realm)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 4984148,
+   "thumbnail": "08_ENVIRONMENT/medieval-mmo-starter-realm-starter-town--22d3475e-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0066",
+   "name": "Island shore on wipe day (Wipe Day Survival Island)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1425372,
+   "thumbnail": "08_ENVIRONMENT/wipe-day-survival-island-island-shore-wi-9b4099db-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0067",
+   "name": "Marina and yacht club on a race morning (Marina and Yacht Club)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1240704,
+   "thumbnail": "08_ENVIRONMENT/marina-and-yacht-club-marina-and-yacht-c-e349a92e-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0068",
+   "name": "Stocked Grocery Aisle (Supermarket Operations)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 105912,
+   "thumbnail": "08_ENVIRONMENT/supermarket-operations-stocked-grocery-a-3ac21761-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0070",
+   "name": "Studio Desk Setup (Computers and Desk Gadgets)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1210224,
+   "thumbnail": "08_ENVIRONMENT/computers-and-desk-gadgets-studio-desk-s-bc42c4fb-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0073",
+   "name": "Main Street (Wild West Frontier Town)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1391952,
+   "thumbnail": "08_ENVIRONMENT/wild-west-frontier-town-main-street-ce1c5434-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0077",
+   "name": "Palm house under glass (Botanical Glasshouse and Palm House)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 3320048,
+   "thumbnail": "08_ENVIRONMENT/botanical-glasshouse-and-palm-house-bota-0fb79ecf-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0078",
+   "name": "Bonded Yard and Open Stillhouse (Distillery and Bonded Warehouse)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 3259724,
+   "thumbnail": "08_ENVIRONMENT/distillery-and-bonded-warehouse-bonded-y-4dc31fa6-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0079",
+   "name": "Robot Workshop Hangar (Robots and Drones Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 789488,
+   "thumbnail": "08_ENVIRONMENT/robots-and-drones-kit-robot-workshop-han-9d19fd05-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0080",
+   "name": "Fortified forest outpost (FPS Survival Forest Outpost)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 8216824,
+   "thumbnail": "08_ENVIRONMENT/fps-survival-forest-outpost-fortified-fo-e26da282-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0081",
+   "name": "Island Village Square and Harbour (Greek Island Village and Harbour)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 4181540,
+   "thumbnail": "08_ENVIRONMENT/greek-island-village-and-harbour-island--f1d7f415-starter-scene.thumb.webp"
+  }
+ ]
+}

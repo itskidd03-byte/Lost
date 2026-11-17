@@ -1,0 +1,72 @@
+{
+ "generated": "2026-11-17T05:44:15.518Z",
+ "policy": {
+  "licences": [
+   "CC0 1.0",
+   "public domain"
+  ],
+  "excluded": [
+   "CC BY-NC",
+   "CC BY-ND",
+   "CC BY-SA at ingest"
+  ],
+  "max_bank_bytes": 340000000
+ },
+ "holdings": [
+  {
+   "source": "3dassets",
+   "assets": 201,
+   "files": 201,
+   "bytes": 143791784,
+   "licenses": [
+    "CC0 1.0 Universal"
+   ],
+   "creators": 1,
+   "megabytes": 137.1
+  },
+  {
+   "source": "polyhaven",
+   "assets": 16,
+   "files": 60,
+   "bytes": 28984636,
+   "licenses": [
+    "CC0 1.0 Universal"
+   ],
+   "creators": 14,
+   "megabytes": 27.6
+  },
+  {
+   "source": "ambientcg",
+   "assets": 10,
+   "files": 49,
+   "bytes": 45767130,
+   "licenses": [
+    "CC0 1.0 Universal"
+   ],
+   "creators": 1,
+   "megabytes": 43.6
+  },
+  {
+   "source": "kenney",
+   "assets": 12,
+   "files": 8447,
+   "bytes": 23908891,
+   "licenses": [
+    "CC0 1.0 Universal"
+   ],
+   "creators": 1,
+   "megabytes": 22.8
+  }
+ ],
+ "runs": [
+  {
+   "source": "3dassets",
+   "at": "2026-11-17T05:42:34.990Z",
+   "downloaded": 81,
+   "skipped_already_indexed": 143,
+   "api": "https://3dassets.dev/api/v1/assets",
+   "license": "CC0 1.0 Universal (per-asset licence recorded)",
+   "note": "Fetched through the public discovery API; the CDN URL is immutable and cached, so each model is downloaded once."
+  }
+ ]
+}

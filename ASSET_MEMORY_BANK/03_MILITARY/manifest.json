@@ -1,0 +1,162 @@
+{
+ "category": "03_MILITARY",
+ "assets": 15,
+ "files": 15,
+ "bytes": 9018380,
+ "subcategories": [
+  "Vehicles",
+  "Weapons"
+ ],
+ "items": [
+  {
+   "asset_id": "D3A-0061",
+   "name": "Standard Assault Rifle (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1082372,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-standard-rifle-94762172.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0062",
+   "name": "Service Pistol (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 670728,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-service-pistol-f84987cb.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0063",
+   "name": "Fragmentation Grenade (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 291104,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-frag-grenade-557e7011.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0064",
+   "name": "General Purpose Machine Gun (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1298464,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-general-purpose-mg-4f11f2e1.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0065",
+   "name": "Chassis Sniper, Scoped (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 2327892,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-bolt-sniper-chassis-scoped-891e227c.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0066",
+   "name": "Bolt-action precision rifle (FPS Guns and Shooting Range)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 521608,
+   "thumbnail": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-bolt-sniper-b3944481.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0067",
+   "name": "Compact submachine gun (FPS Guns and Shooting Range)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 550152,
+   "thumbnail": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-smg-e216f9a5.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0068",
+   "name": "Vertical Fore Grip (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 216284,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-vertical-grip-f360ec40.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0069",
+   "name": "Angled Fore Grip (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 159120,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-angled-grip-87e866ef.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0070",
+   "name": "Weapon Light (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 125604,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-weapon-light-fe11d414.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0071",
+   "name": "Main Battle Tank (Tanks, Military Vehicles and Field Camp)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 103556,
+   "thumbnail": "03_MILITARY/Vehicles/armoured-column-and-field-camp-main-battle-tank-c801caf7.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0025",
+   "name": "Gas Grenade (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 250836,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-gas-grenade-54b0e18a.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0026",
+   "name": "Attacker Assault Rifle (Tactical Shooter Hill Town)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 91560,
+   "thumbnail": "03_MILITARY/Weapons/tactical-shooter-hill-town-attacker-assault-rifle-b84190ac.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0027",
+   "name": "Pump Shotgun (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1102680,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-pump-shotgun-2c9708bd.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0028",
+   "name": "Laser Module (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 226420,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-laser-module-ac25cfb2.thumb.webp"
+  }
+ ]
+}

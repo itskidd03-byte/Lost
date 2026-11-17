@@ -1,0 +1,257 @@
+{
+ "category": "04_BUILDINGS",
+ "assets": 24,
+ "files": 24,
+ "bytes": 12676684,
+ "subcategories": [
+  "Factories",
+  "Houses",
+  "Medieval Buildings",
+  "Modern Buildings",
+  "Modular Building Pieces",
+  "Shops",
+  "Warehouses"
+ ],
+ "items": [
+  {
+   "asset_id": "D3A-0001",
+   "name": "Pile Dwelling (Bellroot Fen Floodward Marches)",
+   "subcategory": "Houses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 851272,
+   "thumbnail": "04_BUILDINGS/Houses/bellroot-fen-floodward-marches-pile-dwelling-c61503ef.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0002",
+   "name": "Wall Section (Distillery and Bonded Warehouse)",
+   "subcategory": "Warehouses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 107592,
+   "thumbnail": "04_BUILDINGS/Warehouses/distillery-and-bonded-warehouse-wall-section-7002f532.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0003",
+   "name": "Ceremonial Hall (Imperial China Palace and Garden)",
+   "subcategory": "Houses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 474296,
+   "thumbnail": "04_BUILDINGS/Houses/imperial-china-palace-and-garden-ceremonial-hall-3f95c2b7.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0004",
+   "name": "Cedar Boathouse (Fishing Harbour and Boats)",
+   "subcategory": "Modern Buildings",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 237120,
+   "thumbnail": "04_BUILDINGS/Modern Buildings/harbor-and-tackle-boathouse-aefd328a.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0005",
+   "name": "Warehouse Door Pair (Distillery and Bonded Warehouse)",
+   "subcategory": "Warehouses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 120052,
+   "thumbnail": "04_BUILDINGS/Warehouses/distillery-and-bonded-warehouse-warehouse-door-pair-3108b2f4.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0006",
+   "name": "Timber House Small (Medieval MMO Starter Realm)",
+   "subcategory": "Medieval Buildings",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 132796,
+   "thumbnail": "04_BUILDINGS/Medieval Buildings/medieval-mmo-starter-realm-timber-house-small-25223f49.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0007",
+   "name": "Shed wall bay, door slid open (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Shops",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 30964,
+   "thumbnail": "04_BUILDINGS/Shops/steampunk-airship-dock-and-workshop-shed-wall-door-ope-311cbb50.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0008",
+   "name": "Shed wall bay with a window band (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Shops",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 22980,
+   "thumbnail": "04_BUILDINGS/Shops/steampunk-airship-dock-and-workshop-shed-wall-window-5107833f.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0009",
+   "name": "Stillhouse Window Bay (Distillery and Bonded Warehouse)",
+   "subcategory": "Warehouses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 120696,
+   "thumbnail": "04_BUILDINGS/Warehouses/distillery-and-bonded-warehouse-stillhouse-window-bay-78539d82.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0010",
+   "name": "Surf Hire Hut (Beach Surf and Paddle Kit)",
+   "subcategory": "Modern Buildings",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 521200,
+   "thumbnail": "04_BUILDINGS/Modern Buildings/beach-surf-and-paddle-kit-surf-hire-hut-465717eb.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0098",
+   "name": "Gaming Floor (Casino Floor and Back Rooms)",
+   "subcategory": "Modular Building Pieces",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 790556,
+   "thumbnail": "04_BUILDINGS/Modular Building Pieces/casino-floor-and-back-rooms-gaming-floor-0a06198b-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0001",
+   "name": "Pagoda Roof Kiln Vent (Distillery and Bonded Warehouse)",
+   "subcategory": "Warehouses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 47844,
+   "thumbnail": "04_BUILDINGS/Warehouses/distillery-and-bonded-warehouse-pagoda-roof-vent-a6001cc0.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0002",
+   "name": "Bonded Warehouse Wall Run (Distillery and Bonded Warehouse)",
+   "subcategory": "Warehouses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 119720,
+   "thumbnail": "04_BUILDINGS/Warehouses/distillery-and-bonded-warehouse-warehouse-wall-run-1a141ef6.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0003",
+   "name": "Shed floor plate 4 m (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Shops",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 26896,
+   "thumbnail": "04_BUILDINGS/Shops/steampunk-airship-dock-and-workshop-shed-floor-plate-0b596e29.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0004",
+   "name": "Flood Refuge Dormitory (Bellroot Fen Floodward Marches)",
+   "subcategory": "Houses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1580800,
+   "thumbnail": "04_BUILDINGS/Houses/bellroot-fen-floodward-marches-flood-refuge-dormitory-4ec961ae.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0037",
+   "name": "Furnished Flat: Bedroom and Living Room (Bedroom and Living Room Furniture)",
+   "subcategory": "Modular Building Pieces",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1385996,
+   "thumbnail": "04_BUILDINGS/Modular Building Pieces/bedroom-and-living-room-furniture-furnis-0989213f-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0051",
+   "name": "Hall Roller Door Bay (Car Factory Production Line)",
+   "subcategory": "Factories",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 22044,
+   "thumbnail": "04_BUILDINGS/Factories/car-factory-production-line-hall-roller-door-bay-70209852.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0052",
+   "name": "Armoury Wall Panel (Swords, Shields and Melee Arms)",
+   "subcategory": "Medieval Buildings",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 17968,
+   "thumbnail": "04_BUILDINGS/Medieval Buildings/swords-shields-and-melee-arms-armoury-wall-panel-055b589c.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0055",
+   "name": "Home Connector Cases (Cozy Home Interiors)",
+   "subcategory": "Modular Building Pieces",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 310912,
+   "thumbnail": "04_BUILDINGS/Modular Building Pieces/cozy-home-interiors-home-connector-cases-1b43f818-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0057",
+   "name": "Three Room Dungeon (Dungeon Room Builder)",
+   "subcategory": "Modular Building Pieces",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 192580,
+   "thumbnail": "04_BUILDINGS/Modular Building Pieces/dungeon-room-builder-three-room-dungeon-f16c3a34-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0065",
+   "name": "Deck showroom (Spaceship Interior Deck Kit)",
+   "subcategory": "Modular Building Pieces",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 895784,
+   "thumbnail": "04_BUILDINGS/Modular Building Pieces/spaceship-deck-kit-spaceship-deck-kit-st-10f177e9-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0069",
+   "name": "Anatomy classroom, open topped (Human Anatomy and Education Kit)",
+   "subcategory": "Modular Building Pieces",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1385740,
+   "thumbnail": "04_BUILDINGS/Modular Building Pieces/human-anatomy-and-education-kit-anatomy--bfb5dd3d-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0071",
+   "name": "Clothing shop floor with rails, fitting rooms and a homeware corner (Clothing Rail and Wardrobe)",
+   "subcategory": "Modular Building Pieces",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1783564,
+   "thumbnail": "04_BUILDINGS/Modular Building Pieces/clothing-rail-and-wardrobe-clothing-rail-d260b08c-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0072",
+   "name": "Guest Room with En-Suite (Hotel and Resort Operations)",
+   "subcategory": "Modular Building Pieces",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1497312,
+   "thumbnail": "04_BUILDINGS/Modular Building Pieces/hotel-and-resort-operations-guest-room-w-0766f7ed-starter-scene.thumb.webp"
+  }
+ ]
+}

@@ -1,0 +1,336 @@
+{
+ "category": "11_PROPS_RESOURCES",
+ "assets": 32,
+ "files": 52,
+ "bytes": 19744809,
+ "subcategories": [
+  "",
+  "Vehicles",
+  "cannon_01",
+  "lantern_chandelier_01",
+  "modular_metal_gutter",
+  "vintage_pocket_watch"
+ ],
+ "items": [
+  {
+   "asset_id": "D3A-0041",
+   "name": "Stocked Surfboard Rack (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 306120,
+   "thumbnail": "11_PROPS_RESOURCES/beach-surf-and-paddle-kit-stocked-surfboard-rack-59834705.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0042",
+   "name": "Swim Zone Buoy Orange (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 46152,
+   "thumbnail": "11_PROPS_RESOURCES/beach-surf-and-paddle-kit-swim-zone-buoy-orange-36e2fd5e.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0043",
+   "name": "Dune Grass Tuft (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 27800,
+   "thumbnail": "11_PROPS_RESOURCES/beach-surf-and-paddle-kit-dune-grass-tuft-ae12b134.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0044",
+   "name": "Dune Fence Run (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 46868,
+   "thumbnail": "11_PROPS_RESOURCES/beach-surf-and-paddle-kit-dune-fence-run-cf3f7f77.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0045",
+   "name": "Beach Umbrella (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 52048,
+   "thumbnail": "11_PROPS_RESOURCES/beach-surf-and-paddle-kit-beach-umbrella-fb839e7d.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0047",
+   "name": "Driftwood Log (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 13608,
+   "thumbnail": "11_PROPS_RESOURCES/beach-surf-and-paddle-kit-driftwood-log-c1157bff.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0048",
+   "name": "Warning Flag Pole (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 24112,
+   "thumbnail": "11_PROPS_RESOURCES/beach-surf-and-paddle-kit-warning-flag-pole-04ad1969.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0049",
+   "name": "Full size open net soccer goal (Football Soccer Stadium and Club Grounds)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 100940,
+   "thumbnail": "11_PROPS_RESOURCES/football-soccer-club-grounds-full-size-goal-08c07f03.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0050",
+   "name": "Surf Wax Kit (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 40604,
+   "thumbnail": "11_PROPS_RESOURCES/beach-surf-and-paddle-kit-surf-wax-kit-46efa405.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0072",
+   "name": "Mid-engine sports car (Car Park and Road Vehicle Fleet)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1522008,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-sports-car-900de487.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0073",
+   "name": "Four-door saloon (Car Park and Road Vehicle Fleet)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 955288,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-saloon-ad831b1f.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0074",
+   "name": "Crashed Transport Nose (Arctic Station FPS Kit)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 745752,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/arctic-station-fps-kit-crashed-transport-nose-3c92d20c.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0075",
+   "name": "Crashed Transport Tail (Arctic Station FPS Kit)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 704172,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/arctic-station-fps-kit-crashed-transport-tail-fc151ecd.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0076",
+   "name": "City car (Car Park and Road Vehicle Fleet)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1022376,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-city-car-033e3215.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0077",
+   "name": "Road sportbike (Motorcycle Racing and Street Bikes)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 260764,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/motorcycle-racing-and-street-bikes-road-sportbike-e1418015.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0078",
+   "name": "Tracked excavator with digging bucket (Demolition and Site Clearance)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 109640,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/demolition-and-site-clearance-demolition-and-site-clea-4c94ddeb.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0079",
+   "name": "Cabin Fishing Boat (Fishing Harbour and Boats)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 130808,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/harbor-and-tackle-cabin-fishing-boat-686960fe.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0080",
+   "name": "Narrow Body Twinjet In Flight (Aircraft Fleet and Airfield)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 2116748,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/aircraft-fleet-and-airfield-narrowbody-twinjet-in-flig-99819439.thumb.webp"
+  },
+  {
+   "asset_id": "PLH-0002",
+   "name": "Cannon 01",
+   "subcategory": "cannon_01",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 4061647,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/cannon_01.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0005",
+   "name": "Lantern Chandelier 01",
+   "subcategory": "lantern_chandelier_01",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 9,
+   "bytes": 1480125,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/lantern_chandelier_01.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0006",
+   "name": "Modular Metal Gutter",
+   "subcategory": "modular_metal_gutter",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 2213355,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/modular_metal_gutter.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0010",
+   "name": "Vintage Pocket Watch",
+   "subcategory": "vintage_pocket_watch",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 1994194,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/vintage_pocket_watch.png?width=256"
+  },
+  {
+   "asset_id": "D3A-0017",
+   "name": "Lifeguard Megaphone (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 26668,
+   "thumbnail": "11_PROPS_RESOURCES/beach-surf-and-paddle-kit-lifeguard-megaphone-7ac9861b.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0019",
+   "name": "Visitor Tasting Counter (Distillery and Bonded Warehouse)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 111664,
+   "thumbnail": "11_PROPS_RESOURCES/distillery-and-bonded-warehouse-tasting-counter-5c8e94aa.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0020",
+   "name": "Heart Model (Human Anatomy and Education Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 35056,
+   "thumbnail": "11_PROPS_RESOURCES/human-anatomy-and-education-kit-heart-model-79e77e2b.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0029",
+   "name": "Current ground-effect racer (Formula Race Cars and Grand Prix Circuit)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 409808,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/grand-prix-circuit-and-open-wheel-ground-effect-racer-02c3b491.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0030",
+   "name": "Heavy Lift Quadcopter Drone (Aircraft Fleet and Airfield)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 171604,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/aircraft-fleet-and-airfield-quadcopter-drone-bf85eb66.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0031",
+   "name": "Touring SUV (Vehicle Collection HD: Cars, Planes and Boats)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 366076,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/transport-collection-hd-touring-suv-f8566c14.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0032",
+   "name": "Executive sedan (Vehicle Collection HD: Cars, Planes and Boats)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 383416,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/transport-collection-hd-executive-sedan-cfa7dfcf.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0058",
+   "name": "Double Decker Bus (Bus Station and City Transit)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 54568,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/bus-station-and-city-transit-double-decker-bus-2c08dd6d.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0074",
+   "name": "Tea Stall with Kettle and Glass Rack (Indian Bazaar Street and Temple)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 75568,
+   "thumbnail": "11_PROPS_RESOURCES/indian-bazaar-street-and-temple-tea-stall-865b528a.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0076",
+   "name": "Goods brake van (Steam Era Railway and Rolling Stock)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 135252,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/steam-era-railway-and-rolling-stock-brake-van-8d7a6f07.thumb.webp"
+  }
+ ]
+}

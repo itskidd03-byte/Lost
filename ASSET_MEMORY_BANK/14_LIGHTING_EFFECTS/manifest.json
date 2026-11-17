@@ -1,0 +1,212 @@
+{
+ "category": "14_LIGHTING_EFFECTS",
+ "assets": 20,
+ "files": 20,
+ "bytes": 10452183,
+ "subcategories": [
+  "HDRI",
+  "Lighting Effects"
+ ],
+ "items": [
+  {
+   "asset_id": "D3A-0101",
+   "name": "Still Pool Water Surface Panel (Public Swimming Baths and Poolside)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 3876,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/public-swimming-baths-and-poolside-pool-water-surface--d9ce634f.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0102",
+   "name": "Lightning strike (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 47408,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-lightning-strike-f525cfcd.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0103",
+   "name": "Rain splash ring (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 60252,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-rain-splash-ring-370934d8.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0104",
+   "name": "Falling leaf cluster (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 71040,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-falling-leaf-cluster-f2130df5.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0105",
+   "name": "Muzzle star flash, small (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 46668,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-muzzle-star-flash-small-b2bc6d48.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0106",
+   "name": "Muzzle star flash, large (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 55264,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-muzzle-star-flash-large-4cec3aea.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0107",
+   "name": "Dust devil (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 92240,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-dust-devil-c5329707.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0108",
+   "name": "Radial impact burst, large (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 85632,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-radial-impact-burst-large-fa84aa2c.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0109",
+   "name": "Smoke lobes (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 53772,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-smoke-lobes-b76b0032.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0110",
+   "name": "Still Water Surface Panel (Roman Bathhouse and Palaestra)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 3872,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/roman-bathhouse-and-palaestra-still-water-surface-pane-23cbf956.thumb.webp"
+  },
+  {
+   "asset_id": "PLH-0011",
+   "name": "Aarfontein Dawn 2",
+   "subcategory": "HDRI",
+   "kind": "hdri",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1486826,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/aarfontein_dawn_2.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0012",
+   "name": "Christmas Photo Studio 07",
+   "subcategory": "HDRI",
+   "kind": "hdri",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1647650,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/christmas_photo_studio_07.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0013",
+   "name": "Greenwich Park 03",
+   "subcategory": "HDRI",
+   "kind": "hdri",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1679158,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/greenwich_park_03.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0014",
+   "name": "Mosaic Tunnel",
+   "subcategory": "HDRI",
+   "kind": "hdri",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1681212,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/mosaic_tunnel.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0015",
+   "name": "Relax Inn Seaview Suite",
+   "subcategory": "HDRI",
+   "kind": "hdri",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1604354,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/relax_inn_seaview_suite.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0016",
+   "name": "Summer Stage 02",
+   "subcategory": "HDRI",
+   "kind": "hdri",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1605287,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/summer_stage_02.png?width=256"
+  },
+  {
+   "asset_id": "D3A-0041",
+   "name": "Radial impact burst, small (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 47248,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-radial-impact-burst-small-ae2b0fee.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0042",
+   "name": "Bubble cluster (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 69132,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-bubble-cluster-474c6a2e.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0043",
+   "name": "Thruster ring nozzle (VFX Mesh Library)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 88180,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/vfx-mesh-library-thruster-ring-447fd322.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0044",
+   "name": "Puddle Plate with Reflections (Cyberpunk Apartment and Neon Block)",
+   "subcategory": "Lighting Effects",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 23112,
+   "thumbnail": "14_LIGHTING_EFFECTS/Lighting Effects/cyberpunk-apartment-and-neon-block-puddle-plate-a0e6077e.thumb.webp"
+  }
+ ]
+}

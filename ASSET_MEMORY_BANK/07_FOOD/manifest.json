@@ -1,0 +1,178 @@
+{
+ "category": "07_FOOD",
+ "assets": 16,
+ "files": 24,
+ "bytes": 3351143,
+ "subcategories": [
+  "Bread",
+  "Cooking Equipment",
+  "Fruits",
+  "Meat",
+  "Prepared Meals",
+  "Vegetables",
+  "croissant",
+  "food_lime_01"
+ ],
+ "items": [
+  {
+   "asset_id": "D3A-0051",
+   "name": "Bread And Pie Board (Medieval Tournament and Jousting Ground)",
+   "subcategory": "Bread",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 25404,
+   "thumbnail": "07_FOOD/Bread/medieval-tournament-and-jousting-ground-bread-and-pie--92128462.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0052",
+   "name": "Bakery tray set (Indoor Market Hall and Traders)",
+   "subcategory": "Prepared Meals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 158312,
+   "thumbnail": "07_FOOD/Prepared Meals/indoor-market-hall-and-traders-bakery-tray-set-13f8fc39.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0053",
+   "name": "Bowl of Ramen (Izakaya Alley and Ramen Shop)",
+   "subcategory": "Cooking Equipment",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 55220,
+   "thumbnail": "07_FOOD/Cooking Equipment/izakaya-alley-and-ramen-shop-bowl-of-ramen-48b66069.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0054",
+   "name": "Gyoza Plate (Izakaya Alley and Ramen Shop)",
+   "subcategory": "Cooking Equipment",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 55280,
+   "thumbnail": "07_FOOD/Cooking Equipment/izakaya-alley-and-ramen-shop-gyoza-plate-d9ba6784.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0055",
+   "name": "Popcorn Kettle Machine (Cinema Multiplex and Foyer)",
+   "subcategory": "Prepared Meals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 160352,
+   "thumbnail": "07_FOOD/Prepared Meals/cinema-multiplex-and-foyer-popcorn-kettle-machine-cec50d7d.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0056",
+   "name": "Parsnip (Food, Fresh Produce and Groceries)",
+   "subcategory": "Prepared Meals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 50196,
+   "thumbnail": "07_FOOD/Prepared Meals/fresh-produce-and-groceries-parsnip-dba11b44.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0057",
+   "name": "Fish box, iced, blue (Fish Market and Trawler Quay)",
+   "subcategory": "Meat",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 16332,
+   "thumbnail": "07_FOOD/Meat/fish-market-and-trawler-quay-fish-market-and-trawler-q-a8c73272.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0058",
+   "name": "Fish box, iced (Fish Market and Trawler Quay)",
+   "subcategory": "Meat",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 16276,
+   "thumbnail": "07_FOOD/Meat/fish-market-and-trawler-quay-fish-market-and-trawler-q-ca93f7d5.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0059",
+   "name": "Potato (Supermarket Operations)",
+   "subcategory": "Vegetables",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 5832,
+   "thumbnail": "07_FOOD/Vegetables/supermarket-operations-potato-254288f5.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0060",
+   "name": "Orange (Supermarket Operations)",
+   "subcategory": "Fruits",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 5828,
+   "thumbnail": "07_FOOD/Fruits/supermarket-operations-orange-3db099f8.thumb.webp"
+  },
+  {
+   "asset_id": "PLH-0003",
+   "name": "Croissant",
+   "subcategory": "croissant",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 2098773,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/croissant.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0004",
+   "name": "Food Lime 01",
+   "subcategory": "food_lime_01",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 579302,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/food_lime_01.png?width=256"
+  },
+  {
+   "asset_id": "D3A-0021",
+   "name": "Produce Basket Set (Korean Hanok Village and Street)",
+   "subcategory": "Prepared Meals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 47008,
+   "thumbnail": "07_FOOD/Prepared Meals/korean-hanok-village-and-street-produce-basket-set-0d57d77d.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0022",
+   "name": "Lettuce (Supermarket Operations)",
+   "subcategory": "Prepared Meals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 29844,
+   "thumbnail": "07_FOOD/Prepared Meals/supermarket-operations-lettuce-698ca847.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0023",
+   "name": "Food Tray with Burger and Chips (Street Food Market and Food Trucks)",
+   "subcategory": "Prepared Meals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 38920,
+   "thumbnail": "07_FOOD/Prepared Meals/street-food-market-and-food-trucks-food-tray-burger-an-66573dc6.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0024",
+   "name": "Pineapple (Supermarket Operations)",
+   "subcategory": "Fruits",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 8264,
+   "thumbnail": "07_FOOD/Fruits/supermarket-operations-pineapple-633f0f80.thumb.webp"
+  }
+ ]
+}

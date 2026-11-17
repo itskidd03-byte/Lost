@@ -1,0 +1,71 @@
+{
+ "category": "12_TEXTURES_MATERIALS",
+ "assets": 6,
+ "files": 29,
+ "bytes": 22732567,
+ "subcategories": [
+  "PBR Materials"
+ ],
+ "items": [
+  {
+   "asset_id": "ACG-0002",
+   "name": "Bricks106A",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 4772571,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0003",
+   "name": "Bricks107A",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 4756738,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0007",
+   "name": "Metal055A",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 2286022,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0008",
+   "name": "Metal048A",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 1001695,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0009",
+   "name": "Bark014",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 5363715,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0010",
+   "name": "Fabric083",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 4,
+   "bytes": 4551826,
+   "thumbnail": ""
+  }
+ ]
+}

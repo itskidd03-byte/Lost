@@ -1,0 +1,73 @@
+{
+ "category": "15_AUDIO",
+ "assets": 6,
+ "files": 502,
+ "bytes": 11443562,
+ "subcategories": [
+  "Interface Sounds",
+  "Music",
+  "Sound Effects"
+ ],
+ "items": [
+  {
+   "asset_id": "KNY-0001",
+   "name": "Interface Sounds pack",
+   "subcategory": "Interface Sounds",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 101,
+   "bytes": 961173,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0002",
+   "name": "Impact Sounds pack",
+   "subcategory": "Sound Effects",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 131,
+   "bytes": 1034904,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0003",
+   "name": "RPG Audio pack",
+   "subcategory": "Sound Effects",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 53,
+   "bytes": 1049117,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0004",
+   "name": "Casino Audio pack",
+   "subcategory": "Sound Effects",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 56,
+   "bytes": 955850,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0005",
+   "name": "Sci-fi Sounds pack",
+   "subcategory": "Sound Effects",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 74,
+   "bytes": 6009396,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0006",
+   "name": "Music Jingles pack",
+   "subcategory": "Music",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 87,
+   "bytes": 1433122,
+   "thumbnail": ""
+  }
+ ]
+}

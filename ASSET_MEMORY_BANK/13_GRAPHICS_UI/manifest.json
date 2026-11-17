@@ -1,0 +1,215 @@
+{
+ "category": "13_GRAPHICS_UI",
+ "assets": 20,
+ "files": 7959,
+ "bytes": 12866797,
+ "subcategories": [
+  "Buttons",
+  "HUD",
+  "Icons",
+  "Inventory",
+  "Menus"
+ ],
+ "items": [
+  {
+   "asset_id": "D3A-0111",
+   "name": "Stone block icon (3D Game UI Icons)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 17852,
+   "thumbnail": "13_GRAPHICS_UI/Icons/game-ui-icon-library-stone-block-0323d70b.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0112",
+   "name": "Health cross pickup (Pickups and Collectibles)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 30584,
+   "thumbnail": "13_GRAPHICS_UI/Icons/pickups-and-collectibles-health-cross-8a1140c8.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0113",
+   "name": "Notice Board (Dental Practice and Surgery)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 17912,
+   "thumbnail": "13_GRAPHICS_UI/Icons/dental-practice-and-surgery-notice-board-2e73a2e3.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0114",
+   "name": "Invincibility star (Pickups and Collectibles)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 29520,
+   "thumbnail": "13_GRAPHICS_UI/Icons/pickups-and-collectibles-invincibility-star-485cc6af.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0115",
+   "name": "Heart pickup (Pickups and Collectibles)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 53692,
+   "thumbnail": "13_GRAPHICS_UI/Icons/pickups-and-collectibles-heart-pickup-eb879634.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0116",
+   "name": "Cloth bolt icon (3D Game UI Icons)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 51636,
+   "thumbnail": "13_GRAPHICS_UI/Icons/game-ui-icon-library-cloth-roll-1a9aa255.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0117",
+   "name": "Ammo box icon (3D Game UI Icons)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 29492,
+   "thumbnail": "13_GRAPHICS_UI/Icons/game-ui-icon-library-ammo-box-cf69ad7b.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0118",
+   "name": "Toilet Door Sign (Nightclub and DJ Booth)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 13392,
+   "thumbnail": "13_GRAPHICS_UI/Icons/nightclub-and-dj-booth-toilet-door-sign-13cf84bb.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0119",
+   "name": "Water drop icon (3D Game UI Icons)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 47520,
+   "thumbnail": "13_GRAPHICS_UI/Icons/game-ui-icon-library-water-drop-ceed87a5.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0120",
+   "name": "Inventory slot frame (3D Game UI Icons)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 17548,
+   "thumbnail": "13_GRAPHICS_UI/Icons/game-ui-icon-library-inventory-slot-frame-10a1643a.thumb.webp"
+  },
+  {
+   "asset_id": "KNY-0007",
+   "name": "UI Pack",
+   "subcategory": "HUD",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 1313,
+   "bytes": 1416420,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0008",
+   "name": "UI Pack (RPG Expansion) pack",
+   "subcategory": "Inventory",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 92,
+   "bytes": 266914,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0009",
+   "name": "UI Pack - Adventure pack",
+   "subcategory": "Menus",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 389,
+   "bytes": 655515,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0010",
+   "name": "Game Icons pack",
+   "subcategory": "Icons",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 428,
+   "bytes": 3830891,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0011",
+   "name": "Cursor Pack",
+   "subcategory": "Buttons",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 1094,
+   "bytes": 816486,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0012",
+   "name": "Input Prompts pack",
+   "subcategory": "Buttons",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 4629,
+   "bytes": 5479103,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "D3A-0045",
+   "name": "Fire Exit Sign (Laser Tag Arena and Activity Centre)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 12128,
+   "thumbnail": "13_GRAPHICS_UI/Icons/laser-tag-arena-and-activity-centre-fire-exit-sign-741e4e23.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0046",
+   "name": "Fire Exit Sign (Nightclub and DJ Booth)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 12132,
+   "thumbnail": "13_GRAPHICS_UI/Icons/nightclub-and-dj-booth-fire-exit-sign-b7435ec3.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0047",
+   "name": "Fuel can icon (3D Game UI Icons)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 27088,
+   "thumbnail": "13_GRAPHICS_UI/Icons/game-ui-icon-library-fuel-can-07bec636.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0048",
+   "name": "Laboratory Safety Sign Set (University Lecture Hall and Campus)",
+   "subcategory": "Icons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 40972,
+   "thumbnail": "13_GRAPHICS_UI/Icons/university-lecture-hall-and-campus-lab-safety-sign-set-5dc6bc14.thumb.webp"
+  }
+ ]
+}

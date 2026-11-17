@@ -1,0 +1,295 @@
+{
+ "category": "01_CHARACTERS",
+ "assets": 28,
+ "files": 28,
+ "bytes": 9826120,
+ "subcategories": [
+  "Animals",
+  "Civilians",
+  "Humans",
+  "Monsters",
+  "Soldiers"
+ ],
+ "items": [
+  {
+   "asset_id": "D3A-0021",
+   "name": "Gorgehold Scout (Gorgehold Survivor Gallery and Operations)",
+   "subcategory": "Humans",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 2305836,
+   "thumbnail": "01_CHARACTERS/Humans/gorgehold-survivor-gallery-and-operations-gorgehold-sc-5418288a.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0022",
+   "name": "Astronaut Floating (Solar System and Astronauts)",
+   "subcategory": "Humans",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 582632,
+   "thumbnail": "01_CHARACTERS/Humans/solar-system-and-astronauts-astronaut-floating-9c4ac261.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0023",
+   "name": "Forest Stalker, Jointed (FPS Survival Forest Outpost)",
+   "subcategory": "Monsters",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 222264,
+   "thumbnail": "01_CHARACTERS/Monsters/fps-survival-forest-outpost-creature-stalker-ec567238.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0024",
+   "name": "Low Poly Civilian Standing Idle (Low Poly Character Figures)",
+   "subcategory": "Civilians",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 60408,
+   "thumbnail": "01_CHARACTERS/Civilians/low-poly-character-figures-civilian-standing-idle-514e9033.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0025",
+   "name": "Humanoid Android (Robots and Drones Kit)",
+   "subcategory": "Humans",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 75648,
+   "thumbnail": "01_CHARACTERS/Humans/robots-and-drones-kit-humanoid-android-88d6d911.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0026",
+   "name": "Infected Runner, Jointed (FPS Survival Forest Outpost)",
+   "subcategory": "Monsters",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 231692,
+   "thumbnail": "01_CHARACTERS/Monsters/fps-survival-forest-outpost-creature-infected-runner-d6e26047.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0027",
+   "name": "Pirate Captain (Legendary Warriors Kit)",
+   "subcategory": "Soldiers",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 189584,
+   "thumbnail": "01_CHARACTERS/Soldiers/legendary-warriors-kit-pirate-captain-5801918a.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0028",
+   "name": "Astronaut Standing (Solar System and Astronauts)",
+   "subcategory": "Humans",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 584008,
+   "thumbnail": "01_CHARACTERS/Humans/solar-system-and-astronauts-astronaut-standing-fc81276d.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0029",
+   "name": "Samurai Duelist (Legendary Warriors Kit)",
+   "subcategory": "Soldiers",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 200780,
+   "thumbnail": "01_CHARACTERS/Soldiers/legendary-warriors-kit-samurai-duelist-87b9cbe3.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0030",
+   "name": "Line Worker With Torque Tool (Car Factory Production Line)",
+   "subcategory": "Civilians",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 46144,
+   "thumbnail": "01_CHARACTERS/Civilians/car-factory-production-line-line-worker-with-torque-to-4150bc18.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0031",
+   "name": "African lion, adult male (Realistic Wild Animals HD)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 420632,
+   "thumbnail": "01_CHARACTERS/Animals/exotic-wildlife-hd-african-lion-male-4417c586.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0032",
+   "name": "Cat Standing (Ginger Tabby) (Cats, Dogs and Pets at Home)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 188320,
+   "thumbnail": "01_CHARACTERS/Animals/companion-animals-and-pet-home-cat-standing-f166d717.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0033",
+   "name": "Riding Horse Standing (Farm and Working Animals HD)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 372932,
+   "thumbnail": "01_CHARACTERS/Animals/farm-and-working-animals-hd-horse-standing-002c5cc1.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0034",
+   "name": "tyrannosaurus (Dinosaurs and Prehistoric Life)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 365656,
+   "thumbnail": "01_CHARACTERS/Animals/dinosaurs-and-prehistoric-life-tyrannosaurus-394daa40.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0035",
+   "name": "Sheep In Fleece (Farm and Working Animals HD)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 527352,
+   "thumbnail": "01_CHARACTERS/Animals/farm-and-working-animals-hd-sheep-6aabd4f9.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0036",
+   "name": "African elephant bull (Realistic Wild Animals HD)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 507756,
+   "thumbnail": "01_CHARACTERS/Animals/exotic-wildlife-hd-african-elephant-bull-29d8c02f.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0037",
+   "name": "Red deer stag (Realistic Wild Animals HD)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 360640,
+   "thumbnail": "01_CHARACTERS/Animals/exotic-wildlife-hd-red-deer-stag-82f8d92a.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0038",
+   "name": "Forest Boar, Jointed (FPS Survival Forest Outpost)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 169968,
+   "thumbnail": "01_CHARACTERS/Animals/fps-survival-forest-outpost-creature-boar-2eae041a.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0039",
+   "name": "Golden Retriever Puppy (Pets and Companions HD)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 296428,
+   "thumbnail": "01_CHARACTERS/Animals/pets-and-companions-hd-golden-retriever-puppy-ab28cdc3.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0040",
+   "name": "ankylosaurus (Dinosaurs and Prehistoric Life)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 274332,
+   "thumbnail": "01_CHARACTERS/Animals/dinosaurs-and-prehistoric-life-ankylosaurus-22269c89.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0009",
+   "name": "Seated Forklift Driver (Car Factory Production Line)",
+   "subcategory": "Humans",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 45252,
+   "thumbnail": "01_CHARACTERS/Humans/car-factory-production-line-seated-forklift-driver-5efd32f9.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0010",
+   "name": "Samurai Commander (Legendary Warriors Kit)",
+   "subcategory": "Soldiers",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 203788,
+   "thumbnail": "01_CHARACTERS/Soldiers/legendary-warriors-kit-samurai-commander-c5b5aa5e.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0011",
+   "name": "Quality Inspector With Tablet (Car Factory Production Line)",
+   "subcategory": "Humans",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 45436,
+   "thumbnail": "01_CHARACTERS/Humans/car-factory-production-line-quality-inspector-with-tab-9cc4b990.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0012",
+   "name": "Astronaut Waving (Solar System and Astronauts)",
+   "subcategory": "Humans",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 588192,
+   "thumbnail": "01_CHARACTERS/Humans/solar-system-and-astronauts-astronaut-waving-0f97b8c2.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0013",
+   "name": "Bengal tiger, prowling (Realistic Wild Animals HD)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 412164,
+   "thumbnail": "01_CHARACTERS/Animals/exotic-wildlife-hd-bengal-tiger-prowling-b1de9790.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0014",
+   "name": "Timber Wolf, Jointed (FPS Survival Forest Outpost)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 169004,
+   "thumbnail": "01_CHARACTERS/Animals/fps-survival-forest-outpost-creature-wolf-4be4d311.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0015",
+   "name": "triceratops (Dinosaurs and Prehistoric Life)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 244416,
+   "thumbnail": "01_CHARACTERS/Animals/dinosaurs-and-prehistoric-life-triceratops-5c18d8d2.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0016",
+   "name": "loggerhead turtle (Ocean Giants: Whales, Dolphins, Sharks and Reef Life)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 134856,
+   "thumbnail": "01_CHARACTERS/Animals/ocean-giants-kit-loggerhead-turtle-3bc323f1.thumb.webp"
+  }
+ ]
+}

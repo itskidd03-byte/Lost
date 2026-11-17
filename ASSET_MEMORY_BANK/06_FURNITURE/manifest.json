@@ -1,0 +1,74 @@
+{
+ "category": "06_FURNITURE",
+ "assets": 6,
+ "files": 18,
+ "bytes": 3921645,
+ "subcategories": [
+  "Bedroom",
+  "Chairs",
+  "Kitchen",
+  "Tables"
+ ],
+ "items": [
+  {
+   "asset_id": "D3A-0046",
+   "name": "Folding Beach Chair (Beach Surf and Paddle Kit)",
+   "subcategory": "Chairs",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 28168,
+   "thumbnail": "06_FURNITURE/Chairs/beach-surf-and-paddle-kit-folding-beach-chair-68794f97.thumb.webp"
+  },
+  {
+   "asset_id": "PLH-0001",
+   "name": "Adjustable Wrench",
+   "subcategory": "Tables",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 2642182,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/adjustable_wrench.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0007",
+   "name": "Painted Wooden Chair 01",
+   "subcategory": "Chairs",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 492550,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/painted_wooden_chair_01.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0009",
+   "name": "Sofa 03",
+   "subcategory": "Chairs",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 668033,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/sofa_03.png?width=256"
+  },
+  {
+   "asset_id": "D3A-0018",
+   "name": "T shirt on a hanger (Clothing Rail and Wardrobe)",
+   "subcategory": "Bedroom",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 44892,
+   "thumbnail": "06_FURNITURE/Bedroom/clothing-rail-and-wardrobe-tshirt-on-hanger-c0e0e17d.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0075",
+   "name": "Cast Iron Cabin Stove (Alpine Snow Village)",
+   "subcategory": "Kitchen",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 45820,
+   "thumbnail": "06_FURNITURE/Kitchen/alpine-snow-village-cast-iron-cabin-stove-189f1e06.thumb.webp"
+  }
+ ]
+}

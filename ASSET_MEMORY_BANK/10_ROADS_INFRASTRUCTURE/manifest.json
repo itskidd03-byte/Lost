@@ -1,0 +1,152 @@
+{
+ "category": "10_ROADS_INFRASTRUCTURE",
+ "assets": 14,
+ "files": 14,
+ "bytes": 723276,
+ "subcategories": [
+  "Railways",
+  "Roads"
+ ],
+ "items": [
+  {
+   "asset_id": "D3A-0081",
+   "name": "Entry barrier with a lifting arm (Car Park and Road Vehicle Fleet)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 18632,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/car-park-and-road-vehicle-fleet-entry-barrier-7cb4f555.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0082",
+   "name": "Warehouse Floor Slab (Distillery and Bonded Warehouse)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 59816,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/distillery-and-bonded-warehouse-floor-slab-tile-882aa5d3.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0083",
+   "name": "Slewing jib crane (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 63796,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-jib-crane-68fb499b.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0084",
+   "name": "Dock edge railing panel 4 m (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Railways",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 10064,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Railways/steampunk-airship-dock-and-workshop-dock-railing-panel-e62f5297.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0085",
+   "name": "Tunnel portal with slab track (Modern Rail and Metro Network)",
+   "subcategory": "Railways",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 89580,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Railways/modern-rail-and-metro-network-tunnel-portal-f7d066da.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0086",
+   "name": "Yard Grit Module (Distillery and Bonded Warehouse)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 57164,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/distillery-and-bonded-warehouse-yard-grit-tile-012b382f.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0087",
+   "name": "Dock gantry with travelling hoist (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 67200,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-dock-gantry-f46a3526.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0088",
+   "name": "Airship mooring mast (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 125352,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-mooring-mast-2a9d3e5d.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0089",
+   "name": "Slab track straight 6 m (Modern Rail and Metro Network)",
+   "subcategory": "Railways",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 71520,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Railways/modern-rail-and-metro-network-slab-track-straight-6m-0b78f8fd.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0090",
+   "name": "Railed catwalk corner module (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Railways",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 31108,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Railways/steampunk-airship-dock-and-workshop-catwalk-corner-3ec6ad02.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0033",
+   "name": "Railed catwalk module 4 m (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Railways",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 19536,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Railways/steampunk-airship-dock-and-workshop-catwalk-straight-5bb5151f.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0034",
+   "name": "Riveted dock deck plate 4 m (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 57108,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/steampunk-airship-dock-and-workshop-dock-deck-plate-f78a2ec8.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0035",
+   "name": "Perimeter Fence Run (Airport Terminal and Ground Operations)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 34736,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/airport-terminal-and-ground-operations-perimeter-fence-f8a14e9f.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0036",
+   "name": "Parade Ring Gate (Racecourse and Parade Ring)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 17664,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/racecourse-and-parade-ring-parade-ring-gate-28242051.thumb.webp"
+  }
+ ]
+}
