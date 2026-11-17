@@ -111,7 +111,7 @@ export class Society {
     };
     for (const camp of this.data.camps) this.headcount(camp);
     this.rebuildClaims();
-    this.note(`Johan's hundred step onto ${tile.x},${tile.y} and call it the First Camp.`);
+    this.note(`Johan sets a couple on ${tile.x},${tile.y} and they call it the First Camp. What it becomes is theirs to make.`);
     this.save();
     return true;
   }
@@ -163,9 +163,9 @@ export class Society {
       progress: 0,
     };
     if (withPeople) {
-      for (let i = 0; i < 100; i++) {
-        camp.people.push(this.makePerson(i, i % 2 === 0 ? 'f' : 'm', 16 + Math.floor(hash(i * 3.1) * 24)));
-      }
+      // a founding couple, not a hundred: what the camp becomes is up to them
+      camp.people.push(this.makePerson(0, 'f', 22));
+      camp.people.push(this.makePerson(1, 'm', 25));
     }
     this.chooseLeader(camp);
     return camp;
@@ -359,7 +359,8 @@ export class Society {
       const strained = now < 20 ? 2.5 : 1;
       // a growing town keeps growing: food and houses are the only brakes
       const pull = strained * (1 + Math.min(2, room / Math.max(8, now)));
-      if (couples > 0 && hash(this.time * 0.37 + camp.id) < dt * 0.014 * couples * pull) {
+      // the world breeds thirty per cent faster than it used to
+      if (couples > 0 && hash(this.time * 0.37 + camp.id) < dt * 0.0182 * couples * pull) {
         this.birth(camp);
       }
     }
@@ -372,7 +373,9 @@ export class Society {
   }
 
   couples(camp) {
-    return Math.min(26, Math.round(this.headcount(camp) * 0.2));
+    const pop = this.headcount(camp);
+    if (pop < 2) return 0;
+    return Math.max(1, Math.min(26, Math.round(pop * 0.2)));
   }
 
   birth(camp) {

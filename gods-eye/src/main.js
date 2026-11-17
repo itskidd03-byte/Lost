@@ -689,7 +689,7 @@ class Game {
       this.ui.toast({
         category: 'johan',
         day: this.state.world.day,
-        title: `The hundred will not settle on ${this.society.waitingOnGrass}. Walk them onto grass and they will found their camp.`,
+        title: `They will not settle on ${this.society.waitingOnGrass}. Walk them onto grass and they will found their camp.`,
       });
     }
     this.society.attachRegion(this.region);
