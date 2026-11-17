@@ -48,6 +48,9 @@ jobs:
             node tools/asset-bank/build-assets.mjs
           fi
 
+      - name: Rebuild the gallery index
+        run: node tools/asset-bank/build-gallery.mjs
+
       - name: Verify the bank
         run: |
           node -e "
@@ -68,7 +71,7 @@ jobs:
         run: |
           git config user.name "asset-bank-bot"
           git config user.email "asset-bank-bot@users.noreply.github.com"
-          git add ASSET_MEMORY_BANK reports/asset-bank-snapshot.md
+          git add ASSET_MEMORY_BANK reports/asset-bank-snapshot.md asset-gallery/assets.json
           if git diff --staged --quiet; then
             echo "no new assets"
           else

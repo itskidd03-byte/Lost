@@ -1040,6 +1040,10 @@ async function writeOutputs() {
     '`MEMORY_INDEX/assets.json` (one record per asset with all its maps). Each',
     'category folder also carries a `manifest.json` so it can be read alone.',
     '',
+    'To browse it visually, run `npm run dev` in the repository root and open',
+    '`/asset-gallery/`: a thumbnail gallery with category and search filters, built',
+    'from the index by `tools/asset-bank/build-gallery.mjs`.',
+    '',
     '| Category | Assets | Files | Size |',
     '| --- | ---: | ---: | ---: |',
     ...Object.keys(TAXONOMY).map((cat) => {

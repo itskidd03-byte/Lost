@@ -22,7 +22,8 @@ running anything.
 - `schemas/` — asset, memory and worker JSON schemas used across departments.
 - `tools/sync-bank.mjs` — dependency-free fetcher.
 - `ASSET_MEMORY_BANK/` — downloadable CC0 game assets (models, PBR sets, sprites, UI,
-  audio, HDRIs) with their index; built by `tools/asset-bank/build-assets.mjs`.
+  audio, HDRIs) with their index; built by `tools/asset-bank/build-assets.mjs` and
+  browsable at `/asset-gallery/` under `npm run dev`.
 - `.github/workflows/sync-bank.yml` — refreshes the catalogue four times a day (00:20, 07:20, 13:20,
 19:20 UTC) and on manual dispatch.
 
