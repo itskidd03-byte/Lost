@@ -1,8 +1,8 @@
 {
  "category": "03_MILITARY",
- "assets": 15,
- "files": 15,
- "bytes": 9018380,
+ "assets": 30,
+ "files": 236,
+ "bytes": 18041497,
  "subcategories": [
   "Vehicles",
   "Weapons"
@@ -157,6 +157,156 @@
    "files": 1,
    "bytes": 226420,
    "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-laser-module-ac25cfb2.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0073",
+   "name": "Steel tool chest (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 23468,
+   "thumbnail": "03_MILITARY/Weapons/steampunk-airship-dock-and-workshop-tool-chest-92ccaee9.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0074",
+   "name": "Light Machine Gun (Arctic Station FPS Kit)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 960904,
+   "thumbnail": "03_MILITARY/Weapons/arctic-station-fps-kit-light-machine-gun-7dace329.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0075",
+   "name": "Folding Stock (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 224480,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-folding-stock-40cb3895.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0076",
+   "name": "Ironbound Round Shield (Swords, Shields and Melee Arms)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 82524,
+   "thumbnail": "03_MILITARY/Weapons/swords-shields-and-melee-arms-round-shield-ironbound-46d29999.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0077",
+   "name": "Service Revolver (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 610528,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-service-revolver-9b1db52a.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0078",
+   "name": "Riveted toolbox (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 16356,
+   "thumbnail": "03_MILITARY/Weapons/steampunk-airship-dock-and-workshop-toolbox-2754f8a9.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0079",
+   "name": "Thermal Sight (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 251072,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-thermal-sight-1c06afdf.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0080",
+   "name": "Night Vision Sight (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 318072,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-night-sight-0de187cf.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0081",
+   "name": "Folding Stock SMG (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 818236,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-folding-stock-smg-cbcb9a4c.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0082",
+   "name": "Compact Pistol (Mega Weapon Pack)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 636752,
+   "thumbnail": "03_MILITARY/Weapons/mega-weapon-pack-compact-pistol-f6c087cf.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0083",
+   "name": "Bolt Action Sniper Rifle (Tactical Shooter Hill Town)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 101388,
+   "thumbnail": "03_MILITARY/Weapons/tactical-shooter-hill-town-bolt-sniper-rifle-4bf1076c.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0084",
+   "name": "Arming Scabbard (Swords, Shields and Melee Arms)",
+   "subcategory": "Weapons",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 62444,
+   "thumbnail": "03_MILITARY/Weapons/swords-shields-and-melee-arms-arming-scabbard-d705eadc.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0094",
+   "name": "Long-nose conventional sleeper (Long-Haul Trucking and Truck Stop)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 190076,
+   "thumbnail": "03_MILITARY/Vehicles/long-haul-trucking-and-truck-stop-long-nose-sleeper-949ae647.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0095",
+   "name": "Rigid box delivery truck (Long-Haul Trucking and Truck Stop)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 188868,
+   "thumbnail": "03_MILITARY/Vehicles/long-haul-trucking-and-truck-stop-box-truck-7c3e3e9d.thumb.webp"
+  },
+  {
+   "asset_id": "KNY-0029",
+   "name": "Blaster Kit pack",
+   "subcategory": "Weapons",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 207,
+   "bytes": 4537949,
+   "thumbnail": ""
   }
  ]
 }

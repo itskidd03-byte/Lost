@@ -11,10 +11,8 @@ on:
         default: ''
   schedule:
     - cron: '40 3 * * 1'
-  push:
-    paths:
-      - 'tools/asset-bank/**'
-      - '.github/workflows/asset-bank.yml'
+  # No push trigger on purpose: changing the pipeline must not start an
+  # acquisition. Growing the bank is a deliberate weekly or manual action.
 
 permissions:
   contents: write

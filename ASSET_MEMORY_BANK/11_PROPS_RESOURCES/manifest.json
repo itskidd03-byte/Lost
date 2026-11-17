@@ -1,14 +1,24 @@
 {
  "category": "11_PROPS_RESOURCES",
- "assets": 32,
- "files": 52,
- "bytes": 19744809,
+ "assets": 63,
+ "files": 1833,
+ "bytes": 91135366,
  "subcategories": [
   "",
+  "Tools",
   "Vehicles",
+  "barrel_stove",
   "cannon_01",
+  "circuit_board",
+  "dirty_football",
+  "filmstrip_projector_8mm",
   "lantern_chandelier_01",
   "modular_metal_gutter",
+  "multi_cleaner_5_litre",
+  "plastic_bottle_gallon",
+  "postcard_set_01",
+  "rusted_hacksaw",
+  "ship_pinnace",
   "vintage_pocket_watch"
  ],
  "items": [
@@ -331,6 +341,316 @@
    "files": 1,
    "bytes": 135252,
    "thumbnail": "11_PROPS_RESOURCES/Vehicles/steam-era-railway-and-rolling-stock-brake-van-8d7a6f07.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0052",
+   "name": "Beach Gear Wagon (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 84652,
+   "thumbnail": "11_PROPS_RESOURCES/beach-surf-and-paddle-kit-beach-gear-wagon-fb9f4cd8.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0053",
+   "name": "Volleyball Net (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 129144,
+   "thumbnail": "11_PROPS_RESOURCES/beach-surf-and-paddle-kit-volleyball-net-e371f956.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0054",
+   "name": "Sport Sunglasses (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 24056,
+   "thumbnail": "11_PROPS_RESOURCES/beach-surf-and-paddle-kit-sport-sunglasses-b28a0db7.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0055",
+   "name": "Sand Castle (Beach Surf and Paddle Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 230704,
+   "thumbnail": "11_PROPS_RESOURCES/beach-surf-and-paddle-kit-sand-castle-07e02ad1.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0056",
+   "name": "Post And Rail Fence Section (Farm and Working Animals HD)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 46676,
+   "thumbnail": "11_PROPS_RESOURCES/farm-and-working-animals-hd-fence-straight-abfd7b2a.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0057",
+   "name": "Departure Board Arrivals (Airport Terminal and Ground Operations)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 20560,
+   "thumbnail": "11_PROPS_RESOURCES/airport-terminal-and-ground-operations-departure-board-f2dd52f8.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0058",
+   "name": "Spotlight Tower (Robots and Drones Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 9528,
+   "thumbnail": "11_PROPS_RESOURCES/robots-and-drones-kit-spotlight-tower-d2d47182.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0059",
+   "name": "Brain Model (Human Anatomy and Education Kit)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 57920,
+   "thumbnail": "11_PROPS_RESOURCES/human-anatomy-and-education-kit-brain-model-6f2b597b.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0060",
+   "name": "Lighting Bar with PAR Cans (Live Music Venue and Festival Stage)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 95980,
+   "thumbnail": "11_PROPS_RESOURCES/live-music-venue-and-festival-stage-lighting-bar-with--9d1b9fb6.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0085",
+   "name": "Delivery Lorry, Flatbed (Distillery and Bonded Warehouse)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 75776,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/distillery-and-bonded-warehouse-delivery-lorry-5a2271a0.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0086",
+   "name": "City Bus Single Decker (Bus Station and City Transit)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 43360,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/bus-station-and-city-transit-city-bus-single-decker-ddf9a355.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0087",
+   "name": "Forklift (Car Factory Production Line)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 59724,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/car-factory-production-line-forklift-4daac5a1.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0088",
+   "name": "Agv Loader (Robots and Drones Kit)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 19716,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/robots-and-drones-kit-agv-loader-b0e56fc5.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0089",
+   "name": "Airship crew gondola (Steampunk Airship Dock and Workshop)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 86220,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/steampunk-airship-dock-and-workshop-airship-gondola-5178984f.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0090",
+   "name": "Finished Compact Hatchback (Car Factory Production Line)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 121688,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/car-factory-production-line-finished-compact-hatchback-03e14d24.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0091",
+   "name": "Superbike (Motorcycle Racing and Street Bikes)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 260640,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/motorcycle-racing-and-street-bikes-superbike-d02e949c.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0092",
+   "name": "Mid-size row-crop tractor (Arable Fields and Farm Machinery)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 318132,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/arable-fields-and-farm-machinery-row-crop-tractor-eefceb01.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0093",
+   "name": "Track-prepared coupe (Vehicle Collection HD: Cars, Planes and Boats)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 378992,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/transport-collection-hd-track-coupe-80aa8ec7.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0096",
+   "name": "Four-wheel crane rover (Moon Base Colony and Lunar Rovers)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 193160,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/lunar-surface-colony-and-rovers-crane-rover-d5a76830.thumb.webp"
+  },
+  {
+   "asset_id": "PLH-0001",
+   "name": "Barrel Stove",
+   "subcategory": "barrel_stove",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 2146911,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/barrel_stove.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0004",
+   "name": "Circuit Board",
+   "subcategory": "circuit_board",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 3288693,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/circuit_board.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0005",
+   "name": "Dirty Football",
+   "subcategory": "dirty_football",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 1995001,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/dirty_football.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0006",
+   "name": "Filmstrip Projector 8mm",
+   "subcategory": "filmstrip_projector_8mm",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 3121515,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/filmstrip_projector_8mm.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0011",
+   "name": "Multi Cleaner 5 Litre",
+   "subcategory": "multi_cleaner_5_litre",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 1367092,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/multi_cleaner_5_litre.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0013",
+   "name": "Plastic Bottle Gallon",
+   "subcategory": "plastic_bottle_gallon",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 1385300,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/plastic_bottle_gallon.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0014",
+   "name": "Postcard Set 01",
+   "subcategory": "postcard_set_01",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 520503,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/postcard_set_01.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0015",
+   "name": "Rusted Hacksaw",
+   "subcategory": "rusted_hacksaw",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 2156988,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/rusted_hacksaw.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0016",
+   "name": "Ship Pinnace",
+   "subcategory": "ship_pinnace",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 23,
+   "bytes": 21074557,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/ship_pinnace.png?width=256"
+  },
+  {
+   "asset_id": "KNY-0021",
+   "name": "Survival Kit pack",
+   "subcategory": "Tools",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 408,
+   "bytes": 5272892,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0027",
+   "name": "Car Kit pack",
+   "subcategory": "Vehicles",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 255,
+   "bytes": 14473176,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0028",
+   "name": "Racing Kit pack",
+   "subcategory": "Vehicles",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 1036,
+   "bytes": 12331301,
+   "thumbnail": ""
   }
  ]
 }

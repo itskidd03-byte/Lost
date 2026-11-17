@@ -1,8 +1,8 @@
 {
  "category": "09_TERRAIN",
- "assets": 4,
- "files": 20,
- "bytes": 23034563,
+ "assets": 10,
+ "files": 49,
+ "bytes": 48859119,
  "subcategories": [
   "Asphalt",
   "Concrete",
@@ -47,6 +47,66 @@
    "license": "CC0 1.0 Universal",
    "files": 5,
    "bytes": 4961480,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0003",
+   "name": "Ground110",
+   "subcategory": "Terrain Textures",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 6280710,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0010",
+   "name": "Rock063",
+   "subcategory": "Terrain Textures",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 2551499,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0012",
+   "name": "Ground037",
+   "subcategory": "Terrain Textures",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 6469537,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0013",
+   "name": "Plaster001",
+   "subcategory": "Concrete",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 4,
+   "bytes": 3889581,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0015",
+   "name": "Concrete042A",
+   "subcategory": "Concrete",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 6,
+   "bytes": 4087936,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0016",
+   "name": "Marble016",
+   "subcategory": "Terrain Textures",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 4,
+   "bytes": 2545293,
    "thumbnail": ""
   }
  ]

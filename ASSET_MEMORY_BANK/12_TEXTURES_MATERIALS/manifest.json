@@ -1,10 +1,11 @@
 {
  "category": "12_TEXTURES_MATERIALS",
- "assets": 6,
- "files": 29,
- "bytes": 22732567,
+ "assets": 21,
+ "files": 187,
+ "bytes": 71364826,
  "subcategories": [
-  "PBR Materials"
+  "PBR Materials",
+  "Surface Details"
  ],
  "items": [
   {
@@ -65,6 +66,156 @@
    "license": "CC0 1.0 Universal",
    "files": 4,
    "bytes": 4551826,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0001",
+   "name": "Planks040",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 6,
+   "bytes": 4558021,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0002",
+   "name": "Fabric085",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 5734385,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0004",
+   "name": "Wood095",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 4,
+   "bytes": 1780455,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0005",
+   "name": "Bricks108B",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 4573107,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0006",
+   "name": "Tiles139",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 4,
+   "bytes": 2576539,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0007",
+   "name": "Clay009",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 4,
+   "bytes": 3164686,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0008",
+   "name": "Bricks106B",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 4830472,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0009",
+   "name": "WoodFloor051",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 2931110,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0011",
+   "name": "WoodFloor064",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 4,
+   "bytes": 2152995,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0014",
+   "name": "Tiles144",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 4,
+   "bytes": 2824625,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0017",
+   "name": "Wood058",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 4,
+   "bytes": 4403897,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0018",
+   "name": "Bricks075A",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 2873994,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0019",
+   "name": "Wood067",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 4,
+   "bytes": 3392541,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "ACG-0020",
+   "name": "Metal061B",
+   "subcategory": "PBR Materials",
+   "kind": "material",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 2091716,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0035",
+   "name": "Prototype Textures pack",
+   "subcategory": "Surface Details",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 94,
+   "bytes": 743716,
    "thumbnail": ""
   }
  ]

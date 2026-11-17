@@ -1,10 +1,11 @@
 {
  "category": "08_ENVIRONMENT",
- "assets": 47,
- "files": 51,
- "bytes": 102214488,
+ "assets": 64,
+ "files": 3147,
+ "bytes": 133032256,
  "subcategories": [
   "",
+  "Bushes",
   "Caves",
   "Grass",
   "Rocks",
@@ -481,6 +482,176 @@
    "files": 1,
    "bytes": 4181540,
    "thumbnail": "08_ENVIRONMENT/greek-island-village-and-harbour-island--f1d7f415-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0013",
+   "name": "Jungle Canopy Tree (Jungle Temple and Stone City)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 167288,
+   "thumbnail": "08_ENVIRONMENT/Trees/jungle-temple-and-stone-city-jungle-canopy-tree-6e668f41.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0014",
+   "name": "Green grass clump (Realistic Wild Animals HD)",
+   "subcategory": "Grass",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 122300,
+   "thumbnail": "08_ENVIRONMENT/Grass/exotic-wildlife-hd-green-grass-clump-ea7fae55.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0015",
+   "name": "Boulder coral (Coral Reef and Underwater Scenery)",
+   "subcategory": "Rocks",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 65680,
+   "thumbnail": "08_ENVIRONMENT/Rocks/underwater-reef-worlds-boulder-coral-bf13c105.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0016",
+   "name": "Ice Crystal Cluster (Alpine Snow Village)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 10484,
+   "thumbnail": "08_ENVIRONMENT/Trees/alpine-snow-village-ice-crystal-cluster-60875060.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0017",
+   "name": "Stylized Grass Tuft Short (Stylized Trees and Rocks Kit)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 5340,
+   "thumbnail": "08_ENVIRONMENT/Trees/stylized-trees-and-rocks-kit-grass-tuft-short-e8744fed.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0018",
+   "name": "Cherry Tree in Blossom (Japanese School and City Street)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 152156,
+   "thumbnail": "08_ENVIRONMENT/Trees/japanese-school-and-city-street-cherry-tree-blossom-618a9f6d.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0019",
+   "name": "Bushy soft coral (Coral Reef and Underwater Scenery)",
+   "subcategory": "Bushes",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 137368,
+   "thumbnail": "08_ENVIRONMENT/Bushes/underwater-reef-worlds-bushy-soft-coral-bfda7970.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0020",
+   "name": "Lettuce coral (Coral Reef and Underwater Scenery)",
+   "subcategory": "Water",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 58568,
+   "thumbnail": "08_ENVIRONMENT/Water/underwater-reef-worlds-lettuce-coral-8df6754a.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0021",
+   "name": "Mature English oak (Forest Trees and Woodland Plants)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 106980,
+   "thumbnail": "08_ENVIRONMENT/Trees/temperate-forest-ecology-english-oak-mature-ac520af6.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0022",
+   "name": "Stylized Ancient Oak Tree (Stylized Trees and Rocks Kit)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 50332,
+   "thumbnail": "08_ENVIRONMENT/Trees/stylized-trees-and-rocks-kit-oak-ancient-daebddc2.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0023",
+   "name": "Fern Cluster (Jungle Temple and Stone City)",
+   "subcategory": "Grass",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 97252,
+   "thumbnail": "08_ENVIRONMENT/Grass/jungle-temple-and-stone-city-fern-cluster-e75d8284.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0024",
+   "name": "Post And Rail Fence Straight (Horse Stables and Equestrian Yard)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 5888,
+   "thumbnail": "08_ENVIRONMENT/equestrian-yard-and-stables-fence-rail-straight-d5a592ab.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0109",
+   "name": "Two bay repair garage and test lane (Car Repair Garage and MOT Workshop)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 2325076,
+   "thumbnail": "08_ENVIRONMENT/car-repair-garage-and-mot-workshop-car-r-1301170d-starter-scene.thumb.webp"
+  },
+  {
+   "asset_id": "PLH-0018",
+   "name": "Trowel 01",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 1973386,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/trowel_01.png?width=256"
+  },
+  {
+   "asset_id": "PLH-0019",
+   "name": "Wild Rooibos Bush",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 5,
+   "bytes": 2464496,
+   "thumbnail": "https://cdn.polyhaven.com/asset_img/thumbs/wild_rooibos_bush.png?width=256"
+  },
+  {
+   "asset_id": "KNY-0016",
+   "name": "Mini Forest pack",
+   "subcategory": "Trees",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 116,
+   "bytes": 3250503,
+   "thumbnail": ""
+  },
+  {
+   "asset_id": "KNY-0020",
+   "name": "Nature Kit pack",
+   "subcategory": "",
+   "kind": "pack",
+   "license": "CC0 1.0 Universal",
+   "files": 2957,
+   "bytes": 19824671,
+   "thumbnail": ""
   }
  ]
 }
