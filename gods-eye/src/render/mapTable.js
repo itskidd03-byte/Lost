@@ -6,7 +6,7 @@ import { BIOMES, bounds, isLand, key } from '../world.js';
 import {
   tree, grassStrands, animal, hash2, nameSprite,
 } from './detail.js';
-import { loadMedievalModels, onMedievalReady } from './medieval.js';
+import { loadMedievalModels, onMedievalReady, medievalReady } from './medieval.js';
 import {
   loadPeopleModels, onPeopleReady, peopleReady, personModel, walkPerson,
 } from './people.js';
@@ -17,6 +17,7 @@ import { advanceWater, makeWaterMaterial } from './water.js';
 import { loadMountainModels } from './mountains.js';
 import {
   buildSettlement, buildTerritories, settlementBlockKeys, loadSettlementModels, footprintBlocks,
+  settlementRank,
 } from './settlements.js';
 
 const TILE_MAX = 0.062;
@@ -845,7 +846,8 @@ export class MapTable {
     // The camps themselves, built with the same tents and huts the world uses,
     // so a new camp appears on the board the moment it is founded.
     const popOf = (camp) => Math.round(society.headcount ? society.headcount(camp) : (camp.pop ?? camp.people?.length ?? 0));
-    const townKey = camps.map((c) => `${c.id}:${c.x}:${c.y}:${Math.round(popOf(c) / 40)}:${c.era}`).join('|');
+    // only rebuild when a camp is founded or outgrows its shape, not on every birth
+    const townKey = camps.map((c) => `${c.id}:${c.x}:${c.y}:${settlementRank(popOf(c))}:${c.era}`).join('|');
     if (townKey === this.townKey) return;
     this.townKey = townKey;
     if (!this.societyTowns) {
@@ -860,23 +862,35 @@ export class MapTable {
     for (const camp of camps) {
       const population = popOf(camp);
       if (population <= 0) continue;
+      // towns and kingdoms are built from the medieval kit; wait for it rather
+      // than throw, and try again on the next pass
+      if (population >= 50 && !medievalReady()) {
+        this.townKey = '';
+        continue;
+      }
       townColor.setHSL((camp.id * 0.137) % 1, 0.6, 0.55);
-      const built = buildSettlement({
-        settlement: {
-          id: `society-${camp.id}`,
-          name: camp.name,
-          x: camp.x,
-          y: camp.y,
-          population,
-          alive: true,
-          nationId: null,
-        },
-        state: this.state,
-        project,
-        scale: this.scale,
-        heightOf: (tile) => this.groundY(tile),
-        nationColor: `#${townColor.getHexString()}`,
-      });
+      let built = null;
+      try {
+        built = buildSettlement({
+          settlement: {
+            id: 9000 + camp.id,
+            name: camp.name,
+            x: camp.x,
+            y: camp.y,
+            population,
+            alive: true,
+            nationId: null,
+          },
+          state: this.state,
+          project,
+          scale: this.scale,
+          heightOf: (tile) => this.groundY(tile),
+          nationColor: `#${townColor.getHexString()}`,
+        });
+      } catch (err) {
+        built = null;
+        this.townKey = '';
+      }
       if (built?.group) this.societyTowns.add(built.group);
     }
   }
