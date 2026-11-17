@@ -841,6 +841,44 @@ export class MapTable {
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
     geometry.computeBoundingSphere();
     this.societyMesh.visible = positions.length > 0;
+
+    // The camps themselves, built with the same tents and huts the world uses,
+    // so a new camp appears on the board the moment it is founded.
+    const popOf = (camp) => Math.round(society.headcount ? society.headcount(camp) : (camp.pop ?? camp.people?.length ?? 0));
+    const townKey = camps.map((c) => `${c.id}:${c.x}:${c.y}:${Math.round(popOf(c) / 40)}:${c.era}`).join('|');
+    if (townKey === this.townKey) return;
+    this.townKey = townKey;
+    if (!this.societyTowns) {
+      this.societyTowns = new THREE.Group();
+      this.group.add(this.societyTowns);
+    }
+    for (const child of [...this.societyTowns.children]) {
+      this.societyTowns.remove(child);
+      child.traverse((o) => { if (o.isMesh) o.geometry?.dispose?.(); });
+    }
+    const townColor = new THREE.Color();
+    for (const camp of camps) {
+      const population = popOf(camp);
+      if (population <= 0) continue;
+      townColor.setHSL((camp.id * 0.137) % 1, 0.6, 0.55);
+      const built = buildSettlement({
+        settlement: {
+          id: `society-${camp.id}`,
+          name: camp.name,
+          x: camp.x,
+          y: camp.y,
+          population,
+          alive: true,
+          nationId: null,
+        },
+        state: this.state,
+        project,
+        scale: this.scale,
+        heightOf: (tile) => this.groundY(tile),
+        nationColor: `#${townColor.getHexString()}`,
+      });
+      if (built?.group) this.societyTowns.add(built.group);
+    }
   }
 
   update(elapsed, dt = 0) {

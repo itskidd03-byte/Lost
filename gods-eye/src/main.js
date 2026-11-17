@@ -684,7 +684,14 @@ class Game {
     }
     this.region = new Region(this.state, tile);
     this.scene = this.region.scene;
-    this.society.ensureFounded(tile);
+    const founded = this.society.ensureFounded(tile);
+    if (!founded && !this.society.data?.founded && this.society.waitingOnGrass) {
+      this.ui.toast({
+        category: 'johan',
+        day: this.state.world.day,
+        title: `The hundred will not settle on ${this.society.waitingOnGrass}. Walk them onto grass and they will found their camp.`,
+      });
+    }
     this.society.attachRegion(this.region);
     this.societyHudIn = 0;
     this.drawCivHud();

@@ -83,9 +83,20 @@ export class Society {
 
   // Only ever called with the first land tile Johan walks into. After that the
   // flag is set, and no amount of walking spawns anybody.
+  // The hundred will only put down roots where grass grows. Anywhere else is a
+  // place to walk through, not a place to found a people.
+  canFound(tile) {
+    return !!tile && ['grass', 'meadow', 'blackgrass', 'grassland'].includes(tile.biome);
+  }
+
   ensureFounded(tile) {
     if (this.data?.founded) return false;
     if (!tile || !isLand(tile)) return false;
+    if (!this.canFound(tile)) {
+      this.waitingOnGrass = tile.biome;
+      return false;
+    }
+    this.waitingOnGrass = null;
     const camp = this.makeCamp(tile.x, tile.y, 'First Camp', true);
     this.data = {
       founded: true,
