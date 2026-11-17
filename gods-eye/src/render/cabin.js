@@ -310,10 +310,8 @@ export class Cabin {
       const count = Math.max(2, Math.round(along / 1.1));
       for (let i = 1; i < count; i++) {
         const t = -along / 2 + (along * i) / count;
-        const batten = new THREE.Mesh(
-          new THREE.BoxGeometry(vertical ? d + 0.01 : 0.05, 0.86, vertical ? 0.05 : d + 0.01),
-          darkBeamMat,
-        );
+        // an upright batten, thin on both faces of the wall whichever wall it is
+        const batten = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.86, 0.05), darkBeamMat);
         batten.position.set(vertical ? x : x + t, 0.56, vertical ? z + t : z);
         this.root.add(batten);
       }
