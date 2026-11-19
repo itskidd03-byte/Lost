@@ -11,8 +11,8 @@
 //     stone, water and metal reflect the sky they stand under;
 //   * a warm, nearly dark interior probe for the cabin, so the lantern makes
 //     brass read as brass and the table's metals pick up the room;
-//   * one quality tier, decided once, so a phone gets a cheaper shadow map and
-//     no bloom while a desktop gets both;
+//   * one quality tier, decided once and expressed as numbers, so a phone gets
+//     a cheaper shadow map and no bloom while a desktop gets both;
 //   * a restrained bloom pass, so the lantern and the sun through the window
 //     spill light instead of clipping to white.
 //
@@ -24,37 +24,47 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 
-// A phone is identified by the size of the view it has to fill, not by its
-// user agent: a tablet in landscape earns the desktop treatment, a phone in
-// landscape does not.
-function detectTier() {
-  if (typeof window === 'undefined' || typeof navigator === 'undefined') return 'high';
-  const shortSide = Math.min(window.innerWidth || 1024, window.innerHeight || 768);
-  const cores = navigator.hardwareConcurrency || 4;
-  if (shortSide < 760) return 'low';
-  if (cores <= 4) return 'low';
-  return 'high';
-}
-
-export const TIER = detectTier();
+// Where the sun stands. The painted sun and the region's directional light are
+// the same light, so they read this one vector: if they ever disagree, the sky
+// casts a shadow from a sun that is not in it.
+export const SUN = { x: -30, y: 46, z: 22 };
 
 // Palette of the day sky. Kept close to the colours the region was already
 // lit with, so this reads as the same world with better light in it.
-const SKY = {
+export const SKY = {
   zenith: '#6f9dc4',
   high: '#9dc3dd',
   horizon: '#d3e6f1',
   below: '#93a39b',
   nadir: '#5c6b68',
-  sun: '#fff3d8',
-  // the direction the sun already stands in the region: (-30, 46, 22)
-  sunDir: new THREE.Vector3(-30, 46, 22).normalize(),
-  horizonHex: '#cfe3ef',
 };
 
-let pmrem = null;
-let outdoor = null;
-let interior = null;
+// A phone is identified by the size of the view it has to fill, not by its user
+// agent: a tablet in landscape earns the desktop treatment, a phone in
+// landscape does not. Core count catches the small laptops a viewport test
+// would promote.
+function detectTier() {
+  if (typeof window === 'undefined' || typeof navigator === 'undefined') return 'high';
+  const shortSide = Math.min(window.innerWidth || 1024, window.innerHeight || 768);
+  const cores = navigator.hardwareConcurrency || 4;
+  return shortSide < 760 || cores <= 4 ? 'low' : 'high';
+}
+
+export const TIER = detectTier();
+
+// What a tier actually changes. Scenes read these numbers instead of comparing
+// tier strings, so adding the defined Standard tier is one row here rather than
+// an edit in every scene.
+const QUALITY = {
+  high: { regionShadow: 2048, cabinShadow: 2048, maxPixelRatio: 2, bloom: true },
+  low: { regionShadow: 1024, cabinShadow: 512, maxPixelRatio: 1.5, bloom: false },
+};
+
+export const quality = QUALITY[TIER];
+
+// How much of the frame each probe is allowed to fill. The probes themselves
+// are the same on every tier; only their resolution follows the device cost.
+const ENVIRONMENT_INTENSITY = { outdoor: 0.55, interior: 0.35 };
 
 function canvas(w, h) {
   const c = document.createElement('canvas');
@@ -63,9 +73,9 @@ function canvas(w, h) {
   return c;
 }
 
-function finish(c, mapping = THREE.EquirectangularReflectionMapping) {
+function finish(c) {
   const tex = new THREE.CanvasTexture(c);
-  tex.mapping = mapping;
+  tex.mapping = THREE.EquirectangularReflectionMapping;
   tex.colorSpace = THREE.SRGBColorSpace;
   tex.anisotropy = 4;
   return tex;
@@ -89,7 +99,7 @@ function skySheet() {
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, w, h);
 
-  const dir = SKY.sunDir;
+  const dir = new THREE.Vector3(SUN.x, SUN.y, SUN.z).normalize();
   const u = 0.5 + Math.atan2(dir.z, dir.x) / (Math.PI * 2);
   const v = 0.5 - Math.asin(dir.y) / Math.PI;
   const sx = u * w;
@@ -165,39 +175,44 @@ function interiorSheet() {
   return finish(c);
 }
 
-// Build the two probes once per renderer. Must run before the cabin or a region
-// is constructed; both ask for their environment in their own constructor.
+// Flat stand-ins until initGrade runs, so a scene built early still gets a
+// coherent sky instead of a black void.
+let outdoor = { background: new THREE.Color(SKY.horizon), environment: null };
+let interior = { environment: null };
+let ready = false;
+
+// Build both probes once per renderer. Must run before the cabin or a region is
+// constructed; both ask for their environment in their own constructor.
 export function initGrade(renderer) {
-  if (outdoor || !renderer) return;
-  pmrem = new THREE.PMREMGenerator(renderer);
-  pmrem.compileEquirectangularShader?.();
-
-  const sky = skySheet();
-  outdoor = {
-    background: sky,
-    environment: pmrem.fromEquirectangular(sky).texture,
-    horizon: SKY.horizonHex,
-  };
-
-  const room = interiorSheet();
-  interior = { environment: pmrem.fromEquirectangular(room).texture };
-  room.dispose();
+  if (ready || !renderer) return;
+  ready = true;
+  try {
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const sky = skySheet();
+    const room = interiorSheet();
+    outdoor = { background: sky, environment: pmrem.fromEquirectangular(sky).texture };
+    interior = { environment: pmrem.fromEquirectangular(room).texture };
+    // The sheets and the generator's working targets are done with: the two
+    // probe textures above are the only things that need to survive.
+    room.dispose();
+    pmrem.dispose();
+  } catch (err) {
+    // A driver without half-float targets keeps the flat sky and loses only the
+    // reflections; that is not a reason to show nothing.
+    console.warn('[gods-eye] environment probes unavailable, lighting flat', err);
+  }
 }
 
-// The region and the table both stand in daylight. If initGrade has not run
-// (a unit test importing a renderer module directly), fall back to the old flat
-// sky rather than throwing.
-export function outdoorSky() {
-  if (outdoor) return outdoor;
-  return {
-    background: new THREE.Color(SKY.horizonHex),
-    environment: null,
-    horizon: SKY.horizonHex,
-  };
-}
-
-export function interiorEnvironment() {
-  return interior ? interior.environment : null;
+// Put the right probe on a scene: the sky outside, the lantern room inside. One
+// place decides both which sheet and how strongly it fills, so the cabin and the
+// region cannot drift apart again.
+export function applyEnvironment(scene, kind) {
+  const probe = kind === 'interior' ? interior : outdoor;
+  if (kind !== 'interior') scene.background = probe.background;
+  if (probe.environment) {
+    scene.environment = probe.environment;
+    scene.environmentIntensity = ENVIRONMENT_INTENSITY[kind];
+  }
 }
 
 // One renderer, one camera, one film treatment. This owns the settings that
@@ -208,40 +223,36 @@ export class Presentation {
     this.renderer = renderer;
     this.camera = camera;
     this.tier = TIER;
-    this.pixelRatio = Math.min(window.devicePixelRatio || 1, TIER === 'high' ? 2 : 1.5);
+    this.composer = null;
+    this.renderPass = null;
 
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.02;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    this.composer = null;
-    this.bloom = null;
-    this.renderPass = null;
-
-    if (TIER === 'high') {
-      try {
-        const size = renderer.getSize(new THREE.Vector2());
-        this.composer = new EffectComposer(renderer);
-        this.renderPass = new RenderPass(new THREE.Scene(), camera);
-        // threshold is in linear HDR: only the sun, the lantern and the glows
-        // around them cross it, so the world keeps its contrast
-        this.bloom = new UnrealBloomPass(new THREE.Vector2(size.x, size.y), 0.24, 0.55, 0.9);
-        this.composer.addPass(this.renderPass);
-        this.composer.addPass(this.bloom);
-        this.composer.addPass(new OutputPass());
-      } catch (err) {
-        // a driver without half-float targets is not a reason to show nothing
-        console.warn('[gods-eye] bloom unavailable, rendering direct', err);
-        this.composer = null;
-        this.renderPass = null;
-        this.bloom = null;
-      }
-    }
-
+    if (quality.bloom) this.buildBloom();
     this.resize();
   }
 
-  // Shadow texels and bloom are the two things a phone should not pay for.
+  buildBloom() {
+    try {
+      const size = this.renderer.getSize(new THREE.Vector2());
+      const composer = new EffectComposer(this.renderer);
+      // an empty scene to start: the pass is pointed at whichever scene the
+      // game is drawing, which changes when the player moves between views
+      this.renderPass = new RenderPass(new THREE.Scene(), this.camera);
+      // threshold is in linear HDR: only the sun, the lantern and the glows
+      // around them cross it, so the world keeps its contrast
+      composer.addPass(this.renderPass);
+      composer.addPass(new UnrealBloomPass(size, 0.24, 0.55, 0.9));
+      composer.addPass(new OutputPass());
+      this.composer = composer;
+    } catch (err) {
+      console.warn('[gods-eye] bloom unavailable, rendering direct', err);
+      this.renderPass = null;
+    }
+  }
+
   get bloomEnabled() {
     return !!this.composer;
   }
@@ -249,14 +260,13 @@ export class Presentation {
   resize() {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    if (this.camera) {
-      this.camera.aspect = w / h;
-      this.camera.updateProjectionMatrix();
-    }
-    this.renderer.setPixelRatio(this.pixelRatio);
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, quality.maxPixelRatio);
+    this.camera.aspect = w / h;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setPixelRatio(pixelRatio);
     this.renderer.setSize(w, h);
     if (this.composer) {
-      this.composer.setPixelRatio(this.pixelRatio);
+      this.composer.setPixelRatio(pixelRatio);
       this.composer.setSize(w, h);
     }
   }
@@ -266,8 +276,6 @@ export class Presentation {
       this.renderer.render(scene, this.camera);
       return;
     }
-    // RenderPass holds a scene reference; the game swaps scene when it changes
-    // mode, so the pass is told which one to draw every frame.
     this.renderPass.scene = scene;
     this.composer.render();
   }

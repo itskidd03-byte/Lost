@@ -13,7 +13,7 @@ import { loadCreatureModels, creaturesReady, creatureModel, onCreaturesReady } f
 import { groundCover } from './surfaces.js';
 import { loadMountainModels, peak as sharedPeak } from './mountains.js';
 import { advanceWater, makeWaterMaterial } from './water.js';
-import { TIER, outdoorSky } from './grade.js';
+import { SKY, SUN, applyEnvironment, quality } from './grade.js';
 
 const TS = 4;
 const RADIUS = 6;
@@ -85,21 +85,15 @@ export class Region {
     // reflect the sky above them instead of a single flat tint. The hemisphere
     // and ambient terms are lighter than they were because the probe carries
     // part of the fill now.
-    const sky = outdoorSky();
-    this.scene.background = sky.background;
-    if (sky.environment) {
-      this.scene.environment = sky.environment;
-      this.scene.environmentIntensity = 0.55;
-    }
-    this.scene.fog = new THREE.FogExp2(sky.horizon, 0.0072);
+    applyEnvironment(this.scene, 'outdoor');
+    this.scene.fog = new THREE.FogExp2(SKY.horizon, 0.0072);
 
     this.scene.add(new THREE.HemisphereLight(0xd6e9f7, 0x6d6047, 1.15));
     this.scene.add(new THREE.AmbientLight(0x9fb3c6, 0.22));
     const sun = new THREE.DirectionalLight(0xfff1d6, 3.0);
-    sun.position.set(-30, 46, 22);
+    sun.position.set(SUN.x, SUN.y, SUN.z);
     sun.castShadow = true;
-    const shadowSize = TIER === 'high' ? 2048 : 1024;
-    sun.shadow.mapSize.set(shadowSize, shadowSize);
+    sun.shadow.mapSize.set(quality.regionShadow, quality.regionShadow);
     sun.shadow.camera.left = -20;
     sun.shadow.camera.right = 20;
     sun.shadow.camera.top = 20;
@@ -108,7 +102,6 @@ export class Region {
     sun.shadow.camera.far = 140;
     sun.shadow.bias = -0.0004;
     sun.shadow.normalBias = 0.035;
-    sun.shadow.radius = 2;
     this.scene.add(sun);
     this.scene.add(sun.target);
     // The sun keeps this offset from the player, so the shadow camera travels
