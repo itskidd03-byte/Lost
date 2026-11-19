@@ -1,0 +1,517 @@
+{
+  "division": "qa-operations",
+  "departments": [
+    {
+      "id": "D33",
+      "slug": "quality-assurance",
+      "name": "Quality Assurance",
+      "division": "qa-operations",
+      "mission": "Prove the game works and refuse anything that does not: gameplay, collision, AI, UI, saves, multiplayer and build verification.",
+      "activation": { "always": true },
+      "capabilities": [
+        "test planning and coverage matrices",
+        "automated gameplay and regression testing",
+        "manual playthrough and exploratory testing",
+        "bug triage with reproduction steps",
+        "collision, AI, UI and save/load testing",
+        "multiplayer and soak testing",
+        "build verification and smoke gates",
+        "release regression sign-off"
+      ],
+      "deliverables": [
+        {
+          "id": "test-plan",
+          "name": "Test Plan",
+          "phase": "testing",
+          "dependsOn": ["D02:gdd", "D18:gameplay-systems"],
+          "acceptance": [
+            "Every system in the GDD mapped to at least one test case",
+            "Automated versus manual split stated with commands to run",
+            "Entry and exit criteria defined per test cycle",
+            "Device and platform coverage matches the compatibility matrix"
+          ]
+        },
+        {
+          "id": "test-report",
+          "name": "Test Report",
+          "phase": "testing",
+          "dependsOn": ["D33:test-plan"],
+          "checks": ["smoke"],
+          "acceptance": [
+            "Pass and fail counts with the exact commands and builds tested",
+            "Every failure linked to a bug report with reproduction steps",
+            "Blocking defects called out separately from cosmetic ones"
+          ]
+        },
+        {
+          "id": "regression-suite",
+          "name": "Regression Suite and Sign-off",
+          "phase": "release",
+          "dependsOn": ["D33:test-report"],
+          "checks": ["smoke"],
+          "acceptance": [
+            "Regression suite runs green on the release candidate",
+            "No open blocker or critical bug at sign-off",
+            "Every skipped test listed with the reason it was skipped"
+          ]
+        }
+      ],
+      "inputs": ["GDD from D02", "gameplay build from D18", "compat matrix from D35", "perf results from D34"],
+      "handoffs": ["D34", "D40"],
+      "consults": ["D34", "D35", "D36"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command", "preview_logs"],
+      "gates": [
+        "An untested claim of 'works' in a deliverable is rejected",
+        "A skipped check without a recorded reason is rejected"
+      ]
+    },
+    {
+      "id": "D34",
+      "slug": "performance-engineering",
+      "name": "Performance Engineering",
+      "division": "qa-operations",
+      "mission": "Hold the frame budget on real hardware: CPU, GPU, memory, draw calls, LOD, streaming, shaders and mobile scaling.",
+      "activation": { "always": true },
+      "capabilities": [
+        "performance budgets per hardware class",
+        "CPU and GPU profiling",
+        "frame pacing and spike analysis",
+        "draw-call and batching reduction",
+        "LOD, culling and occlusion",
+        "texture streaming and memory management",
+        "shader and material cost optimisation",
+        "mobile thermal and battery behaviour",
+        "adaptive quality and resolution scaling"
+      ],
+      "deliverables": [
+        {
+          "id": "perf-budget",
+          "name": "Performance Budget",
+          "phase": "technical",
+          "dependsOn": ["D17:architecture-doc", "D01:concept-brief"],
+          "acceptance": [
+            "A budget per hardware class using the studio performance profiles",
+            "Frame, CPU, GPU, memory and draw-call ceilings stated in numbers",
+            "Quality tiers defined with what changes between them",
+            "Measurement method and tooling named"
+          ]
+        },
+        {
+          "id": "profiling-report",
+          "name": "Profiling Report",
+          "phase": "optimization",
+          "dependsOn": ["D34:perf-budget", "D18:gameplay-systems"],
+          "checks": ["perf"],
+          "acceptance": [
+            "Measured average and 1%-low FPS on every declared platform and device",
+            "Top hotspots ranked with measured cost, not guesses",
+            "Memory and draw calls measured against the budget",
+            "Every over-budget item has an owner and a fix"
+          ]
+        },
+        {
+          "id": "optimization-pass",
+          "name": "Optimisation Pass",
+          "phase": "optimization",
+          "dependsOn": ["D34:profiling-report"],
+          "checks": ["perf"],
+          "acceptance": [
+            "Re-measured results after fixes, on the same devices and method",
+            "Frame pacing verified: no recurring spike pattern",
+            "Lowest quality tier playable on the weakest declared device",
+            "Remaining misses listed honestly with impact"
+          ]
+        }
+      ],
+      "inputs": ["architecture from D17", "builds from D18 and D40", "scene costs from D08, D12, D13", "device matrix from D35", "mobile performance team protocol: studio/MOBILE_PERFORMANCE_TEAM.md"],
+      "handoffs": ["D33", "D35", "D40"],
+      "consults": ["D39", "D08", "D12", "D13"],
+      "tools": ["write_file", "read_files", "run_terminal_command", "preview_evaluate", "preview_logs"],
+      "gates": [
+        "A performance claim without device, method and numbers is rejected",
+        "A release candidate failing its frame target on a declared platform is blocked"
+      ]
+    },
+    {
+      "id": "D35",
+      "slug": "compatibility",
+      "name": "Compatibility Engineering",
+      "division": "qa-operations",
+      "mission": "Make the game run correctly everywhere it ships: platforms, hardware classes, resolutions, controllers, touch and input parity.",
+      "activation": { "always": true },
+      "capabilities": [
+        "platform and OS compatibility",
+        "hardware class matrices (low, mid, high, tablet, desktop)",
+        "resolution and aspect ratio scaling",
+        "controller, keyboard and touch support",
+        "safe area and notch handling",
+        "WebGL and browser compatibility",
+        "build and packaging per platform",
+        "input parity and remapping verification"
+      ],
+      "deliverables": [
+        {
+          "id": "device-matrix",
+          "name": "Device and Platform Matrix",
+          "phase": "technical",
+          "dependsOn": ["D17:platform-matrix"],
+          "acceptance": [
+            "Every target platform and hardware class listed with a representative device",
+            "Minimum specification stated per platform",
+            "Input devices and required parity listed",
+            "Which classes are supported versus best-effort is explicit"
+          ]
+        },
+        {
+          "id": "compatibility-matrix",
+          "name": "Compatibility Test Matrix",
+          "phase": "testing",
+          "dependsOn": ["D35:device-matrix"],
+          "acceptance": [
+            "Every row tested on the named device or emulator with a result",
+            "Resolution, orientation and safe-area behaviour verified",
+            "Failures converted to bug reports with device details"
+          ]
+        },
+        {
+          "id": "input-parity",
+          "name": "Input Parity Review",
+          "phase": "testing",
+          "dependsOn": ["D35:compatibility-matrix", "D18:controller-spec"],
+          "acceptance": [
+            "Every action reachable with every declared input device",
+            "Touch targets and gestures verified on a real mobile viewport",
+            "Remapping and accessibility inputs verified"
+          ]
+        }
+      ],
+      "inputs": ["platform matrix from D17", "UI spec from D05", "perf budgets from D34", "mobile performance team protocol: studio/MOBILE_PERFORMANCE_TEAM.md"],
+      "handoffs": ["D33", "D40"],
+      "consults": ["D34", "D05", "D17"],
+      "tools": ["write_file", "read_files", "run_terminal_command", "preview_screenshot", "preview_evaluate"],
+      "gates": [
+        "An untested platform claimed as supported is rejected",
+        "An action unreachable on a declared input device is a release blocker"
+      ]
+    },
+    {
+      "id": "D36",
+      "slug": "security-reliability",
+      "name": "Security and Reliability",
+      "division": "qa-operations",
+      "mission": "Keep saves, sessions and servers trustworthy: validation, anti-cheat structure, crash recovery, error handling and dependency risk.",
+      "activation": { "any": ["multiplayer", "backend", "persistence", "live-service", "anti-cheat", "economy", "mmorpg"] },
+      "capabilities": [
+        "save integrity and tamper detection",
+        "input and data validation",
+        "server and API security",
+        "anti-cheat architecture",
+        "crash recovery and error boundaries",
+        "dependency and licence auditing",
+        "secrets and credential hygiene",
+        "abuse and rate-limit protection",
+        "incident and rollback planning"
+      ],
+      "deliverables": [
+        {
+          "id": "threat-model",
+          "name": "Threat Model",
+          "phase": "technical",
+          "dependsOn": ["D17:architecture-doc"],
+          "acceptance": [
+            "Assets, actors and trust boundaries enumerated",
+            "Each threat rated with impact and likelihood",
+            "Every client-supplied value listed with its server validation rule",
+            "Secrets handling and storage stated"
+          ]
+        },
+        {
+          "id": "security-hardening",
+          "name": "Security Hardening",
+          "phase": "testing",
+          "dependsOn": ["D36:threat-model", "D22:persistence-layer"],
+          "acceptance": [
+            "Save tampering and malformed input rejected without crashing",
+            "Abuse paths tested and rate limited",
+            "Dependency audit run with findings triaged"
+          ]
+        },
+        {
+          "id": "integrity-audit",
+          "name": "Release Integrity Audit",
+          "phase": "release",
+          "dependsOn": ["D36:security-hardening"],
+          "acceptance": [
+            "No critical or high unmitigated finding remains",
+            "Credentials absent from client code, logs and shipped files",
+            "Rollback or recovery procedure documented and tested once"
+          ]
+        }
+      ],
+      "inputs": ["architecture from D17", "netcode from D21", "data model from D22", "economy from D30"],
+      "handoffs": ["D40", "D33"],
+      "consults": ["D21", "D22"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command", "web_search"],
+      "gates": [
+        "A client-authoritative economy or progression value is a release blocker",
+        "Any secret found in shipped files blocks release"
+      ]
+    },
+    {
+      "id": "D37",
+      "slug": "asset-acquisition",
+      "name": "Asset Acquisition",
+      "division": "qa-operations",
+      "mission": "Find and clear assets the studio may legally ship: search the libraries, verify licences and record provenance for everything.",
+      "activation": { "always": true },
+      "capabilities": [
+        "searching 3D model, texture, animation and audio libraries",
+        "licence identification and commercial-use verification",
+        "provenance and attribution records",
+        "download verification and hash recording",
+        "format and engine compatibility checks",
+        "free and paid asset budgeting",
+        "reuse across projects",
+        "asset retirement and replacement planning"
+      ],
+      "deliverables": [
+        {
+          "id": "asset-plan",
+          "name": "Asset Plan",
+          "phase": "design",
+          "dependsOn": ["D01:concept-brief", "D03:world-bible"],
+          "acceptance": [
+            "Every needed asset class listed as sourced, original or to-be-decided",
+            "Licence requirement stated per class (commercial use mandatory)",
+            "Reuse candidates named from the existing studio libraries",
+            "Budget and timeline per asset class stated"
+          ]
+        },
+        {
+          "id": "asset-sourcing",
+          "name": "Sourced Asset Records",
+          "phase": "production",
+          "dependsOn": ["D37:asset-plan"],
+          "checks": ["assets"],
+          "acceptance": [
+            "Every sourced asset has id, creator, source URL, licence and hash",
+            "No asset is marked usable without a verified commercial licence",
+            "Format and scale compatibility verified by an import test",
+            "Attribution list generated for every CC BY asset"
+          ]
+        },
+        {
+          "id": "licence-audit",
+          "name": "Licence Audit",
+          "phase": "release",
+          "dependsOn": ["D37:asset-sourcing"],
+          "checks": ["assets"],
+          "acceptance": [
+            "Every shipped asset traced to a record in the catalogue",
+            "Zero unverified, non-commercial or share-alike assets in the build",
+            "Attribution file included where licences require it"
+          ]
+        }
+      ],
+      "inputs": ["concept from D01", "world bible from D03", "art direction from D01", "studio asset libraries"],
+      "handoffs": ["D06", "D07", "D09", "D14", "D15", "D38"],
+      "consults": ["D38", "D41"],
+      "tools": ["web_search", "read_url", "write_file", "read_files", "run_terminal_command", "gravity_index"],
+      "gates": [
+        "An asset with unknown or non-commercial licence blocks release",
+        "A CC BY asset without recorded attribution is rejected"
+      ]
+    },
+    {
+      "id": "D38",
+      "slug": "asset-integration",
+      "name": "Asset Integration",
+      "division": "qa-operations",
+      "mission": "Get assets into the build correctly: import, convert, optimise, name, wire collisions and keep the reusable library healthy.",
+      "activation": { "always": true },
+      "capabilities": [
+        "import and format conversion",
+        "geometry and texture optimisation on import",
+        "material and animation wiring",
+        "collision and LOD setup",
+        "naming conventions and folder structure",
+        "reusable asset library maintenance",
+        "provenance propagation into the build",
+        "asset budget enforcement at import"
+      ],
+      "deliverables": [
+        {
+          "id": "naming-conventions",
+          "name": "Asset Pipeline Conventions",
+          "phase": "technical",
+          "dependsOn": ["D17:architecture-doc"],
+          "acceptance": [
+            "Naming pattern defined for meshes, materials, textures and animations",
+            "Folder layout and import settings stated",
+            "Provenance and licence metadata carried with each imported asset",
+            "Import validation rules (scale, pivot, units) listed"
+          ]
+        },
+        {
+          "id": "integration-pass",
+          "name": "Asset Integration Pass",
+          "phase": "production",
+          "dependsOn": ["D38:naming-conventions", "D06:model-pack"],
+          "checks": ["typecheck", "assets"],
+          "acceptance": [
+            "Every required asset imported, named to convention and referenced in code",
+            "Imported assets respect triangle, texture and memory budgets",
+            "Licence metadata present for every imported asset",
+            "No missing, pink or fallback-material assets in the build"
+          ]
+        },
+        {
+          "id": "integration-review",
+          "name": "Integration Review",
+          "phase": "testing",
+          "dependsOn": ["D38:integration-pass"],
+          "acceptance": [
+            "Build loads every asset with zero 404 or decode errors",
+            "Instancing and reuse opportunities taken where they exist",
+            "Asset load time measured against the stated budget"
+          ]
+        }
+      ],
+      "inputs": ["sourced assets from D37", "model pack from D06", "conventions from D17", "budgets from D34"],
+      "handoffs": ["D33", "D34", "D40"],
+      "consults": ["D37", "D39"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "Fallback or untextured assets in a build are rejected",
+        "An imported asset without provenance is rejected"
+      ]
+    },
+    {
+      "id": "D39",
+      "slug": "technical-art",
+      "name": "Technical Art",
+      "division": "qa-operations",
+      "mission": "Bridge art and engineering: shaders, material systems, procedural tools, rendering pipelines and art production tooling.",
+      "activation": { "any": ["3d", "rendering", "shaders", "vfx", "materials", "openworld"], "dimensions": ["3d"] },
+      "capabilities": [
+        "shader authoring and optimisation",
+        "material and surface systems",
+        "procedural asset and texture tools",
+        "render pipeline and post-process work",
+        "reusable VFX and material presets",
+        "art production tooling and automation",
+        "asset validation tooling",
+        "art-to-engine debugging"
+      ],
+      "deliverables": [
+        {
+          "id": "shader-plan",
+          "name": "Shader and Pipeline Plan",
+          "phase": "technical",
+          "dependsOn": ["D17:architecture-doc", "D12:lighting-plan"],
+          "acceptance": [
+            "Every custom shader listed with purpose, variants and fallback",
+            "Material parameter contract shared with D09",
+            "Shader cost ceiling stated per quality tier",
+            "Mobile shader constraints stated explicitly"
+          ]
+        },
+        {
+          "id": "shaders-and-tools",
+          "name": "Shaders and Art Tools",
+          "phase": "production",
+          "dependsOn": ["D39:shader-plan"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Every listed shader implemented with a working fallback",
+            "Tools run reproducibly from documented commands",
+            "Shader variants counted against the stated ceiling"
+          ]
+        },
+        {
+          "id": "pipeline-review",
+          "name": "Pipeline Review",
+          "phase": "optimization",
+          "dependsOn": ["D39:shaders-and-tools"],
+          "checks": ["profiling"],
+          "acceptance": [
+            "Measured shader and pipeline cost per quality tier",
+            "Variant explosion or unused variants reported and pruned",
+            "Tooling failures surfaced instead of silently producing bad assets"
+          ]
+        }
+      ],
+      "inputs": ["architecture from D17", "lighting from D12", "material library from D09", "perf budgets from D34"],
+      "handoffs": ["D06", "D08", "D09", "D12", "D13", "D34"],
+      "consults": ["D34", "D12"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "A shader without a fallback for the lowest tier is rejected",
+        "A tool that fails silently is rejected"
+      ]
+    },
+    {
+      "id": "D40",
+      "slug": "production",
+      "name": "Production Management",
+      "division": "qa-operations",
+      "mission": "Ship it: scheduling, milestones, dependencies, builds, documentation and the release checklist nobody is allowed to skip.",
+      "activation": { "always": true },
+      "capabilities": [
+        "task scheduling and workload distribution",
+        "milestone definition and tracking",
+        "dependency and risk management",
+        "build management and version control",
+        "production documentation",
+        "budget and scope control",
+        "release planning and checklists",
+        "post-release support planning"
+      ],
+      "deliverables": [
+        {
+          "id": "production-plan",
+          "name": "Production Plan",
+          "phase": "design",
+          "dependsOn": ["D02:gdd"],
+          "acceptance": [
+            "Milestones with dates, owners and exit criteria",
+            "Dependency graph of deliverables and the critical path",
+            "Scope, budget and risk register with mitigations",
+            "Definition of done agreed with the Studio Director"
+          ]
+        },
+        {
+          "id": "milestone-report",
+          "name": "Milestone Report",
+          "phase": "production",
+          "dependsOn": ["D40:production-plan"],
+          "acceptance": [
+            "Every milestone marked met or missed with evidence",
+            "Blocked and at-risk items listed with owners",
+            "Scope changes recorded with their approvals"
+          ]
+        },
+        {
+          "id": "release-checklist",
+          "name": "Release Checklist and Build Record",
+          "phase": "release",
+          "dependsOn": ["D40:milestone-report", "D33:regression-suite", "D34:optimization-pass", "D37:licence-audit"],
+          "acceptance": [
+            "Every gate signed off with a link to its evidence",
+            "Built artefact identified by version, commit and build command",
+            "Install and launch verified from the shipped artefact on a declared platform",
+            "Known issues shipped with the build, not hidden"
+          ]
+        }
+      ],
+      "inputs": ["all department deliverables", "QA sign-off from D33", "perf results from D34", "licence audit from D37", "security audit from D36"],
+      "handoffs": ["D01"],
+      "consults": ["D33", "D34", "D36", "D37"],
+      "tools": ["write_file", "read_files", "run_terminal_command", "cloud_git"],
+      "gates": [
+        "A release without a passing QA, performance and licence gate is blocked",
+        "A shipped known-issue list that hides a blocker is rejected"
+      ]
+    }
+  ]
+}

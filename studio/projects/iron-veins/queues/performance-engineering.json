@@ -1,0 +1,103 @@
+{
+  "department": {
+    "id": "D34",
+    "slug": "performance-engineering",
+    "name": "Performance Engineering"
+  },
+  "updatedAt": "2026-11-18T19:57:43.224Z",
+  "tasks": [
+    {
+      "id": "D34-perf-budget",
+      "dept": "D34",
+      "deptSlug": "performance-engineering",
+      "deptName": "Performance Engineering",
+      "deliverable": "perf-budget",
+      "name": "Performance Budget",
+      "phase": "technical",
+      "phaseOrder": 3,
+      "objective": "Produce the Performance Budget for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "A budget per hardware class using the studio performance profiles",
+        "Frame, CPU, GPU, memory and draw-call ceilings stated in numbers",
+        "Quality tiers defined with what changes between them",
+        "Measurement method and tooling named"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D17-architecture-doc",
+        "D01-concept-brief"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/performance-engineering/perf-budget.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D34-profiling-report",
+      "dept": "D34",
+      "deptSlug": "performance-engineering",
+      "deptName": "Performance Engineering",
+      "deliverable": "profiling-report",
+      "name": "Profiling Report",
+      "phase": "optimization",
+      "phaseOrder": 8,
+      "objective": "Produce the Profiling Report for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Measured average and 1%-low FPS on every declared platform and device",
+        "Top hotspots ranked with measured cost, not guesses",
+        "Memory and draw calls measured against the budget",
+        "Every over-budget item has an owner and a fix"
+      ],
+      "checks": [
+        "perf"
+      ],
+      "dependsOn": [
+        "D34-perf-budget",
+        "D18-gameplay-systems"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/performance-engineering/profiling-report.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D34-optimization-pass",
+      "dept": "D34",
+      "deptSlug": "performance-engineering",
+      "deptName": "Performance Engineering",
+      "deliverable": "optimization-pass",
+      "name": "Optimisation Pass",
+      "phase": "optimization",
+      "phaseOrder": 8,
+      "objective": "Produce the Optimisation Pass for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Re-measured results after fixes, on the same devices and method",
+        "Frame pacing verified: no recurring spike pattern",
+        "Lowest quality tier playable on the weakest declared device",
+        "Remaining misses listed honestly with impact"
+      ],
+      "checks": [
+        "perf"
+      ],
+      "dependsOn": [
+        "D34-profiling-report"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/performance-engineering/optimization-pass.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

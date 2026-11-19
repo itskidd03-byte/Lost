@@ -1,0 +1,95 @@
+{
+  "department": {
+    "id": "D04",
+    "slug": "narrative",
+    "name": "Narrative and Storytelling"
+  },
+  "updatedAt": "2026-11-19T04:35:42.844Z",
+  "tasks": [
+    {
+      "id": "D04-story-arc",
+      "dept": "D04",
+      "deptSlug": "narrative",
+      "deptName": "Narrative and Storytelling",
+      "deliverable": "story-arc",
+      "name": "Story Arc and Character Bible",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the Story Arc and Character Bible for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Three-act or equivalent structure with act goals and turn points",
+        "Every named character has motivation, conflict and arc",
+        "Branching points listed with their consequences and cost",
+        "Word-count and voice-line budget stated"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D01-concept-brief",
+        "D03-world-bible"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/narrative/story-arc.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D04-quests-and-dialogue",
+      "dept": "D04",
+      "deptSlug": "narrative",
+      "deptName": "Narrative and Storytelling",
+      "deliverable": "quests-and-dialogue",
+      "name": "Quest and Dialogue Set",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Quest and Dialogue Set for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Quests have objectives, failure, rewards and preconditions",
+        "Dialogue is scripted with speaker, trigger and fallback lines",
+        "Every branch reachable in a build and verified once"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D04-story-arc"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/narrative/quests-and-dialogue.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D04-narrative-review",
+      "dept": "D04",
+      "deptSlug": "narrative",
+      "deptName": "Narrative and Storytelling",
+      "deliverable": "narrative-review",
+      "name": "Narrative Review",
+      "phase": "polish",
+      "phaseOrder": 9,
+      "objective": "Produce the Narrative Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "No unreachable or dead-end narrative content in the build",
+        "Tone and terminology consistent with the world bible"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D04-quests-and-dialogue"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/narrative/narrative-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

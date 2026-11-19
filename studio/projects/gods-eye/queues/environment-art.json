@@ -1,0 +1,98 @@
+{
+  "department": {
+    "id": "D08",
+    "slug": "environment-art",
+    "name": "Environment Art"
+  },
+  "updatedAt": "2026-11-19T04:35:42.845Z",
+  "tasks": [
+    {
+      "id": "D08-environment-plan",
+      "dept": "D08",
+      "deptSlug": "environment-art",
+      "deptName": "Environment Art",
+      "deliverable": "environment-plan",
+      "name": "Environment Plan",
+      "phase": "art-direction",
+      "phaseOrder": 4,
+      "objective": "Produce the Environment Plan for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every area mapped to an art kit and a prop budget",
+        "Density, vista and landmark placement rules stated per biome",
+        "Interior and exterior transition rules defined"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D03-world-layout",
+        "D01-art-direction"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/environment-art/environment-plan.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D08-environment-kit",
+      "dept": "D08",
+      "deptSlug": "environment-art",
+      "deptName": "Environment Art",
+      "deliverable": "environment-kit",
+      "name": "Environment Kit and Dressed Areas",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Environment Kit and Dressed Areas for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Kit pieces snap to a stated grid and share one material set",
+        "Each dressed area meets its prop and draw-call budget",
+        "Collision and navmesh coverage present for every playable surface"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D08-environment-plan",
+        "D06-model-list"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/environment-art/environment-kit.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D08-environment-perf-review",
+      "dept": "D08",
+      "deptSlug": "environment-art",
+      "deptName": "Environment Art",
+      "deliverable": "environment-perf-review",
+      "name": "Environment Performance Review",
+      "phase": "optimization",
+      "phaseOrder": 8,
+      "objective": "Produce the Environment Performance Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Measured draw calls, triangles and texture memory attached per area",
+        "Culling, LOD and occlusion verified in a profiled build",
+        "Any area over budget listed with a concrete fix"
+      ],
+      "checks": [
+        "profiling"
+      ],
+      "dependsOn": [
+        "D08-environment-kit"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/environment-art/environment-perf-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

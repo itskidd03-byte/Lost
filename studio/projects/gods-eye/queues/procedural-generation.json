@@ -1,0 +1,98 @@
+{
+  "department": {
+    "id": "D29",
+    "slug": "procedural-generation",
+    "name": "Procedural Generation"
+  },
+  "updatedAt": "2026-11-19T04:35:42.849Z",
+  "tasks": [
+    {
+      "id": "D29-generation-design",
+      "dept": "D29",
+      "deptSlug": "procedural-generation",
+      "deptName": "Procedural Generation",
+      "deliverable": "generation-design",
+      "name": "Generation Design",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the Generation Design for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every generated layer listed with its algorithm and seed strategy",
+        "Guaranteed-content rules stated (what must always exist)",
+        "Determinism requirement stated: same seed, same world",
+        "Generation budget in milliseconds per chunk stated"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D03-world-bible",
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/procedural-generation/generation-design.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D29-generation-implementation",
+      "dept": "D29",
+      "deptSlug": "procedural-generation",
+      "deptName": "Procedural Generation",
+      "deliverable": "generation-implementation",
+      "name": "Generator Implementation",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Generator Implementation for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Same seed reproduces the same world exactly",
+        "Generated content always satisfies the guaranteed-content rules",
+        "Chunk generation measured within its time budget"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D29-generation-design"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/procedural-generation/generation-implementation.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D29-generation-soak",
+      "dept": "D29",
+      "deptSlug": "procedural-generation",
+      "deptName": "Procedural Generation",
+      "deliverable": "generation-soak",
+      "name": "Generation Soak Test",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Generation Soak Test for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "At least 100 seeds generated with no unreachable or invalid content",
+        "Worst-case generation time measured and within budget",
+        "Failure modes documented with reproduction seeds"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D29-generation-implementation"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/procedural-generation/generation-soak.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

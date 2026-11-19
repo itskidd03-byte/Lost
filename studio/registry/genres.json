@@ -1,0 +1,166 @@
+{
+  "note": "Genres are detection hints, not templates. Every project may combine any number of them and may add tags the catalogue does not know. An unknown genre still gets the universal pipeline plus manual --tags.",
+  "genres": [
+    {
+      "id": "fps",
+      "name": "First-person shooter",
+      "dimension": "3d",
+      "keywords": ["fps", "first-person shooter", "first person shooter", "shooter", "gunplay"],
+      "tags": ["shooter", "fps", "combat", "3d"]
+    },
+    {
+      "id": "tps",
+      "name": "Third-person shooter",
+      "dimension": "3d",
+      "keywords": ["tps", "third-person shooter", "third person shooter", "cover shooter"],
+      "tags": ["shooter", "tps", "combat", "3d", "animation"]
+    },
+    {
+      "id": "extraction",
+      "name": "Extraction shooter",
+      "dimension": "3d",
+      "keywords": ["extraction", "extraction shooter", "raid", "loot and extract", "pvpve"],
+      "tags": ["shooter", "extraction", "survival", "3d", "multiplayer", "persistence", "economy"]
+    },
+    {
+      "id": "survival",
+      "name": "Survival",
+      "dimension": "3d",
+      "keywords": ["survival", "survive", "craft", "crafting", "hunting", "hunger"],
+      "tags": ["survival", "crafting", "3d", "openworld", "ecology"]
+    },
+    {
+      "id": "civilization",
+      "name": "Civilisation and empire simulator",
+      "dimension": "3d",
+      "keywords": ["civilization", "civilisation", "empire", "4x", "grand strategy", "nation", "kingdom"],
+      "tags": ["strategy", "grand-strategy", "civilization", "economy", "population", "3d", "daynight"]
+    },
+    {
+      "id": "rts",
+      "name": "Real-time strategy",
+      "dimension": "3d",
+      "keywords": ["rts", "real-time strategy", "real time strategy", "base building", "army"],
+      "tags": ["strategy", "rts", "military", "economy", "3d", "combat"]
+    },
+    {
+      "id": "turn-based",
+      "name": "Turn-based strategy",
+      "dimension": "3d",
+      "keywords": ["turn-based", "turn based", "tactics", "tactical", "grid combat", "xcom"],
+      "tags": ["strategy", "turn-based", "tactical", "military", "3d"]
+    },
+    {
+      "id": "top-down",
+      "name": "Top-down 2D",
+      "dimension": "2d",
+      "keywords": ["top-down", "top down", "twin stick", "overhead"],
+      "tags": ["2d", "topdown"]
+    },
+    {
+      "id": "side-scrolling",
+      "name": "Side-scrolling 2D",
+      "dimension": "2d",
+      "keywords": ["side-scrolling", "side scrolling", "side-scroller", "platformer", "metroidvania"],
+      "tags": ["2d", "sidescroll", "platformer", "animation"]
+    },
+    {
+      "id": "isometric",
+      "name": "Isometric",
+      "dimension": "isometric",
+      "keywords": ["isometric", "iso", "diablo-like", "arpg"],
+      "tags": ["isometric", "2d", "3d", "rpg"]
+    },
+    {
+      "id": "open-world",
+      "name": "Open world",
+      "dimension": "3d",
+      "keywords": ["open world", "open-world", "sandbox world", "exploration", "seamless"],
+      "tags": ["openworld", "3d", "streaming", "procedural", "daynight"]
+    },
+    {
+      "id": "building",
+      "name": "Building and construction simulator",
+      "dimension": "3d",
+      "keywords": ["building", "construction", "build", "architecture", "blueprint"],
+      "tags": ["construction", "sandbox", "3d", "physics"]
+    },
+    {
+      "id": "mining",
+      "name": "Mining, crafting and resource management",
+      "dimension": "3d",
+      "keywords": ["mining", "mine", "ore", "excavat", "quarry", "underground", "resource", "refine", "smelt"],
+      "tags": ["mining", "resources", "crafting", "industry", "3d", "economy", "procedural"]
+    },
+    {
+      "id": "farming",
+      "name": "Farming and life simulator",
+      "dimension": "3d",
+      "keywords": ["farming", "farm", "life sim", "life simulator", "village", "cozy", "crops"],
+      "tags": ["farming", "life-sim", "seasons", "3d", "ecology", "economy"]
+    },
+    {
+      "id": "city-builder",
+      "name": "City builder",
+      "dimension": "3d",
+      "keywords": ["city builder", "city-builder", "city building", "town", "urban planning", "metropolis"],
+      "tags": ["city", "construction", "population", "economy", "3d", "daynight"]
+    },
+    {
+      "id": "sandbox",
+      "name": "Sandbox",
+      "dimension": "3d",
+      "keywords": ["sandbox", "creative mode", "physics playground", "emergent"],
+      "tags": ["sandbox", "physics", "construction", "3d"]
+    },
+    {
+      "id": "racing",
+      "name": "Racing and vehicle simulator",
+      "dimension": "3d",
+      "keywords": ["racing", "race", "driving", "vehicle", "car", "flight simulator", "truck", "boat"],
+      "tags": ["racing", "vehicles", "driving", "physics", "3d"]
+    },
+    {
+      "id": "rpg",
+      "name": "Role-playing game",
+      "dimension": "3d",
+      "keywords": ["rpg", "role-playing", "role playing", "quest", "character progression", "party"],
+      "tags": ["rpg", "narrative", "quest", "combat", "3d"]
+    },
+    {
+      "id": "mmorpg",
+      "name": "MMORPG",
+      "dimension": "3d",
+      "keywords": ["mmorpg", "mmo", "massively multiplayer", "persistent world", "guild"],
+      "tags": ["mmorpg", "rpg", "multiplayer", "persistence", "live-service", "economy", "3d", "population"]
+    },
+    {
+      "id": "tactical-military",
+      "name": "Tactical military",
+      "dimension": "3d",
+      "keywords": ["tactical shooter", "military", "squad", "warfare", "special forces", "wargame"],
+      "tags": ["military", "tactical", "shooter", "combat", "3d", "ai"]
+    },
+    {
+      "id": "multiplayer-competitive",
+      "name": "Multiplayer competitive",
+      "dimension": "3d",
+      "keywords": ["multiplayer", "competitive", "pvp", "esports", "matchmaking", "co-op", "coop"],
+      "tags": ["multiplayer", "competitive", "pvp", "3d", "networking"]
+    },
+    {
+      "id": "procedural",
+      "name": "Procedurally generated",
+      "dimension": "2d",
+      "keywords": ["procedural", "roguelike", "roguelite", "randomly generated", "generated world"],
+      "tags": ["procedural", "roguelike", "generation"]
+    },
+    {
+      "id": "hybrid",
+      "name": "Hybrid",
+      "dimension": "3d",
+      "keywords": ["hybrid", "mixed genre", "blend of"],
+      "tags": []
+    }
+  ]
+}

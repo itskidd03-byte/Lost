@@ -1,0 +1,95 @@
+{
+  "department": {
+    "id": "D15",
+    "slug": "music",
+    "name": "Music Production"
+  },
+  "updatedAt": "2026-11-19T04:35:42.847Z",
+  "tasks": [
+    {
+      "id": "D15-music-direction",
+      "dept": "D15",
+      "deptSlug": "music",
+      "deptName": "Music Production",
+      "deliverable": "music-direction",
+      "name": "Music Direction",
+      "phase": "art-direction",
+      "phaseOrder": 4,
+      "objective": "Produce the Music Direction for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Instrumentation, tempo and mood defined per game state",
+        "Motifs and their transformations described",
+        "Runtime and licensing constraints stated"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D01-concept-brief"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/music/music-direction.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D15-soundtrack",
+      "dept": "D15",
+      "deptSlug": "music",
+      "deptName": "Music Production",
+      "deliverable": "soundtrack",
+      "name": "Soundtrack and Stems",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Soundtrack and Stems for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every required state has music with seamless loop points",
+        "Stems delivered for adaptive mixing",
+        "Authorship and licence recorded for every track"
+      ],
+      "checks": [
+        "assets"
+      ],
+      "dependsOn": [
+        "D15-music-direction"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/music/soundtrack.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D15-adaptive-music-review",
+      "dept": "D15",
+      "deptSlug": "music",
+      "deptName": "Music Production",
+      "deliverable": "adaptive-music-review",
+      "name": "Adaptive Music Review",
+      "phase": "polish",
+      "phaseOrder": 9,
+      "objective": "Produce the Adaptive Music Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Transitions between states verified without clicks or gaps",
+        "Music memory and streaming measured against budget"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D15-soundtrack"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/music/adaptive-music-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

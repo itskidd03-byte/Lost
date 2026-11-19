@@ -1,0 +1,98 @@
+{
+  "department": {
+    "id": "D30",
+    "slug": "economy-simulation",
+    "name": "Economy and Simulation"
+  },
+  "updatedAt": "2026-11-18T19:57:43.224Z",
+  "tasks": [
+    {
+      "id": "D30-economy-model",
+      "dept": "D30",
+      "deptSlug": "economy-simulation",
+      "deptName": "Economy and Simulation",
+      "deliverable": "economy-model",
+      "name": "Economy Model",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the Economy Model for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every good and currency listed with source, sink and base value",
+        "Price formation and update cadence specified",
+        "Production chain graph included with conversion rates",
+        "Failure states (hyperinflation, dead markets) stated with guards"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/economy-simulation/economy-model.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D30-economy-implementation",
+      "dept": "D30",
+      "deptSlug": "economy-simulation",
+      "deptName": "Economy and Simulation",
+      "deliverable": "economy-implementation",
+      "name": "Economy Implementation",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Economy Implementation for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Prices respond to supply and demand as modelled",
+        "Transactions are atomic and cannot duplicate value",
+        "Economy state persists through save and load"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D30-economy-model",
+        "D22-persistence-layer"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/economy-simulation/economy-implementation.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D30-economy-soak",
+      "dept": "D30",
+      "deptSlug": "economy-simulation",
+      "deptName": "Economy and Simulation",
+      "deliverable": "economy-soak",
+      "name": "Economy Soak and Exploit Review",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Economy Soak and Exploit Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Long-run simulation shows no runaway inflation or currency collapse",
+        "Known money-duplication paths tested and closed",
+        "Price and volume time series attached as evidence"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D30-economy-implementation"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/economy-simulation/economy-soak.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

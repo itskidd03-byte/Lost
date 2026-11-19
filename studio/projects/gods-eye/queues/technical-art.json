@@ -1,0 +1,100 @@
+{
+  "department": {
+    "id": "D39",
+    "slug": "technical-art",
+    "name": "Technical Art"
+  },
+  "updatedAt": "2026-11-19T04:35:42.851Z",
+  "tasks": [
+    {
+      "id": "D39-shader-plan",
+      "dept": "D39",
+      "deptSlug": "technical-art",
+      "deptName": "Technical Art",
+      "deliverable": "shader-plan",
+      "name": "Shader and Pipeline Plan",
+      "phase": "technical",
+      "phaseOrder": 3,
+      "objective": "Produce the Shader and Pipeline Plan for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every custom shader listed with purpose, variants and fallback",
+        "Material parameter contract shared with D09",
+        "Shader cost ceiling stated per quality tier",
+        "Mobile shader constraints stated explicitly"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D17-architecture-doc",
+        "D12-lighting-plan"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/technical-art/shader-plan.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D39-shaders-and-tools",
+      "dept": "D39",
+      "deptSlug": "technical-art",
+      "deptName": "Technical Art",
+      "deliverable": "shaders-and-tools",
+      "name": "Shaders and Art Tools",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Shaders and Art Tools for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every listed shader implemented with a working fallback",
+        "Tools run reproducibly from documented commands",
+        "Shader variants counted against the stated ceiling"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D39-shader-plan"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/technical-art/shaders-and-tools.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D39-pipeline-review",
+      "dept": "D39",
+      "deptSlug": "technical-art",
+      "deptName": "Technical Art",
+      "deliverable": "pipeline-review",
+      "name": "Pipeline Review",
+      "phase": "optimization",
+      "phaseOrder": 8,
+      "objective": "Produce the Pipeline Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Measured shader and pipeline cost per quality tier",
+        "Variant explosion or unused variants reported and pruned",
+        "Tooling failures surfaced instead of silently producing bad assets"
+      ],
+      "checks": [
+        "profiling"
+      ],
+      "dependsOn": [
+        "D39-shaders-and-tools"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/technical-art/pipeline-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

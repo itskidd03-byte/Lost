@@ -1,0 +1,96 @@
+{
+  "department": {
+    "id": "D05",
+    "slug": "ux-ui",
+    "name": "User Experience and Interface"
+  },
+  "updatedAt": "2026-11-18T19:57:43.220Z",
+  "tasks": [
+    {
+      "id": "D05-ux-flows",
+      "dept": "D05",
+      "deptSlug": "ux-ui",
+      "deptName": "User Experience and Interface",
+      "deliverable": "ux-flows",
+      "name": "UX Flows and Screen Inventory",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the UX Flows and Screen Inventory for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every screen listed with entry points, states and exit paths",
+        "HUD information hierarchy prioritised with a rationale",
+        "Input schemes for every declared platform described",
+        "Accessibility options enumerated with what they change"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/ux-ui/ux-flows.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D05-ui-spec",
+      "dept": "D05",
+      "deptSlug": "ux-ui",
+      "deptName": "User Experience and Interface",
+      "deliverable": "ui-spec",
+      "name": "Interface Specification",
+      "phase": "art-direction",
+      "phaseOrder": 4,
+      "objective": "Produce the Interface Specification for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Components specified with sizes, spacing, states and text limits",
+        "Safe-area and resolution rules including mobile notches",
+        "Animation and transition timings in milliseconds"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D05-ux-flows",
+        "D01-art-direction"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/ux-ui/ui-spec.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D05-ui-review",
+      "dept": "D05",
+      "deptSlug": "ux-ui",
+      "deptName": "User Experience and Interface",
+      "deliverable": "ui-review",
+      "name": "Interface Review",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Interface Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every screen reachable and operable on each declared platform",
+        "Text overflow, focus order and touch target sizes verified in the build",
+        "Contrast and readability checked against the art direction"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D05-ui-spec"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/ux-ui/ui-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

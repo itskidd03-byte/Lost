@@ -1,0 +1,97 @@
+{
+  "department": {
+    "id": "D06",
+    "slug": "3d-modeling",
+    "name": "3D Modeling"
+  },
+  "updatedAt": "2026-11-18T19:57:43.220Z",
+  "tasks": [
+    {
+      "id": "D06-model-list",
+      "dept": "D06",
+      "deptSlug": "3d-modeling",
+      "deptName": "3D Modeling",
+      "deliverable": "model-list",
+      "name": "Model List and Budgets",
+      "phase": "art-direction",
+      "phaseOrder": 4,
+      "objective": "Produce the Model List and Budgets for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every required model listed with owner, priority and triangle budget",
+        "LOD and collision requirements stated per model class",
+        "Reuse plan showing which models can be instanced or reskinned"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D01-art-direction",
+        "D03-world-layout"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/3d-modeling/model-list.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D06-model-pack",
+      "dept": "D06",
+      "deptSlug": "3d-modeling",
+      "deptName": "3D Modeling",
+      "deliverable": "model-pack",
+      "name": "Model Pack",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Model Pack for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every model is within its triangle budget and has correct scale and pivot",
+        "UVs are packed, normals correct and materials named to convention",
+        "Each model has LODs and a collision proxy where the budget requires it"
+      ],
+      "checks": [
+        "assets"
+      ],
+      "dependsOn": [
+        "D06-model-list"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/3d-modeling/model-pack.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D06-topology-review",
+      "dept": "D06",
+      "deptSlug": "3d-modeling",
+      "deptName": "3D Modeling",
+      "deliverable": "topology-review",
+      "name": "Topology and Budget Review",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Topology and Budget Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Measured triangle and draw-call counts attached per model",
+        "Non-manifold geometry, inverted normals and missing UVs listed as zero",
+        "Every model imports cleanly into the project pipeline"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D06-model-pack"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/3d-modeling/topology-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

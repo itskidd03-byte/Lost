@@ -13,6 +13,7 @@ import { loadCreatureModels, creaturesReady, creatureModel, onCreaturesReady } f
 import { groundCover } from './surfaces.js';
 import { loadMountainModels, peak as sharedPeak } from './mountains.js';
 import { advanceWater, makeWaterMaterial } from './water.js';
+import { TIER, outdoorSky } from './grade.js';
 
 const TS = 4;
 const RADIUS = 6;
@@ -79,23 +80,40 @@ export class Region {
     this.disposables = [];
     this.time = 0;
 
-    // Day, not dusk: pale blue sky, warm sun, and enough haze to keep distance
-    // readable without washing the ground out.
-    const sky = new THREE.Color('#a8cce4');
-    this.scene.background = sky;
-    this.scene.fog = new THREE.FogExp2('#bcd8ea', 0.008);
+    // Day, not dusk. The sky is painted with the sun already in it, and the
+    // same sheet is the region's image-based light: rock, water and metal now
+    // reflect the sky above them instead of a single flat tint. The hemisphere
+    // and ambient terms are lighter than they were because the probe carries
+    // part of the fill now.
+    const sky = outdoorSky();
+    this.scene.background = sky.background;
+    if (sky.environment) {
+      this.scene.environment = sky.environment;
+      this.scene.environmentIntensity = 0.55;
+    }
+    this.scene.fog = new THREE.FogExp2(sky.horizon, 0.0072);
 
-    this.scene.add(new THREE.HemisphereLight(0xd6e9f7, 0x6d6047, 1.5));
-    this.scene.add(new THREE.AmbientLight(0x9fb3c6, 0.5));
-    const sun = new THREE.DirectionalLight(0xfff1d6, 2.7);
+    this.scene.add(new THREE.HemisphereLight(0xd6e9f7, 0x6d6047, 1.15));
+    this.scene.add(new THREE.AmbientLight(0x9fb3c6, 0.22));
+    const sun = new THREE.DirectionalLight(0xfff1d6, 3.0);
     sun.position.set(-30, 46, 22);
     sun.castShadow = true;
-    sun.shadow.mapSize.set(1024, 1024);
-    sun.shadow.camera.left = -18;
-    sun.shadow.camera.right = 18;
-    sun.shadow.camera.top = 18;
-    sun.shadow.camera.bottom = -18;
+    const shadowSize = TIER === 'high' ? 2048 : 1024;
+    sun.shadow.mapSize.set(shadowSize, shadowSize);
+    sun.shadow.camera.left = -20;
+    sun.shadow.camera.right = 20;
+    sun.shadow.camera.top = 20;
+    sun.shadow.camera.bottom = -20;
+    sun.shadow.camera.near = 1;
+    sun.shadow.camera.far = 140;
+    sun.shadow.bias = -0.0004;
+    sun.shadow.normalBias = 0.035;
+    sun.shadow.radius = 2;
     this.scene.add(sun);
+    this.scene.add(sun.target);
+    // The sun keeps this offset from the player, so the shadow camera travels
+    // with them instead of sitting over the middle of the patch.
+    this.sunOffset = sun.position.clone();
     this.sun = sun;
 
     this.buildGround();
@@ -1225,6 +1243,18 @@ export class Region {
   update(dt, elapsed, playerPos = null) {
     this.time = elapsed;
     this.playerPos = playerPos;
+    // Walk to the edge of the patch and the shadows come with you. Without the
+    // follow, everything more than a few tiles from the middle falls out of the
+    // shadow camera and goes flat.
+    if (playerPos && this.sun) {
+      this.sun.target.position.set(playerPos.x, 0, playerPos.z);
+      this.sun.position.set(
+        playerPos.x + this.sunOffset.x,
+        this.sunOffset.y,
+        playerPos.z + this.sunOffset.z,
+      );
+      this.sun.target.updateMatrixWorld();
+    }
     for (const actor of this.npcActors) {
       if (actor.route) {
         // Walking the road: plaza to door and back again.

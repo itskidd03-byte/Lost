@@ -1,0 +1,97 @@
+{
+  "department": {
+    "id": "D22",
+    "slug": "backend-data",
+    "name": "Backend and Data Engineering"
+  },
+  "updatedAt": "2026-11-18T19:57:43.223Z",
+  "tasks": [
+    {
+      "id": "D22-data-model",
+      "dept": "D22",
+      "deptSlug": "backend-data",
+      "deptName": "Backend and Data Engineering",
+      "deliverable": "data-model",
+      "name": "Data Model and API Contract",
+      "phase": "technical",
+      "phaseOrder": 3,
+      "objective": "Produce the Data Model and API Contract for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every persisted entity and field typed and versioned",
+        "Save migration path from every shipped version stated",
+        "API endpoints or bindings listed with their authorisation rules"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D17-architecture-doc",
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/backend-data/data-model.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D22-persistence-layer",
+      "dept": "D22",
+      "deptSlug": "backend-data",
+      "deptName": "Backend and Data Engineering",
+      "deliverable": "persistence-layer",
+      "name": "Persistence Layer",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Persistence Layer for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Save, load and migration proven by an automated round-trip test",
+        "Corrupt or partial saves recovered or rejected without data loss",
+        "Every write validated server-side where a server exists"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D22-data-model"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/backend-data/persistence-layer.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D22-save-integrity",
+      "dept": "D22",
+      "deptSlug": "backend-data",
+      "deptName": "Backend and Data Engineering",
+      "deliverable": "save-integrity",
+      "name": "Save Integrity and Analytics Review",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Save Integrity and Analytics Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Save tampering detected and handled",
+        "Analytics events verified as delivered and non-blocking",
+        "Storage growth projected against the retention policy"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D22-persistence-layer"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/backend-data/save-integrity.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

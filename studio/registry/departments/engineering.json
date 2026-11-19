@@ -1,0 +1,393 @@
+{
+  "division": "engineering",
+  "departments": [
+    {
+      "id": "D17",
+      "slug": "engine-architecture",
+      "name": "Game Engine Architecture",
+      "division": "engineering",
+      "mission": "Choose and shape the runtime: engine, rendering path, game loop, scene model, entity architecture, memory strategy and platform compatibility.",
+      "activation": { "always": true },
+      "capabilities": [
+        "engine and framework selection",
+        "rendering architecture and render graph",
+        "fixed and variable game loops",
+        "scene and asset management",
+        "entity component system or equivalent",
+        "memory allocation strategy",
+        "platform and build matrix",
+        "module boundaries and code ownership"
+      ],
+      "deliverables": [
+        {
+          "id": "engine-decision",
+          "name": "Engine Decision Record",
+          "phase": "technical",
+          "dependsOn": ["D01:concept-brief", "D02:gdd"],
+          "acceptance": [
+            "Each candidate engine scored against the GDD's hard requirements",
+            "Decision recorded as an ADR with alternatives and rejected reasons",
+            "Licensing, team skill and platform support addressed",
+            "Migration cost stated if the decision is later reversed"
+          ]
+        },
+        {
+          "id": "architecture-doc",
+          "name": "Runtime Architecture",
+          "phase": "technical",
+          "dependsOn": ["D17:engine-decision"],
+          "acceptance": [
+            "Game loop, update order and frame budget documented",
+            "Scene graph or ECS model and its ownership rules described",
+            "Memory budgets per subsystem and allocation policy stated",
+            "Every module has an owning department"
+          ]
+        },
+        {
+          "id": "platform-matrix",
+          "name": "Platform and Build Matrix",
+          "phase": "technical",
+          "dependsOn": ["D17:engine-decision"],
+          "acceptance": [
+            "Every supported platform listed with target resolution and quality tier",
+            "Build and export commands recorded and runnable",
+            "Input devices and storefront constraints listed per platform"
+          ]
+        }
+      ],
+      "inputs": ["concept and GDD", "performance targets from D34", "hardware classes from the performance profiles"],
+      "handoffs": ["D18", "D19", "D20", "D21", "D22", "D34", "D35", "D39"],
+      "consults": ["D34", "D35", "D41"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "A code change that breaks the existing typecheck or build is rejected",
+        "Architecture decisions without an ADR are rejected"
+      ]
+    },
+    {
+      "id": "D18",
+      "slug": "gameplay-programming",
+      "name": "Gameplay Programming",
+      "division": "engineering",
+      "mission": "Implement the game the player touches: controllers, movement, combat, interaction, inventory, abilities and progression.",
+      "activation": { "always": true },
+      "capabilities": [
+        "player and camera controllers",
+        "movement and traversal",
+        "combat and damage plumbing",
+        "weapons and tools",
+        "inventory and equipment",
+        "interaction and use systems",
+        "abilities and status effects",
+        "progression and unlock systems",
+        "gameplay state machines and save hooks"
+      ],
+      "deliverables": [
+        {
+          "id": "controller-spec",
+          "name": "Controller and Input Spec",
+          "phase": "technical",
+          "dependsOn": ["D17:architecture-doc", "D05:ux-flows"],
+          "acceptance": [
+            "Input map for every declared device",
+            "Movement model with speeds, acceleration and camera rules",
+            "Remapping, dead zones and accessibility input options covered"
+          ]
+        },
+        {
+          "id": "prototype-build",
+          "name": "Playable Prototype",
+          "phase": "prototype",
+          "dependsOn": ["D18:controller-spec"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "The core loop is playable end to end in a real build",
+            "Build command and URL or artefact path recorded in the deliverable",
+            "Known gaps listed explicitly rather than hidden"
+          ]
+        },
+        {
+          "id": "gameplay-systems",
+          "name": "Gameplay Systems",
+          "phase": "production",
+          "dependsOn": ["D18:prototype-build", "D02:balance-plan"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Every GDD mechanic implemented with its failure and feedback states",
+            "Telemetry hooks emitted for every tuned value",
+            "No gameplay value hard-coded outside the tuning table"
+          ]
+        },
+        {
+          "id": "gameplay-tests",
+          "name": "Gameplay Test Evidence",
+          "phase": "testing",
+          "dependsOn": ["D18:gameplay-systems"],
+          "checks": ["typecheck", "smoke"],
+          "acceptance": [
+            "Automated checks cover movement, interaction and progression paths",
+            "Manual playthrough evidence attached for the core loop",
+            "Any known defect linked to a bug report"
+          ]
+        }
+      ],
+      "inputs": ["GDD from D02", "architecture from D17", "animation state machine from D11", "UI spec from D05"],
+      "handoffs": ["D23", "D25", "D26", "D27", "D28", "D33", "D34"],
+      "consults": ["D19", "D20", "D11", "D05"],
+      "tools": ["write_file", "read_files", "code_search", "str_replace", "run_terminal_command"],
+      "gates": [
+        "A gameplay mechanic with no failure state or no feedback is rejected",
+        "Unhandled input device or missing remap path is rejected"
+      ]
+    },
+    {
+      "id": "D19",
+      "slug": "physics",
+      "name": "Physics Engineering",
+      "division": "engineering",
+      "mission": "Make the world solid and believable: collision, rigid bodies, projectiles, destruction, vehicles and terrain interaction.",
+      "activation": { "always": true },
+      "capabilities": [
+        "collision layers and response",
+        "rigid body and constraint setup",
+        "character controllers and slope handling",
+        "projectile and ballistic simulation",
+        "destruction and fracture",
+        "vehicle and terrain contact",
+        "trigger volumes and interaction physics",
+        "fixed timestep and determinism"
+      ],
+      "deliverables": [
+        {
+          "id": "physics-spec",
+          "name": "Physics Specification",
+          "phase": "technical",
+          "dependsOn": ["D17:architecture-doc", "D18:controller-spec"],
+          "acceptance": [
+            "Fixed timestep, substeps and interpolation policy stated",
+            "Collision layers and their interactions tabulated",
+            "Determinism requirements stated for multiplayer or replay use"
+          ]
+        },
+        {
+          "id": "collision-and-bodies",
+          "name": "Collision and Body Setup",
+          "phase": "production",
+          "dependsOn": ["D19:physics-spec"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Every collidable object has an appropriate collider and layer",
+            "Character controller handles slopes, steps and edges without sticking",
+            "Projectiles and destructibles behave to the GDD numbers"
+          ]
+        },
+        {
+          "id": "physics-validation",
+          "name": "Physics Validation",
+          "phase": "testing",
+          "dependsOn": ["D19:collision-and-bodies"],
+          "acceptance": [
+            "No tunnelling through walls at maximum speed",
+            "Object counts at peak measured against the physics budget",
+            "Known edge cases documented with reproduction steps"
+          ]
+        }
+      ],
+      "inputs": ["architecture from D17", "movement numbers from D18", "model collision proxies from D06"],
+      "handoffs": ["D23", "D25", "D26", "D28", "D33"],
+      "consults": ["D34", "D28"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "Tunnelling or stuck-geometry defects are release blockers",
+        "Physics costs over budget without a listed fix are rejected"
+      ]
+    },
+    {
+      "id": "D20",
+      "slug": "ai-engineering",
+      "name": "AI Engineering",
+      "division": "engineering",
+      "mission": "Give the world intelligence: enemies, allies, civilians, wildlife and strategic actors that make readable, fair decisions.",
+      "activation": { "any": ["ai", "enemy", "npc", "strategy", "survival", "city", "population", "wildlife", "combat", "rpg"] },
+      "capabilities": [
+        "behaviour trees and state machines",
+        "utility and goal-oriented decision making",
+        "pathfinding and navigation",
+        "perception and awareness models",
+        "squad and tactical coordination",
+        "NPC schedules and daily routines",
+        "wildlife and ecosystem behaviour",
+        "dynamic difficulty and fairness tuning",
+        "AI performance budgeting"
+      ],
+      "deliverables": [
+        {
+          "id": "ai-design",
+          "name": "AI Design",
+          "phase": "design",
+          "dependsOn": ["D02:gdd"],
+          "acceptance": [
+            "Every AI archetype listed with role, senses and decision model",
+            "Fairness rules stated: reaction time, accuracy and information limits",
+            "Navigation and spawn constraints stated per archetype"
+          ]
+        },
+        {
+          "id": "behaviour-systems",
+          "name": "Behaviour and Navigation Systems",
+          "phase": "production",
+          "dependsOn": ["D20:ai-design", "D19:physics-spec"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Every archetype implemented and observable in a build",
+            "Pathfinding handles the whole playable space without getting stuck",
+            "AI update cost measured per frame against its budget"
+          ]
+        },
+        {
+          "id": "ai-validation",
+          "name": "AI Validation",
+          "phase": "testing",
+          "dependsOn": ["D20:behaviour-systems"],
+          "acceptance": [
+            "No archetype can be farmed with a single degenerate strategy",
+            "Stuck, idle or unreachable agents counted at zero in a soak run",
+            "Reaction time measured and within the fairness rule"
+          ]
+        }
+      ],
+      "inputs": ["GDD from D02", "world layout and navmesh from D08", "physics spec from D19", "population spec from D31"],
+      "handoffs": ["D23", "D24", "D27", "D31", "D33"],
+      "consults": ["D31", "D34", "D24"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "An AI archetype without a fairness rule is rejected",
+        "Unbounded per-frame AI cost is rejected"
+      ]
+    },
+    {
+      "id": "D21",
+      "slug": "multiplayer",
+      "name": "Multiplayer Engineering",
+      "division": "engineering",
+      "mission": "Make networked play work: authority, replication, matchmaking, latency handling and anti-cheat structure.",
+      "activation": { "any": ["multiplayer", "mmorpg", "coop", "pvp", "competitive", "online"] },
+      "capabilities": [
+        "client-server architecture",
+        "state replication and interest management",
+        "matchmaking and session lifecycle",
+        "lag compensation and prediction",
+        "dedicated or relayed server hosting",
+        "network security and anti-cheat structure",
+        "reconnect and state resync",
+        "network performance budgeting"
+      ],
+      "deliverables": [
+        {
+          "id": "netcode-architecture",
+          "name": "Netcode Architecture",
+          "phase": "technical",
+          "dependsOn": ["D17:architecture-doc", "D02:gdd"],
+          "acceptance": [
+            "Authority model stated per system (server, client, hybrid)",
+            "Tick rate, snapshot rate and bandwidth budget in numbers",
+            "Trust boundary drawn and every client-supplied value validated server-side"
+          ]
+        },
+        {
+          "id": "replication",
+          "name": "Replication and Session Layer",
+          "phase": "production",
+          "dependsOn": ["D21:netcode-architecture"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Players join, play and leave a session without desync",
+            "Reconnect restores authoritative state",
+            "Bandwidth measured in a full session against the budget"
+          ]
+        },
+        {
+          "id": "net-validation",
+          "name": "Network Validation",
+          "phase": "testing",
+          "dependsOn": ["D21:replication"],
+          "acceptance": [
+            "Two-client test evidence attached including unauthorised actions rejected",
+            "Simulated latency and packet loss behaviour documented",
+            "No client-authoritative value can grant an unfair advantage"
+          ]
+        }
+      ],
+      "inputs": ["architecture from D17", "physics determinism from D19", "data model from D22", "GDD modes from D02"],
+      "handoffs": ["D22", "D33", "D36"],
+      "consults": ["D36", "D22", "D34"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "A client-authoritative gameplay value is a release blocker",
+        "Netcode without measured bandwidth is rejected"
+      ]
+    },
+    {
+      "id": "D22",
+      "slug": "backend-data",
+      "name": "Backend and Data Engineering",
+      "division": "engineering",
+      "mission": "Keep player state safe and useful: save systems, profiles, cloud persistence, accounts, leaderboards, telemetry and analytics.",
+      "activation": { "any": ["multiplayer", "mmorpg", "persistence", "live-service", "backend", "economy", "leaderboard", "cloud-save"] },
+      "capabilities": [
+        "save and load formats with migrations",
+        "player profiles and account systems",
+        "cloud saves and conflict resolution",
+        "relational and document data modelling",
+        "leaderboards and ranking",
+        "telemetry and analytics pipelines",
+        "API design between client and service",
+        "retention, backup and data lifecycle"
+      ],
+      "deliverables": [
+        {
+          "id": "data-model",
+          "name": "Data Model and API Contract",
+          "phase": "technical",
+          "dependsOn": ["D17:architecture-doc", "D02:gdd"],
+          "acceptance": [
+            "Every persisted entity and field typed and versioned",
+            "Save migration path from every shipped version stated",
+            "API endpoints or bindings listed with their authorisation rules"
+          ]
+        },
+        {
+          "id": "persistence-layer",
+          "name": "Persistence Layer",
+          "phase": "production",
+          "dependsOn": ["D22:data-model"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Save, load and migration proven by an automated round-trip test",
+            "Corrupt or partial saves recovered or rejected without data loss",
+            "Every write validated server-side where a server exists"
+          ]
+        },
+        {
+          "id": "save-integrity",
+          "name": "Save Integrity and Analytics Review",
+          "phase": "testing",
+          "dependsOn": ["D22:persistence-layer"],
+          "acceptance": [
+            "Save tampering detected and handled",
+            "Analytics events verified as delivered and non-blocking",
+            "Storage growth projected against the retention policy"
+          ]
+        }
+      ],
+      "inputs": ["architecture from D17", "persistence needs from D18", "economy events from D30", "security model from D36"],
+      "handoffs": ["D30", "D33", "D36"],
+      "consults": ["D36", "D30"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "A save format without a migration path is rejected",
+        "Client-trusted economy or progression writes are a release blocker"
+      ]
+    }
+  ]
+}

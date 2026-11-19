@@ -1,0 +1,49 @@
+{
+  "note": "Structural rules always run. Named checks run as commands or built-in audits. A check that cannot run is not a pass: the submitter must skip it explicitly with a recorded reason and the Studio Director sees the skip at review.",
+  "artifact": {
+    "minChars": 500,
+    "requireFrontMatter": ["owner", "department", "revision"],
+    "requireSections": ["Deliverable", "Acceptance", "Handoff"],
+    "forbidMarkers": ["TBD"],
+    "releaseForbidMarkers": ["TBD", "TODO", "FIXME"]
+  },
+  "checks": {
+    "typecheck": {
+      "kind": "command",
+      "cmd": "npm run typecheck",
+      "timeoutSec": 240,
+      "description": "The project compiles under its own typecheck."
+    },
+    "smoke": {
+      "kind": "command",
+      "cmd": "npm run smoke",
+      "timeoutSec": 240,
+      "description": "The project's smoke script passes against the current build."
+    },
+    "assets": {
+      "kind": "builtin",
+      "audit": "assets",
+      "description": "Every catalogue asset referenced has a verified commercial licence."
+    },
+    "perf": {
+      "kind": "builtin",
+      "audit": "perf",
+      "description": "Every declared platform profile has a recorded measurement meeting its budget."
+    },
+    "profiling": {
+      "kind": "builtin",
+      "audit": "profiling",
+      "description": "At least one measurement exists per declared profile, recorded with device and method."
+    }
+  },
+  "licencePolicy": {
+    "deny": ["noncommercial", "non-commercial", "by-nc", "by-nd", "by-sa", "share-alike", "editorial use", "personal use", "unknown", "unverified", "all rights reserved"],
+    "allow": ["cc0", "public domain", "cc by", "cc-by", "original", "commercial"],
+    "attributionRequired": ["cc by", "cc-by"],
+    "note": "CC BY-SA and any non-commercial or no-derivatives licence is excluded, matching the existing asset bank policy in this repository."
+  },
+  "reviewPolicy": {
+    "rejectOn": ["failed structural gate", "failed named check", "skipped check", "missing evidence for a production deliverable"],
+    "requireDirectorApproval": true
+  }
+}

@@ -71,8 +71,51 @@ export function waterTexture() {
   waterMap.wrapT = THREE.RepeatWrapping;
   waterMap.colorSpace = THREE.SRGBColorSpace;
   waterMap.repeat.set(1, 1);
-  waterMap.anisotropy = 4;
+  waterMap.anisotropy = 8;
   return waterMap;
+}
+
+// A normal sheet read straight out of the water's own luminance, so the ripple
+// you see, the ripple the sun catches and the ripple that moves are the same
+// ripple. Without it the surface is a painted colour that never answers the
+// light; with it every crest throws a highlight that travels with the current.
+let waterNormal = null;
+
+function waterNormalTexture() {
+  if (waterNormal) return waterNormal;
+  const source = waterTexture().image;
+  const size = source.width;
+  const data = source.getContext('2d').getImageData(0, 0, size, size).data;
+  const at = (x, y) => {
+    const i = ((((y % size) + size) % size) * size + (((x % size) + size) % size)) * 4;
+    return (data[i] * 0.3 + data[i + 1] * 0.5 + data[i + 2] * 0.2) / 255;
+  };
+
+  const canvas = document.createElement('canvas');
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext('2d');
+  const img = ctx.createImageData(size, size);
+  const strength = 2.6;
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const dx = (at(x + 1, y) - at(x - 1, y)) * strength;
+      const dy = (at(x, y + 1) - at(x, y - 1)) * strength;
+      const len = Math.hypot(dx, dy, 1);
+      const i = (y * size + x) * 4;
+      img.data[i] = ((-dx / len) * 0.5 + 0.5) * 255;
+      img.data[i + 1] = ((-dy / len) * 0.5 + 0.5) * 255;
+      img.data[i + 2] = ((1 / len) * 0.5 + 0.5) * 255;
+      img.data[i + 3] = 255;
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+
+  waterNormal = new THREE.CanvasTexture(canvas);
+  waterNormal.wrapS = THREE.RepeatWrapping;
+  waterNormal.wrapT = THREE.RepeatWrapping;
+  waterNormal.anisotropy = 4;
+  return waterNormal;
 }
 
 // A material with its own current. `dir` is the axis the water runs along: a
@@ -85,9 +128,18 @@ export function makeWaterMaterial({ tint = '#eaf7fb', opacity = 0.93, river = fa
   map.wrapS = THREE.RepeatWrapping;
   map.wrapT = THREE.RepeatWrapping;
   map.repeat.set(repeat, repeat);
+  const normalMap = waterNormalTexture().clone();
+  normalMap.needsUpdate = true;
+  normalMap.wrapS = THREE.RepeatWrapping;
+  normalMap.wrapT = THREE.RepeatWrapping;
+  normalMap.repeat.set(repeat, repeat);
   const material = new THREE.MeshStandardMaterial({
     color: new THREE.Color(tint),
     map,
+    normalMap,
+    normalScale: new THREE.Vector2(river ? 0.5 : 0.32, river ? 0.5 : 0.32),
+    // the probe is the sky: water should hand its highlights back to it
+    envMapIntensity: river ? 1.15 : 0.85,
     roughness: river ? 0.18 : 0.24,
     metalness: 0.26,
     emissive: new THREE.Color('#16566f'),
@@ -99,18 +151,27 @@ export function makeWaterMaterial({ tint = '#eaf7fb', opacity = 0.93, river = fa
   return material;
 }
 
-// Move a sheet on by a frame. Rivers run; ponds barely stir.
+// Move a sheet on by a frame. Rivers run; ponds barely stir. The normal sheet
+// travels with the colour sheet, so the highlight on a crest stays on the crest
+// instead of sliding across it.
 export function advanceWater(material, dt) {
   const map = material?.map;
   if (!map) return;
   const flow = material.userData.flow || { speed: 0.05, dir: 'both' };
   const step = flow.speed * dt;
+  const drift = (tex, sx, sy) => {
+    if (!tex) return;
+    tex.offset.x = (tex.offset.x - sx) % 1;
+    tex.offset.y = (tex.offset.y - sy) % 1;
+  };
   if (flow.dir === 'x') {
-    map.offset.x = (map.offset.x - step) % 1;
+    drift(map, step, 0);
+    drift(material.normalMap, step, 0);
   } else if (flow.dir === 'y') {
-    map.offset.y = (map.offset.y - step) % 1;
+    drift(map, 0, step);
+    drift(material.normalMap, 0, step);
   } else {
-    map.offset.x = (map.offset.x - step * 0.7) % 1;
-    map.offset.y = (map.offset.y - step * 0.45) % 1;
+    drift(map, step * 0.7, step * 0.45);
+    drift(material.normalMap, step * 0.7, step * 0.45);
   }
 }

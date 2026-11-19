@@ -1,0 +1,100 @@
+{
+  "department": {
+    "id": "D38",
+    "slug": "asset-integration",
+    "name": "Asset Integration"
+  },
+  "updatedAt": "2026-11-19T04:35:42.851Z",
+  "tasks": [
+    {
+      "id": "D38-naming-conventions",
+      "dept": "D38",
+      "deptSlug": "asset-integration",
+      "deptName": "Asset Integration",
+      "deliverable": "naming-conventions",
+      "name": "Asset Pipeline Conventions",
+      "phase": "technical",
+      "phaseOrder": 3,
+      "objective": "Produce the Asset Pipeline Conventions for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Naming pattern defined for meshes, materials, textures and animations",
+        "Folder layout and import settings stated",
+        "Provenance and licence metadata carried with each imported asset",
+        "Import validation rules (scale, pivot, units) listed"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D17-architecture-doc"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/asset-integration/naming-conventions.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D38-integration-pass",
+      "dept": "D38",
+      "deptSlug": "asset-integration",
+      "deptName": "Asset Integration",
+      "deliverable": "integration-pass",
+      "name": "Asset Integration Pass",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Asset Integration Pass for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every required asset imported, named to convention and referenced in code",
+        "Imported assets respect triangle, texture and memory budgets",
+        "Licence metadata present for every imported asset",
+        "No missing, pink or fallback-material assets in the build"
+      ],
+      "checks": [
+        "typecheck",
+        "assets"
+      ],
+      "dependsOn": [
+        "D38-naming-conventions",
+        "D06-model-pack"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/asset-integration/integration-pass.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D38-integration-review",
+      "dept": "D38",
+      "deptSlug": "asset-integration",
+      "deptName": "Asset Integration",
+      "deliverable": "integration-review",
+      "name": "Integration Review",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Integration Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Build loads every asset with zero 404 or decode errors",
+        "Instancing and reuse opportunities taken where they exist",
+        "Asset load time measured against the stated budget"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D38-integration-pass"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/asset-integration/integration-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

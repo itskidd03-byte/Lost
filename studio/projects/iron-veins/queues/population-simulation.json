@@ -1,0 +1,99 @@
+{
+  "department": {
+    "id": "D31",
+    "slug": "population-simulation",
+    "name": "Population and Society Simulation"
+  },
+  "updatedAt": "2026-11-18T19:57:43.224Z",
+  "tasks": [
+    {
+      "id": "D31-population-design",
+      "dept": "D31",
+      "deptSlug": "population-simulation",
+      "deptName": "Population and Society Simulation",
+      "deliverable": "population-design",
+      "name": "Population and Society Design",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the Population and Society Design for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "NPC archetypes listed with roles, schedules and needs",
+        "Relationship and faction model defined",
+        "Population caps and simulation LOD stated in numbers",
+        "Identity generation rules stated so no two NPCs are identical"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd",
+        "D03-world-bible"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/population-simulation/population-design.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:56:46.020Z",
+      "updatedAt": "2026-11-18T19:56:46.020Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D31-population-implementation",
+      "dept": "D31",
+      "deptSlug": "population-simulation",
+      "deptName": "Population and Society Simulation",
+      "deliverable": "population-implementation",
+      "name": "Population Simulation",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Population Simulation for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "NPCs follow schedules and change jobs and relationships over time",
+        "Population simulation runs within its per-tick budget at cap",
+        "Simulation state persists through save and load"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D31-population-design",
+        "D20-ai-design"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/population-simulation/population-implementation.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:56:46.020Z",
+      "updatedAt": "2026-11-18T19:56:46.020Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D31-society-review",
+      "dept": "D31",
+      "deptSlug": "population-simulation",
+      "deptName": "Population and Society Simulation",
+      "deliverable": "society-review",
+      "name": "Society Simulation Review",
+      "phase": "polish",
+      "phaseOrder": 9,
+      "objective": "Produce the Society Simulation Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Long-run simulation does not collapse, stall or produce immortal NPCs",
+        "Off-screen simulation LOD verified as behaviour-preserving",
+        "Measured tick cost at maximum population attached"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D31-population-implementation"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/population-simulation/society-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:56:46.020Z",
+      "updatedAt": "2026-11-18T19:56:46.020Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

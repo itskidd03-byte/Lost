@@ -1,0 +1,95 @@
+{
+  "department": {
+    "id": "D14",
+    "slug": "sound-design",
+    "name": "Sound Design"
+  },
+  "updatedAt": "2026-11-18T19:57:43.222Z",
+  "tasks": [
+    {
+      "id": "D14-sound-map",
+      "dept": "D14",
+      "deptSlug": "sound-design",
+      "deptName": "Sound Design",
+      "deliverable": "sound-map",
+      "name": "Sound Map",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the Sound Map for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every audible event mapped to a sound with priority",
+        "Spatialisation, attenuation and concurrency rules stated",
+        "Licence or authorship recorded for every external sound"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/sound-design/sound-map.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D14-sound-set",
+      "dept": "D14",
+      "deptSlug": "sound-design",
+      "deptName": "Sound Design",
+      "deliverable": "sound-set",
+      "name": "Sound Set and Mix",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Sound Set and Mix for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every mapped event has at least one sound with variation",
+        "Loudness normalised to the project target and clipping-free",
+        "Compression and streaming format chosen per sound class"
+      ],
+      "checks": [
+        "assets"
+      ],
+      "dependsOn": [
+        "D14-sound-map"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/sound-design/sound-set.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D14-mix-review",
+      "dept": "D14",
+      "deptSlug": "sound-design",
+      "deptName": "Sound Design",
+      "deliverable": "mix-review",
+      "name": "Mix Review",
+      "phase": "polish",
+      "phaseOrder": 9,
+      "objective": "Produce the Mix Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Combat, dialogue and ambience audible in a full scene without masking",
+        "Voice-count and memory measured against budget"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D14-sound-set"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/sound-design/mix-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

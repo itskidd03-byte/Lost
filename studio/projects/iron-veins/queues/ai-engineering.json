@@ -1,0 +1,97 @@
+{
+  "department": {
+    "id": "D20",
+    "slug": "ai-engineering",
+    "name": "AI Engineering"
+  },
+  "updatedAt": "2026-11-18T19:57:43.223Z",
+  "tasks": [
+    {
+      "id": "D20-ai-design",
+      "dept": "D20",
+      "deptSlug": "ai-engineering",
+      "deptName": "AI Engineering",
+      "deliverable": "ai-design",
+      "name": "AI Design",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the AI Design for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every AI archetype listed with role, senses and decision model",
+        "Fairness rules stated: reaction time, accuracy and information limits",
+        "Navigation and spawn constraints stated per archetype"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/ai-engineering/ai-design.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D20-behaviour-systems",
+      "dept": "D20",
+      "deptSlug": "ai-engineering",
+      "deptName": "AI Engineering",
+      "deliverable": "behaviour-systems",
+      "name": "Behaviour and Navigation Systems",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Behaviour and Navigation Systems for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every archetype implemented and observable in a build",
+        "Pathfinding handles the whole playable space without getting stuck",
+        "AI update cost measured per frame against its budget"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D20-ai-design",
+        "D19-physics-spec"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/ai-engineering/behaviour-systems.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D20-ai-validation",
+      "dept": "D20",
+      "deptSlug": "ai-engineering",
+      "deptName": "AI Engineering",
+      "deliverable": "ai-validation",
+      "name": "AI Validation",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the AI Validation for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "No archetype can be farmed with a single degenerate strategy",
+        "Stuck, idle or unreachable agents counted at zero in a soak run",
+        "Reaction time measured and within the fairness rule"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D20-behaviour-systems"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/ai-engineering/ai-validation.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

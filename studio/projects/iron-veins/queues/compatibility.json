@@ -1,0 +1,96 @@
+{
+  "department": {
+    "id": "D35",
+    "slug": "compatibility",
+    "name": "Compatibility Engineering"
+  },
+  "updatedAt": "2026-11-18T19:57:43.225Z",
+  "tasks": [
+    {
+      "id": "D35-device-matrix",
+      "dept": "D35",
+      "deptSlug": "compatibility",
+      "deptName": "Compatibility Engineering",
+      "deliverable": "device-matrix",
+      "name": "Device and Platform Matrix",
+      "phase": "technical",
+      "phaseOrder": 3,
+      "objective": "Produce the Device and Platform Matrix for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every target platform and hardware class listed with a representative device",
+        "Minimum specification stated per platform",
+        "Input devices and required parity listed",
+        "Which classes are supported versus best-effort is explicit"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D17-platform-matrix"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/compatibility/device-matrix.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D35-compatibility-matrix",
+      "dept": "D35",
+      "deptSlug": "compatibility",
+      "deptName": "Compatibility Engineering",
+      "deliverable": "compatibility-matrix",
+      "name": "Compatibility Test Matrix",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Compatibility Test Matrix for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every row tested on the named device or emulator with a result",
+        "Resolution, orientation and safe-area behaviour verified",
+        "Failures converted to bug reports with device details"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D35-device-matrix"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/compatibility/compatibility-matrix.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D35-input-parity",
+      "dept": "D35",
+      "deptSlug": "compatibility",
+      "deptName": "Compatibility Engineering",
+      "deliverable": "input-parity",
+      "name": "Input Parity Review",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Input Parity Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every action reachable with every declared input device",
+        "Touch targets and gestures verified on a real mobile viewport",
+        "Remapping and accessibility inputs verified"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D35-compatibility-matrix",
+        "D18-controller-spec"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/compatibility/input-parity.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

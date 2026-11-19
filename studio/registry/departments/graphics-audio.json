@@ -1,0 +1,668 @@
+{
+  "division": "graphics-audio",
+  "departments": [
+    {
+      "id": "D06",
+      "slug": "3d-modeling",
+      "name": "3D Modeling",
+      "division": "graphics-audio",
+      "mission": "Model every three-dimensional object the game needs, built to the project's triangle, texel and material budgets.",
+      "activation": { "any": ["3d"], "dimensions": ["3d"] },
+      "capabilities": [
+        "character and creature meshes",
+        "weapons and held props",
+        "vehicles and machinery",
+        "buildings and modular kits",
+        "furniture, props and clutter",
+        "wildlife meshes",
+        "industrial and environmental assets",
+        "LOD and collision mesh authoring"
+      ],
+      "deliverables": [
+        {
+          "id": "model-list",
+          "name": "Model List and Budgets",
+          "phase": "art-direction",
+          "dependsOn": ["D01:art-direction", "D03:world-layout"],
+          "acceptance": [
+            "Every required model listed with owner, priority and triangle budget",
+            "LOD and collision requirements stated per model class",
+            "Reuse plan showing which models can be instanced or reskinned"
+          ]
+        },
+        {
+          "id": "model-pack",
+          "name": "Model Pack",
+          "phase": "production",
+          "dependsOn": ["D06:model-list"],
+          "checks": ["assets"],
+          "acceptance": [
+            "Every model is within its triangle budget and has correct scale and pivot",
+            "UVs are packed, normals correct and materials named to convention",
+            "Each model has LODs and a collision proxy where the budget requires it"
+          ]
+        },
+        {
+          "id": "topology-review",
+          "name": "Topology and Budget Review",
+          "phase": "testing",
+          "dependsOn": ["D06:model-pack"],
+          "acceptance": [
+            "Measured triangle and draw-call counts attached per model",
+            "Non-manifold geometry, inverted normals and missing UVs listed as zero",
+            "Every model imports cleanly into the project pipeline"
+          ]
+        }
+      ],
+      "inputs": ["art direction from D01", "world layout from D03", "asset catalogue from D37", "material library from D09"],
+      "handoffs": ["D08", "D10", "D11", "D38"],
+      "consults": ["D39", "D09", "D34"],
+      "tools": ["write_file", "read_files", "cloud_read_image", "run_terminal_command"],
+      "gates": [
+        "A model over its stated triangle budget is rejected unless the budget is revised",
+        "Missing LOD or collision proxy on a budgeted model is rejected"
+      ]
+    },
+    {
+      "id": "D07",
+      "slug": "2d-art",
+      "name": "2D Art and Illustration",
+      "division": "graphics-audio",
+      "mission": "Produce all two-dimensional art: sprites, tiles, icons, illustrations and the 2D environments of the game.",
+      "activation": { "any": ["2d", "isometric", "topdown", "sidescroll", "pixel", "ui-icons", "card-game"], "dimensions": ["2d", "2.5d", "isometric"] },
+      "capabilities": [
+        "character and enemy sprites",
+        "pixel art and animation frames",
+        "top-down and side-scrolling asset sets",
+        "tilesets and parallax layers",
+        "icons and inventory graphics",
+        "concept art and UI illustrations",
+        "sprite atlases and packing",
+        "2D environment compositions"
+      ],
+      "deliverables": [
+        {
+          "id": "art-style-2d",
+          "name": "2D Style Sheet",
+          "phase": "art-direction",
+          "dependsOn": ["D01:art-direction"],
+          "acceptance": [
+            "Canvas sizes, pixel density and palette limits stated",
+            "Silhouette, outline and shading rules shown on sample assets",
+            "Animation frame counts and frame timing per state"
+          ]
+        },
+        {
+          "id": "sprite-atlas",
+          "name": "Sprite and Tileset Atlas",
+          "phase": "production",
+          "dependsOn": ["D07:art-style-2d"],
+          "checks": ["assets"],
+          "acceptance": [
+            "Every sprite exists at the specified size with transparent background",
+            "Atlas packing plan keeps draw calls within the rendering budget",
+            "Animation frames are named and ordered to the state machine"
+          ]
+        },
+        {
+          "id": "2d-review",
+          "name": "2D Art Review",
+          "phase": "polish",
+          "dependsOn": ["D07:sprite-atlas"],
+          "acceptance": [
+            "No missing, misaligned or duplicate frames in the build",
+            "Palette and outline consistency verified across all sets"
+          ]
+        }
+      ],
+      "inputs": ["art direction from D01", "screen inventory from D05", "animation list from D11"],
+      "handoffs": ["D11", "D18", "D38", "D13"],
+      "consults": ["D11", "D01"],
+      "tools": ["write_file", "read_files", "cloud_read_image", "run_terminal_command"],
+      "gates": [
+        "A sprite outside its palette or canvas rule is rejected",
+        "Animation with missing frames is rejected"
+      ]
+    },
+    {
+      "id": "D08",
+      "slug": "environment-art",
+      "name": "Environment Art",
+      "division": "graphics-audio",
+      "mission": "Build the places: terrain, landscapes, cities, interiors and destructible environments that carry the world design into the build.",
+      "activation": { "any": ["3d", "openworld", "environment", "city", "interior"], "dimensions": ["3d"] },
+      "capabilities": [
+        "terrain sculpting and dressing",
+        "landscape and forest composition",
+        "city and settlement dressing",
+        "interior layout and set dressing",
+        "modular environment kits",
+        "destructible environment authoring",
+        "environmental detail and decals",
+        "environment performance budgets"
+      ],
+      "deliverables": [
+        {
+          "id": "environment-plan",
+          "name": "Environment Plan",
+          "phase": "art-direction",
+          "dependsOn": ["D03:world-layout", "D01:art-direction"],
+          "acceptance": [
+            "Every area mapped to an art kit and a prop budget",
+            "Density, vista and landmark placement rules stated per biome",
+            "Interior and exterior transition rules defined"
+          ]
+        },
+        {
+          "id": "environment-kit",
+          "name": "Environment Kit and Dressed Areas",
+          "phase": "production",
+          "dependsOn": ["D08:environment-plan", "D06:model-list"],
+          "acceptance": [
+            "Kit pieces snap to a stated grid and share one material set",
+            "Each dressed area meets its prop and draw-call budget",
+            "Collision and navmesh coverage present for every playable surface"
+          ]
+        },
+        {
+          "id": "environment-perf-review",
+          "name": "Environment Performance Review",
+          "phase": "optimization",
+          "dependsOn": ["D08:environment-kit"],
+          "checks": ["profiling"],
+          "acceptance": [
+            "Measured draw calls, triangles and texture memory attached per area",
+            "Culling, LOD and occlusion verified in a profiled build",
+            "Any area over budget listed with a concrete fix"
+          ]
+        }
+      ],
+      "inputs": ["world layout from D03", "model pack from D06", "material library from D09", "lighting plan from D12"],
+      "handoffs": ["D12", "D13", "D19", "D29", "D34"],
+      "consults": ["D29", "D34", "D39"],
+      "tools": ["write_file", "read_files", "cloud_read_image", "run_terminal_command"],
+      "gates": [
+        "An area without collision or navmesh coverage is rejected",
+        "An area over its prop budget without a listed fix is rejected"
+      ]
+    },
+    {
+      "id": "D09",
+      "slug": "materials-textures",
+      "name": "Materials and Textures",
+      "division": "graphics-audio",
+      "mission": "Author the surface language of the game: PBR materials, texture sets and terrain layers that read correctly under every lighting condition.",
+      "activation": { "any": ["3d", "materials", "textures", "openworld"], "dimensions": ["3d"] },
+      "capabilities": [
+        "PBR material authoring",
+        "albedo, normal, roughness, metallic and height maps",
+        "terrain layer and blend materials",
+        "weathered and damaged surface treatments",
+        "material libraries and reuse",
+        "texel density and texture budget management",
+        "channel packing and compression",
+        "shader-ready material parameters"
+      ],
+      "deliverables": [
+        {
+          "id": "material-library",
+          "name": "Material Library",
+          "phase": "production",
+          "dependsOn": ["D01:art-direction"],
+          "checks": ["assets"],
+          "acceptance": [
+            "Each material lists its maps, resolution, texel density and licence",
+            "Seamless tiling verified on a test plane",
+            "Every material parameter exposed to the shader is documented"
+          ]
+        },
+        {
+          "id": "texel-budget",
+          "name": "Texture Budget and Compression Plan",
+          "phase": "optimization",
+          "dependsOn": ["D09:material-library"],
+          "acceptance": [
+            "Texture memory measured per platform profile",
+            "Compression format chosen per map type with rationale",
+            "Any texture over budget has a downscale or atlas plan"
+          ]
+        }
+      ],
+      "inputs": ["art direction from D01", "model UV layout from D06", "performance budget from D34"],
+      "handoffs": ["D06", "D08", "D10", "D39"],
+      "consults": ["D39", "D34"],
+      "tools": ["write_file", "read_files", "cloud_read_image", "run_terminal_command"],
+      "gates": [
+        "A material without a licence record is rejected",
+        "Non-power-of-two textures on mobile profiles are rejected unless justified"
+      ]
+    },
+    {
+      "id": "D10",
+      "slug": "character-art",
+      "name": "Character Art",
+      "division": "graphics-audio",
+      "mission": "Create the people and creatures players look at for hundreds of hours: proportions, faces, clothing, armour and variation.",
+      "activation": { "any": ["3d", "character", "rpg", "shooter", "survival", "city", "mmorpg"], "dimensions": ["3d"] },
+      "capabilities": [
+        "human and creature modelling",
+        "character customisation systems",
+        "clothing and armour authoring",
+        "hair, faces and skin materials",
+        "proportion and silhouette consistency",
+        "modular character kits",
+        "variation and crowd generation",
+        "rig-ready topology"
+      ],
+      "deliverables": [
+        {
+          "id": "character-spec",
+          "name": "Character Specification",
+          "phase": "art-direction",
+          "dependsOn": ["D01:art-direction", "D02:gdd"],
+          "acceptance": [
+            "Every character class has a silhouette, palette and material plan",
+            "Customisation dimensions and their allowed values listed",
+            "Polygon, texture and bone budgets stated per class"
+          ]
+        },
+        {
+          "id": "character-pack",
+          "name": "Character Pack",
+          "phase": "production",
+          "dependsOn": ["D10:character-spec", "D06:model-pack"],
+          "checks": ["assets"],
+          "acceptance": [
+            "Every character rigs and deforms correctly at the stated bone count",
+            "Skinning weights verified on extreme poses",
+            "Modular pieces share a material set and attach without gaps"
+          ]
+        },
+        {
+          "id": "character-review",
+          "name": "Character Review",
+          "phase": "polish",
+          "dependsOn": ["D10:character-pack", "D11:animation-set"],
+          "acceptance": [
+            "No visible seams, clipping or untextured areas in the build",
+            "All customisation combinations render without missing assets"
+          ]
+        }
+      ],
+      "inputs": ["character spec from D02 and D04", "model pack from D06", "skin materials from D09"],
+      "handoffs": ["D11", "D38", "D20"],
+      "consults": ["D11", "D09"],
+      "tools": ["write_file", "read_files", "cloud_read_image", "run_terminal_command"],
+      "gates": [
+        "A character without a rig and skinning test is rejected",
+        "Untextured or default-material areas in the build are rejected"
+      ]
+    },
+    {
+      "id": "D11",
+      "slug": "animation",
+      "name": "Animation",
+      "division": "graphics-audio",
+      "mission": "Make movement read: locomotion, combat, interaction, vehicles, creatures and procedural motion that feels responsive.",
+      "activation": { "any": ["3d", "animation", "character", "shooter", "rpg", "survival", "racing", "platformer"], "dimensions": ["3d"] },
+      "capabilities": [
+        "locomotion sets (walk, run, sprint, crouch)",
+        "combat, hit reaction and death animations",
+        "weapon handling and reloads",
+        "climbing, vaulting and traversal",
+        "vehicle and mounted animation",
+        "creature and wildlife animation",
+        "facial and dialogue animation",
+        "procedural and additive animation",
+        "animation state machines and blending"
+      ],
+      "deliverables": [
+        {
+          "id": "animation-list",
+          "name": "Animation List and State Machine",
+          "phase": "art-direction",
+          "dependsOn": ["D02:gdd", "D10:character-spec"],
+          "acceptance": [
+            "Every required animation listed with frame count, loop flag and root motion",
+            "State machine transitions and blend times specified in milliseconds",
+            "Cancel windows and input buffering rules stated per action"
+          ]
+        },
+        {
+          "id": "animation-set",
+          "name": "Animation Set",
+          "phase": "production",
+          "dependsOn": ["D11:animation-list", "D10:character-pack"],
+          "acceptance": [
+            "Every animation in the list exists and loops or ends cleanly",
+            "Root motion matches the movement speeds in the GDD",
+            "Foot sliding measured and within the stated tolerance"
+          ]
+        },
+        {
+          "id": "animation-review",
+          "name": "Animation Review",
+          "phase": "testing",
+          "dependsOn": ["D11:animation-set"],
+          "acceptance": [
+            "No missing, popping or T-posed states during a scripted playthrough",
+            "Hit reactions and death transitions verified on every rig class"
+          ]
+        }
+      ],
+      "inputs": ["character pack from D10", "GDD timings from D02", "combat design from D23 or D18"],
+      "handoffs": ["D18", "D20", "D23", "D38"],
+      "consults": ["D18", "D23", "D39"],
+      "tools": ["write_file", "read_files", "run_terminal_command", "cloud_read_image"],
+      "gates": [
+        "An animation set that T-poses or pops in a build is rejected",
+        "Root motion inconsistent with GDD speeds is rejected"
+      ]
+    },
+    {
+      "id": "D12",
+      "slug": "lighting-rendering",
+      "name": "Lighting and Rendering",
+      "division": "graphics-audio",
+      "mission": "Light the world believably and render it affordably: shadows, ambient terms, reflections, atmosphere and day/night cycles.",
+      "activation": { "any": ["3d", "lighting", "openworld", "rendering"], "dimensions": ["3d"] },
+      "capabilities": [
+        "static and dynamic lighting design",
+        "shadow cascades and bias management",
+        "ambient occlusion and indirect light approximation",
+        "reflection probes and screen-space effects",
+        "fog, volumetrics and atmosphere",
+        "day/night and weather lighting transitions",
+        "post-processing and tone mapping",
+        "performance-aware rendering settings"
+      ],
+      "deliverables": [
+        {
+          "id": "lighting-plan",
+          "name": "Lighting Plan",
+          "phase": "art-direction",
+          "dependsOn": ["D01:art-direction", "D08:environment-plan"],
+          "acceptance": [
+            "Key, fill and rim intent defined per time of day and biome",
+            "Shadow strategy and cascade distances stated with numbers",
+            "Post-processing stack listed with cost estimates"
+          ]
+        },
+        {
+          "id": "lighting-setup",
+          "name": "Lighting and Post Setup",
+          "phase": "production",
+          "dependsOn": ["D12:lighting-plan"],
+          "acceptance": [
+            "Lightmaps or probes baked and stored with the scene",
+            "Day/night interpolation verified across a full cycle",
+            "Every lighting feature has a documented quality tier"
+          ]
+        },
+        {
+          "id": "lighting-perf-review",
+          "name": "Lighting Performance Review",
+          "phase": "optimization",
+          "dependsOn": ["D12:lighting-setup"],
+          "checks": ["profiling"],
+          "acceptance": [
+            "Frame cost of lighting and post measured per quality tier",
+            "Shadow and probe memory measured against the profile budget",
+            "Lowest tier verified playable on the weakest declared device"
+          ]
+        }
+      ],
+      "inputs": ["art direction from D01", "environment layout from D08", "renderer architecture from D17"],
+      "handoffs": ["D13", "D34", "D39"],
+      "consults": ["D34", "D39", "D17"],
+      "tools": ["write_file", "read_files", "cloud_read_image", "run_terminal_command"],
+      "gates": [
+        "A lighting feature with no quality tier or measured cost is rejected",
+        "Shadow bias artefacts visible in the build are rejected"
+      ]
+    },
+    {
+      "id": "D13",
+      "slug": "vfx",
+      "name": "VFX",
+      "division": "graphics-audio",
+      "mission": "Deliver feedback with weight: impacts, explosions, smoke, fire, water, weather, destruction and magic effects within a particle budget.",
+      "activation": { "any": ["3d", "combat", "vfx", "weather", "magic", "destruction", "survival"], "dimensions": ["3d"] },
+      "capabilities": [
+        "impact and muzzle effects",
+        "explosions and debris",
+        "smoke, fire, dust and sparks",
+        "weather and water effects",
+        "destruction and fracture effects",
+        "magic and ability effects",
+        "environmental particles and ambience",
+        "effect LOD and pooling"
+      ],
+      "deliverables": [
+        {
+          "id": "vfx-list",
+          "name": "VFX List and Budget",
+          "phase": "art-direction",
+          "dependsOn": ["D02:gdd", "D01:art-direction"],
+          "acceptance": [
+            "Every gameplay event mapped to an effect with priority",
+            "Particle and overdraw budgets stated per effect class",
+            "Cue timing in milliseconds aligned to animation cancel windows"
+          ]
+        },
+        {
+          "id": "vfx-set",
+          "name": "VFX Set",
+          "phase": "production",
+          "dependsOn": ["D13:vfx-list"],
+          "acceptance": [
+            "Every listed effect exists, triggers on its event and cleans up",
+            "Effects pooled and capped to the stated particle budget",
+            "Effect LOD present for the lowest quality tier"
+          ]
+        },
+        {
+          "id": "vfx-budget-review",
+          "name": "VFX Budget Review",
+          "phase": "optimization",
+          "dependsOn": ["D13:vfx-set"],
+          "checks": ["profiling"],
+          "acceptance": [
+            "Worst-case simultaneous effects measured and within budget",
+            "Overdraw hotspots identified with a fix",
+            "Effects verified at the lowest quality tier"
+          ]
+        }
+      ],
+      "inputs": ["GDD event list from D02", "animation cues from D11", "lighting tiers from D12"],
+      "handoffs": ["D18", "D23", "D34"],
+      "consults": ["D34", "D39", "D12"],
+      "tools": ["write_file", "read_files", "cloud_read_image", "run_terminal_command"],
+      "gates": [
+        "An effect with no pooling or no cap is rejected",
+        "Visible overdraw spikes without a listed fix are rejected"
+      ]
+    },
+    {
+      "id": "D14",
+      "slug": "sound-design",
+      "name": "Sound Design",
+      "division": "graphics-audio",
+      "mission": "Give every action, surface and place a voice, and mix it so the player hears what matters.",
+      "activation": { "always": true },
+      "capabilities": [
+        "weapon and impact sound design",
+        "footsteps and surface sets",
+        "ambience and soundscapes",
+        "vehicle and machinery audio",
+        "UI and feedback sounds",
+        "spatial audio and attenuation",
+        "dynamic mixing and ducking",
+        "audio middleware or engine integration"
+      ],
+      "deliverables": [
+        {
+          "id": "sound-map",
+          "name": "Sound Map",
+          "phase": "design",
+          "dependsOn": ["D02:gdd"],
+          "acceptance": [
+            "Every audible event mapped to a sound with priority",
+            "Spatialisation, attenuation and concurrency rules stated",
+            "Licence or authorship recorded for every external sound"
+          ]
+        },
+        {
+          "id": "sound-set",
+          "name": "Sound Set and Mix",
+          "phase": "production",
+          "dependsOn": ["D14:sound-map"],
+          "checks": ["assets"],
+          "acceptance": [
+            "Every mapped event has at least one sound with variation",
+            "Loudness normalised to the project target and clipping-free",
+            "Compression and streaming format chosen per sound class"
+          ]
+        },
+        {
+          "id": "mix-review",
+          "name": "Mix Review",
+          "phase": "polish",
+          "dependsOn": ["D14:sound-set"],
+          "acceptance": [
+            "Combat, dialogue and ambience audible in a full scene without masking",
+            "Voice-count and memory measured against budget"
+          ]
+        }
+      ],
+      "inputs": ["GDD events from D02", "animation cues from D11", "audio assets from D37"],
+      "handoffs": ["D15", "D18", "D33"],
+      "consults": ["D15", "D16"],
+      "tools": ["write_file", "read_files", "run_terminal_command", "web_search"],
+      "gates": [
+        "A sound without licence or authorship record is rejected",
+        "Clipping or unnormalised loudness in the mix is rejected"
+      ]
+    },
+    {
+      "id": "D15",
+      "slug": "music",
+      "name": "Music Production",
+      "division": "graphics-audio",
+      "mission": "Compose a score that carries the game's identity and responds to what the player is doing.",
+      "activation": { "always": true },
+      "capabilities": [
+        "original composition",
+        "adaptive and layered music",
+        "combat and exploration scoring",
+        "menu and ambient music",
+        "theme and motif development",
+        "stems, loops and transition authoring",
+        "licensing and authorship records"
+      ],
+      "deliverables": [
+        {
+          "id": "music-direction",
+          "name": "Music Direction",
+          "phase": "art-direction",
+          "dependsOn": ["D01:concept-brief"],
+          "acceptance": [
+            "Instrumentation, tempo and mood defined per game state",
+            "Motifs and their transformations described",
+            "Runtime and licensing constraints stated"
+          ]
+        },
+        {
+          "id": "soundtrack",
+          "name": "Soundtrack and Stems",
+          "phase": "production",
+          "dependsOn": ["D15:music-direction"],
+          "checks": ["assets"],
+          "acceptance": [
+            "Every required state has music with seamless loop points",
+            "Stems delivered for adaptive mixing",
+            "Authorship and licence recorded for every track"
+          ]
+        },
+        {
+          "id": "adaptive-music-review",
+          "name": "Adaptive Music Review",
+          "phase": "polish",
+          "dependsOn": ["D15:soundtrack"],
+          "acceptance": [
+            "Transitions between states verified without clicks or gaps",
+            "Music memory and streaming measured against budget"
+          ]
+        }
+      ],
+      "inputs": ["creative pillars from D01", "game states from D02", "sound mix from D14"],
+      "handoffs": ["D18", "D16"],
+      "consults": ["D14", "D16"],
+      "tools": ["write_file", "read_files", "run_terminal_command"],
+      "gates": [
+        "A track without authorship and licence is rejected",
+        "A loop with an audible gap is rejected"
+      ]
+    },
+    {
+      "id": "D16",
+      "slug": "cinematics",
+      "name": "Cinematics",
+      "division": "graphics-audio",
+      "mission": "Direct and produce the game's scripted sequences: camera, staging, transitions and in-game storytelling.",
+      "activation": { "any": ["narrative", "cinematic", "cutscene", "story", "campaign", "rpg"] },
+      "capabilities": [
+        "cutscene direction and storyboarding",
+        "camera framing and movement",
+        "scene composition and staging",
+        "transition and title design",
+        "motion graphics",
+        "in-engine sequence authoring",
+        "lip-sync and dialogue staging",
+        "skippable and subtitled presentation"
+      ],
+      "deliverables": [
+        {
+          "id": "cinematic-plan",
+          "name": "Cinematic Plan",
+          "phase": "production",
+          "dependsOn": ["D04:story-arc", "D11:animation-list"],
+          "acceptance": [
+            "Every sequence listed with duration, trigger and skip behaviour",
+            "Shot list with framing and camera path",
+            "Subtitles, localisation and accessibility requirements stated"
+          ]
+        },
+        {
+          "id": "cutscene-set",
+          "name": "Cutscene Set",
+          "phase": "production",
+          "dependsOn": ["D16:cinematic-plan"],
+          "acceptance": [
+            "Every sequence plays in-engine without missing actors or audio",
+            "Skip, pause and subtitle controls all work",
+            "Camera does not clip through geometry in any shot"
+          ]
+        },
+        {
+          "id": "cinematic-review",
+          "name": "Cinematic Review",
+          "phase": "polish",
+          "dependsOn": ["D16:cutscene-set"],
+          "acceptance": [
+            "Frame pacing and audio sync verified in a built version",
+            "Every sequence tested at the lowest quality tier"
+          ]
+        }
+      ],
+      "inputs": ["story arc from D04", "animation set from D11", "music and sound from D14 and D15"],
+      "handoffs": ["D40"],
+      "consults": ["D11", "D15", "D04"],
+      "tools": ["write_file", "read_files", "cloud_read_image", "run_terminal_command"],
+      "gates": [
+        "A sequence that cannot be skipped is rejected",
+        "Missing subtitles on spoken dialogue is rejected"
+      ]
+    }
+  ]
+}

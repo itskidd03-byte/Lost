@@ -1,0 +1,131 @@
+{
+  "department": {
+    "id": "D18",
+    "slug": "gameplay-programming",
+    "name": "Gameplay Programming"
+  },
+  "updatedAt": "2026-11-18T19:57:43.222Z",
+  "tasks": [
+    {
+      "id": "D18-controller-spec",
+      "dept": "D18",
+      "deptSlug": "gameplay-programming",
+      "deptName": "Gameplay Programming",
+      "deliverable": "controller-spec",
+      "name": "Controller and Input Spec",
+      "phase": "technical",
+      "phaseOrder": 3,
+      "objective": "Produce the Controller and Input Spec for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Input map for every declared device",
+        "Movement model with speeds, acceleration and camera rules",
+        "Remapping, dead zones and accessibility input options covered"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D17-architecture-doc",
+        "D05-ux-flows"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/gameplay-programming/controller-spec.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D18-prototype-build",
+      "dept": "D18",
+      "deptSlug": "gameplay-programming",
+      "deptName": "Gameplay Programming",
+      "deliverable": "prototype-build",
+      "name": "Playable Prototype",
+      "phase": "prototype",
+      "phaseOrder": 5,
+      "objective": "Produce the Playable Prototype for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "The core loop is playable end to end in a real build",
+        "Build command and URL or artefact path recorded in the deliverable",
+        "Known gaps listed explicitly rather than hidden"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D18-controller-spec"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/gameplay-programming/prototype-build.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D18-gameplay-systems",
+      "dept": "D18",
+      "deptSlug": "gameplay-programming",
+      "deptName": "Gameplay Programming",
+      "deliverable": "gameplay-systems",
+      "name": "Gameplay Systems",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Gameplay Systems for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every GDD mechanic implemented with its failure and feedback states",
+        "Telemetry hooks emitted for every tuned value",
+        "No gameplay value hard-coded outside the tuning table"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D18-prototype-build",
+        "D02-balance-plan"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/gameplay-programming/gameplay-systems.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D18-gameplay-tests",
+      "dept": "D18",
+      "deptSlug": "gameplay-programming",
+      "deptName": "Gameplay Programming",
+      "deliverable": "gameplay-tests",
+      "name": "Gameplay Test Evidence",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Gameplay Test Evidence for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Automated checks cover movement, interaction and progression paths",
+        "Manual playthrough evidence attached for the core loop",
+        "Any known defect linked to a bug report"
+      ],
+      "checks": [
+        "typecheck",
+        "smoke"
+      ],
+      "dependsOn": [
+        "D18-gameplay-systems"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/gameplay-programming/gameplay-tests.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

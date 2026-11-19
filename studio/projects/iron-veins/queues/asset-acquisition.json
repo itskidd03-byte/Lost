@@ -1,0 +1,101 @@
+{
+  "department": {
+    "id": "D37",
+    "slug": "asset-acquisition",
+    "name": "Asset Acquisition"
+  },
+  "updatedAt": "2026-11-18T19:57:43.225Z",
+  "tasks": [
+    {
+      "id": "D37-asset-plan",
+      "dept": "D37",
+      "deptSlug": "asset-acquisition",
+      "deptName": "Asset Acquisition",
+      "deliverable": "asset-plan",
+      "name": "Asset Plan",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the Asset Plan for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every needed asset class listed as sourced, original or to-be-decided",
+        "Licence requirement stated per class (commercial use mandatory)",
+        "Reuse candidates named from the existing studio libraries",
+        "Budget and timeline per asset class stated"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D01-concept-brief",
+        "D03-world-bible"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/asset-acquisition/asset-plan.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D37-asset-sourcing",
+      "dept": "D37",
+      "deptSlug": "asset-acquisition",
+      "deptName": "Asset Acquisition",
+      "deliverable": "asset-sourcing",
+      "name": "Sourced Asset Records",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Sourced Asset Records for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every sourced asset has id, creator, source URL, licence and hash",
+        "No asset is marked usable without a verified commercial licence",
+        "Format and scale compatibility verified by an import test",
+        "Attribution list generated for every CC BY asset"
+      ],
+      "checks": [
+        "assets"
+      ],
+      "dependsOn": [
+        "D37-asset-plan"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/asset-acquisition/asset-sourcing.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D37-licence-audit",
+      "dept": "D37",
+      "deptSlug": "asset-acquisition",
+      "deptName": "Asset Acquisition",
+      "deliverable": "licence-audit",
+      "name": "Licence Audit",
+      "phase": "release",
+      "phaseOrder": 10,
+      "objective": "Produce the Licence Audit for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every shipped asset traced to a record in the catalogue",
+        "Zero unverified, non-commercial or share-alike assets in the build",
+        "Attribution file included where licences require it"
+      ],
+      "checks": [
+        "assets"
+      ],
+      "dependsOn": [
+        "D37-asset-sourcing"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/asset-acquisition/licence-audit.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

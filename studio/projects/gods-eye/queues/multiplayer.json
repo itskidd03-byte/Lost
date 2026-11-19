@@ -1,0 +1,97 @@
+{
+  "department": {
+    "id": "D21",
+    "slug": "multiplayer",
+    "name": "Multiplayer Engineering"
+  },
+  "updatedAt": "2026-11-19T04:35:42.848Z",
+  "tasks": [
+    {
+      "id": "D21-netcode-architecture",
+      "dept": "D21",
+      "deptSlug": "multiplayer",
+      "deptName": "Multiplayer Engineering",
+      "deliverable": "netcode-architecture",
+      "name": "Netcode Architecture",
+      "phase": "technical",
+      "phaseOrder": 3,
+      "objective": "Produce the Netcode Architecture for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Authority model stated per system (server, client, hybrid)",
+        "Tick rate, snapshot rate and bandwidth budget in numbers",
+        "Trust boundary drawn and every client-supplied value validated server-side"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D17-architecture-doc",
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/multiplayer/netcode-architecture.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D21-replication",
+      "dept": "D21",
+      "deptSlug": "multiplayer",
+      "deptName": "Multiplayer Engineering",
+      "deliverable": "replication",
+      "name": "Replication and Session Layer",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Replication and Session Layer for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Players join, play and leave a session without desync",
+        "Reconnect restores authoritative state",
+        "Bandwidth measured in a full session against the budget"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D21-netcode-architecture"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/multiplayer/replication.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D21-net-validation",
+      "dept": "D21",
+      "deptSlug": "multiplayer",
+      "deptName": "Multiplayer Engineering",
+      "deliverable": "net-validation",
+      "name": "Network Validation",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Network Validation for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Two-client test evidence attached including unauthorised actions rejected",
+        "Simulated latency and packet loss behaviour documented",
+        "No client-authoritative value can grant an unfair advantage"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D21-replication"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/multiplayer/net-validation.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

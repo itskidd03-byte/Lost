@@ -1,0 +1,94 @@
+{
+  "department": {
+    "id": "D16",
+    "slug": "cinematics",
+    "name": "Cinematics"
+  },
+  "updatedAt": "2026-11-19T04:35:42.847Z",
+  "tasks": [
+    {
+      "id": "D16-cinematic-plan",
+      "dept": "D16",
+      "deptSlug": "cinematics",
+      "deptName": "Cinematics",
+      "deliverable": "cinematic-plan",
+      "name": "Cinematic Plan",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Cinematic Plan for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every sequence listed with duration, trigger and skip behaviour",
+        "Shot list with framing and camera path",
+        "Subtitles, localisation and accessibility requirements stated"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D04-story-arc",
+        "D11-animation-list"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/cinematics/cinematic-plan.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D16-cutscene-set",
+      "dept": "D16",
+      "deptSlug": "cinematics",
+      "deptName": "Cinematics",
+      "deliverable": "cutscene-set",
+      "name": "Cutscene Set",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Cutscene Set for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every sequence plays in-engine without missing actors or audio",
+        "Skip, pause and subtitle controls all work",
+        "Camera does not clip through geometry in any shot"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D16-cinematic-plan"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/cinematics/cutscene-set.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D16-cinematic-review",
+      "dept": "D16",
+      "deptSlug": "cinematics",
+      "deptName": "Cinematics",
+      "deliverable": "cinematic-review",
+      "name": "Cinematic Review",
+      "phase": "polish",
+      "phaseOrder": 9,
+      "objective": "Produce the Cinematic Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Frame pacing and audio sync verified in a built version",
+        "Every sequence tested at the lowest quality tier"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D16-cutscene-set"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/cinematics/cinematic-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "department": {
+    "id": "D32",
+    "slug": "dynamic-world",
+    "name": "Dynamic World Systems"
+  },
+  "updatedAt": "2026-11-18T19:57:43.224Z",
+  "tasks": [
+    {
+      "id": "D32-dynamic-world-design",
+      "dept": "D32",
+      "deptSlug": "dynamic-world",
+      "deptName": "Dynamic World Systems",
+      "deliverable": "dynamic-world-design",
+      "name": "Dynamic World Design",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the Dynamic World Design for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Cycle lengths, weather probabilities and season effects stated numerically",
+        "Each dynamic system listed with its gameplay consequences",
+        "Persistence rules for destruction and change defined",
+        "Performance scaling rules stated per quality tier"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd",
+        "D03-world-bible"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/dynamic-world/dynamic-world-design.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D32-dynamic-world-implementation",
+      "dept": "D32",
+      "deptSlug": "dynamic-world",
+      "deptName": "Dynamic World Systems",
+      "deliverable": "dynamic-world-implementation",
+      "name": "Dynamic World Implementation",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Dynamic World Implementation for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Time, weather and seasons advance and are observable in a build",
+        "Effects on gameplay systems are applied through one authoritative clock",
+        "World state persists through save and load"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D32-dynamic-world-design",
+        "D12-lighting-setup"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/dynamic-world/dynamic-world-implementation.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D32-dynamic-world-review",
+      "dept": "D32",
+      "deptSlug": "dynamic-world",
+      "deptName": "Dynamic World Systems",
+      "deliverable": "dynamic-world-review",
+      "name": "Dynamic World Review",
+      "phase": "optimization",
+      "phaseOrder": 8,
+      "objective": "Produce the Dynamic World Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Worst-case weather and disaster scenarios measured within frame budget",
+        "No state desync between visuals, simulation and saved data",
+        "Lowest quality tier verified with all systems active"
+      ],
+      "checks": [
+        "profiling"
+      ],
+      "dependsOn": [
+        "D32-dynamic-world-implementation"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/dynamic-world/dynamic-world-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

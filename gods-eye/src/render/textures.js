@@ -21,7 +21,9 @@ export function terrainTexture(biome) {
   texture.wrapT = THREE.RepeatWrapping;
   texture.repeat.set(1.5, 1.5);
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 4;
+  // grass and rock are almost always seen at a shallow angle on a board this
+  // small, which is exactly where a low anisotropy setting smears them
+  texture.anisotropy = 8;
   tiles.set(biome, texture);
   return texture;
 }

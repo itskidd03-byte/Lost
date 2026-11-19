@@ -1,0 +1,100 @@
+{
+  "department": {
+    "id": "D33",
+    "slug": "quality-assurance",
+    "name": "Quality Assurance"
+  },
+  "updatedAt": "2026-11-19T04:35:42.850Z",
+  "tasks": [
+    {
+      "id": "D33-test-plan",
+      "dept": "D33",
+      "deptSlug": "quality-assurance",
+      "deptName": "Quality Assurance",
+      "deliverable": "test-plan",
+      "name": "Test Plan",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Test Plan for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every system in the GDD mapped to at least one test case",
+        "Automated versus manual split stated with commands to run",
+        "Entry and exit criteria defined per test cycle",
+        "Device and platform coverage matches the compatibility matrix"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd",
+        "D18-gameplay-systems"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/quality-assurance/test-plan.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D33-test-report",
+      "dept": "D33",
+      "deptSlug": "quality-assurance",
+      "deptName": "Quality Assurance",
+      "deliverable": "test-report",
+      "name": "Test Report",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Test Report for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Pass and fail counts with the exact commands and builds tested",
+        "Every failure linked to a bug report with reproduction steps",
+        "Blocking defects called out separately from cosmetic ones"
+      ],
+      "checks": [
+        "smoke"
+      ],
+      "dependsOn": [
+        "D33-test-plan"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/quality-assurance/test-report.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D33-regression-suite",
+      "dept": "D33",
+      "deptSlug": "quality-assurance",
+      "deptName": "Quality Assurance",
+      "deliverable": "regression-suite",
+      "name": "Regression Suite and Sign-off",
+      "phase": "release",
+      "phaseOrder": 10,
+      "objective": "Produce the Regression Suite and Sign-off for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Regression suite runs green on the release candidate",
+        "No open blocker or critical bug at sign-off",
+        "Every skipped test listed with the reason it was skipped"
+      ],
+      "checks": [
+        "smoke"
+      ],
+      "dependsOn": [
+        "D33-test-report"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/quality-assurance/regression-suite.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

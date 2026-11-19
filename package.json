@@ -11,7 +11,11 @@
     "smoke": "npx esbuild scripts/smoke.ts --bundle --platform=node --format=esm --outfile=.smoke/smoke.mjs --log-level=error && node .smoke/smoke.mjs",
     "longrun": "npx esbuild scripts/longrun.ts --bundle --platform=node --format=esm --outfile=.smoke/longrun.mjs --log-level=error && node .smoke/longrun.mjs",
     "memory": "npx esbuild scripts/memory-check.ts --bundle --platform=node --format=esm --outfile=.smoke/memory.mjs --log-level=error && node .smoke/memory.mjs",
-    "standalone": "npm run build && node scripts/make-standalone.mjs"
+    "standalone": "npm run build && node scripts/make-standalone.mjs",
+    "studio": "node studio/bin/studio.mjs",
+    "studio:validate": "node studio/bin/studio.mjs validate",
+    "studio:gen": "node studio/bin/studio.mjs gen",
+    "studio:test": "node --test studio/tests/"
   },
   "dependencies": {
     "three": "^0.170.0"

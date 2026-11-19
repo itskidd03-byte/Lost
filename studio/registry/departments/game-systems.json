@@ -1,0 +1,452 @@
+{
+  "division": "game-systems",
+  "departments": [
+    {
+      "id": "D23",
+      "slug": "shooter-systems",
+      "name": "Shooter Systems",
+      "division": "game-systems",
+      "mission": "Own gunplay and combat feel: weapons, ballistics, recoil, hit detection, damage, armour, cover and tactical combat behaviour.",
+      "activation": { "any": ["shooter", "fps", "tps", "combat", "military", "battle-royale", "extraction"] },
+      "capabilities": [
+        "first-person and third-person weapon handling",
+        "ballistics and projectile simulation",
+        "recoil patterns and spread models",
+        "hitscan and projectile hit detection",
+        "damage, armour and penetration",
+        "cover and suppression systems",
+        "weapon customisation and attachments",
+        "melee and finisher systems",
+        "combat readability and feedback"
+      ],
+      "deliverables": [
+        {
+          "id": "weapon-design",
+          "name": "Weapon and Combat Design",
+          "phase": "design",
+          "dependsOn": ["D02:gdd"],
+          "acceptance": [
+            "Every weapon listed with damage, rate of fire, spread and range numbers",
+            "Time-to-kill computed per weapon against each armour class",
+            "Counterplay and cover rules stated per engagement range"
+          ]
+        },
+        {
+          "id": "weapon-systems",
+          "name": "Weapon and Damage Systems",
+          "phase": "production",
+          "dependsOn": ["D23:weapon-design", "D18:prototype-build"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Every weapon fires, reloads and swaps with no state desync",
+            "Hit detection matches the visual model including edge cases",
+            "Damage and armour values read from the tuning table only"
+          ]
+        },
+        {
+          "id": "gunplay-review",
+          "name": "Gunplay Review",
+          "phase": "polish",
+          "dependsOn": ["D23:weapon-systems", "D13:vfx-set", "D11:animation-set"],
+          "acceptance": [
+            "Recoil, audio, VFX and animation cues aligned within the stated window",
+            "Measured time-to-kill matches the design table",
+            "No weapon is dominant or unusable across the tested skill range"
+          ]
+        }
+      ],
+      "inputs": ["combat design from D02", "controller and input from D18", "physics from D19", "animation and VFX sets"],
+      "handoffs": ["D20", "D13", "D14", "D33"],
+      "consults": ["D20", "D13", "D34"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "A weapon without computed time-to-kill numbers is rejected",
+        "Hit detection diverging from the visual model is a release blocker"
+      ]
+    },
+    {
+      "id": "D24",
+      "slug": "strategy-systems",
+      "name": "Civilisation and Strategy Systems",
+      "division": "game-systems",
+      "mission": "Build the machinery of civilisations and armies: factions, diplomacy, territory, warfare, technology and long-horizon world simulation.",
+      "activation": { "any": ["strategy", "grand-strategy", "rts", "4x", "civilization", "empire", "tactical", "military"] },
+      "capabilities": [
+        "autonomous civilisations and AI opponents",
+        "faction relationships and diplomacy",
+        "territory and border control",
+        "army composition and warfare",
+        "technology and research trees",
+        "political systems and internal stability",
+        "victory conditions",
+        "long-term world simulation step budget",
+        "strategic AI planning"
+      ],
+      "deliverables": [
+        {
+          "id": "strategy-design",
+          "name": "Strategy Systems Design",
+          "phase": "design",
+          "dependsOn": ["D02:gdd", "D03:world-bible"],
+          "acceptance": [
+            "Faction, territory, diplomacy and warfare rules stated with numbers",
+            "Technology tree or research path defined with costs and prerequisites",
+            "Victory and loss conditions enumerated",
+            "Simulation step budget per turn or tick stated"
+          ]
+        },
+        {
+          "id": "strategy-implementation",
+          "name": "Strategy System Implementation",
+          "phase": "production",
+          "dependsOn": ["D24:strategy-design", "D20:ai-design"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Factions act autonomously and observably in a running simulation",
+            "Diplomacy and warfare state transitions cannot deadlock",
+            "Turn or tick cost measured against the simulation budget"
+          ]
+        },
+        {
+          "id": "strategy-balance-review",
+          "name": "Strategy Balance Review",
+          "phase": "polish",
+          "dependsOn": ["D24:strategy-implementation", "D02:balance-plan"],
+          "acceptance": [
+            "Simulated matches show no dominant strategy or stalemate loop",
+            "AI difficulty tiers show measurable differences",
+            "Late-game simulation cost measured within budget"
+          ]
+        }
+      ],
+      "inputs": ["GDD from D02", "world bible from D03", "economy from D30", "population from D31", "AI from D20"],
+      "handoffs": ["D20", "D30", "D31", "D32", "D33"],
+      "consults": ["D30", "D31", "D20"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "A strategy system without a stated tick cost is rejected",
+        "AI opponents that cannot be distinguished by difficulty are rejected"
+      ]
+    },
+    {
+      "id": "D25",
+      "slug": "construction-systems",
+      "name": "Building and Construction Systems",
+      "division": "game-systems",
+      "mission": "Let players build: placement, snapping, structure, materials, terrain modification, interiors and construction simulation.",
+      "activation": { "any": ["construction", "sandbox", "city", "base-building", "building", "factory", "colony"] },
+      "capabilities": [
+        "grid and free placement",
+        "snapping, rotation and validity rules",
+        "structural integrity and support",
+        "material and cost systems",
+        "terrain deformation and landscaping",
+        "interior and furniture placement",
+        "construction equipment and process",
+        "blueprints, upgrade and demolition",
+        "placement performance and streaming"
+      ],
+      "deliverables": [
+        {
+          "id": "construction-design",
+          "name": "Construction Design",
+          "phase": "design",
+          "dependsOn": ["D02:gdd"],
+          "acceptance": [
+            "Placement rules, grid size and rotation steps stated",
+            "Structural support and collapse rules defined with numbers",
+            "Build costs, build times and upgrade paths tabulated",
+            "Maximum simultaneous structures stated against the performance budget"
+          ]
+        },
+        {
+          "id": "construction-implementation",
+          "name": "Construction Implementation",
+          "phase": "production",
+          "dependsOn": ["D25:construction-design", "D19:collision-and-bodies"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Placement, snapping and demolition work with correct validity feedback",
+            "Structures persist through save and load",
+            "Terrain deformation matches collision and navigation"
+          ]
+        },
+        {
+          "id": "construction-stress-review",
+          "name": "Construction Stress Review",
+          "phase": "testing",
+          "dependsOn": ["D25:construction-implementation"],
+          "checks": ["profiling"],
+          "acceptance": [
+            "Frame cost measured at the maximum permitted structure count",
+            "No floating, intersecting or orphaned structures in a stress build",
+            "Save and reload of a full build verified once"
+          ]
+        }
+      ],
+      "inputs": ["GDD from D02", "models and kits from D06 and D08", "physics from D19", "terrain from D29"],
+      "handoffs": ["D33", "D34", "D30"],
+      "consults": ["D29", "D19", "D34"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "A building system with no invalid-placement feedback is rejected",
+        "Structures that vanish or duplicate on save/load are release blockers"
+      ]
+    },
+    {
+      "id": "D26",
+      "slug": "mining-resources",
+      "name": "Mining and Resource Systems",
+      "division": "game-systems",
+      "mission": "Own extraction and processing: mining, destructible terrain, underground generation, ore distribution, refining and crafting economies.",
+      "activation": { "any": ["mining", "resources", "crafting", "industry", "factory", "survival", "colony", "economy"] },
+      "capabilities": [
+        "mining and extraction mechanics",
+        "destructible and deformable terrain",
+        "underground and cave generation",
+        "ore and resource distribution",
+        "processing, smelting and refining chains",
+        "crafting recipes and unlocks",
+        "resource economies and depletion",
+        "geological and strata simulation",
+        "vein discovery and survey tools"
+      ],
+      "deliverables": [
+        {
+          "id": "geology-spec",
+          "name": "Geology and Resource Spec",
+          "phase": "design",
+          "dependsOn": ["D02:gdd", "D03:world-bible"],
+          "acceptance": [
+            "Strata, ore types and spawn rules defined with distribution numbers",
+            "Extraction rates, tool tiers and yields tabulated",
+            "Depletion and regeneration policy stated",
+            "Underground generation constraints stated for D29"
+          ]
+        },
+        {
+          "id": "mining-mechanics",
+          "name": "Mining and Processing Implementation",
+          "phase": "production",
+          "dependsOn": ["D26:geology-spec", "D19:collision-and-bodies"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Mining and terrain deformation work with correct collision updates",
+            "Processing and crafting chains produce the specified outputs",
+            "Resource counts survive save and load"
+          ]
+        },
+        {
+          "id": "economy-integration-review",
+          "name": "Resource Economy Review",
+          "phase": "polish",
+          "dependsOn": ["D26:mining-mechanics", "D30:economy-model"],
+          "acceptance": [
+            "Resource sinks and faucets reconciled against the economy model",
+            "No infinite or degenerate resource loop in a soak simulation",
+            "Measured time-to-tier progression matches the design target"
+          ]
+        }
+      ],
+      "inputs": ["GDD from D02", "world bible from D03", "physics from D19", "procedural terrain from D29", "economy model from D30"],
+      "handoffs": ["D30", "D33", "D34", "D29"],
+      "consults": ["D29", "D30", "D19"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "A resource system with no depletion or sink is rejected",
+        "Terrain deformation that desynchronises collision is a blocker"
+      ]
+    },
+    {
+      "id": "D27",
+      "slug": "survival-systems",
+      "name": "Survival and Simulation Systems",
+      "division": "game-systems",
+      "mission": "Simulate the pressure of staying alive: needs, health, hazards, wildlife, farming, hunting, crafting and ecosystems.",
+      "activation": { "any": ["survival", "farming", "life-sim", "ecology", "wildlife", "extraction", "crafting", "colony"] },
+      "capabilities": [
+        "hunger, thirst, temperature and fatigue",
+        "health, injury and disease models",
+        "environmental hazards and shelter",
+        "wildlife behaviour and hunting",
+        "farming, crops and seasons",
+        "cooking, crafting and consumables",
+        "shelter and base upkeep",
+        "ecosystem and resource regeneration",
+        "difficulty and accessibility of survival pressure"
+      ],
+      "deliverables": [
+        {
+          "id": "survival-design",
+          "name": "Survival Systems Design",
+          "phase": "design",
+          "dependsOn": ["D02:gdd"],
+          "acceptance": [
+            "Every need listed with drain rate, threshold and consequence",
+            "Hazard, disease and injury tables with numbers",
+            "Crop, wildlife and regeneration cycles stated in in-game time",
+            "Accessibility options for survival pressure defined"
+          ]
+        },
+        {
+          "id": "survival-implementation",
+          "name": "Survival Systems Implementation",
+          "phase": "production",
+          "dependsOn": ["D27:survival-design", "D18:gameplay-systems"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Every need, hazard and consumable behaves to the tables",
+            "Wildlife and crops cycle correctly over in-game time",
+            "Survival state persists correctly across save and load"
+          ]
+        },
+        {
+          "id": "survival-balance-review",
+          "name": "Survival Balance Review",
+          "phase": "polish",
+          "dependsOn": ["D27:survival-implementation"],
+          "acceptance": [
+            "Time-to-death from each pressure source measured and inside design range",
+            "No resource loop trivialises survival in a long simulation",
+            "Difficulty tiers verified as distinct"
+          ]
+        }
+      ],
+      "inputs": ["GDD from D02", "world ecology from D03 and D32", "wildlife models from D06", "AI from D20", "economy from D30"],
+      "handoffs": ["D30", "D32", "D33"],
+      "consults": ["D32", "D20", "D30"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "A survival need with no consequence or no recovery path is rejected",
+        "Balance claims without simulated time-series data are rejected"
+      ]
+    },
+    {
+      "id": "D28",
+      "slug": "vehicle-engineering",
+      "name": "Vehicle Engineering",
+      "division": "game-systems",
+      "mission": "Build vehicles that feel physical and fair: cars, bikes, trucks, aircraft, boats, tanks, damage, fuel and vehicle AI.",
+      "activation": { "any": ["vehicles", "racing", "flight", "naval", "driving", "tanks"], "dimensions": ["3d"] },
+      "capabilities": [
+        "wheeled and tracked vehicle dynamics",
+        "aircraft and boat handling",
+        "suspension, grip and surface response",
+        "vehicle damage and deformation",
+        "fuel, repair and maintenance",
+        "vehicle customisation and tuning",
+        "vehicle AI and traffic",
+        "vehicle audio and camera integration",
+        "vehicle networking and prediction"
+      ],
+      "deliverables": [
+        {
+          "id": "vehicle-design",
+          "name": "Vehicle Design and Handling Targets",
+          "phase": "design",
+          "dependsOn": ["D02:gdd"],
+          "acceptance": [
+            "Every vehicle class listed with mass, top speed, acceleration and grip targets",
+            "Damage model and failure states defined",
+            "Handling reference points stated for tuning comparison"
+          ]
+        },
+        {
+          "id": "vehicle-implementation",
+          "name": "Vehicle Implementation",
+          "phase": "production",
+          "dependsOn": ["D28:vehicle-design", "D19:collision-and-bodies"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Every vehicle drives to its handling targets on every surface type",
+            "Damage, repair and fuel behave to the design",
+            "Vehicle state and position survive save and load"
+          ]
+        },
+        {
+          "id": "vehicle-review",
+          "name": "Vehicle Handling Review",
+          "phase": "polish",
+          "dependsOn": ["D28:vehicle-implementation"],
+          "acceptance": [
+            "Measured acceleration and top speed match the targets",
+            "No vehicle can clip through terrain or launch uncontrollably",
+            "Handling verified with each supported input device"
+          ]
+        }
+      ],
+      "inputs": ["GDD from D02", "physics from D19", "vehicle models from D06", "sound from D14"],
+      "handoffs": ["D20", "D33", "D34"],
+      "consults": ["D19", "D20", "D12"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "A vehicle with no measured handling numbers is rejected",
+        "Terrain clipping or uncontrollable launch is a release blocker"
+      ]
+    },
+    {
+      "id": "D29",
+      "slug": "procedural-generation",
+      "name": "Procedural Generation",
+      "division": "game-systems",
+      "mission": "Generate worlds that hold up: terrain, caves, dungeons, settlements, missions, populations and dynamic environments.",
+      "activation": { "any": ["procedural", "roguelike", "openworld", "generation", "sandbox", "survival", "mining"] },
+      "capabilities": [
+        "terrain and heightfield generation",
+        "biome and climate distribution",
+        "cave, mine and dungeon generation",
+        "settlement and building generation",
+        "mission and encounter generation",
+        "population and loot placement",
+        "seeded determinism and reproducibility",
+        "generation performance and streaming",
+        "validation of generated content"
+      ],
+      "deliverables": [
+        {
+          "id": "generation-design",
+          "name": "Generation Design",
+          "phase": "design",
+          "dependsOn": ["D03:world-bible", "D02:gdd"],
+          "acceptance": [
+            "Every generated layer listed with its algorithm and seed strategy",
+            "Guaranteed-content rules stated (what must always exist)",
+            "Determinism requirement stated: same seed, same world",
+            "Generation budget in milliseconds per chunk stated"
+          ]
+        },
+        {
+          "id": "generation-implementation",
+          "name": "Generator Implementation",
+          "phase": "production",
+          "dependsOn": ["D29:generation-design"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Same seed reproduces the same world exactly",
+            "Generated content always satisfies the guaranteed-content rules",
+            "Chunk generation measured within its time budget"
+          ]
+        },
+        {
+          "id": "generation-soak",
+          "name": "Generation Soak Test",
+          "phase": "testing",
+          "dependsOn": ["D29:generation-implementation"],
+          "acceptance": [
+            "At least 100 seeds generated with no unreachable or invalid content",
+            "Worst-case generation time measured and within budget",
+            "Failure modes documented with reproduction seeds"
+          ]
+        }
+      ],
+      "inputs": ["world bible from D03", "GDD from D02", "terrain and prop kits from D08", "physics constraints from D19"],
+      "handoffs": ["D03", "D08", "D25", "D26", "D32"],
+      "consults": ["D34", "D08", "D03"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "A generator that is not seed-deterministic is rejected",
+        "Generated content with unreachable areas or missing required content is rejected"
+      ]
+    }
+  ]
+}

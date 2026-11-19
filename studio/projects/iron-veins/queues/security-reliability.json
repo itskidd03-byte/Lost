@@ -1,0 +1,96 @@
+{
+  "department": {
+    "id": "D36",
+    "slug": "security-reliability",
+    "name": "Security and Reliability"
+  },
+  "updatedAt": "2026-11-18T19:57:43.225Z",
+  "tasks": [
+    {
+      "id": "D36-threat-model",
+      "dept": "D36",
+      "deptSlug": "security-reliability",
+      "deptName": "Security and Reliability",
+      "deliverable": "threat-model",
+      "name": "Threat Model",
+      "phase": "technical",
+      "phaseOrder": 3,
+      "objective": "Produce the Threat Model for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Assets, actors and trust boundaries enumerated",
+        "Each threat rated with impact and likelihood",
+        "Every client-supplied value listed with its server validation rule",
+        "Secrets handling and storage stated"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D17-architecture-doc"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/security-reliability/threat-model.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D36-security-hardening",
+      "dept": "D36",
+      "deptSlug": "security-reliability",
+      "deptName": "Security and Reliability",
+      "deliverable": "security-hardening",
+      "name": "Security Hardening",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Security Hardening for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Save tampering and malformed input rejected without crashing",
+        "Abuse paths tested and rate limited",
+        "Dependency audit run with findings triaged"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D36-threat-model",
+        "D22-persistence-layer"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/security-reliability/security-hardening.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D36-integrity-audit",
+      "dept": "D36",
+      "deptSlug": "security-reliability",
+      "deptName": "Security and Reliability",
+      "deliverable": "integrity-audit",
+      "name": "Release Integrity Audit",
+      "phase": "release",
+      "phaseOrder": 10,
+      "objective": "Produce the Release Integrity Audit for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "No critical or high unmitigated finding remains",
+        "Credentials absent from client code, logs and shipped files",
+        "Rollback or recovery procedure documented and tested once"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D36-security-hardening"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/security-reliability/integrity-audit.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

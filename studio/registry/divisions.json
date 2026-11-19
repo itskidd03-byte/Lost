@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "divisions": [
+    {
+      "id": "creative-design",
+      "order": 1,
+      "name": "Creative and Design",
+      "purpose": "Decide what the game is, why it exists, how it plays and what the player sees and feels.",
+      "deptRange": "D01-D05"
+    },
+    {
+      "id": "graphics-audio",
+      "order": 2,
+      "name": "Graphics and Audio",
+      "purpose": "Produce every visible and audible asset, from models and materials to lighting, effects, sound and score.",
+      "deptRange": "D06-D16"
+    },
+    {
+      "id": "engineering",
+      "order": 3,
+      "name": "Engineering",
+      "purpose": "Own the engine, the runtime, the code that makes systems real and the data that keeps a game alive.",
+      "deptRange": "D17-D22"
+    },
+    {
+      "id": "game-systems",
+      "order": 4,
+      "name": "Specialised Game Systems",
+      "purpose": "Own the genre-defining mechanics: shooting, strategy, construction, mining, survival, vehicles and generation.",
+      "deptRange": "D23-D29"
+    },
+    {
+      "id": "simulation",
+      "order": 5,
+      "name": "Simulation and World Systems",
+      "purpose": "Keep the world believable over time: economies, societies and dynamic environmental systems.",
+      "deptRange": "D30-D32"
+    },
+    {
+      "id": "qa-operations",
+      "order": 6,
+      "name": "QA, Production and Operations",
+      "purpose": "Prove the game works, make it fast on real hardware, keep it safe and ship it on schedule.",
+      "deptRange": "D33-D40"
+    },
+    {
+      "id": "research-innovation",
+      "order": 7,
+      "name": "Studio Research and Innovation",
+      "purpose": "Continuously discover engines, rendering techniques, AI systems, licensed asset libraries, optimisation methods and tooling, and turn findings into adoptable proposals.",
+      "deptRange": "D41"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "department": {
+    "id": "D03",
+    "slug": "world-building",
+    "name": "World Building"
+  },
+  "updatedAt": "2026-11-19T04:35:42.844Z",
+  "tasks": [
+    {
+      "id": "D03-world-bible",
+      "dept": "D03",
+      "deptSlug": "world-building",
+      "deptName": "World Building",
+      "deliverable": "world-bible",
+      "name": "World Bible",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the World Bible for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Regions and biomes listed with gameplay purpose for each",
+        "Landmark and point-of-interest budget stated in numbers",
+        "World history and faction context that explains the current state",
+        "Scale and traversal times consistent with the movement budget"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D01-concept-brief",
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/world-building/world-bible.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D03-world-layout",
+      "dept": "D03",
+      "deptSlug": "world-building",
+      "deptName": "World Building",
+      "deliverable": "world-layout",
+      "name": "World Layout and Biome Table",
+      "phase": "art-direction",
+      "phaseOrder": 4,
+      "objective": "Produce the World Layout and Biome Table for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Playable-space map or schematic with coordinates or grid",
+        "Per-biome palette, prop set and density targets",
+        "Hand-authored versus generated areas explicitly divided"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D03-world-bible"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/world-building/world-layout.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D03-world-consistency-review",
+      "dept": "D03",
+      "deptSlug": "world-building",
+      "deptName": "World Building",
+      "deliverable": "world-consistency-review",
+      "name": "World Consistency Review",
+      "phase": "polish",
+      "phaseOrder": 9,
+      "objective": "Produce the World Consistency Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Named locations in the build match the world bible or the bible is updated",
+        "Traversal times measured in the build against the stated budget"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D03-world-layout"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/world-building/world-consistency-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

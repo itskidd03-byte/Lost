@@ -1,0 +1,95 @@
+{
+  "department": {
+    "id": "D41",
+    "slug": "research-innovation",
+    "name": "Studio Research and Innovation"
+  },
+  "updatedAt": "2026-11-18T19:57:43.226Z",
+  "tasks": [
+    {
+      "id": "D41-tech-radar",
+      "dept": "D41",
+      "deptSlug": "research-innovation",
+      "deptName": "Studio Research and Innovation",
+      "deliverable": "tech-radar",
+      "name": "Technology Radar",
+      "phase": "concept",
+      "phaseOrder": 1,
+      "objective": "Produce the Technology Radar for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every finding labelled adopt, trial, assess or hold",
+        "Each finding carries a source URL and access date",
+        "Licence and platform implications stated for anything shippable",
+        "A stated relevance to this project, not general commentary"
+      ],
+      "checks": [],
+      "dependsOn": [],
+      "waivedDeps": [],
+      "artifact": "deliverables/research-innovation/tech-radar.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D41-evaluation-report",
+      "dept": "D41",
+      "deptSlug": "research-innovation",
+      "deptName": "Studio Research and Innovation",
+      "deliverable": "evaluation-report",
+      "name": "Technique Evaluation",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the Technique Evaluation for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "The technique is tried in a minimal reproducible test, not summarised",
+        "Measured cost or quality result attached where measurable",
+        "Integration effort and risk estimated",
+        "Recommendation given with the alternative it replaces"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D41-tech-radar"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/research-innovation/evaluation-report.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D41-adoption-proposal",
+      "dept": "D41",
+      "deptSlug": "research-innovation",
+      "deptName": "Studio Research and Innovation",
+      "deliverable": "adoption-proposal",
+      "name": "Adoption Proposal",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Adoption Proposal for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Owner department named for the adopted technique",
+        "Migration steps and rollback path written",
+        "Expected benefit stated in measurable terms",
+        "Studio Director decision recorded in the decision log"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D41-evaluation-report"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/research-innovation/adoption-proposal.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

@@ -1,0 +1,198 @@
+{
+  "division": "simulation",
+  "departments": [
+    {
+      "id": "D30",
+      "slug": "economy-simulation",
+      "name": "Economy and Simulation",
+      "division": "simulation",
+      "mission": "Make value circulate: supply and demand, currency, production chains, markets, scarcity and believable economic actors.",
+      "activation": { "any": ["economy", "trading", "strategy", "city", "mining", "crafting", "simulation", "colony", "life-sim"] },
+      "capabilities": [
+        "supply and demand modelling",
+        "currency and price formation",
+        "production and supply chains",
+        "market and trade systems",
+        "scarcity and inflation control",
+        "NPC and faction economic behaviour",
+        "business and budget management",
+        "economic balancing and telemetry",
+        "anti-exploit economic validation"
+      ],
+      "deliverables": [
+        {
+          "id": "economy-model",
+          "name": "Economy Model",
+          "phase": "design",
+          "dependsOn": ["D02:gdd"],
+          "acceptance": [
+            "Every good and currency listed with source, sink and base value",
+            "Price formation and update cadence specified",
+            "Production chain graph included with conversion rates",
+            "Failure states (hyperinflation, dead markets) stated with guards"
+          ]
+        },
+        {
+          "id": "economy-implementation",
+          "name": "Economy Implementation",
+          "phase": "production",
+          "dependsOn": ["D30:economy-model", "D22:persistence-layer"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Prices respond to supply and demand as modelled",
+            "Transactions are atomic and cannot duplicate value",
+            "Economy state persists through save and load"
+          ]
+        },
+        {
+          "id": "economy-soak",
+          "name": "Economy Soak and Exploit Review",
+          "phase": "testing",
+          "dependsOn": ["D30:economy-implementation"],
+          "acceptance": [
+            "Long-run simulation shows no runaway inflation or currency collapse",
+            "Known money-duplication paths tested and closed",
+            "Price and volume time series attached as evidence"
+          ]
+        }
+      ],
+      "inputs": ["GDD from D02", "resource design from D26", "population from D31", "persistence from D22"],
+      "handoffs": ["D24", "D26", "D27", "D31", "D33"],
+      "consults": ["D31", "D22"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "An economy with no sink or no failure guard is rejected",
+        "Any duplication exploit found in testing is a release blocker"
+      ]
+    },
+    {
+      "id": "D31",
+      "slug": "population-simulation",
+      "name": "Population and Society Simulation",
+      "division": "simulation",
+      "mission": "Populate the world with people who have identity, routine and relationships, and let their society evolve plausibly.",
+      "activation": { "any": ["population", "city", "strategy", "society", "npc", "life-sim", "colony", "mmorpg"] },
+      "capabilities": [
+        "NPC identity and name generation",
+        "daily schedules and routines",
+        "jobs, roles and assignment",
+        "relationships, families and factions",
+        "personality and preference models",
+        "social interaction and dialogue hooks",
+        "population growth and migration",
+        "autonomous decision making",
+        "crowd simulation and performance scaling"
+      ],
+      "deliverables": [
+        {
+          "id": "population-design",
+          "name": "Population and Society Design",
+          "phase": "design",
+          "dependsOn": ["D02:gdd", "D03:world-bible"],
+          "acceptance": [
+            "NPC archetypes listed with roles, schedules and needs",
+            "Relationship and faction model defined",
+            "Population caps and simulation LOD stated in numbers",
+            "Identity generation rules stated so no two NPCs are identical"
+          ]
+        },
+        {
+          "id": "population-implementation",
+          "name": "Population Simulation",
+          "phase": "production",
+          "dependsOn": ["D31:population-design", "D20:ai-design"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "NPCs follow schedules and change jobs and relationships over time",
+            "Population simulation runs within its per-tick budget at cap",
+            "Simulation state persists through save and load"
+          ]
+        },
+        {
+          "id": "society-review",
+          "name": "Society Simulation Review",
+          "phase": "polish",
+          "dependsOn": ["D31:population-implementation"],
+          "acceptance": [
+            "Long-run simulation does not collapse, stall or produce immortal NPCs",
+            "Off-screen simulation LOD verified as behaviour-preserving",
+            "Measured tick cost at maximum population attached"
+          ]
+        }
+      ],
+      "inputs": ["GDD from D02", "world bible from D03", "character art from D10", "AI from D20", "economy from D30"],
+      "handoffs": ["D20", "D24", "D27", "D30", "D33"],
+      "consults": ["D20", "D30", "D34"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "A population system with no cap or LOD is rejected",
+        "NPCs without identity or role variation are rejected"
+      ]
+    },
+    {
+      "id": "D32",
+      "slug": "dynamic-world",
+      "name": "Dynamic World Systems",
+      "division": "simulation",
+      "mission": "Keep the world moving: day and night, weather, seasons, disasters, environmental change and persistent destruction.",
+      "activation": { "any": ["weather", "seasons", "daynight", "openworld", "survival", "farming", "disasters", "ecology", "dynamic-world"] },
+      "capabilities": [
+        "day and night cycle",
+        "weather systems and transitions",
+        "seasonal change and its gameplay effects",
+        "natural disasters",
+        "environmental degradation and recovery",
+        "persistent destruction and repair",
+        "world events and scheduling",
+        "ecosystem simulation",
+        "dynamic world performance scaling"
+      ],
+      "deliverables": [
+        {
+          "id": "dynamic-world-design",
+          "name": "Dynamic World Design",
+          "phase": "design",
+          "dependsOn": ["D02:gdd", "D03:world-bible"],
+          "acceptance": [
+            "Cycle lengths, weather probabilities and season effects stated numerically",
+            "Each dynamic system listed with its gameplay consequences",
+            "Persistence rules for destruction and change defined",
+            "Performance scaling rules stated per quality tier"
+          ]
+        },
+        {
+          "id": "dynamic-world-implementation",
+          "name": "Dynamic World Implementation",
+          "phase": "production",
+          "dependsOn": ["D32:dynamic-world-design", "D12:lighting-setup"],
+          "checks": ["typecheck"],
+          "acceptance": [
+            "Time, weather and seasons advance and are observable in a build",
+            "Effects on gameplay systems are applied through one authoritative clock",
+            "World state persists through save and load"
+          ]
+        },
+        {
+          "id": "dynamic-world-review",
+          "name": "Dynamic World Review",
+          "phase": "optimization",
+          "dependsOn": ["D32:dynamic-world-implementation"],
+          "checks": ["profiling"],
+          "acceptance": [
+            "Worst-case weather and disaster scenarios measured within frame budget",
+            "No state desync between visuals, simulation and saved data",
+            "Lowest quality tier verified with all systems active"
+          ]
+        }
+      ],
+      "inputs": ["GDD from D02", "world bible from D03", "lighting from D12", "VFX from D13", "survival from D27", "ecology from D27"],
+      "handoffs": ["D12", "D13", "D27", "D33", "D34"],
+      "consults": ["D12", "D34", "D27"],
+      "tools": ["write_file", "read_files", "code_search", "run_terminal_command"],
+      "gates": [
+        "A dynamic system with no persisted state is rejected",
+        "Unbounded weather VFX cost is rejected"
+      ]
+    }
+  ]
+}

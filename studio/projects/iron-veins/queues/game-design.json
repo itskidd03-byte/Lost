@@ -1,0 +1,102 @@
+{
+  "department": {
+    "id": "D02",
+    "slug": "game-design",
+    "name": "Game Design"
+  },
+  "updatedAt": "2026-11-18T19:57:43.220Z",
+  "tasks": [
+    {
+      "id": "D02-gdd",
+      "dept": "D02",
+      "deptSlug": "game-design",
+      "deptName": "Game Design",
+      "deliverable": "gdd",
+      "name": "Game Design Document",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the Game Design Document for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Core loop described as a cycle with a stated time to first reward",
+        "Every mechanic has inputs, rules, failure states and feedback",
+        "Progression and difficulty described with actual numbers and ranges",
+        "An explicit out-of-scope list signed by the Studio Director"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D01-concept-brief"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/game-design/gdd.md",
+      "status": "approved",
+      "attempts": 1,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:56:28.254Z",
+      "reviews": [
+        {
+          "at": "2026-11-18T19:56:28.254Z",
+          "decision": "approved",
+          "reviewer": "Studio Director",
+          "note": "Twelve mechanics with owners, five tool tiers, nine priced ores, three difficulty tiers and a numeric differentiator test. Out-of-scope list matches decision D-0001, which I recorded before approving.",
+          "override": false
+        }
+      ],
+      "skips": []
+    },
+    {
+      "id": "D02-balance-plan",
+      "dept": "D02",
+      "deptSlug": "game-design",
+      "deptName": "Game Design",
+      "deliverable": "balance-plan",
+      "name": "Balance and Tuning Plan",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Balance and Tuning Plan for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Tuning tables or curves with base values and permitted ranges",
+        "Economy or progression faucets and sinks named and scoped",
+        "Every tuned value has a telemetry hook or a deterministic test"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/game-design/balance-plan.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D02-design-tuning-report",
+      "dept": "D02",
+      "deptSlug": "game-design",
+      "deptName": "Game Design",
+      "deliverable": "design-tuning-report",
+      "name": "Tuning Report",
+      "phase": "polish",
+      "phaseOrder": 9,
+      "objective": "Produce the Tuning Report for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Measured playtest or simulation data attached, not opinion",
+        "Each change traced to data or a decision record"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-balance-plan"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/game-design/design-tuning-report.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

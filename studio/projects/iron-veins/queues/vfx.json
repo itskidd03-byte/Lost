@@ -1,0 +1,97 @@
+{
+  "department": {
+    "id": "D13",
+    "slug": "vfx",
+    "name": "VFX"
+  },
+  "updatedAt": "2026-11-18T19:57:43.222Z",
+  "tasks": [
+    {
+      "id": "D13-vfx-list",
+      "dept": "D13",
+      "deptSlug": "vfx",
+      "deptName": "VFX",
+      "deliverable": "vfx-list",
+      "name": "VFX List and Budget",
+      "phase": "art-direction",
+      "phaseOrder": 4,
+      "objective": "Produce the VFX List and Budget for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every gameplay event mapped to an effect with priority",
+        "Particle and overdraw budgets stated per effect class",
+        "Cue timing in milliseconds aligned to animation cancel windows"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd",
+        "D01-art-direction"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/vfx/vfx-list.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D13-vfx-set",
+      "dept": "D13",
+      "deptSlug": "vfx",
+      "deptName": "VFX",
+      "deliverable": "vfx-set",
+      "name": "VFX Set",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the VFX Set for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every listed effect exists, triggers on its event and cleans up",
+        "Effects pooled and capped to the stated particle budget",
+        "Effect LOD present for the lowest quality tier"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D13-vfx-list"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/vfx/vfx-set.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D13-vfx-budget-review",
+      "dept": "D13",
+      "deptSlug": "vfx",
+      "deptName": "VFX",
+      "deliverable": "vfx-budget-review",
+      "name": "VFX Budget Review",
+      "phase": "optimization",
+      "phaseOrder": 8,
+      "objective": "Produce the VFX Budget Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Worst-case simultaneous effects measured and within budget",
+        "Overdraw hotspots identified with a fix",
+        "Effects verified at the lowest quality tier"
+      ],
+      "checks": [
+        "profiling"
+      ],
+      "dependsOn": [
+        "D13-vfx-set"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/vfx/vfx-budget-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "department": {
+    "id": "D19",
+    "slug": "physics",
+    "name": "Physics Engineering"
+  },
+  "updatedAt": "2026-11-18T19:57:43.223Z",
+  "tasks": [
+    {
+      "id": "D19-physics-spec",
+      "dept": "D19",
+      "deptSlug": "physics",
+      "deptName": "Physics Engineering",
+      "deliverable": "physics-spec",
+      "name": "Physics Specification",
+      "phase": "technical",
+      "phaseOrder": 3,
+      "objective": "Produce the Physics Specification for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Fixed timestep, substeps and interpolation policy stated",
+        "Collision layers and their interactions tabulated",
+        "Determinism requirements stated for multiplayer or replay use"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D17-architecture-doc",
+        "D18-controller-spec"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/physics/physics-spec.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D19-collision-and-bodies",
+      "dept": "D19",
+      "deptSlug": "physics",
+      "deptName": "Physics Engineering",
+      "deliverable": "collision-and-bodies",
+      "name": "Collision and Body Setup",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Collision and Body Setup for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every collidable object has an appropriate collider and layer",
+        "Character controller handles slopes, steps and edges without sticking",
+        "Projectiles and destructibles behave to the GDD numbers"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D19-physics-spec"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/physics/collision-and-bodies.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D19-physics-validation",
+      "dept": "D19",
+      "deptSlug": "physics",
+      "deptName": "Physics Engineering",
+      "deliverable": "physics-validation",
+      "name": "Physics Validation",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Physics Validation for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "No tunnelling through walls at maximum speed",
+        "Object counts at peak measured against the physics budget",
+        "Known edge cases documented with reproduction steps"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D19-collision-and-bodies"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/physics/physics-validation.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

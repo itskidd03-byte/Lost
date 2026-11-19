@@ -1,0 +1,116 @@
+{
+  "department": {
+    "id": "D03",
+    "slug": "world-building",
+    "name": "World Building"
+  },
+  "updatedAt": "2026-11-18T19:57:43.220Z",
+  "tasks": [
+    {
+      "id": "D03-world-bible",
+      "dept": "D03",
+      "deptSlug": "world-building",
+      "deptName": "World Building",
+      "deliverable": "world-bible",
+      "name": "World Bible",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the World Bible for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Regions and biomes listed with gameplay purpose for each",
+        "Landmark and point-of-interest budget stated in numbers",
+        "World history and faction context that explains the current state",
+        "Scale and traversal times consistent with the movement budget"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D01-concept-brief",
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/world-building/world-bible.md",
+      "status": "approved",
+      "attempts": 1,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:57:43.219Z",
+      "reviews": [
+        {
+          "at": "2026-11-18T19:57:43.218Z",
+          "decision": "approved",
+          "reviewer": "Studio Director",
+          "note": "Six bands with one pressure each, 12 POIs with 6 hand-authored landmarks, four factions and a timeline that explains the mine's physical state. Six generator guarantees are testable and handed to D29; traversal matches the GDD budget.",
+          "override": false
+        }
+      ],
+      "skips": [],
+      "lastGate": {
+        "at": "2026-11-18T19:57:43.143Z",
+        "ok": true,
+        "structural": {
+          "ok": true,
+          "problems": [],
+          "notes": [],
+          "chars": 14191,
+          "words": 2521
+        },
+        "checks": [],
+        "skipped": 0
+      }
+    },
+    {
+      "id": "D03-world-layout",
+      "dept": "D03",
+      "deptSlug": "world-building",
+      "deptName": "World Building",
+      "deliverable": "world-layout",
+      "name": "World Layout and Biome Table",
+      "phase": "art-direction",
+      "phaseOrder": 4,
+      "objective": "Produce the World Layout and Biome Table for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Playable-space map or schematic with coordinates or grid",
+        "Per-biome palette, prop set and density targets",
+        "Hand-authored versus generated areas explicitly divided"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D03-world-bible"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/world-building/world-layout.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D03-world-consistency-review",
+      "dept": "D03",
+      "deptSlug": "world-building",
+      "deptName": "World Building",
+      "deliverable": "world-consistency-review",
+      "name": "World Consistency Review",
+      "phase": "polish",
+      "phaseOrder": 9,
+      "objective": "Produce the World Consistency Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Named locations in the build match the world bible or the bible is updated",
+        "Traversal times measured in the build against the stated budget"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D03-world-layout"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/world-building/world-consistency-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

@@ -47,4 +47,6 @@ duplicating binaries.
 ## Departments
 
 `graphics`, `environment`, `character-ai`, `animation`, `quality-control` and `research` are described in
-`schemas/worker-schema.json`; each department consumes the same asset and memory records.
+`schemas/worker-schema.json`; each department consumes the same asset and memory records. The full
+operating studio above them — 41 departments, a Studio Director, queues, gates and the ten-phase pipeline
+— lives in [`studio/`](studio/README.md) and is driven by `npm run studio -- help`.

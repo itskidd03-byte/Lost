@@ -1,0 +1,100 @@
+{
+  "department": {
+    "id": "D25",
+    "slug": "construction-systems",
+    "name": "Building and Construction Systems"
+  },
+  "updatedAt": "2026-11-19T04:35:42.848Z",
+  "tasks": [
+    {
+      "id": "D25-construction-design",
+      "dept": "D25",
+      "deptSlug": "construction-systems",
+      "deptName": "Building and Construction Systems",
+      "deliverable": "construction-design",
+      "name": "Construction Design",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the Construction Design for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Placement rules, grid size and rotation steps stated",
+        "Structural support and collapse rules defined with numbers",
+        "Build costs, build times and upgrade paths tabulated",
+        "Maximum simultaneous structures stated against the performance budget"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/construction-systems/construction-design.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D25-construction-implementation",
+      "dept": "D25",
+      "deptSlug": "construction-systems",
+      "deptName": "Building and Construction Systems",
+      "deliverable": "construction-implementation",
+      "name": "Construction Implementation",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Construction Implementation for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Placement, snapping and demolition work with correct validity feedback",
+        "Structures persist through save and load",
+        "Terrain deformation matches collision and navigation"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D25-construction-design",
+        "D19-collision-and-bodies"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/construction-systems/construction-implementation.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D25-construction-stress-review",
+      "dept": "D25",
+      "deptSlug": "construction-systems",
+      "deptName": "Building and Construction Systems",
+      "deliverable": "construction-stress-review",
+      "name": "Construction Stress Review",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Construction Stress Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Frame cost measured at the maximum permitted structure count",
+        "No floating, intersecting or orphaned structures in a stress build",
+        "Save and reload of a full build verified once"
+      ],
+      "checks": [
+        "profiling"
+      ],
+      "dependsOn": [
+        "D25-construction-implementation"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/construction-systems/construction-stress-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

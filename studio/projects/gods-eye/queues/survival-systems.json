@@ -1,0 +1,98 @@
+{
+  "department": {
+    "id": "D27",
+    "slug": "survival-systems",
+    "name": "Survival and Simulation Systems"
+  },
+  "updatedAt": "2026-11-19T04:35:42.849Z",
+  "tasks": [
+    {
+      "id": "D27-survival-design",
+      "dept": "D27",
+      "deptSlug": "survival-systems",
+      "deptName": "Survival and Simulation Systems",
+      "deliverable": "survival-design",
+      "name": "Survival Systems Design",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the Survival Systems Design for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every need listed with drain rate, threshold and consequence",
+        "Hazard, disease and injury tables with numbers",
+        "Crop, wildlife and regeneration cycles stated in in-game time",
+        "Accessibility options for survival pressure defined"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/survival-systems/survival-design.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D27-survival-implementation",
+      "dept": "D27",
+      "deptSlug": "survival-systems",
+      "deptName": "Survival and Simulation Systems",
+      "deliverable": "survival-implementation",
+      "name": "Survival Systems Implementation",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Survival Systems Implementation for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every need, hazard and consumable behaves to the tables",
+        "Wildlife and crops cycle correctly over in-game time",
+        "Survival state persists correctly across save and load"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D27-survival-design",
+        "D18-gameplay-systems"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/survival-systems/survival-implementation.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D27-survival-balance-review",
+      "dept": "D27",
+      "deptSlug": "survival-systems",
+      "deptName": "Survival and Simulation Systems",
+      "deliverable": "survival-balance-review",
+      "name": "Survival Balance Review",
+      "phase": "polish",
+      "phaseOrder": 9,
+      "objective": "Produce the Survival Balance Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Time-to-death from each pressure source measured and inside design range",
+        "No resource loop trivialises survival in a long simulation",
+        "Difficulty tiers verified as distinct"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D27-survival-implementation"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/survival-systems/survival-balance-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

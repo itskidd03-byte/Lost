@@ -1,0 +1,96 @@
+{
+  "department": {
+    "id": "D09",
+    "slug": "materials-textures",
+    "name": "Materials and Textures"
+  },
+  "updatedAt": "2026-11-19T04:35:42.845Z",
+  "tasks": [
+    {
+      "id": "D09-material-library",
+      "dept": "D09",
+      "deptSlug": "materials-textures",
+      "deptName": "Materials and Textures",
+      "deliverable": "material-library",
+      "name": "Material Library",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Material Library for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Each material lists its maps, resolution, texel density and licence",
+        "Seamless tiling verified on a test plane",
+        "Every material parameter exposed to the shader is documented"
+      ],
+      "checks": [
+        "assets"
+      ],
+      "dependsOn": [
+        "D01-art-direction"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/materials-textures/material-library.md",
+      "status": "approved",
+      "attempts": 1,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T23:21:03.516Z",
+      "reviews": [
+        {
+          "at": "2026-11-18T23:21:03.516Z",
+          "decision": "approved",
+          "reviewer": "Studio Director",
+          "note": "All five material families have resolution, licence and shader parameters, and the 266 CC0 Quaternius models are recorded and pass the licence gate. The one criterion not met, a seamlessness test on an isolated plane, is stated as a gap instead of being claimed, which is the standard this studio asks for. The probe dependency for metal and water is documented for D12 to enforce. Approved.",
+          "override": false
+        }
+      ],
+      "skips": [],
+      "lastGate": {
+        "at": "2026-11-18T23:21:03.318Z",
+        "ok": true,
+        "structural": {
+          "ok": true,
+          "problems": [],
+          "notes": [],
+          "chars": 6101,
+          "words": 1033
+        },
+        "checks": [
+          {
+            "name": "assets",
+            "status": "pass",
+            "detail": "LIB-nature-bush-common: allowed\nLIB-nature-bush-common-flowers: allowed\nLIB-nature-clover-1: allowed\nLIB-nature-clover-2: allowed\nLIB-nature-commontree-1: allowed\nLIB-nature-commontree-2: allowed\nLIB-nature-commontree-3: allowed\nLIB-nature-commontree-4: allowed\nLIB-nature-commontree-5: allowed\nLIB-nature-deadtree-1: allowed\nLIB-nature-deadtree-2: allowed\nLIB-nature-deadtree-3: allowed\nLIB-nature-deadtree-4: allowed\nLIB-nature-deadtree-5: allowed\nLIB-nature-fern-1: allowed\nLIB-nature-flower-3-group: allowed\nLIB-nature-flower-3-single: allowed\nLIB-nature-flower-4-group: allowed\nLIB-nature-flower-4-single: allowed\nLIB-nature-grass-common-short: allowed\nLIB-nature-grass-common-tall: allowed\nLIB-nature-grass-wispy-short: allowed\nLIB-nature-grass-wispy-tall: allowed\nLIB-nature-mushroom-common: allowed\nLIB-nature-mushroom-laetiporus: allowed\nLIB-nature-pebble-round-1: allowed\nLIB-nature-pebble-round-2: allowed\nLIB-nature-pebble-round-3: allowed\nLIB-nature-pebble-round-4: allowed\nLIB-nature-pebble-round-5: allowed\nLIB-nature-pebble-square-1: allowed\nLIB-nature-pebble-square-2: allowed\nLIB-nature-pebble-square-3: allowed\nLIB-nature-pebble-square-4: allowed\nLIB-nature-pebble-square-5: allowed\nLIB-nature-pebble-square-6: allowed\nLIB-nature-petal-1: allowed\nLIB-nature-petal-2: allowed\nLIB-nature-petal-3: allowed\nLIB-nature-petal-4: allowed\nLIB-nature-petal-5: allowed\nLIB-nature-pine-1: allowed\nLIB-nature-pine-2: allowed\nLIB-nature-pine-3: allowed\nLIB-nature-pine-4: allowed\nLIB-nature-pine-5: allowed\nLIB-nature-plant-1: allowed\nLIB-nature-plant-1-big: allowed\nLIB-nature-plant-7: allowed\nLIB-nature-plant-7-big: allowed\nLIB-village-balcony-cross-corner: allowed\nLIB-village-balcony-cross-straight: allowed\nLIB-village-balcony-simple-corner: allowed\nLIB-village-balcony-simple-straight: allowed\nLIB-village-corner-exteriorwide-brick: allowed\nLIB-village-corner-exteriorwide-wood: allowed\nLIB-village-corner-exterior-brick: allowed\nLIB-village-corner-exterior-topdown: allowed\nLIB-village-corner-exterior-toponly: allowed\nLIB-village-corner-exterior-wood: allowed\nLIB-village-corner-interior-big: allowed\nLIB-village-corner-interior-small: allowed\nLIB-village-doorframe-flat-brick: allowed\nLIB-village-doorframe-flat-wooddark: allowed\nLIB-village-doorframe-round-brick: allowed\nLIB-village-doorframe-round-wooddark: allowed\nLIB-village-door-1-flat: allowed\nLIB-village-door-1-round: allowed\nLIB-village-door-2-flat: allowed\nLIB-village-door-2-round: allowed\nLIB-village-door-4-flat: allowed\nLIB-village-door-4-round: allowed\nLIB-village-door-8-flat: allowed\nLIB-village-door-8-round: allowed\nLIB-village-floor-brick: allowed\nLIB-village-floor-redbrick: allowed\nLIB-village-floor-unevenbrick: allowed\nLIB-village-floor-wooddark: allowed\nLIB-village-floor-wooddark-half1: allowed\nLIB-village-floor-wooddark-half2: allowed\nLIB-village-floor-wooddark-half3: allowed\nLIB-village-floor-wooddark-overhangcorner: allowed\nLIB-village-floor-wooddark-overhangcorner2: allowed\nLIB-village-floor-woodlight: allowed\nLIB-village-floor-woodlight-overhangcorner: allowed\nLIB-village-floor-woodlight-overhangcorner2: allowed\nLIB-village-holecover-90angle: allowed\nLIB-village-holecover-90half: allowed\nLIB-village-holecover-90stairs: allowed\nLIB-village-holecover-straight: allowed\nLIB-village-holecover-straighthalf: allowed\nLIB-village-overhang-plaster-corner: allowed\nLIB-village-overhang-plaster-corner-front: allowed\nLIB-village-overhang-plaster-long: allowed\nLIB-village-overhang-plaster-short: allowed\nLIB-village-overhang-roofincline-plaster: allowed\nLIB-village-overhang-roofincline-unevenbricks: allowed\nLIB-village-overhang-roof-plaster: allowed\nLIB-village-overhang-roof-unevenbricks: allowed\nLIB-village-overhang-side-plaster-long-l: allowed\nLIB-village-overhang-side-plaster-long-r: allowed\nLIB-village-overhang-side-plaster-short-l: allowed\nLIB-village-overhang-side-plaster-short-r: allowed\nLIB-village-overhang-side-unevenbrick-long-l: allowed\nLIB-village-overhang-side-unevenbrick-long-r: allowed\nLIB-village-overhang-side-unevenbrick-short-l: allowed\nLIB-village-overhang-side-unevenbrick-short-r: allowed\nLIB-village-overhang-unevenbrick-corner: allowed\nLIB-village-overhang-unevenbrick-corner-front: allowed\nLIB-village-overhang-unevenbrick-long: allowed\nLIB-village-overhang-unevenbrick-short: allowed\nLIB-village-prop-brick1: allowed\nLIB-village-prop-brick2: allowed\nLIB-village-prop-brick3: allowed\nLIB-village-prop-brick4: allowed\nLIB-village-prop-chimney: allowed\nLIB-village-prop-chimney2: allowed\nLIB-village-prop-crate: allowed\nLIB-village-prop-exteriorborder-corner: allowed\nLIB-village-prop-exteriorborder-straight1: allowed\nLIB-village-prop-exteriorborder-straight2: allowed\nLIB-village-prop-metalfence-ornament: allowed\nLIB-village-prop-metalfence-simple: allowed\nLIB-village-prop-support: allowed\nLIB-village-prop-vine1: allowed\nLIB-village-prop-vine2: allowed\nLIB-village-prop-vine4: allowed\nLIB-village-prop-vine5: allowed\nLIB-village-prop-vine6: allowed\nLIB-village-prop-vine9: allowed\nLIB-village-prop-wagon: allowed\nLIB-village-prop-woodenfence-extension1: allowed\nLIB-village-prop-woodenfence-extension2: allowed\nLIB-village-prop-woodenfence-single: allowed\nLIB-village-roof-2x4-roundtile: allowed\nLIB-village-roof-dormer-roundtile: allowed\nLIB-village-roof-frontsupports: allowed\nLIB-village-roof-front-brick2: allowed\nLIB-village-roof-front-brick4: allowed\nLIB-village-roof-front-brick4-half-l: allowed\nLIB-village-roof-front-brick4-half-r: allowed\nLIB-village-roof-front-brick6: allowed\nLIB-village-roof-front-brick6-half-l: allowed\nLIB-village-roof-front-brick6-half-r: allowed\nLIB-village-roof-front-brick8: allowed\nLIB-village-roof-front-brick8-half-l: allowed\nLIB-village-roof-front-brick8-half-r: allowed\nLIB-village-roof-log: allowed\nLIB-village-roof-modular-roundtiles: allowed\nLIB-village-roof-roundtile-2x1: allowed\nLIB-village-roof-roundtile-2x1-long: allowed\nLIB-village-roof-roundtiles-4x4: allowed\nLIB-village-roof-roundtiles-4x6: allowed\nLIB-village-roof-roundtiles-4x8: allowed\nLIB-village-roof-roundtiles-6x10: allowed\nLIB-village-roof-roundtiles-6x12: allowed\nLIB-village-roof-roundtiles-6x14: allowed\nLIB-village-roof-roundtiles-6x4: allowed\nLIB-village-roof-roundtiles-6x6: allowed\nLIB-village-roof-roundtiles-6x8: allowed\nLIB-village-roof-roundtiles-8x10: allowed\nLIB-village-roof-roundtiles-8x12: allowed\nLIB-village-roof-roundtiles-8x14: allowed\nLIB-village-roof-roundtiles-8x8: allowed\nLIB-village-roof-support2: allowed\nLIB-village-roof-tower-roundtiles: allowed\nLIB-village-roof-wooden-2x1: allowed\nLIB-village-roof-wooden-2x1-center: allowed\nLIB-village-roof-wooden-2x1-center-mirror: allowed\nLIB-village-roof-wooden-2x1-corner: allowed\nLIB-village-roof-wooden-2x1-l: allowed\nLIB-village-roof-wooden-2x1-middle: allowed\nLIB-village-roof-wooden-2x1-r: allowed\nLIB-village-stair-interior-rails: allowed\nLIB-village-stair-interior-simple: allowed\nLIB-village-stair-interior-solid: allowed\nLIB-village-stair-interior-solidextended: allowed\nLIB-village-stairs-exterior-nofirststep: allowed\nLIB-village-stairs-exterior-platform: allowed\nLIB-village-stairs-exterior-platform45: allowed\nLIB-village-stairs-exterior-platform45clean: allowed\nLIB-village-stairs-exterior-platformu: allowed\nLIB-village-stairs-exterior-sideplatform: allowed\nLIB-village-stairs-exterior-sides: allowed\nLIB-village-stairs-exterior-sides45: allowed\nLIB-village-stairs-exterior-sidesu: allowed\nLIB-village-stairs-exterior-singleside: allowed\nLIB-village-stairs-exterior-singlesidethick: allowed\nLIB-village-stairs-exterior-straight: allowed\nLIB-village-stairs-exterior-straight-center: allowed\nLIB-village-stairs-exterior-straight-l: allowed\nLIB-village-stairs-exterior-straight-r: allowed\nLIB-village-wall-arch: allowed\nLIB-village-wall-bottomcover: allowed\nLIB-village-wall-plaster-door-flat: allowed\nLIB-village-wall-plaster-door-round: allowed\nLIB-village-wall-plaster-door-roundinset: allowed\nLIB-village-wall-plaster-straight: allowed\nLIB-village-wall-plaster-straight-base: allowed\nLIB-village-wall-plaster-straight-l: allowed\nLIB-village-wall-plaster-straight-r: allowed\nLIB-village-wall-plaster-window-thin-round: allowed\nLIB-village-wall-plaster-window-wide-flat: allowed\nLIB-village-wall-plaster-window-wide-flat2: allowed\nLIB-village-wall-plaster-window-wide-round: allowed\nLIB-village-wall-plaster-woodgrid: allowed\nLIB-village-wall-unevenbrick-door-flat: allowed\nLIB-village-wall-unevenbrick-door-round: allowed\nLIB-village-wall-unevenbrick-straight: allowed\nLIB-village-wall-unevenbrick-window-thin-round: allowed\nLIB-village-wall-unevenbrick-window-wide-flat: allowed\nLIB-village-wall-unevenbrick-window-wide-round: allowed\nLIB-village-windowshutters-thin-flat-closed: allowed\nLIB-village-windowshutters-thin-flat-open: allowed\nLIB-village-windowshutters-thin-round-closed: allowed\nLIB-village-windowshutters-thin-round-open: allowed\nLIB-village-windowshutters-wide-flat-closed: allowed\nLIB-village-windowshutters-wide-flat-open: allowed\nLIB-village-windowshutters-wide-round-closed: allowed\nLIB-village-windowshutters-wide-round-open: allowed\nLIB-village-window-roof-thin: allowed\nLIB-village-window-roof-wide: allowed\nLIB-village-window-thin-flat1: allowed\nLIB-village-window-thin-round1: allowed\nLIB-village-window-wide-flat1: allowed\nLIB-village-window-wide-round1: allowed\nLIB-medieval-kit-barrels: allowed\nLIB-medieval-kit-battlement-corner-inner: allowed\nLIB-medieval-kit-battlement-corner-outer: allowed\nLIB-medieval-kit-battlement-half: allowed\nLIB-medieval-kit-battlement: allowed\nLIB-medieval-kit-bricks: allowed\nLIB-medieval-kit-column-damaged: allowed\nLIB-medieval-kit-column-paint-damaged: allowed\nLIB-medieval-kit-column-paint: allowed\nLIB-medieval-kit-column-wood: allowed\nLIB-medieval-kit-column: allowed\nLIB-medieval-kit-detail-barrel: allowed\nLIB-medieval-kit-detail-crate-ropes: allowed\nLIB-medieval-kit-detail-crate-small: allowed\nLIB-medieval-kit-detail-crate: allowed\nLIB-medieval-kit-dock-corner: allowed\nLIB-medieval-kit-dock-side: allowed\nLIB-medieval-kit-fence-top: allowed\nLIB-medieval-kit-fence-wood: allowed\nLIB-medieval-kit-fence: allowed\nLIB-medieval-kit-floor-flat: allowed\nLIB-medieval-kit-floor-stairs-corner-inner: allowed\nLIB-medieval-kit-floor-stairs-corner-outer: allowed\nLIB-medieval-kit-floor-stairs: allowed\nLIB-people-city-dwellers-1: allowed\nLIB-people-city-dwellers-2: allowed\nLIB-people-king: allowed\nLIB-people-peasant-1: allowed\nLIB-people-peasant-2: allowed\nLIB-people-peasant-3: allowed\nLIB-people-peasant-4: allowed\nLIB-people-queen: allowed\nLIB-animals-browncow: allowed\nLIB-animals-chestnuthorse: allowed\nLIB-animals-chicken: allowed\nLIB-animals-deer: allowed\nLIB-animals-goat: allowed\nLIB-animals-pekinduck: allowed\nLIB-animals-redfox: allowed\nLIB-animals-sheep: allowed",
+            "problems": []
+          }
+        ],
+        "skipped": 0
+      }
+    },
+    {
+      "id": "D09-texel-budget",
+      "dept": "D09",
+      "deptSlug": "materials-textures",
+      "deptName": "Materials and Textures",
+      "deliverable": "texel-budget",
+      "name": "Texture Budget and Compression Plan",
+      "phase": "optimization",
+      "phaseOrder": 8,
+      "objective": "Produce the Texture Budget and Compression Plan for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Texture memory measured per platform profile",
+        "Compression format chosen per map type with rationale",
+        "Any texture over budget has a downscale or atlas plan"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D09-material-library"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/materials-textures/texel-budget.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "department": {
+    "id": "D01",
+    "slug": "creative-direction",
+    "name": "Creative Direction"
+  },
+  "updatedAt": "2026-11-19T04:35:42.843Z",
+  "tasks": [
+    {
+      "id": "D01-concept-brief",
+      "dept": "D01",
+      "deptSlug": "creative-direction",
+      "deptName": "Creative Direction",
+      "deliverable": "concept-brief",
+      "name": "Concept Brief",
+      "phase": "concept",
+      "phaseOrder": 1,
+      "objective": "Produce the Concept Brief for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "A one-sentence hook and three named creative pillars",
+        "Genre, subgenre, dimension (2D/2.5D/3D/hybrid) and target platforms stated",
+        "At least three reference works with what to borrow and what to avoid",
+        "One testable differentiator that a competitor could not claim unchanged"
+      ],
+      "checks": [],
+      "dependsOn": [],
+      "waivedDeps": [],
+      "artifact": "deliverables/creative-direction/concept-brief.md",
+      "status": "approved",
+      "attempts": 1,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T23:18:46.730Z",
+      "reviews": [
+        {
+          "at": "2026-11-18T23:18:46.729Z",
+          "decision": "approved",
+          "reviewer": "Studio Director",
+          "note": "Three pillars are each testable, and the differentiator is structural rather than marketing: one tile store drives both the board and the walkable region, with the on-table to descend test written out. Scope boundaries rule out combat, multiplayer and cinematics before any department starts building them. Approved.",
+          "override": false
+        }
+      ],
+      "skips": [],
+      "lastGate": {
+        "at": "2026-11-18T23:18:34.616Z",
+        "ok": true,
+        "structural": {
+          "ok": true,
+          "problems": [],
+          "notes": [],
+          "chars": 4453,
+          "words": 766
+        },
+        "checks": [],
+        "skipped": 0
+      }
+    },
+    {
+      "id": "D01-art-direction",
+      "dept": "D01",
+      "deptSlug": "creative-direction",
+      "deptName": "Creative Direction",
+      "deliverable": "art-direction",
+      "name": "Art Direction Bible",
+      "phase": "art-direction",
+      "phaseOrder": 4,
+      "objective": "Produce the Art Direction Bible for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Palette, lighting mood and material language given as concrete values",
+        "Silhouette and shape-language rules a modeller can follow",
+        "Do and do-not lists, each traceable to a creative pillar",
+        "Platform-aware fidelity tiers (hero, standard, low) defined"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D01-concept-brief"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/creative-direction/art-direction.md",
+      "status": "approved",
+      "attempts": 1,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T23:19:01.622Z",
+      "reviews": [
+        {
+          "at": "2026-11-18T23:19:01.622Z",
+          "decision": "approved",
+          "reviewer": "Studio Director",
+          "note": "Every value in this bible is the value the build actually uses: sky #6f9dc4 to #d3e6f1, ACES at 1.02 exposure, bloom 0.24/0.55/0.9 in linear HDR, probes at 0.55 outdoors and 0.35 in the cabin, shadows 2048 desktop and 1024 region on the reduced tier. The Standard tier is marked defined-but-not-implemented rather than claimed, which is the honest reading of the code. Do and do-not rows all carry a pillar number. Approved.",
+          "override": false
+        }
+      ],
+      "skips": [],
+      "lastGate": {
+        "at": "2026-11-18T23:18:47.190Z",
+        "ok": true,
+        "structural": {
+          "ok": true,
+          "problems": [],
+          "notes": [],
+          "chars": 8063,
+          "words": 1454
+        },
+        "checks": [],
+        "skipped": 0
+      }
+    },
+    {
+      "id": "D01-creative-signoff",
+      "dept": "D01",
+      "deptSlug": "creative-direction",
+      "deptName": "Creative Direction",
+      "deliverable": "creative-signoff",
+      "name": "Creative Sign-off",
+      "phase": "polish",
+      "phaseOrder": 9,
+      "objective": "Produce the Creative Sign-off for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every pillar checked against a built and playable version with evidence",
+        "Deviations either fixed or recorded as an accepted trade-off in the decision log"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D01-art-direction"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/creative-direction/creative-signoff.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

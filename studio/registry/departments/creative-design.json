@@ -1,0 +1,309 @@
+{
+  "division": "creative-design",
+  "departments": [
+    {
+      "id": "D01",
+      "slug": "creative-direction",
+      "name": "Creative Direction",
+      "division": "creative-design",
+      "mission": "Own the creative vision: what the game is, why it deserves to exist, and the identity every other department builds against.",
+      "activation": { "always": true },
+      "capabilities": [
+        "game concept development",
+        "genre and subgenre innovation",
+        "creative pillars and non-negotiable design values",
+        "art direction and visual identity",
+        "originality and differentiation review",
+        "creative arbitration with the Studio Director",
+        "final creative sign-off"
+      ],
+      "deliverables": [
+        {
+          "id": "concept-brief",
+          "name": "Concept Brief",
+          "phase": "concept",
+          "dependsOn": [],
+          "acceptance": [
+            "A one-sentence hook and three named creative pillars",
+            "Genre, subgenre, dimension (2D/2.5D/3D/hybrid) and target platforms stated",
+            "At least three reference works with what to borrow and what to avoid",
+            "One testable differentiator that a competitor could not claim unchanged"
+          ]
+        },
+        {
+          "id": "art-direction",
+          "name": "Art Direction Bible",
+          "phase": "art-direction",
+          "dependsOn": ["D01:concept-brief"],
+          "acceptance": [
+            "Palette, lighting mood and material language given as concrete values",
+            "Silhouette and shape-language rules a modeller can follow",
+            "Do and do-not lists, each traceable to a creative pillar",
+            "Platform-aware fidelity tiers (hero, standard, low) defined"
+          ]
+        },
+        {
+          "id": "creative-signoff",
+          "name": "Creative Sign-off",
+          "phase": "polish",
+          "dependsOn": ["D01:art-direction"],
+          "acceptance": [
+            "Every pillar checked against a built and playable version with evidence",
+            "Deviations either fixed or recorded as an accepted trade-off in the decision log"
+          ]
+        }
+      ],
+      "inputs": ["game concept from the user", "research and tech radar from D41", "build evidence from D40"],
+      "handoffs": ["D02", "D03", "D05", "D08", "D09", "D12", "D15", "D16"],
+      "consults": ["D04", "D41"],
+      "tools": ["web_search", "read_url", "write_file", "read_files", "cloud_read_image"],
+      "gates": [
+        "No production work starts before the concept brief is approved",
+        "Art direction changes after prototype require a decision record"
+      ]
+    },
+    {
+      "id": "D02",
+      "slug": "game-design",
+      "name": "Game Design",
+      "division": "creative-design",
+      "mission": "Turn the creative vision into systems, loops and numbers that can be implemented, tuned and tested.",
+      "activation": { "always": true },
+      "capabilities": [
+        "core gameplay loops",
+        "mechanics and interaction rules",
+        "player progression and rewards",
+        "game modes and session structure",
+        "difficulty systems",
+        "balancing with explicit numbers",
+        "replayability and retention design",
+        "game design document authorship"
+      ],
+      "deliverables": [
+        {
+          "id": "gdd",
+          "name": "Game Design Document",
+          "phase": "design",
+          "dependsOn": ["D01:concept-brief"],
+          "acceptance": [
+            "Core loop described as a cycle with a stated time to first reward",
+            "Every mechanic has inputs, rules, failure states and feedback",
+            "Progression and difficulty described with actual numbers and ranges",
+            "An explicit out-of-scope list signed by the Studio Director"
+          ]
+        },
+        {
+          "id": "balance-plan",
+          "name": "Balance and Tuning Plan",
+          "phase": "production",
+          "dependsOn": ["D02:gdd"],
+          "acceptance": [
+            "Tuning tables or curves with base values and permitted ranges",
+            "Economy or progression faucets and sinks named and scoped",
+            "Every tuned value has a telemetry hook or a deterministic test"
+          ]
+        },
+        {
+          "id": "design-tuning-report",
+          "name": "Tuning Report",
+          "phase": "polish",
+          "dependsOn": ["D02:balance-plan"],
+          "acceptance": [
+            "Measured playtest or simulation data attached, not opinion",
+            "Each change traced to data or a decision record"
+          ]
+        }
+      ],
+      "inputs": ["concept brief and art direction from D01", "world spec from D03", "telemetry and bug data from D33"],
+      "handoffs": ["D05", "D18", "D20", "D23", "D24", "D25", "D26", "D27", "D28", "D30", "D31", "D32", "D33"],
+      "consults": ["D24", "D26", "D30", "D31"],
+      "tools": ["write_file", "read_files", "code_search"],
+      "gates": [
+        "A mechanic with no failure state or no feedback is rejected",
+        "Balance claims without numbers or evidence are rejected"
+      ]
+    },
+    {
+      "id": "D03",
+      "slug": "world-building",
+      "name": "World Building",
+      "division": "creative-design",
+      "mission": "Design the world the game happens in: geography, biomes, settlements, landmarks, infrastructure and lore that make the place feel real.",
+      "activation": { "always": true },
+      "capabilities": [
+        "world maps and region design",
+        "biomes, climate and terrain intent",
+        "geography and hydrology",
+        "settlements, cities, roads and infrastructure",
+        "natural and man-made landmarks",
+        "environmental storytelling",
+        "world history and lore"
+      ],
+      "deliverables": [
+        {
+          "id": "world-bible",
+          "name": "World Bible",
+          "phase": "design",
+          "dependsOn": ["D01:concept-brief", "D02:gdd"],
+          "acceptance": [
+            "Regions and biomes listed with gameplay purpose for each",
+            "Landmark and point-of-interest budget stated in numbers",
+            "World history and faction context that explains the current state",
+            "Scale and traversal times consistent with the movement budget"
+          ]
+        },
+        {
+          "id": "world-layout",
+          "name": "World Layout and Biome Table",
+          "phase": "art-direction",
+          "dependsOn": ["D03:world-bible"],
+          "acceptance": [
+            "Playable-space map or schematic with coordinates or grid",
+            "Per-biome palette, prop set and density targets",
+            "Hand-authored versus generated areas explicitly divided"
+          ]
+        },
+        {
+          "id": "world-consistency-review",
+          "name": "World Consistency Review",
+          "phase": "polish",
+          "dependsOn": ["D03:world-layout"],
+          "acceptance": [
+            "Named locations in the build match the world bible or the bible is updated",
+            "Traversal times measured in the build against the stated budget"
+          ]
+        }
+      ],
+      "inputs": ["concept brief from D01", "GDD from D02", "terrain capability from D29"],
+      "handoffs": ["D04", "D08", "D13", "D29", "D32"],
+      "consults": ["D29", "D32", "D41"],
+      "tools": ["write_file", "read_files", "web_search"],
+      "gates": [
+        "A world area with no gameplay or narrative purpose is rejected",
+        "Lore that contradicts an approved spec requires a decision record"
+      ]
+    },
+    {
+      "id": "D04",
+      "slug": "narrative",
+      "name": "Narrative and Storytelling",
+      "division": "creative-design",
+      "mission": "Give the game a story worth playing through: arcs, characters, quests, dialogue, factions and the way the world tells its own story.",
+      "activation": { "any": ["narrative", "rpg", "mmorpg", "story", "quest", "campaign", "single-player-story"] },
+      "capabilities": [
+        "main storyline and structure",
+        "side missions and quest design",
+        "character biographies and voice",
+        "dialogue writing and localisation-ready scripts",
+        "factions and relationships",
+        "branching and consequence design",
+        "environmental storytelling",
+        "cinematic scripting intent"
+      ],
+      "deliverables": [
+        {
+          "id": "story-arc",
+          "name": "Story Arc and Character Bible",
+          "phase": "design",
+          "dependsOn": ["D01:concept-brief", "D03:world-bible"],
+          "acceptance": [
+            "Three-act or equivalent structure with act goals and turn points",
+            "Every named character has motivation, conflict and arc",
+            "Branching points listed with their consequences and cost",
+            "Word-count and voice-line budget stated"
+          ]
+        },
+        {
+          "id": "quests-and-dialogue",
+          "name": "Quest and Dialogue Set",
+          "phase": "production",
+          "dependsOn": ["D04:story-arc"],
+          "acceptance": [
+            "Quests have objectives, failure, rewards and preconditions",
+            "Dialogue is scripted with speaker, trigger and fallback lines",
+            "Every branch reachable in a build and verified once"
+          ]
+        },
+        {
+          "id": "narrative-review",
+          "name": "Narrative Review",
+          "phase": "polish",
+          "dependsOn": ["D04:quests-and-dialogue"],
+          "acceptance": [
+            "No unreachable or dead-end narrative content in the build",
+            "Tone and terminology consistent with the world bible"
+          ]
+        }
+      ],
+      "inputs": ["concept brief from D01", "world bible from D03", "quest hooks from D02"],
+      "handoffs": ["D05", "D11", "D16", "D20"],
+      "consults": ["D16", "D14", "D15"],
+      "tools": ["write_file", "read_files", "web_search"],
+      "gates": [
+        "Dialogue that cannot be triggered in a build is rejected",
+        "Every named character must exist in the shared knowledge base"
+      ]
+    },
+    {
+      "id": "D05",
+      "slug": "ux-ui",
+      "name": "User Experience and Interface",
+      "division": "creative-design",
+      "mission": "Make the game legible and operable on every target device, including for players using accessibility features.",
+      "activation": { "always": true },
+      "capabilities": [
+        "HUD and heads-up information hierarchy",
+        "main menus and settings",
+        "inventory, character and map screens",
+        "controller, keyboard and touch interfaces",
+        "accessibility options",
+        "interface animation and feedback",
+        "onboarding and tutorial flow"
+      ],
+      "deliverables": [
+        {
+          "id": "ux-flows",
+          "name": "UX Flows and Screen Inventory",
+          "phase": "design",
+          "dependsOn": ["D02:gdd"],
+          "acceptance": [
+            "Every screen listed with entry points, states and exit paths",
+            "HUD information hierarchy prioritised with a rationale",
+            "Input schemes for every declared platform described",
+            "Accessibility options enumerated with what they change"
+          ]
+        },
+        {
+          "id": "ui-spec",
+          "name": "Interface Specification",
+          "phase": "art-direction",
+          "dependsOn": ["D05:ux-flows", "D01:art-direction"],
+          "acceptance": [
+            "Components specified with sizes, spacing, states and text limits",
+            "Safe-area and resolution rules including mobile notches",
+            "Animation and transition timings in milliseconds"
+          ]
+        },
+        {
+          "id": "ui-review",
+          "name": "Interface Review",
+          "phase": "testing",
+          "dependsOn": ["D05:ui-spec"],
+          "acceptance": [
+            "Every screen reachable and operable on each declared platform",
+            "Text overflow, focus order and touch target sizes verified in the build",
+            "Contrast and readability checked against the art direction"
+          ]
+        }
+      ],
+      "inputs": ["GDD from D02", "art direction from D01", "platform matrix from D17", "input support from D35"],
+      "handoffs": ["D18", "D33", "D35", "D39"],
+      "consults": ["D35", "D36"],
+      "tools": ["write_file", "read_files", "cloud_read_image", "preview_screenshot"],
+      "gates": [
+        "A screen without a failure or empty state is rejected",
+        "Touch targets below 44 px on mobile are rejected"
+      ]
+    }
+  ]
+}

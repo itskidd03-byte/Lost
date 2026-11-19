@@ -1,0 +1,356 @@
+{
+  "slug": "iron-veins",
+  "title": "Iron Veins",
+  "concept": "A first-person survival mining game: dig ore veins deep underground, refine metals, craft machines, and trade in a frontier colony economy.",
+  "createdAt": "2026-11-18T19:56:46.018Z",
+  "updatedAt": "2026-11-18T19:57:43.219Z",
+  "dimension": "3d",
+  "platforms": [
+    "webgl",
+    "desktop"
+  ],
+  "perfProfiles": [
+    "webgl-desktop",
+    "desktop-mid"
+  ],
+  "genres": [
+    "mining",
+    "survival"
+  ],
+  "genreNames": [
+    "Mining, crafting and resource management",
+    "Survival"
+  ],
+  "tags": [
+    "3d",
+    "crafting",
+    "ecology",
+    "economy",
+    "industry",
+    "mining",
+    "openworld",
+    "population",
+    "procedural",
+    "resources",
+    "society",
+    "survival"
+  ],
+  "intakeNotes": [
+    "Hybrid intake: Mining, crafting and resource management + Survival.",
+    "33 of 41 departments activated for a 3D project."
+  ],
+  "intakeBasis": [
+    {
+      "genre": "mining",
+      "matched": [
+        "mining",
+        "ore",
+        "underground",
+        "refine"
+      ]
+    },
+    {
+      "genre": "survival",
+      "matched": [
+        "survival",
+        "craft"
+      ]
+    }
+  ],
+  "status": "in-development",
+  "phase": "concept",
+  "departments": [
+    {
+      "id": "D01",
+      "slug": "creative-direction",
+      "name": "Creative Direction",
+      "division": "creative-design",
+      "reason": "always active"
+    },
+    {
+      "id": "D02",
+      "slug": "game-design",
+      "name": "Game Design",
+      "division": "creative-design",
+      "reason": "always active"
+    },
+    {
+      "id": "D03",
+      "slug": "world-building",
+      "name": "World Building",
+      "division": "creative-design",
+      "reason": "always active"
+    },
+    {
+      "id": "D05",
+      "slug": "ux-ui",
+      "name": "User Experience and Interface",
+      "division": "creative-design",
+      "reason": "always active"
+    },
+    {
+      "id": "D06",
+      "slug": "3d-modeling",
+      "name": "3D Modeling",
+      "division": "graphics-audio",
+      "reason": "tag: 3d"
+    },
+    {
+      "id": "D08",
+      "slug": "environment-art",
+      "name": "Environment Art",
+      "division": "graphics-audio",
+      "reason": "tag: 3d"
+    },
+    {
+      "id": "D09",
+      "slug": "materials-textures",
+      "name": "Materials and Textures",
+      "division": "graphics-audio",
+      "reason": "tag: 3d"
+    },
+    {
+      "id": "D10",
+      "slug": "character-art",
+      "name": "Character Art",
+      "division": "graphics-audio",
+      "reason": "tag: 3d"
+    },
+    {
+      "id": "D11",
+      "slug": "animation",
+      "name": "Animation",
+      "division": "graphics-audio",
+      "reason": "tag: 3d"
+    },
+    {
+      "id": "D12",
+      "slug": "lighting-rendering",
+      "name": "Lighting and Rendering",
+      "division": "graphics-audio",
+      "reason": "tag: 3d"
+    },
+    {
+      "id": "D13",
+      "slug": "vfx",
+      "name": "VFX",
+      "division": "graphics-audio",
+      "reason": "tag: 3d"
+    },
+    {
+      "id": "D14",
+      "slug": "sound-design",
+      "name": "Sound Design",
+      "division": "graphics-audio",
+      "reason": "always active"
+    },
+    {
+      "id": "D15",
+      "slug": "music",
+      "name": "Music Production",
+      "division": "graphics-audio",
+      "reason": "always active"
+    },
+    {
+      "id": "D17",
+      "slug": "engine-architecture",
+      "name": "Game Engine Architecture",
+      "division": "engineering",
+      "reason": "always active"
+    },
+    {
+      "id": "D18",
+      "slug": "gameplay-programming",
+      "name": "Gameplay Programming",
+      "division": "engineering",
+      "reason": "always active"
+    },
+    {
+      "id": "D19",
+      "slug": "physics",
+      "name": "Physics Engineering",
+      "division": "engineering",
+      "reason": "always active"
+    },
+    {
+      "id": "D20",
+      "slug": "ai-engineering",
+      "name": "AI Engineering",
+      "division": "engineering",
+      "reason": "tag: survival"
+    },
+    {
+      "id": "D22",
+      "slug": "backend-data",
+      "name": "Backend and Data Engineering",
+      "division": "engineering",
+      "reason": "tag: economy"
+    },
+    {
+      "id": "D26",
+      "slug": "mining-resources",
+      "name": "Mining and Resource Systems",
+      "division": "game-systems",
+      "reason": "tag: mining"
+    },
+    {
+      "id": "D27",
+      "slug": "survival-systems",
+      "name": "Survival and Simulation Systems",
+      "division": "game-systems",
+      "reason": "tag: survival"
+    },
+    {
+      "id": "D29",
+      "slug": "procedural-generation",
+      "name": "Procedural Generation",
+      "division": "game-systems",
+      "reason": "tag: procedural"
+    },
+    {
+      "id": "D30",
+      "slug": "economy-simulation",
+      "name": "Economy and Simulation",
+      "division": "simulation",
+      "reason": "tag: economy"
+    },
+    {
+      "id": "D31",
+      "slug": "population-simulation",
+      "name": "Population and Society Simulation",
+      "division": "simulation",
+      "reason": "tag: population"
+    },
+    {
+      "id": "D32",
+      "slug": "dynamic-world",
+      "name": "Dynamic World Systems",
+      "division": "simulation",
+      "reason": "tag: openworld"
+    },
+    {
+      "id": "D33",
+      "slug": "quality-assurance",
+      "name": "Quality Assurance",
+      "division": "qa-operations",
+      "reason": "always active"
+    },
+    {
+      "id": "D34",
+      "slug": "performance-engineering",
+      "name": "Performance Engineering",
+      "division": "qa-operations",
+      "reason": "always active"
+    },
+    {
+      "id": "D35",
+      "slug": "compatibility",
+      "name": "Compatibility Engineering",
+      "division": "qa-operations",
+      "reason": "always active"
+    },
+    {
+      "id": "D36",
+      "slug": "security-reliability",
+      "name": "Security and Reliability",
+      "division": "qa-operations",
+      "reason": "tag: economy"
+    },
+    {
+      "id": "D37",
+      "slug": "asset-acquisition",
+      "name": "Asset Acquisition",
+      "division": "qa-operations",
+      "reason": "always active"
+    },
+    {
+      "id": "D38",
+      "slug": "asset-integration",
+      "name": "Asset Integration",
+      "division": "qa-operations",
+      "reason": "always active"
+    },
+    {
+      "id": "D39",
+      "slug": "technical-art",
+      "name": "Technical Art",
+      "division": "qa-operations",
+      "reason": "tag: 3d"
+    },
+    {
+      "id": "D40",
+      "slug": "production",
+      "name": "Production Management",
+      "division": "qa-operations",
+      "reason": "always active"
+    },
+    {
+      "id": "D41",
+      "slug": "research-innovation",
+      "name": "Studio Research and Innovation",
+      "division": "research-innovation",
+      "reason": "always active"
+    }
+  ],
+  "excluded": [
+    {
+      "id": "D04",
+      "slug": "narrative",
+      "name": "Narrative and Storytelling",
+      "division": "creative-design",
+      "reason": "no matching tag (narrative, rpg, mmorpg, story, quest, campaign, single-player-story)"
+    },
+    {
+      "id": "D07",
+      "slug": "2d-art",
+      "name": "2D Art and Illustration",
+      "division": "graphics-audio",
+      "reason": "dimension: needs 2d/2.5d/isometric"
+    },
+    {
+      "id": "D16",
+      "slug": "cinematics",
+      "name": "Cinematics",
+      "division": "graphics-audio",
+      "reason": "no matching tag (narrative, cinematic, cutscene, story, campaign, rpg)"
+    },
+    {
+      "id": "D21",
+      "slug": "multiplayer",
+      "name": "Multiplayer Engineering",
+      "division": "engineering",
+      "reason": "no matching tag (multiplayer, mmorpg, coop, pvp, competitive, online)"
+    },
+    {
+      "id": "D23",
+      "slug": "shooter-systems",
+      "name": "Shooter Systems",
+      "division": "game-systems",
+      "reason": "no matching tag (shooter, fps, tps, combat, military, battle-royale, extraction)"
+    },
+    {
+      "id": "D24",
+      "slug": "strategy-systems",
+      "name": "Civilisation and Strategy Systems",
+      "division": "game-systems",
+      "reason": "no matching tag (strategy, grand-strategy, rts, 4x, civilization, empire, tactical, military)"
+    },
+    {
+      "id": "D25",
+      "slug": "construction-systems",
+      "name": "Building and Construction Systems",
+      "division": "game-systems",
+      "reason": "no matching tag (construction, sandbox, city, base-building, building, factory, colony)"
+    },
+    {
+      "id": "D28",
+      "slug": "vehicle-engineering",
+      "name": "Vehicle Engineering",
+      "division": "game-systems",
+      "reason": "no matching tag (vehicles, racing, flight, naval, driving, tanks)"
+    }
+  ],
+  "perf": {},
+  "decisions": [],
+  "taskCount": 99
+}

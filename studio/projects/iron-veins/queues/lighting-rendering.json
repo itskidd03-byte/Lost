@@ -1,0 +1,97 @@
+{
+  "department": {
+    "id": "D12",
+    "slug": "lighting-rendering",
+    "name": "Lighting and Rendering"
+  },
+  "updatedAt": "2026-11-18T19:57:43.221Z",
+  "tasks": [
+    {
+      "id": "D12-lighting-plan",
+      "dept": "D12",
+      "deptSlug": "lighting-rendering",
+      "deptName": "Lighting and Rendering",
+      "deliverable": "lighting-plan",
+      "name": "Lighting Plan",
+      "phase": "art-direction",
+      "phaseOrder": 4,
+      "objective": "Produce the Lighting Plan for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Key, fill and rim intent defined per time of day and biome",
+        "Shadow strategy and cascade distances stated with numbers",
+        "Post-processing stack listed with cost estimates"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D01-art-direction",
+        "D08-environment-plan"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/lighting-rendering/lighting-plan.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D12-lighting-setup",
+      "dept": "D12",
+      "deptSlug": "lighting-rendering",
+      "deptName": "Lighting and Rendering",
+      "deliverable": "lighting-setup",
+      "name": "Lighting and Post Setup",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Lighting and Post Setup for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Lightmaps or probes baked and stored with the scene",
+        "Day/night interpolation verified across a full cycle",
+        "Every lighting feature has a documented quality tier"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D12-lighting-plan"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/lighting-rendering/lighting-setup.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D12-lighting-perf-review",
+      "dept": "D12",
+      "deptSlug": "lighting-rendering",
+      "deptName": "Lighting and Rendering",
+      "deliverable": "lighting-perf-review",
+      "name": "Lighting Performance Review",
+      "phase": "optimization",
+      "phaseOrder": 8,
+      "objective": "Produce the Lighting Performance Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Frame cost of lighting and post measured per quality tier",
+        "Shadow and probe memory measured against the profile budget",
+        "Lowest tier verified playable on the weakest declared device"
+      ],
+      "checks": [
+        "profiling"
+      ],
+      "dependsOn": [
+        "D12-lighting-setup"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/lighting-rendering/lighting-perf-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { MapTable } from './mapTable.js';
+import { TIER, interiorEnvironment } from './grade.js';
 import {
   plankFloor, plasterWall, beamWood, wovenFabric, tableTopWood,
 } from './surfaces.js';
@@ -146,6 +147,15 @@ export class Cabin {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color('#060809');
     this.scene.fog = new THREE.FogExp2('#080b0d', 0.055);
+
+    // A warm, almost dark probe with the window in it. Brass, glass and the
+    // polished props on the table pick up a room instead of a constant, and the
+    // lantern stays the light you actually read by.
+    const room = interiorEnvironment();
+    if (room) {
+      this.scene.environment = room;
+      this.scene.environmentIntensity = 0.35;
+    }
 
     this.root = new THREE.Group();
     this.scene.add(this.root);
@@ -991,7 +1001,7 @@ export class Cabin {
     moon.target.position.set(-1, 1, 0);
     moon.castShadow = true;
     // a phone pays for every shadow texel, so it gets a smaller map
-    const shadowSize = (typeof window !== 'undefined' && window.innerWidth < 900) ? 512 : 1024;
+    const shadowSize = TIER === 'high' ? 2048 : 512;
     moon.shadow.mapSize.set(shadowSize, shadowSize);
     moon.shadow.camera.left = -6.5;
     moon.shadow.camera.right = 6.5;

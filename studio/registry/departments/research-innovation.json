@@ -1,0 +1,70 @@
+{
+  "division": "research-innovation",
+  "departments": [
+    {
+      "id": "D41",
+      "slug": "research-innovation",
+      "name": "Studio Research and Innovation",
+      "division": "research-innovation",
+      "mission": "Keep the studio current: continuously discover engines, rendering techniques, AI systems, licensed asset libraries, optimisation methods and tooling, and turn findings into adoptable proposals.",
+      "activation": { "always": true },
+      "capabilities": [
+        "engine and framework landscape research",
+        "rendering and lighting technique research",
+        "game AI and agent technique research",
+        "licensed asset library discovery and vetting",
+        "performance and optimisation method research",
+        "tooling and pipeline research",
+        "genre and market pattern research",
+        "prototype evaluation and adoption proposals",
+        "deprecation and risk tracking"
+      ],
+      "deliverables": [
+        {
+          "id": "tech-radar",
+          "name": "Technology Radar",
+          "phase": "concept",
+          "dependsOn": [],
+          "acceptance": [
+            "Every finding labelled adopt, trial, assess or hold",
+            "Each finding carries a source URL and access date",
+            "Licence and platform implications stated for anything shippable",
+            "A stated relevance to this project, not general commentary"
+          ]
+        },
+        {
+          "id": "evaluation-report",
+          "name": "Technique Evaluation",
+          "phase": "design",
+          "dependsOn": ["D41:tech-radar"],
+          "acceptance": [
+            "The technique is tried in a minimal reproducible test, not summarised",
+            "Measured cost or quality result attached where measurable",
+            "Integration effort and risk estimated",
+            "Recommendation given with the alternative it replaces"
+          ]
+        },
+        {
+          "id": "adoption-proposal",
+          "name": "Adoption Proposal",
+          "phase": "production",
+          "dependsOn": ["D41:evaluation-report"],
+          "acceptance": [
+            "Owner department named for the adopted technique",
+            "Migration steps and rollback path written",
+            "Expected benefit stated in measurable terms",
+            "Studio Director decision recorded in the decision log"
+          ]
+        }
+      ],
+      "inputs": ["project concept and blockers", "engine and tooling landscape", "asset library landscape", "performance reports from D34"],
+      "handoffs": ["D01", "D02", "D17", "D34", "D37", "D39"],
+      "consults": ["D17", "D34", "D37"],
+      "tools": ["web_search", "read_url", "researcher_web", "write_file", "read_files", "run_terminal_command", "gravity_index"],
+      "gates": [
+        "A recommendation without a source or a tested result is rejected",
+        "Anything recommended for shipping must have a clear commercial licence"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "department": {
+    "id": "D11",
+    "slug": "animation",
+    "name": "Animation"
+  },
+  "updatedAt": "2026-11-18T19:57:43.221Z",
+  "tasks": [
+    {
+      "id": "D11-animation-list",
+      "dept": "D11",
+      "deptSlug": "animation",
+      "deptName": "Animation",
+      "deliverable": "animation-list",
+      "name": "Animation List and State Machine",
+      "phase": "art-direction",
+      "phaseOrder": 4,
+      "objective": "Produce the Animation List and State Machine for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every required animation listed with frame count, loop flag and root motion",
+        "State machine transitions and blend times specified in milliseconds",
+        "Cancel windows and input buffering rules stated per action"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd",
+        "D10-character-spec"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/animation/animation-list.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D11-animation-set",
+      "dept": "D11",
+      "deptSlug": "animation",
+      "deptName": "Animation",
+      "deliverable": "animation-set",
+      "name": "Animation Set",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Animation Set for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every animation in the list exists and loops or ends cleanly",
+        "Root motion matches the movement speeds in the GDD",
+        "Foot sliding measured and within the stated tolerance"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D11-animation-list",
+        "D10-character-pack"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/animation/animation-set.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D11-animation-review",
+      "dept": "D11",
+      "deptSlug": "animation",
+      "deptName": "Animation",
+      "deliverable": "animation-review",
+      "name": "Animation Review",
+      "phase": "testing",
+      "phaseOrder": 7,
+      "objective": "Produce the Animation Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "No missing, popping or T-posed states during a scripted playthrough",
+        "Hit reactions and death transitions verified on every rig class"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D11-animation-set"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/animation/animation-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

@@ -15,6 +15,7 @@ import { dateLabel, civEvent } from './journal.js';
 import { TouchControls, isTouchDevice } from './mobile.js';
 import { Sound } from './audio.js';
 import { Decor, DECOR_PROPS } from './render/decor.js';
+import { initGrade, Presentation } from './render/grade.js';
 import { Society, ERAS } from './society.js';
 import * as account from './account.js';
 
@@ -42,16 +43,18 @@ class Game {
   constructor() {
     this.stage = document.getElementById('stage');
     this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.toneMappingExposure = 1.06;
     this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.stage.appendChild(this.renderer.domElement);
 
     this.camera = new THREE.PerspectiveCamera(66, window.innerWidth / window.innerHeight, 0.008, 600);
     this.camera.rotation.order = 'YXZ';
+
+    // The sky and both image-based probes are built before the cabin or a
+    // region asks for them; the presentation owns tone mapping, pixel ratio and
+    // bloom, so the two scenes cannot drift apart.
+    initGrade(this.renderer);
+    this.presentation = new Presentation(this.renderer, this.camera);
 
     this.cabin = new Cabin();
     this.decor = new Decor();
@@ -419,9 +422,7 @@ class Game {
   }
 
   onResize() {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.presentation.resize();
   }
 
   onKey(e) {
@@ -1259,7 +1260,7 @@ class Game {
       (this.mode === 'cabin' || this.mode === 'world') && !this.ui.dialogueNpc && !!document.pointerLockElement,
     );
 
-    this.renderer.render(this.scene, this.camera);
+    this.presentation.render(this.scene);
   }
 }
 

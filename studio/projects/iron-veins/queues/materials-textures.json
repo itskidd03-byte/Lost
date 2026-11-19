@@ -1,0 +1,68 @@
+{
+  "department": {
+    "id": "D09",
+    "slug": "materials-textures",
+    "name": "Materials and Textures"
+  },
+  "updatedAt": "2026-11-18T19:57:43.221Z",
+  "tasks": [
+    {
+      "id": "D09-material-library",
+      "dept": "D09",
+      "deptSlug": "materials-textures",
+      "deptName": "Materials and Textures",
+      "deliverable": "material-library",
+      "name": "Material Library",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Material Library for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Each material lists its maps, resolution, texel density and licence",
+        "Seamless tiling verified on a test plane",
+        "Every material parameter exposed to the shader is documented"
+      ],
+      "checks": [
+        "assets"
+      ],
+      "dependsOn": [
+        "D01-art-direction"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/materials-textures/material-library.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D09-texel-budget",
+      "dept": "D09",
+      "deptSlug": "materials-textures",
+      "deptName": "Materials and Textures",
+      "deliverable": "texel-budget",
+      "name": "Texture Budget and Compression Plan",
+      "phase": "optimization",
+      "phaseOrder": 8,
+      "objective": "Produce the Texture Budget and Compression Plan for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Texture memory measured per platform profile",
+        "Compression format chosen per map type with rationale",
+        "Any texture over budget has a downscale or atlas plan"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D09-material-library"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/materials-textures/texel-budget.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

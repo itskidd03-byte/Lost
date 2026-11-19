@@ -1,0 +1,99 @@
+{
+  "department": {
+    "id": "D40",
+    "slug": "production",
+    "name": "Production Management"
+  },
+  "updatedAt": "2026-11-19T04:35:42.851Z",
+  "tasks": [
+    {
+      "id": "D40-production-plan",
+      "dept": "D40",
+      "deptSlug": "production",
+      "deptName": "Production Management",
+      "deliverable": "production-plan",
+      "name": "Production Plan",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the Production Plan for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Milestones with dates, owners and exit criteria",
+        "Dependency graph of deliverables and the critical path",
+        "Scope, budget and risk register with mitigations",
+        "Definition of done agreed with the Studio Director"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/production/production-plan.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D40-milestone-report",
+      "dept": "D40",
+      "deptSlug": "production",
+      "deptName": "Production Management",
+      "deliverable": "milestone-report",
+      "name": "Milestone Report",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Milestone Report for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every milestone marked met or missed with evidence",
+        "Blocked and at-risk items listed with owners",
+        "Scope changes recorded with their approvals"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D40-production-plan"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/production/milestone-report.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D40-release-checklist",
+      "dept": "D40",
+      "deptSlug": "production",
+      "deptName": "Production Management",
+      "deliverable": "release-checklist",
+      "name": "Release Checklist and Build Record",
+      "phase": "release",
+      "phaseOrder": 10,
+      "objective": "Produce the Release Checklist and Build Record for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every gate signed off with a link to its evidence",
+        "Built artefact identified by version, commit and build command",
+        "Install and launch verified from the shipped artefact on a declared platform",
+        "Known issues shipped with the build, not hidden"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D40-milestone-report",
+        "D33-regression-suite",
+        "D34-optimization-pass",
+        "D37-licence-audit"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/production/release-checklist.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T22:55:51.087Z",
+      "updatedAt": "2026-11-18T22:55:51.087Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

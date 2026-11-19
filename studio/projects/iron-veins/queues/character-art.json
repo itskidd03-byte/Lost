@@ -1,0 +1,98 @@
+{
+  "department": {
+    "id": "D10",
+    "slug": "character-art",
+    "name": "Character Art"
+  },
+  "updatedAt": "2026-11-18T19:57:43.221Z",
+  "tasks": [
+    {
+      "id": "D10-character-spec",
+      "dept": "D10",
+      "deptSlug": "character-art",
+      "deptName": "Character Art",
+      "deliverable": "character-spec",
+      "name": "Character Specification",
+      "phase": "art-direction",
+      "phaseOrder": 4,
+      "objective": "Produce the Character Specification for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every character class has a silhouette, palette and material plan",
+        "Customisation dimensions and their allowed values listed",
+        "Polygon, texture and bone budgets stated per class"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D01-art-direction",
+        "D02-gdd"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/character-art/character-spec.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D10-character-pack",
+      "dept": "D10",
+      "deptSlug": "character-art",
+      "deptName": "Character Art",
+      "deliverable": "character-pack",
+      "name": "Character Pack",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Character Pack for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Every character rigs and deforms correctly at the stated bone count",
+        "Skinning weights verified on extreme poses",
+        "Modular pieces share a material set and attach without gaps"
+      ],
+      "checks": [
+        "assets"
+      ],
+      "dependsOn": [
+        "D10-character-spec",
+        "D06-model-pack"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/character-art/character-pack.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D10-character-review",
+      "dept": "D10",
+      "deptSlug": "character-art",
+      "deptName": "Character Art",
+      "deliverable": "character-review",
+      "name": "Character Review",
+      "phase": "polish",
+      "phaseOrder": 9,
+      "objective": "Produce the Character Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "No visible seams, clipping or untextured areas in the build",
+        "All customisation combinations render without missing assets"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D10-character-pack",
+        "D11-animation-set"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/character-art/character-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

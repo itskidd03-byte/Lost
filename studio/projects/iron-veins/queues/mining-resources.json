@@ -1,0 +1,100 @@
+{
+  "department": {
+    "id": "D26",
+    "slug": "mining-resources",
+    "name": "Mining and Resource Systems"
+  },
+  "updatedAt": "2026-11-18T19:57:43.223Z",
+  "tasks": [
+    {
+      "id": "D26-geology-spec",
+      "dept": "D26",
+      "deptSlug": "mining-resources",
+      "deptName": "Mining and Resource Systems",
+      "deliverable": "geology-spec",
+      "name": "Geology and Resource Spec",
+      "phase": "design",
+      "phaseOrder": 2,
+      "objective": "Produce the Geology and Resource Spec for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Strata, ore types and spawn rules defined with distribution numbers",
+        "Extraction rates, tool tiers and yields tabulated",
+        "Depletion and regeneration policy stated",
+        "Underground generation constraints stated for D29"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D02-gdd",
+        "D03-world-bible"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/mining-resources/geology-spec.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D26-mining-mechanics",
+      "dept": "D26",
+      "deptSlug": "mining-resources",
+      "deptName": "Mining and Resource Systems",
+      "deliverable": "mining-mechanics",
+      "name": "Mining and Processing Implementation",
+      "phase": "production",
+      "phaseOrder": 6,
+      "objective": "Produce the Mining and Processing Implementation for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Mining and terrain deformation work with correct collision updates",
+        "Processing and crafting chains produce the specified outputs",
+        "Resource counts survive save and load"
+      ],
+      "checks": [
+        "typecheck"
+      ],
+      "dependsOn": [
+        "D26-geology-spec",
+        "D19-collision-and-bodies"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/mining-resources/mining-mechanics.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    },
+    {
+      "id": "D26-economy-integration-review",
+      "dept": "D26",
+      "deptSlug": "mining-resources",
+      "deptName": "Mining and Resource Systems",
+      "deliverable": "economy-integration-review",
+      "name": "Resource Economy Review",
+      "phase": "polish",
+      "phaseOrder": 9,
+      "objective": "Produce the Resource Economy Review for this project, meeting every acceptance criterion, then submit it for Studio Director review.",
+      "acceptance": [
+        "Resource sinks and faucets reconciled against the economy model",
+        "No infinite or degenerate resource loop in a soak simulation",
+        "Measured time-to-tier progression matches the design target"
+      ],
+      "checks": [],
+      "dependsOn": [
+        "D26-mining-mechanics",
+        "D30-economy-model"
+      ],
+      "waivedDeps": [],
+      "artifact": "deliverables/mining-resources/economy-integration-review.md",
+      "status": "queued",
+      "attempts": 0,
+      "createdAt": "2026-11-18T19:45:54.351Z",
+      "updatedAt": "2026-11-18T19:45:54.351Z",
+      "reviews": [],
+      "skips": []
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "pipelineVersion": 1,
+  "phases": [
+    {
+      "id": "concept",
+      "order": 1,
+      "name": "Concept",
+      "lead": "D01",
+      "purpose": "Understand the idea, fix the creative identity and establish what is and is not being made.",
+      "exitCriteria": [
+        "Concept brief approved by the Studio Director",
+        "Technology radar and asset plan exist",
+        "Scope and out-of-scope list agreed"
+      ]
+    },
+    {
+      "id": "design",
+      "order": 2,
+      "name": "Design",
+      "lead": "D02",
+      "purpose": "Turn the concept into implementable systems, world, story, UX and production plan.",
+      "exitCriteria": [
+        "Game design document approved with numbers",
+        "World bible, UX flows and specialist system designs approved",
+        "Production plan with milestones approved"
+      ]
+    },
+    {
+      "id": "technical",
+      "order": 3,
+      "name": "Technical Planning",
+      "lead": "D17",
+      "purpose": "Choose the engine and architecture, set budgets, and define the data and platform contracts.",
+      "exitCriteria": [
+        "Engine decision recorded as an ADR",
+        "Runtime architecture and platform matrix approved",
+        "Performance budget, data model and pipeline conventions approved"
+      ]
+    },
+    {
+      "id": "art-direction",
+      "order": 4,
+      "name": "Art Direction",
+      "lead": "D08",
+      "purpose": "Fix the visual and audio language and the asset requirements that follow from it.",
+      "exitCriteria": [
+        "Art direction bible approved",
+        "World layout, lighting, UI and animation plans approved",
+        "Asset, model and effect lists exist with budgets"
+      ]
+    },
+    {
+      "id": "prototype",
+      "order": 5,
+      "name": "Prototype",
+      "lead": "D18",
+      "purpose": "Prove the core loop is playable and fun in a real build before mass production.",
+      "exitCriteria": [
+        "Playable prototype build exists and is reachable",
+        "Core loop demonstrated end to end",
+        "Go or no-go decision recorded"
+      ]
+    },
+    {
+      "id": "production",
+      "order": 6,
+      "name": "Production",
+      "lead": "D40",
+      "purpose": "Every department produces and integrates its systems, assets and content.",
+      "exitCriteria": [
+        "Every active department's production deliverables approved",
+        "All content integrated into one build",
+        "Milestone report shows no unowned blocker"
+      ]
+    },
+    {
+      "id": "testing",
+      "order": 7,
+      "name": "Testing",
+      "lead": "D33",
+      "purpose": "Find out what is actually broken across gameplay, interface, compatibility, saves and performance.",
+      "exitCriteria": [
+        "Test report approved with no unlinked failures",
+        "Compatibility and input parity verified",
+        "No open blocker bug"
+      ]
+    },
+    {
+      "id": "optimization",
+      "order": 8,
+      "name": "Optimisation",
+      "lead": "D34",
+      "purpose": "Hit the frame and memory budgets on the weakest declared hardware, measured rather than claimed.",
+      "exitCriteria": [
+        "Performance gate passes on every declared platform profile",
+        "Lighting, VFX, environment and pipeline budgets met",
+        "Lowest quality tier verified playable on the weakest device"
+      ]
+    },
+    {
+      "id": "polish",
+      "order": 9,
+      "name": "Polish",
+      "lead": "D01",
+      "purpose": "Refine feel, clarity and presentation against the creative pillars without adding scope.",
+      "exitCriteria": [
+        "Creative sign-off against every pillar",
+        "Tuning, mix and cinematic reviews approved",
+        "No polish task changes agreed scope"
+      ]
+    },
+    {
+      "id": "release",
+      "order": 10,
+      "name": "Release",
+      "lead": "D40",
+      "purpose": "Verify the release candidate against every gate and hand over a build plus its known issues.",
+      "exitCriteria": [
+        "Release checklist signed with evidence links",
+        "QA regression green, licence audit clean, integrity audit clean",
+        "Built artefact identified by version, commit and build command"
+      ]
+    }
+  ]
+}
