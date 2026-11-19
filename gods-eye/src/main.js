@@ -1266,3 +1266,11 @@ class Game {
 
 const game = new Game();
 window.__godsEye = game;
+
+// The perf overlay is opt-in and loaded on demand, so an ordinary visit never
+// downloads it. ?perf=1 turns it on for the device under test.
+if (new URLSearchParams(location.search).get('perf') === '1') {
+  import('./perf.js')
+    .then((mod) => mod.startPerfOverlay(game))
+    .catch((err) => console.warn('[gods-eye] perf overlay unavailable', err));
+}
