@@ -1,8 +1,8 @@
 {
  "category": "07_FOOD",
- "assets": 30,
- "files": 1046,
- "bytes": 19787833,
+ "assets": 31,
+ "files": 1047,
+ "bytes": 19818265,
  "subcategories": [
   "Bread",
   "Cooking Equipment",
@@ -315,6 +315,16 @@
    "files": 1005,
    "bytes": 13610922,
    "thumbnail": ""
+  },
+  {
+   "asset_id": "D3A-0015",
+   "name": "Ale Jugs (Medieval Tournament and Jousting Ground)",
+   "subcategory": "Prepared Meals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 30432,
+   "thumbnail": "07_FOOD/Prepared Meals/medieval-tournament-and-jousting-ground-ale-jugs-11c884d9.thumb.webp"
   }
  ]
 }

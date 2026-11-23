@@ -1,8 +1,8 @@
 {
  "category": "10_ROADS_INFRASTRUCTURE",
- "assets": 27,
- "files": 509,
- "bytes": 8130926,
+ "assets": 29,
+ "files": 511,
+ "bytes": 8455082,
  "subcategories": [
   "Railways",
   "Roads"
@@ -277,6 +277,26 @@
    "files": 483,
    "bytes": 6996422,
    "thumbnail": ""
+  },
+  {
+   "asset_id": "D3A-0022",
+   "name": "Four Head Floodlight Mast (FPS Survival Forest Outpost)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 317500,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/fps-survival-forest-outpost-floodlight-mast-98fcda0b.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0023",
+   "name": "Road Straight (Pixel Modern City Street)",
+   "subcategory": "Roads",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 6656,
+   "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/pixel-modern-city-street-road-straight-f9ef0f66.thumb.webp"
   }
  ]
 }

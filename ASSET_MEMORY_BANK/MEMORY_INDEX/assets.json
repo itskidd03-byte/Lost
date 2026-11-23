@@ -215411,5 +215411,1264 @@
   "pack": "medieval-rts",
   "file_count": 262,
   "ordering": 49
+ },
+ {
+  "asset_id": "D3A-0001",
+  "source": "3dassets",
+  "source_id": "36170",
+  "name": "Water Pavilion (Imperial China Palace and Garden)",
+  "category": "04_BUILDINGS",
+  "subcategory": "Houses",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/imperial-china-palace-and-garden-water-pavilion-477e41ba",
+  "download_url": "https://cdn.3dassets.dev/assets/36170/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Historical",
+   "Stylized",
+   "Exterior"
+  ],
+  "files": [
+   {
+    "path": "04_BUILDINGS/Houses/imperial-china-palace-and-garden-water-pavilion-477e41ba.glb",
+    "bytes": 129284,
+    "sha256": "f240d73d1c89c4f0f9dcbabad70953e7bddecf86a8889ccf9215b018a4452887",
+    "status": "valid",
+    "triangles": 4388,
+    "meshes": 6,
+    "materials": 6,
+    "textures": 0,
+    "animations": [],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 129284,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 4388,
+  "textures": "",
+  "animations": [],
+  "thumbnail": "04_BUILDINGS/Houses/imperial-china-palace-and-garden-water-pavilion-477e41ba.thumb.webp",
+  "validation": "valid",
+  "summary": "An open pavilion standing over water on stone piles, with a balustrade seat on three sides, bracket sets and a hipped tile roof under a bronze finial.",
+  "ai_generated": true,
+  "dimensions_m": "6.6 x 7.7 x 6.6"
+ },
+ {
+  "asset_id": "D3A-0002",
+  "source": "3dassets",
+  "source_id": "37074",
+  "name": "Bell Wall With Bell (Greek Island Village and Harbour)",
+  "category": "04_BUILDINGS",
+  "subcategory": "Modern Buildings",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/greek-island-village-and-harbour-bell-wall-with-bell-f5bf5f78",
+  "download_url": "https://cdn.3dassets.dev/assets/37074/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Modern",
+   "Realistic",
+   "Exterior",
+   "Animated"
+  ],
+  "files": [
+   {
+    "path": "04_BUILDINGS/Modern Buildings/greek-island-village-and-harbour-bell-wall-with-bell-f5bf5f78.glb",
+    "bytes": 102880,
+    "sha256": "9e5eef1c060f6914526273cf0d6234b81d588d9d3092e5efd4e5dc6aca3b014f",
+    "status": "valid",
+    "triangles": 1886,
+    "meshes": 5,
+    "materials": 4,
+    "textures": 2,
+    "animations": [
+     "ring"
+    ],
+    "extensions": [
+     "EXT_texture_webp",
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 102880,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 1886,
+  "textures": 2,
+  "animations": [
+   "ring"
+  ],
+  "thumbnail": "04_BUILDINGS/Modern Buildings/greek-island-village-and-harbour-bell-wall-with-bell-f5bf5f78.thumb.webp",
+  "validation": "valid",
+  "summary": "Free 3D model of a whitewashed bell wall for a Greek island village game asset kit: an arched opening with a hung bronze bell that swings.",
+  "ai_generated": true,
+  "dimensions_m": "2.54 x 4.233 x 0.54"
+ },
+ {
+  "asset_id": "D3A-0003",
+  "source": "3dassets",
+  "source_id": "6797",
+  "name": "Tall coconut palm (Tropical Island and Palm Trees)",
+  "category": "08_ENVIRONMENT",
+  "subcategory": "Trees",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/tropical-island-ecology-coconut-palm-tall-7b181376",
+  "download_url": "https://cdn.3dassets.dev/assets/6797/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Fantasy",
+   "Stylized",
+   "Exterior"
+  ],
+  "files": [
+   {
+    "path": "08_ENVIRONMENT/Trees/tropical-island-ecology-coconut-palm-tall-7b181376.glb",
+    "bytes": 213916,
+    "sha256": "83e329079a60502e5218d05eb0e3e96ba169a7d66f31066ccd3795cdda4267c9",
+    "status": "valid",
+    "triangles": 4244,
+    "meshes": 15,
+    "materials": 4,
+    "textures": 0,
+    "animations": [],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 213916,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 4244,
+  "textures": "",
+  "animations": [],
+  "thumbnail": "08_ENVIRONMENT/Trees/tropical-island-ecology-coconut-palm-tall-7b181376.thumb.webp",
+  "validation": "valid",
+  "summary": "Sculpted gently curved palm trunk with eleven generous pinnate fronds and three coconuts.",
+  "ai_generated": true,
+  "dimensions_m": "5.991 x 8.59 x 5.93"
+ },
+ {
+  "asset_id": "D3A-0004",
+  "source": "3dassets",
+  "source_id": "6818",
+  "name": "Buttressed emergent tree (Tropical Island and Palm Trees)",
+  "category": "08_ENVIRONMENT",
+  "subcategory": "Trees",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/tropical-island-ecology-buttressed-emergent-68f09c03",
+  "download_url": "https://cdn.3dassets.dev/assets/6818/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Fantasy",
+   "Stylized",
+   "Exterior"
+  ],
+  "files": [
+   {
+    "path": "08_ENVIRONMENT/Trees/tropical-island-ecology-buttressed-emergent-68f09c03.glb",
+    "bytes": 167240,
+    "sha256": "941695788cb82b2014c03cc71766ac0434bf525bb692d468ba77ea141716126f",
+    "status": "valid",
+    "triangles": 3196,
+    "meshes": 21,
+    "materials": 2,
+    "textures": 0,
+    "animations": [],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 167240,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 3196,
+  "textures": "",
+  "animations": [],
+  "thumbnail": "08_ENVIRONMENT/Trees/tropical-island-ecology-buttressed-emergent-68f09c03.thumb.webp",
+  "validation": "valid",
+  "summary": "Tall clear bole with broad plank-like buttresses and a high canopy.",
+  "ai_generated": true,
+  "dimensions_m": "8.607 x 11.291 x 8.499"
+ },
+ {
+  "asset_id": "D3A-0005",
+  "source": "3dassets",
+  "source_id": "36145",
+  "name": "Undergrowth Patch (Jungle Temple and Stone City)",
+  "category": "08_ENVIRONMENT",
+  "subcategory": "Rocks",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/jungle-temple-and-stone-city-undergrowth-patch-dc35043c",
+  "download_url": "https://cdn.3dassets.dev/assets/36145/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Fantasy",
+   "Realistic",
+   "Exterior"
+  ],
+  "files": [
+   {
+    "path": "08_ENVIRONMENT/Rocks/jungle-temple-and-stone-city-undergrowth-patch-dc35043c.glb",
+    "bytes": 147652,
+    "sha256": "419d951831aeb5d0af2f8a9b13b80c27341f9a286a18cb83505d402766d95299",
+    "status": "valid",
+    "triangles": 1724,
+    "meshes": 4,
+    "materials": 4,
+    "textures": 3,
+    "animations": [],
+    "extensions": [
+     "EXT_texture_webp",
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 147652,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 1724,
+  "textures": 3,
+  "animations": [],
+  "thumbnail": "08_ENVIRONMENT/Rocks/jungle-temple-and-stone-city-undergrowth-patch-dc35043c.thumb.webp",
+  "validation": "valid",
+  "summary": "Free 3D model of a rainforest undergrowth patch: a 2.6 m mat of moss, mixed ferns and thin saplings, for filling forest floor and ruined ground.",
+  "ai_generated": true,
+  "dimensions_m": "2.6 x 1.226 x 2.666"
+ },
+ {
+  "asset_id": "D3A-0006",
+  "source": "3dassets",
+  "source_id": "6796",
+  "name": "Leaning shore coconut palm (Tropical Island and Palm Trees)",
+  "category": "08_ENVIRONMENT",
+  "subcategory": "Trees",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/tropical-island-ecology-coconut-palm-leaning-5caeaac8",
+  "download_url": "https://cdn.3dassets.dev/assets/6796/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Fantasy",
+   "Stylized",
+   "Exterior"
+  ],
+  "files": [
+   {
+    "path": "08_ENVIRONMENT/Trees/tropical-island-ecology-coconut-palm-leaning-5caeaac8.glb",
+    "bytes": 214032,
+    "sha256": "28cdc6945a6d32865e7f1b2fcd2b50b81d5d0df90e7b7b0781fb29adbdedb265",
+    "status": "valid",
+    "triangles": 4244,
+    "meshes": 15,
+    "materials": 4,
+    "textures": 0,
+    "animations": [],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 214032,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 4244,
+  "textures": "",
+  "animations": [],
+  "thumbnail": "08_ENVIRONMENT/Trees/tropical-island-ecology-coconut-palm-leaning-5caeaac8.thumb.webp",
+  "validation": "valid",
+  "summary": "Deeply curved shoreline trunk carries its crown well beyond the root collar.",
+  "ai_generated": true,
+  "dimensions_m": "5.517 x 6.455 x 4.449"
+ },
+ {
+  "asset_id": "D3A-0007",
+  "source": "3dassets",
+  "source_id": "38720",
+  "name": "Stylized Oak Tree Mature (Stylized Trees and Rocks Kit)",
+  "category": "08_ENVIRONMENT",
+  "subcategory": "Trees",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/stylized-trees-and-rocks-kit-oak-mature-658d06b2",
+  "download_url": "https://cdn.3dassets.dev/assets/38720/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Modern",
+   "Stylized",
+   "Exterior"
+  ],
+  "files": [
+   {
+    "path": "08_ENVIRONMENT/Trees/stylized-trees-and-rocks-kit-oak-mature-658d06b2.glb",
+    "bytes": 38304,
+    "sha256": "a02c80e2956fcecb86129386774383ce39ef088095c2b2c33f1547d7408a96be",
+    "status": "valid",
+    "triangles": 531,
+    "meshes": 2,
+    "materials": 2,
+    "textures": 1,
+    "animations": [],
+    "extensions": [
+     "EXT_texture_webp",
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 38304,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 531,
+  "textures": 1,
+  "animations": [],
+  "thumbnail": "08_ENVIRONMENT/Trees/stylized-trees-and-rocks-kit-oak-mature-658d06b2.thumb.webp",
+  "validation": "valid",
+  "summary": "Mature stylized oak with a thick flared bole, three spreading limbs and a broad seven lobe crown.",
+  "ai_generated": true,
+  "dimensions_m": "4.451 x 5.076 x 3.426"
+ },
+ {
+  "asset_id": "D3A-0008",
+  "source": "3dassets",
+  "source_id": "36697",
+  "name": "Western Dragon Standing Alert (Dragons and Wyverns)",
+  "category": "01_CHARACTERS",
+  "subcategory": "Monsters",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/dragons-and-wyverns-western-dragon-standing-alert-2e73a611",
+  "download_url": "https://cdn.3dassets.dev/assets/36697/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Fantasy",
+   "Stylized",
+   "Exterior"
+  ],
+  "files": [
+   {
+    "path": "01_CHARACTERS/Monsters/dragons-and-wyverns-western-dragon-standing-alert-2e73a611.glb",
+    "bytes": 198296,
+    "sha256": "2e1b43e1184838b6ae009bf30eeda3b48f81c9289ed907ea530de1c89579e3e0",
+    "status": "valid",
+    "triangles": 4126,
+    "meshes": 6,
+    "materials": 6,
+    "textures": 0,
+    "animations": [],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 198296,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 4126,
+  "textures": "",
+  "animations": [],
+  "thumbnail": "01_CHARACTERS/Monsters/dragons-and-wyverns-western-dragon-standing-alert-2e73a611.thumb.webp",
+  "validation": "valid",
+  "summary": "Four legged winged dragon standing square with its wings folded and its head up, 7 m nose to tail, 2.3 m at the shoulder.",
+  "ai_generated": true,
+  "dimensions_m": "1.792 x 3.372 x 6.468"
+ },
+ {
+  "asset_id": "D3A-0009",
+  "source": "3dassets",
+  "source_id": "36373",
+  "name": "Low Poly Knight With A Sword Raised (Low Poly Character Figures)",
+  "category": "01_CHARACTERS",
+  "subcategory": "Soldiers",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/low-poly-character-figures-knight-sword-raised-5e8b7e11",
+  "download_url": "https://cdn.3dassets.dev/assets/36373/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Modern",
+   "Low Poly",
+   "Exterior",
+   "Fantasy"
+  ],
+  "files": [
+   {
+    "path": "01_CHARACTERS/Soldiers/low-poly-character-figures-knight-sword-raised-5e8b7e11.glb",
+    "bytes": 74676,
+    "sha256": "3e3cfcbeea4f95ec7c2d9abee53dbed7440cd32eab6f35181072a8d9d2cc2e94",
+    "status": "valid",
+    "triangles": 1486,
+    "meshes": 4,
+    "materials": 4,
+    "textures": 0,
+    "animations": [],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 74676,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 1486,
+  "textures": "",
+  "animations": [],
+  "thumbnail": "01_CHARACTERS/Soldiers/low-poly-character-figures-knight-sword-raised-5e8b7e11.thumb.webp",
+  "validation": "valid",
+  "summary": "Armoured knight with the sword swung up and out, a tall attacking silhouette.",
+  "ai_generated": true,
+  "dimensions_m": "1.437 x 2.338 x 0.865"
+ },
+ {
+  "asset_id": "D3A-0010",
+  "source": "3dassets",
+  "source_id": "4890",
+  "name": "velociraptor feathered (Dinosaurs and Prehistoric Life)",
+  "category": "01_CHARACTERS",
+  "subcategory": "Animals",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/dinosaurs-and-prehistoric-life-velociraptor-feathered-29934bbd",
+  "download_url": "https://cdn.3dassets.dev/assets/4890/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Historical",
+   "Realistic",
+   "Exterior"
+  ],
+  "files": [
+   {
+    "path": "01_CHARACTERS/Animals/dinosaurs-and-prehistoric-life-velociraptor-feathered-29934bbd.glb",
+    "bytes": 424924,
+    "sha256": "1ee9cba2ca2180a0a3e9291def562054a420e10055f33e52051a405b05f69fbf",
+    "status": "valid",
+    "triangles": 8800,
+    "meshes": 3,
+    "materials": 3,
+    "textures": 0,
+    "animations": [],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 424924,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 8800,
+  "textures": "",
+  "animations": [],
+  "thumbnail": "01_CHARACTERS/Animals/dinosaurs-and-prehistoric-life-velociraptor-feathered-29934bbd.thumb.webp",
+  "validation": "valid",
+  "summary": "velociraptor feathered with balanced horizontal tail, digitigrade hind limbs and feathered forearms and tail fan.",
+  "ai_generated": true,
+  "dimensions_m": "0.512 x 0.819 x 2"
+ },
+ {
+  "asset_id": "D3A-0011",
+  "source": "3dassets",
+  "source_id": "1682",
+  "name": "Tyrannosaurus rex (Primeval Frontier: Dinosaur Worlds)",
+  "category": "01_CHARACTERS",
+  "subcategory": "Animals",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/primeval-frontier-tyrannosaurus-rex-54d1b3b3",
+  "download_url": "https://cdn.3dassets.dev/assets/1682/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Historical",
+   "Stylized",
+   "Kit / Set"
+  ],
+  "files": [
+   {
+    "path": "01_CHARACTERS/Animals/primeval-frontier-tyrannosaurus-rex-54d1b3b3.glb",
+    "bytes": 409684,
+    "sha256": "890c891d11fe9508f5cc7ba8ea8312bdb00045c9242d4bb91ab31fdf9bc294cd",
+    "status": "valid",
+    "triangles": 8452,
+    "meshes": 5,
+    "materials": 5,
+    "textures": 0,
+    "animations": [],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 409684,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 8452,
+  "textures": "",
+  "animations": [],
+  "thumbnail": "01_CHARACTERS/Animals/primeval-frontier-tyrannosaurus-rex-54d1b3b3.thumb.webp",
+  "validation": "valid",
+  "summary": "Heavy deep-skulled predator with muscular haunches, reduced two-fingered arms and irregular dorsal bands.",
+  "ai_generated": true,
+  "dimensions_m": "2.357 x 5.405 x 9.471"
+ },
+ {
+  "asset_id": "D3A-0012",
+  "source": "3dassets",
+  "source_id": "38770",
+  "name": "Double Bed Upholstered (Bedroom and Living Room Furniture)",
+  "category": "06_FURNITURE",
+  "subcategory": "Bedroom",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/bedroom-and-living-room-furniture-double-bed-upholster-4c7d1e0e",
+  "download_url": "https://cdn.3dassets.dev/assets/38770/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Modern",
+   "Realistic",
+   "Interior"
+  ],
+  "files": [
+   {
+    "path": "06_FURNITURE/Bedroom/bedroom-and-living-room-furniture-double-bed-upholster-4c7d1e0e.glb",
+    "bytes": 81620,
+    "sha256": "086be35da80ceffd6528af9490136ccf3f25c10e67160fd2e37d4bb0a9d9e367",
+    "status": "valid",
+    "triangles": 1944,
+    "meshes": 5,
+    "materials": 5,
+    "textures": 0,
+    "animations": [],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 81620,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 1944,
+  "textures": "",
+  "animations": [],
+  "thumbnail": "06_FURNITURE/Bedroom/bedroom-and-living-room-furniture-double-bed-upholster-4c7d1e0e.thumb.webp",
+  "validation": "valid",
+  "summary": "Upholstered 160 cm double bed with a buttonless seamed headboard, mattress and two pillows.",
+  "ai_generated": true,
+  "dimensions_m": "1.71 x 1.105 x 2.19"
+ },
+ {
+  "asset_id": "D3A-0013",
+  "source": "3dassets",
+  "source_id": "27732",
+  "name": "CNC machining centre with sliding door (Machine Shop and Factory Hall)",
+  "category": "11_PROPS_RESOURCES",
+  "subcategory": "",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/machine-shop-and-factory-hall-machine-shop-and-factory-c358e0db",
+  "download_url": "https://cdn.3dassets.dev/assets/27732/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Modern",
+   "Stylized",
+   "Animated"
+  ],
+  "files": [
+   {
+    "path": "11_PROPS_RESOURCES/machine-shop-and-factory-hall-machine-shop-and-factory-c358e0db.glb",
+    "bytes": 359032,
+    "sha256": "46b2897c6509b4ada7e91839bc1795f8347521d328694a901290e2086120286d",
+    "status": "valid",
+    "triangles": 8736,
+    "meshes": 13,
+    "materials": 10,
+    "textures": 0,
+    "animations": [
+     "open",
+     "close"
+    ],
+    "extensions": [
+     "KHR_materials_transmission",
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 359032,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 8736,
+  "textures": "",
+  "animations": [
+   "open",
+   "close"
+  ],
+  "thumbnail": "11_PROPS_RESOURCES/machine-shop-and-factory-hall-machine-shop-and-factory-c358e0db.thumb.webp",
+  "validation": "valid",
+  "summary": "Enclosed three axis machining centre: a chamfered base, a light grey guarding enclosure with a glazed sliding door on a bottom track, a swarf conveyor, a three colour stack light and a control pendant with a keyboard on a swing arm.",
+  "ai_generated": true,
+  "dimensions_m": "3.36 x 2.955 x 2.128"
+ },
+ {
+  "asset_id": "D3A-0014",
+  "source": "3dassets",
+  "source_id": "33566",
+  "name": "Weight Plate Tree, Loaded (Gym and Fitness Studio)",
+  "category": "11_PROPS_RESOURCES",
+  "subcategory": "",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/gym-and-fitness-studio-weight-plate-tree-e1ac8322",
+  "download_url": "https://cdn.3dassets.dev/assets/33566/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Modern",
+   "Realistic",
+   "Interior"
+  ],
+  "files": [
+   {
+    "path": "11_PROPS_RESOURCES/gym-and-fitness-studio-weight-plate-tree-e1ac8322.glb",
+    "bytes": 200328,
+    "sha256": "3f95d7c44037a9aef523ec3237af024d3a09ce9a8a2e40a7655ea3c5c156ad11",
+    "status": "valid",
+    "triangles": 5352,
+    "meshes": 3,
+    "materials": 3,
+    "textures": 0,
+    "animations": [],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 200328,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 5352,
+  "textures": "",
+  "animations": [],
+  "thumbnail": "11_PROPS_RESOURCES/gym-and-fitness-studio-weight-plate-tree-e1ac8322.thumb.webp",
+  "validation": "valid",
+  "summary": "A 1.4 m vertical plate tree on a three-legged base with six horns, loaded with four 20 kg bumper plates and eight smaller plates, the horns staggered up the column so plates clear each other.",
+  "ai_generated": true,
+  "dimensions_m": "0.797 x 1.456 x 0.872"
+ },
+ {
+  "asset_id": "D3A-0015",
+  "source": "3dassets",
+  "source_id": "37245",
+  "name": "Ale Jugs (Medieval Tournament and Jousting Ground)",
+  "category": "07_FOOD",
+  "subcategory": "Prepared Meals",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/medieval-tournament-and-jousting-ground-ale-jugs-11c884d9",
+  "download_url": "https://cdn.3dassets.dev/assets/37245/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Medieval",
+   "Realistic",
+   "Exterior",
+   "Interior"
+  ],
+  "files": [
+   {
+    "path": "07_FOOD/Prepared Meals/medieval-tournament-and-jousting-ground-ale-jugs-11c884d9.glb",
+    "bytes": 30432,
+    "sha256": "134cd5a34a42d7e40137ebf03e06e50b899eafd92b3cc0dfb7c7cbd8357a3ece",
+    "status": "valid",
+    "triangles": 668,
+    "meshes": 3,
+    "materials": 3,
+    "textures": 0,
+    "animations": [],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 30432,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 668,
+  "textures": "",
+  "animations": [],
+  "thumbnail": "07_FOOD/Prepared Meals/medieval-tournament-and-jousting-ground-ale-jugs-11c884d9.thumb.webp",
+  "validation": "valid",
+  "summary": "Three glazed jugs and four turned cups on a low serving stool, for the ale line behind the stands.",
+  "ai_generated": true,
+  "dimensions_m": "0.9 x 0.87 x 0.64"
+ },
+ {
+  "asset_id": "D3A-0016",
+  "source": "3dassets",
+  "source_id": "28502",
+  "name": "Assault Rifle (Arctic Station FPS Kit)",
+  "category": "03_MILITARY",
+  "subcategory": "Weapons",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/arctic-station-fps-kit-assault-rifle-23a5401c",
+  "download_url": "https://cdn.3dassets.dev/assets/28502/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Modern",
+   "Realistic",
+   "Animated"
+  ],
+  "files": [
+   {
+    "path": "03_MILITARY/Weapons/arctic-station-fps-kit-assault-rifle-23a5401c.glb",
+    "bytes": 898356,
+    "sha256": "8a4aa8d9cc880ff01889da37f691c1acd5ce12b4be427180f2174571e01f1b39",
+    "status": "valid",
+    "triangles": 49828,
+    "meshes": 9,
+    "materials": 3,
+    "textures": 0,
+    "animations": [
+     "magazine-open",
+     "magazine-close",
+     "bolt-open",
+     "bolt-close",
+     "stock-open",
+     "stock-close"
+    ],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 898356,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 49828,
+  "textures": "",
+  "animations": [
+   "magazine-open",
+   "magazine-close",
+   "bolt-open",
+   "bolt-close",
+   "stock-open",
+   "stock-close"
+  ],
+  "thumbnail": "03_MILITARY/Weapons/arctic-station-fps-kit-assault-rifle-23a5401c.thumb.webp",
+  "validation": "valid",
+  "summary": "Free 3D model of a assault rifle for a modern military FPS game, an invented archetype with working named parts. Measures 0.15 by 0.31 by 0.90 m.",
+  "ai_generated": true,
+  "dimensions_m": "0.15 x 0.312 x 0.901"
+ },
+ {
+  "asset_id": "D3A-0017",
+  "source": "3dassets",
+  "source_id": "19430",
+  "name": "Compact pistol (FPS Guns and Shooting Range)",
+  "category": "03_MILITARY",
+  "subcategory": "Weapons",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/fps-weapon-set-and-firing-range-compact-pistol-1ac660a7",
+  "download_url": "https://cdn.3dassets.dev/assets/19430/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Modern",
+   "Realistic",
+   "Modular"
+  ],
+  "files": [
+   {
+    "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-compact-pistol-1ac660a7.glb",
+    "bytes": 487132,
+    "sha256": "7c4327b069f555705285ed6e7c6f42e11f5a87eb18c2e21317c53d168cb69c12",
+    "status": "valid",
+    "triangles": 10024,
+    "meshes": 6,
+    "materials": 4,
+    "textures": 0,
+    "animations": [
+     "magazine-open",
+     "magazine-close",
+     "slide-open",
+     "slide-close"
+    ],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 487132,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 10024,
+  "textures": "",
+  "animations": [
+   "magazine-open",
+   "magazine-close",
+   "slide-open",
+   "slide-close"
+  ],
+  "thumbnail": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-compact-pistol-1ac660a7.thumb.webp",
+  "validation": "valid",
+  "summary": "Compact pistol with original detailed construction in metres.",
+  "ai_generated": true,
+  "dimensions_m": "0.041 x 0.219 x 0.185"
+ },
+ {
+  "asset_id": "D3A-0018",
+  "source": "3dassets",
+  "source_id": "19436",
+  "name": "Assault carbine (FPS Guns and Shooting Range)",
+  "category": "03_MILITARY",
+  "subcategory": "Weapons",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/fps-weapon-set-and-firing-range-assault-carbine-5a5b3ffe",
+  "download_url": "https://cdn.3dassets.dev/assets/19436/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Modern",
+   "Realistic",
+   "Modular"
+  ],
+  "files": [
+   {
+    "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-assault-carbine-5a5b3ffe.glb",
+    "bytes": 550288,
+    "sha256": "f300c114d52b970733d8df575d3a68ab6a00d5b65d6e35a14962523bef053549",
+    "status": "valid",
+    "triangles": 11324,
+    "meshes": 7,
+    "materials": 5,
+    "textures": 0,
+    "animations": [
+     "stock-open",
+     "stock-close",
+     "magazine-open",
+     "magazine-close"
+    ],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 550288,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 11324,
+  "textures": "",
+  "animations": [
+   "stock-open",
+   "stock-close",
+   "magazine-open",
+   "magazine-close"
+  ],
+  "thumbnail": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-assault-carbine-5a5b3ffe.thumb.webp",
+  "validation": "valid",
+  "summary": "Assault carbine with original detailed construction in metres.",
+  "ai_generated": true,
+  "dimensions_m": "0.071 x 0.26 x 0.891"
+ },
+ {
+  "asset_id": "D3A-0019",
+  "source": "3dassets",
+  "source_id": "28500",
+  "name": "Personal Defence Weapon (Arctic Station FPS Kit)",
+  "category": "03_MILITARY",
+  "subcategory": "Weapons",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/arctic-station-fps-kit-personal-defence-weapon-bf534b99",
+  "download_url": "https://cdn.3dassets.dev/assets/28500/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Modern",
+   "Realistic",
+   "Animated"
+  ],
+  "files": [
+   {
+    "path": "03_MILITARY/Weapons/arctic-station-fps-kit-personal-defence-weapon-bf534b99.glb",
+    "bytes": 754932,
+    "sha256": "f723603654f930443209a033084d9e812c0a335668ed2f2c7d867356bbff28c3",
+    "status": "valid",
+    "triangles": 42040,
+    "meshes": 9,
+    "materials": 3,
+    "textures": 0,
+    "animations": [
+     "magazine-open",
+     "magazine-close",
+     "bolt-open",
+     "bolt-close",
+     "stock-open",
+     "stock-close"
+    ],
+    "extensions": [
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 754932,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 42040,
+  "textures": "",
+  "animations": [
+   "magazine-open",
+   "magazine-close",
+   "bolt-open",
+   "bolt-close",
+   "stock-open",
+   "stock-close"
+  ],
+  "thumbnail": "03_MILITARY/Weapons/arctic-station-fps-kit-personal-defence-weapon-bf534b99.thumb.webp",
+  "validation": "valid",
+  "summary": "Free 3D model of a personal defence weapon for a modern military FPS game, an invented archetype with working named parts. Measures 0.15 by 0.27 by 0.50 m.",
+  "ai_generated": true,
+  "dimensions_m": "0.15 x 0.272 x 0.501"
+ },
+ {
+  "asset_id": "D3A-0020",
+  "source": "3dassets",
+  "source_id": "32500",
+  "name": "Mid-size SUV (Car Park and Road Vehicle Fleet)",
+  "category": "11_PROPS_RESOURCES",
+  "subcategory": "Vehicles",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/car-park-and-road-vehicle-fleet-mid-size-suv-949ce491",
+  "download_url": "https://cdn.3dassets.dev/assets/32500/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Modern",
+   "Realistic",
+   "Exterior",
+   "Animated"
+  ],
+  "files": [
+   {
+    "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-mid-size-suv-949ce491.glb",
+    "bytes": 1036076,
+    "sha256": "ac499385e7fc67f139b724abdb24daf1eccf1a0db0da2cb01dfa31cbd09a8249",
+    "status": "valid",
+    "triangles": 30620,
+    "meshes": 24,
+    "materials": 8,
+    "textures": 0,
+    "animations": [
+     "door-open",
+     "door-close",
+     "bonnet-open",
+     "bonnet-close",
+     "boot-open",
+     "boot-close",
+     "steer",
+     "wheel-roll"
+    ],
+    "extensions": [
+     "KHR_materials_transmission",
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 1036076,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 30620,
+  "textures": "",
+  "animations": [
+   "door-open",
+   "door-close",
+   "bonnet-open",
+   "bonnet-close",
+   "boot-open",
+   "boot-close",
+   "steer",
+   "wheel-roll"
+  ],
+  "thumbnail": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-mid-size-suv-949ce491.thumb.webp",
+  "validation": "valid",
+  "summary": "A five seat mid size sport utility with a long bonnet, deep flanks and a squared tailgate. Premium realistic road vehicle for modern city, driving and parking scenes.",
+  "ai_generated": true,
+  "dimensions_m": "2.077 x 1.821 x 4.782"
+ },
+ {
+  "asset_id": "D3A-0021",
+  "source": "3dassets",
+  "source_id": "32486",
+  "name": "Five-door hatchback (Car Park and Road Vehicle Fleet)",
+  "category": "11_PROPS_RESOURCES",
+  "subcategory": "Vehicles",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/car-park-and-road-vehicle-fleet-five-door-hatchback-18f81884",
+  "download_url": "https://cdn.3dassets.dev/assets/32486/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Modern",
+   "Realistic",
+   "Exterior",
+   "Animated"
+  ],
+  "files": [
+   {
+    "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-five-door-hatchback-18f81884.glb",
+    "bytes": 965484,
+    "sha256": "f3045b702b66b9deadde9c791a7efaff67b4ee4580c16427b3d9cb8c3a5d6b73",
+    "status": "valid",
+    "triangles": 30524,
+    "meshes": 24,
+    "materials": 8,
+    "textures": 0,
+    "animations": [
+     "door-open",
+     "door-close",
+     "bonnet-open",
+     "bonnet-close",
+     "boot-open",
+     "boot-close",
+     "steer",
+     "wheel-roll"
+    ],
+    "extensions": [
+     "KHR_materials_transmission",
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 965484,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 30524,
+  "textures": "",
+  "animations": [
+   "door-open",
+   "door-close",
+   "bonnet-open",
+   "bonnet-close",
+   "boot-open",
+   "boot-close",
+   "steer",
+   "wheel-roll"
+  ],
+  "thumbnail": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-five-door-hatchback-18f81884.thumb.webp",
+  "validation": "valid",
+  "summary": "The mainstream five door hatchback: four doors, a tailgate, roof spoiler line and alloy wheels. Premium realistic road vehicle for modern city, driving and parking scenes.",
+  "ai_generated": true,
+  "dimensions_m": "1.952 x 1.464 x 4.342"
+ },
+ {
+  "asset_id": "D3A-0022",
+  "source": "3dassets",
+  "source_id": "32696",
+  "name": "Four Head Floodlight Mast (FPS Survival Forest Outpost)",
+  "category": "10_ROADS_INFRASTRUCTURE",
+  "subcategory": "Roads",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/fps-survival-forest-outpost-floodlight-mast-98fcda0b",
+  "download_url": "https://cdn.3dassets.dev/assets/32696/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Post-apocalyptic",
+   "Realistic",
+   "Exterior"
+  ],
+  "files": [
+   {
+    "path": "10_ROADS_INFRASTRUCTURE/Roads/fps-survival-forest-outpost-floodlight-mast-98fcda0b.glb",
+    "bytes": 317500,
+    "sha256": "1f059ccda07750ddab0998a9df37ce6ce4d21626a43182e6a4d1a27dd073c25a",
+    "status": "valid",
+    "triangles": 6070,
+    "meshes": 6,
+    "materials": 6,
+    "textures": 1,
+    "animations": [],
+    "extensions": [
+     "EXT_texture_webp",
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 317500,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 6070,
+  "textures": 1,
+  "animations": [],
+  "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/fps-survival-forest-outpost-floodlight-mast-98fcda0b.thumb.webp",
+  "validation": "valid",
+  "summary": "Free 3D game asset for a forest survival outpost: a 5.6 m floodlight mast with four lit heads on a cross bar, a guyed base and a switch box with a green lamp.",
+  "ai_generated": true,
+  "dimensions_m": "2.2 x 5.778 x 1.135"
+ },
+ {
+  "asset_id": "D3A-0023",
+  "source": "3dassets",
+  "source_id": "28984",
+  "name": "Road Straight (Pixel Modern City Street)",
+  "category": "10_ROADS_INFRASTRUCTURE",
+  "subcategory": "Roads",
+  "creator": "3D Assets",
+  "source_repository": "https://3dassets.dev/assets/pixel-modern-city-street-road-straight-f9ef0f66",
+  "download_url": "https://cdn.3dassets.dev/assets/28984/v1/model.glb",
+  "license": "CC0 1.0 Universal",
+  "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "attribution_required": false,
+  "attribution_text": "",
+  "kind": "model",
+  "tags": [
+   "Modern",
+   "Pixel / Retro",
+   "Modular",
+   "Kit / Set",
+   "Exterior"
+  ],
+  "files": [
+   {
+    "path": "10_ROADS_INFRASTRUCTURE/Roads/pixel-modern-city-street-road-straight-f9ef0f66.glb",
+    "bytes": 6656,
+    "sha256": "84ea2e30e92763580282f51bfdef86a8e41031066d2028da181b323d0b3e8176",
+    "status": "valid",
+    "triangles": 72,
+    "meshes": 2,
+    "materials": 2,
+    "textures": 1,
+    "animations": [],
+    "extensions": [
+     "EXT_texture_webp",
+     "KHR_mesh_quantization"
+    ],
+    "format": "glb"
+   }
+  ],
+  "bytes": 6656,
+  "formats": [
+   "glb"
+  ],
+  "polygons": 72,
+  "textures": 1,
+  "animations": [],
+  "thumbnail": "10_ROADS_INFRASTRUCTURE/Roads/pixel-modern-city-street-road-straight-f9ef0f66.thumb.webp",
+  "validation": "valid",
+  "summary": "Straight 4 m asphalt road tile with a dashed centre line and lane edge lines, for pixel art city streets in Unity, Godot, Unreal, three.js and Blender.",
+  "ai_generated": true,
+  "dimensions_m": "4 x 0.14 x 4"
  }
 ]

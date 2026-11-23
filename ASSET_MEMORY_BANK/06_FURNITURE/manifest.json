@@ -1,8 +1,8 @@
 {
  "category": "06_FURNITURE",
- "assets": 19,
- "files": 1331,
- "bytes": 30743885,
+ "assets": 20,
+ "files": 1332,
+ "bytes": 30825505,
  "subcategories": [
   "",
   "Bedroom",
@@ -208,6 +208,16 @@
    "files": 1263,
    "bytes": 11504423,
    "thumbnail": ""
+  },
+  {
+   "asset_id": "D3A-0012",
+   "name": "Double Bed Upholstered (Bedroom and Living Room Furniture)",
+   "subcategory": "Bedroom",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 81620,
+   "thumbnail": "06_FURNITURE/Bedroom/bedroom-and-living-room-furniture-double-bed-upholster-4c7d1e0e.thumb.webp"
   }
  ]
 }

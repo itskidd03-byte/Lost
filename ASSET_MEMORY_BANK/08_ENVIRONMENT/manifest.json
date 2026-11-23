@@ -1,8 +1,8 @@
 {
  "category": "08_ENVIRONMENT",
- "assets": 64,
- "files": 3147,
- "bytes": 133032256,
+ "assets": 69,
+ "files": 3152,
+ "bytes": 133813400,
  "subcategories": [
   "",
   "Bushes",
@@ -652,6 +652,56 @@
    "files": 2957,
    "bytes": 19824671,
    "thumbnail": ""
+  },
+  {
+   "asset_id": "D3A-0003",
+   "name": "Tall coconut palm (Tropical Island and Palm Trees)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 213916,
+   "thumbnail": "08_ENVIRONMENT/Trees/tropical-island-ecology-coconut-palm-tall-7b181376.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0004",
+   "name": "Buttressed emergent tree (Tropical Island and Palm Trees)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 167240,
+   "thumbnail": "08_ENVIRONMENT/Trees/tropical-island-ecology-buttressed-emergent-68f09c03.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0005",
+   "name": "Undergrowth Patch (Jungle Temple and Stone City)",
+   "subcategory": "Rocks",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 147652,
+   "thumbnail": "08_ENVIRONMENT/Rocks/jungle-temple-and-stone-city-undergrowth-patch-dc35043c.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0006",
+   "name": "Leaning shore coconut palm (Tropical Island and Palm Trees)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 214032,
+   "thumbnail": "08_ENVIRONMENT/Trees/tropical-island-ecology-coconut-palm-leaning-5caeaac8.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0007",
+   "name": "Stylized Oak Tree Mature (Stylized Trees and Rocks Kit)",
+   "subcategory": "Trees",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 38304,
+   "thumbnail": "08_ENVIRONMENT/Trees/stylized-trees-and-rocks-kit-oak-mature-658d06b2.thumb.webp"
   }
  ]
 }

@@ -1,11 +1,11 @@
 {
   "01_CHARACTERS": {
     "Humans": 14,
-    "Soldiers": 6,
+    "Soldiers": 7,
     "Civilians": 3,
     "Fantasy Characters": 1,
-    "Monsters": 3,
-    "Animals": 26,
+    "Monsters": 4,
+    "Animals": 28,
     "Creatures": 0,
     "NPCs": 0,
     "Character Skins": 0,
@@ -31,7 +31,7 @@
   },
   "03_MILITARY": {
     "Soldiers": 0,
-    "Weapons": 27,
+    "Weapons": 31,
     "Tanks": 0,
     "Helicopters": 0,
     "Aircraft": 0,
@@ -46,7 +46,7 @@
     "Military Props": 0
   },
   "04_BUILDINGS": {
-    "Houses": 7,
+    "Houses": 8,
     "Castles": 3,
     "Fortresses": 1,
     "Shops": 7,
@@ -56,7 +56,7 @@
     "Farms": 0,
     "Churches": 0,
     "Industrial": 1,
-    "Modern Buildings": 5,
+    "Modern Buildings": 6,
     "Medieval Buildings": 4,
     "Modular Building Pieces": 11
   },
@@ -76,7 +76,7 @@
     "Structural Pieces": 1
   },
   "06_FURNITURE": {
-    "Bedroom": 2,
+    "Bedroom": 3,
     "Living Room": 1,
     "Kitchen": 1,
     "Bathroom": 0,
@@ -94,18 +94,18 @@
     "Vegetables": 3,
     "Meat": 2,
     "Bread": 1,
-    "Prepared Meals": 12,
+    "Prepared Meals": 13,
     "Drinks": 3,
     "Ingredients": 0,
     "Cooking Equipment": 2,
     "_other": 3
   },
   "08_ENVIRONMENT": {
-    "Trees": 14,
+    "Trees": 18,
     "Bushes": 1,
     "Grass": 4,
     "Flowers": 0,
-    "Rocks": 3,
+    "Rocks": 4,
     "Mountains": 0,
     "Water": 2,
     "Rivers": 0,
@@ -129,7 +129,7 @@
     "Terrain Textures": 6
   },
   "10_ROADS_INFRASTRUCTURE": {
-    "Roads": 17,
+    "Roads": 19,
     "Intersections": 0,
     "Sidewalks": 0,
     "Highways": 0,
@@ -149,7 +149,7 @@
     "Metals": 0,
     "Crafting Materials": 0,
     "Collectibles": 0,
-    "_other": 62
+    "_other": 66
   },
   "12_TEXTURES_MATERIALS": {
     "PBR Materials": 20,

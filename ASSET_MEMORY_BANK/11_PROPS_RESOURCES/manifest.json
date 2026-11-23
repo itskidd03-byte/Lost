@@ -1,8 +1,8 @@
 {
  "category": "11_PROPS_RESOURCES",
- "assets": 63,
- "files": 1833,
- "bytes": 91135366,
+ "assets": 67,
+ "files": 1837,
+ "bytes": 93696286,
  "subcategories": [
   "",
   "Tools",
@@ -651,6 +651,46 @@
    "files": 1036,
    "bytes": 12331301,
    "thumbnail": ""
+  },
+  {
+   "asset_id": "D3A-0013",
+   "name": "CNC machining centre with sliding door (Machine Shop and Factory Hall)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 359032,
+   "thumbnail": "11_PROPS_RESOURCES/machine-shop-and-factory-hall-machine-shop-and-factory-c358e0db.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0014",
+   "name": "Weight Plate Tree, Loaded (Gym and Fitness Studio)",
+   "subcategory": "",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 200328,
+   "thumbnail": "11_PROPS_RESOURCES/gym-and-fitness-studio-weight-plate-tree-e1ac8322.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0020",
+   "name": "Mid-size SUV (Car Park and Road Vehicle Fleet)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 1036076,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-mid-size-suv-949ce491.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0021",
+   "name": "Five-door hatchback (Car Park and Road Vehicle Fleet)",
+   "subcategory": "Vehicles",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 965484,
+   "thumbnail": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-five-door-hatchback-18f81884.thumb.webp"
   }
  ]
 }

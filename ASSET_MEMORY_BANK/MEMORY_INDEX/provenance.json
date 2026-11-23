@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-17T05:50:23.721Z",
+ "generated": "2026-11-23T04:46:04.513Z",
  "policy": {
   "licences": [
    "CC0 1.0",
@@ -10,19 +10,19 @@
    "CC BY-ND",
    "CC BY-SA at ingest"
   ],
-  "max_bank_bytes": 780000000
+  "max_bank_bytes": 650117120
  },
  "holdings": [
   {
    "source": "3dassets",
-   "assets": 336,
-   "files": 336,
-   "bytes": 164374296,
+   "assets": 359,
+   "files": 359,
+   "bytes": 172183020,
    "licenses": [
     "CC0 1.0 Universal"
    ],
    "creators": 1,
-   "megabytes": 156.8
+   "megabytes": 164.2
   },
   {
    "source": "polyhaven",
@@ -61,38 +61,32 @@
  "runs": [
   {
    "source": "3dassets",
-   "at": "2026-11-17T05:46:37.323Z",
-   "downloaded": 135,
-   "skipped_already_indexed": 233,
+   "at": "2026-11-23T04:46:02.786Z",
+   "downloaded": 23,
+   "skipped_already_indexed": 234,
    "api": "https://3dassets.dev/api/v1/assets",
    "license": "CC0 1.0 Universal (per-asset licence recorded)",
    "note": "Fetched through the public discovery API; the CDN URL is immutable and cached, so each model is downloaded once."
   },
   {
    "source": "polyhaven",
-   "at": "2026-11-17T05:46:43.764Z",
-   "models": 21,
-   "hdris": 7,
+   "at": "2026-11-23T04:46:02.786Z",
+   "models": 0,
+   "hdris": 0,
    "api": "https://api.polyhaven.com",
    "license": "CC0 1.0 Universal"
   },
   {
    "source": "ambientcg",
-   "at": "2026-11-17T05:46:56.336Z",
-   "materials": 20,
+   "at": "2026-11-23T04:46:04.466Z",
+   "materials": 0,
    "license": "CC0 1.0 Universal",
    "note": "1K JPG PBR sets, extracted; the zip is removed after successful extraction."
   },
   {
    "source": "kenney",
-   "at": "2026-11-17T05:47:20.286Z",
-   "pack": "weapon-pack",
-   "error": "https://kenney.nl/assets/weapon-pack -> 404 Not Found"
-  },
-  {
-   "source": "kenney",
-   "at": "2026-11-17T05:47:27.274Z",
-   "packs": 48,
+   "at": "2026-11-23T04:46:04.466Z",
+   "packs": 0,
    "license": "CC0 1.0 Universal",
    "note": "Signed download links are requested per pack; the archive is extracted and then removed."
   }

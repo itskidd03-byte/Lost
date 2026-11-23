@@ -1,8 +1,8 @@
 {
  "category": "04_BUILDINGS",
- "assets": 47,
- "files": 3003,
- "bytes": 90009479,
+ "assets": 49,
+ "files": 3005,
+ "bytes": 90241643,
  "subcategories": [
   "Castles",
   "Factories",
@@ -485,6 +485,26 @@
    "files": 262,
    "bytes": 1941239,
    "thumbnail": ""
+  },
+  {
+   "asset_id": "D3A-0001",
+   "name": "Water Pavilion (Imperial China Palace and Garden)",
+   "subcategory": "Houses",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 129284,
+   "thumbnail": "04_BUILDINGS/Houses/imperial-china-palace-and-garden-water-pavilion-477e41ba.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0002",
+   "name": "Bell Wall With Bell (Greek Island Village and Harbour)",
+   "subcategory": "Modern Buildings",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 102880,
+   "thumbnail": "04_BUILDINGS/Modern Buildings/greek-island-village-and-harbour-bell-wall-with-bell-f5bf5f78.thumb.webp"
   }
  ]
 }

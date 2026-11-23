@@ -1264,5 +1264,239 @@
   "asset_id": "D3A-0126",
   "model": "Half heart pickup (Pickups and Collectibles)",
   "path": "13_GRAPHICS_UI/Icons/pickups-and-collectibles-heart-pickup-half-47977ec4.glb"
+ },
+ {
+  "clip": "ring",
+  "asset_id": "D3A-0002",
+  "model": "Bell Wall With Bell (Greek Island Village and Harbour)",
+  "path": "04_BUILDINGS/Modern Buildings/greek-island-village-and-harbour-bell-wall-with-bell-f5bf5f78.glb"
+ },
+ {
+  "clip": "open",
+  "asset_id": "D3A-0013",
+  "model": "CNC machining centre with sliding door (Machine Shop and Factory Hall)",
+  "path": "11_PROPS_RESOURCES/machine-shop-and-factory-hall-machine-shop-and-factory-c358e0db.glb"
+ },
+ {
+  "clip": "close",
+  "asset_id": "D3A-0013",
+  "model": "CNC machining centre with sliding door (Machine Shop and Factory Hall)",
+  "path": "11_PROPS_RESOURCES/machine-shop-and-factory-hall-machine-shop-and-factory-c358e0db.glb"
+ },
+ {
+  "clip": "magazine-open",
+  "asset_id": "D3A-0016",
+  "model": "Assault Rifle (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-assault-rifle-23a5401c.glb"
+ },
+ {
+  "clip": "magazine-close",
+  "asset_id": "D3A-0016",
+  "model": "Assault Rifle (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-assault-rifle-23a5401c.glb"
+ },
+ {
+  "clip": "bolt-open",
+  "asset_id": "D3A-0016",
+  "model": "Assault Rifle (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-assault-rifle-23a5401c.glb"
+ },
+ {
+  "clip": "bolt-close",
+  "asset_id": "D3A-0016",
+  "model": "Assault Rifle (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-assault-rifle-23a5401c.glb"
+ },
+ {
+  "clip": "stock-open",
+  "asset_id": "D3A-0016",
+  "model": "Assault Rifle (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-assault-rifle-23a5401c.glb"
+ },
+ {
+  "clip": "stock-close",
+  "asset_id": "D3A-0016",
+  "model": "Assault Rifle (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-assault-rifle-23a5401c.glb"
+ },
+ {
+  "clip": "magazine-open",
+  "asset_id": "D3A-0017",
+  "model": "Compact pistol (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-compact-pistol-1ac660a7.glb"
+ },
+ {
+  "clip": "magazine-close",
+  "asset_id": "D3A-0017",
+  "model": "Compact pistol (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-compact-pistol-1ac660a7.glb"
+ },
+ {
+  "clip": "slide-open",
+  "asset_id": "D3A-0017",
+  "model": "Compact pistol (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-compact-pistol-1ac660a7.glb"
+ },
+ {
+  "clip": "slide-close",
+  "asset_id": "D3A-0017",
+  "model": "Compact pistol (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-compact-pistol-1ac660a7.glb"
+ },
+ {
+  "clip": "stock-open",
+  "asset_id": "D3A-0018",
+  "model": "Assault carbine (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-assault-carbine-5a5b3ffe.glb"
+ },
+ {
+  "clip": "stock-close",
+  "asset_id": "D3A-0018",
+  "model": "Assault carbine (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-assault-carbine-5a5b3ffe.glb"
+ },
+ {
+  "clip": "magazine-open",
+  "asset_id": "D3A-0018",
+  "model": "Assault carbine (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-assault-carbine-5a5b3ffe.glb"
+ },
+ {
+  "clip": "magazine-close",
+  "asset_id": "D3A-0018",
+  "model": "Assault carbine (FPS Guns and Shooting Range)",
+  "path": "03_MILITARY/Weapons/fps-weapon-set-and-firing-range-assault-carbine-5a5b3ffe.glb"
+ },
+ {
+  "clip": "magazine-open",
+  "asset_id": "D3A-0019",
+  "model": "Personal Defence Weapon (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-personal-defence-weapon-bf534b99.glb"
+ },
+ {
+  "clip": "magazine-close",
+  "asset_id": "D3A-0019",
+  "model": "Personal Defence Weapon (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-personal-defence-weapon-bf534b99.glb"
+ },
+ {
+  "clip": "bolt-open",
+  "asset_id": "D3A-0019",
+  "model": "Personal Defence Weapon (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-personal-defence-weapon-bf534b99.glb"
+ },
+ {
+  "clip": "bolt-close",
+  "asset_id": "D3A-0019",
+  "model": "Personal Defence Weapon (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-personal-defence-weapon-bf534b99.glb"
+ },
+ {
+  "clip": "stock-open",
+  "asset_id": "D3A-0019",
+  "model": "Personal Defence Weapon (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-personal-defence-weapon-bf534b99.glb"
+ },
+ {
+  "clip": "stock-close",
+  "asset_id": "D3A-0019",
+  "model": "Personal Defence Weapon (Arctic Station FPS Kit)",
+  "path": "03_MILITARY/Weapons/arctic-station-fps-kit-personal-defence-weapon-bf534b99.glb"
+ },
+ {
+  "clip": "door-open",
+  "asset_id": "D3A-0020",
+  "model": "Mid-size SUV (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-mid-size-suv-949ce491.glb"
+ },
+ {
+  "clip": "door-close",
+  "asset_id": "D3A-0020",
+  "model": "Mid-size SUV (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-mid-size-suv-949ce491.glb"
+ },
+ {
+  "clip": "bonnet-open",
+  "asset_id": "D3A-0020",
+  "model": "Mid-size SUV (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-mid-size-suv-949ce491.glb"
+ },
+ {
+  "clip": "bonnet-close",
+  "asset_id": "D3A-0020",
+  "model": "Mid-size SUV (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-mid-size-suv-949ce491.glb"
+ },
+ {
+  "clip": "boot-open",
+  "asset_id": "D3A-0020",
+  "model": "Mid-size SUV (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-mid-size-suv-949ce491.glb"
+ },
+ {
+  "clip": "boot-close",
+  "asset_id": "D3A-0020",
+  "model": "Mid-size SUV (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-mid-size-suv-949ce491.glb"
+ },
+ {
+  "clip": "steer",
+  "asset_id": "D3A-0020",
+  "model": "Mid-size SUV (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-mid-size-suv-949ce491.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0020",
+  "model": "Mid-size SUV (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-mid-size-suv-949ce491.glb"
+ },
+ {
+  "clip": "door-open",
+  "asset_id": "D3A-0021",
+  "model": "Five-door hatchback (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-five-door-hatchback-18f81884.glb"
+ },
+ {
+  "clip": "door-close",
+  "asset_id": "D3A-0021",
+  "model": "Five-door hatchback (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-five-door-hatchback-18f81884.glb"
+ },
+ {
+  "clip": "bonnet-open",
+  "asset_id": "D3A-0021",
+  "model": "Five-door hatchback (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-five-door-hatchback-18f81884.glb"
+ },
+ {
+  "clip": "bonnet-close",
+  "asset_id": "D3A-0021",
+  "model": "Five-door hatchback (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-five-door-hatchback-18f81884.glb"
+ },
+ {
+  "clip": "boot-open",
+  "asset_id": "D3A-0021",
+  "model": "Five-door hatchback (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-five-door-hatchback-18f81884.glb"
+ },
+ {
+  "clip": "boot-close",
+  "asset_id": "D3A-0021",
+  "model": "Five-door hatchback (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-five-door-hatchback-18f81884.glb"
+ },
+ {
+  "clip": "steer",
+  "asset_id": "D3A-0021",
+  "model": "Five-door hatchback (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-five-door-hatchback-18f81884.glb"
+ },
+ {
+  "clip": "wheel-roll",
+  "asset_id": "D3A-0021",
+  "model": "Five-door hatchback (Car Park and Road Vehicle Fleet)",
+  "path": "11_PROPS_RESOURCES/Vehicles/car-park-and-road-vehicle-fleet-five-door-hatchback-18f81884.glb"
  }
 ]

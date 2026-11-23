@@ -1,8 +1,8 @@
 {
  "category": "01_CHARACTERS",
- "assets": 53,
- "files": 272,
- "bytes": 37086705,
+ "assets": 57,
+ "files": 276,
+ "bytes": 38194285,
  "subcategories": [
   "Animals",
   "Civilians",
@@ -541,6 +541,46 @@
    "files": 220,
    "bytes": 23041545,
    "thumbnail": ""
+  },
+  {
+   "asset_id": "D3A-0008",
+   "name": "Western Dragon Standing Alert (Dragons and Wyverns)",
+   "subcategory": "Monsters",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 198296,
+   "thumbnail": "01_CHARACTERS/Monsters/dragons-and-wyverns-western-dragon-standing-alert-2e73a611.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0009",
+   "name": "Low Poly Knight With A Sword Raised (Low Poly Character Figures)",
+   "subcategory": "Soldiers",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 74676,
+   "thumbnail": "01_CHARACTERS/Soldiers/low-poly-character-figures-knight-sword-raised-5e8b7e11.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0010",
+   "name": "velociraptor feathered (Dinosaurs and Prehistoric Life)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 424924,
+   "thumbnail": "01_CHARACTERS/Animals/dinosaurs-and-prehistoric-life-velociraptor-feathered-29934bbd.thumb.webp"
+  },
+  {
+   "asset_id": "D3A-0011",
+   "name": "Tyrannosaurus rex (Primeval Frontier: Dinosaur Worlds)",
+   "subcategory": "Animals",
+   "kind": "model",
+   "license": "CC0 1.0 Universal",
+   "files": 1,
+   "bytes": 409684,
+   "thumbnail": "01_CHARACTERS/Animals/primeval-frontier-tyrannosaurus-rex-54d1b3b3.thumb.webp"
   }
  ]
 }
